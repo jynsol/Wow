@@ -588,11 +588,7 @@ section[id]{scroll-margin-top:72px}
       <p class="sub">게임에서 ESC → 옵션 → 단축키로 이 순서대로 지정하세요.</p></div>
       <div class="list" id="list"></div>
       <div class="over" id="over" hidden></div>
-      <div class="actions">
-        <button class="btn pri" id="copy" type="button">목록 복사</button>
-        <button class="btn" id="reset" type="button">현재 추천 다시 적용</button>
-        <span class="toast" id="toast" aria-live="polite"></span>
-      </div>
+      <span class="toast" id="toast" aria-live="polite" hidden></span>
     </aside>
   </div>
 
@@ -1332,9 +1328,9 @@ function render(){
     order.forEach(k=>{const s=map['S+'+k];if(s)lines.push(`Shift+${k}: ${s.ko}`)});Object.entries(map).filter(([k])=>k.startsWith('C+')).forEach(([k,a])=>lines.push(label(k)+': '+a.ko));lines.push('','기본 기능');UTIL.forEach(([k,f])=>lines.push(`${k}: ${f}`));return lines.join('\n')};
 }
 document.querySelectorAll('.plate').forEach(b=>b.addEventListener('click',()=>{spec=b.dataset.spec;save();render()}));
-document.getElementById('reset').addEventListener('click',()=>{if(ttSupported()){ttApply(ttStore().mode==='custom'?'custom':ttStore().mode);return}state[spec]=defaults(spec);save();render();toast('기본 체크로 되돌렸어요')});
+document.getElementById('reset')?.addEventListener('click',()=>{if(ttSupported()){ttApply(ttStore().mode==='custom'?'custom':ttStore().mode);return}state[spec]=defaults(spec);save();render();toast('기본 체크로 되돌렸어요')});
 function toast(t){const el=document.getElementById('toast');el.textContent=t;clearTimeout(toast.t);toast.t=setTimeout(()=>el.textContent='',2200)}
-document.getElementById('copy').addEventListener('click',()=>{const txt=window.__copy();
+document.getElementById('copy')?.addEventListener('click',()=>{const txt=window.__copy();
   navigator.clipboard.writeText(txt).then(()=>toast('복사했어요'),()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('복사했어요')}catch(e){toast('복사가 막혀 있어요')}ta.remove()})});
 document.getElementById('ut').innerHTML=UTIL.map(([k,f,from,why])=>`<tr><td><span class="kk">${k}</span></td><td><b style="font-weight:500">${f}</b></td><td class="from">${from}</td><td class="why">${why}</td></tr>`).join('');
 document.querySelectorAll('.qk').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.go);try{history.replaceState(null,'','#'+b.dataset.go)}catch(e){};window.scrollTo({top:0})}));
