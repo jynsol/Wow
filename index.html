@@ -413,6 +413,12 @@ section[id]{scroll-margin-top:72px}
 .basics[data-for]{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:0}
 .basics.setup4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:0}
 .basic .kk{font-size:10.5px;min-width:1.6em;margin:0 1px}
+/* 마무리 다듬기 */
+.card{box-shadow:0 1px 2px rgba(40,36,70,.04),0 10px 28px -18px rgba(40,36,70,.14)}
+.tabs{box-shadow:0 1px 2px rgba(40,36,70,.04)}
+.plate[aria-pressed="true"]{box-shadow:0 6px 18px -12px var(--main)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .card{box-shadow:none}}
+:root[data-theme="dark"] .card{box-shadow:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
