@@ -543,11 +543,11 @@ section[id]{scroll-margin-top:72px}
   <section class="card" id="play">
     <div class="sec-head"><h2 data-ico="bunny">내 설정</h2></div>
     <div class="chips-set">
-      <div><span class="cl">캐릭터</span><span>우사기 · 방어 전사 (메인)</span></div>
-      <div><span class="cl">이동</span><span><span class="kk">E</span><span class="kk">S</span><span class="kk">D</span><span class="kk">F</span></span></div>
-      <div><span class="cl">차단</span><span><span class="kk">G</span></span></div>
-      <div><span class="cl">대상 · 탈것</span><span><span class="kk">Caps</span> · <span class="kk">Tab</span></span></div>
-      <div><span class="cl">애드온</span><span>EllesmereUI · HandyNotes</span></div>
+      <div data-tone="main"><span class="cl">캐릭터</span><span>우사기 · 방어 전사 (메인)</span></div>
+      <div data-tone="move"><span class="cl">이동</span><span><span class="kk">E</span><span class="kk">S</span><span class="kk">D</span><span class="kk">F</span></span></div>
+      <div data-tone="cc"><span class="cl">차단</span><span><span class="kk">G</span></span></div>
+      <div data-tone="pt"><span class="cl">대상 · 탈것</span><span><span class="kk">Caps</span> · <span class="kk">Tab</span></span></div>
+      <div data-tone="cd"><span class="cl">애드온</span><span>EllesmereUI · HandyNotes</span></div>
     </div>
   </section>
 
@@ -1388,7 +1388,7 @@ let done={};try{done=JSON.parse(localStorage.getItem('wk-done')||'{}')}catch(e){
 function renderTodo(st){const items=TODO[st],ol=document.getElementById('todo');
   const n=items.filter(([id])=>done[id]).length;
   document.getElementById('todo-sub').textContent=`이 단계에서 할 일 ${items.length}개 중 ${n}개 완료`;
-  ol.innerHTML=items.map(([id,t,go])=>`<li class="${done[id]?'done':''}"><label class="tchk"><input type="checkbox" id="todo-${id}" data-id="${id}" ${done[id]?'checked':''}><span class="tbox" aria-hidden="true"></span><span class="ttext">${t}</span></label><button type="button" class="go" data-go="${go}">${TAB_NAME[go]}</button></li>`).join('');
+  ol.innerHTML=items.map(([id,t,go])=>`<li class="${done[id]?'done':''}" data-to="${go}"><label class="tchk"><input type="checkbox" id="todo-${id}" data-id="${id}" ${done[id]?'checked':''}><span class="tbox" aria-hidden="true"></span><span class="ttext">${t}</span></label><button type="button" class="go" data-go="${go}">${TAB_NAME[go]}</button></li>`).join('');
   ol.querySelectorAll('input').forEach(i=>i.addEventListener('change',()=>{done[i.dataset.id]=i.checked;try{localStorage.setItem('wk-done',JSON.stringify(done))}catch(e){};markDirty();renderTodo(st)}));
   ol.querySelectorAll('.go').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.go);try{history.replaceState(null,'','#'+view)}catch(e){};window.scrollTo({top:0})}));
 }
@@ -1584,6 +1584,28 @@ load();render();
 .bars-steps{margin:16px 0 0;padding-left:1.2em;display:grid;gap:7px;font-size:13px;color:var(--ink-2)}.bars-steps b{color:var(--ink)}
 @media (max-width:820px){.bars-slots{grid-template-columns:repeat(6,minmax(0,1fr))}}
 @media (max-width:420px){.bars-slots{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* 홈 색 위계: 할 일은 가는 곳 색, 내 설정은 항목 색 */
+#now .lvbox input{background:var(--main-soft);border-color:var(--main-line)}
+.todo li{position:relative;overflow:hidden}
+.todo li::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tone,var(--line-2))}
+.todo li.done::before{opacity:.35}
+.todo li[data-to="route"],.go[data-go="route"]{--tone:var(--c-def)}
+.todo li[data-to="keys"],.go[data-go="keys"]{--tone:var(--c-item)}
+.todo li[data-to="rotation"],.go[data-go="rotation"]{--tone:var(--c-core)}
+.todo li[data-to="guide"],.go[data-go="guide"]{--tone:var(--pt)}
+.todo li[data-to="practice"],.go[data-go="practice"]{--tone:var(--c-cd)}
+.todo .go[data-go]{background:color-mix(in srgb,var(--tone) 14%,var(--surface));color:color-mix(in srgb,var(--tone) 70%,var(--ink));border-color:transparent}
+.todo li.done .go[data-go]{background:var(--surface-2);color:var(--ink-3)}
+.chips-set>div[data-tone]{background:color-mix(in srgb,var(--tone) 9%,var(--surface));border-color:color-mix(in srgb,var(--tone) 28%,var(--surface))}
+.chips-set>div[data-tone] .cl{color:color-mix(in srgb,var(--tone) 72%,var(--ink))}
+.chips-set>div[data-tone="main"]{--tone:var(--main)}
+.chips-set>div[data-tone="move"]{--tone:var(--c-move)}
+.chips-set>div[data-tone="cc"]{--tone:var(--c-cc)}
+.chips-set>div[data-tone="pt"]{--tone:var(--pt)}
+.chips-set>div[data-tone="cd"]{--tone:var(--c-cd)}
+#memo .memo{background:color-mix(in srgb,var(--pt) 5%,var(--surface));border-color:color-mix(in srgb,var(--pt) 22%,var(--line))}
+#memo .memo:focus{border-color:var(--pt)}
 /* 탱킹 연습 */
 .tr-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:14px}
 .tr-title{font-family:var(--f-display);font-weight:400;font-size:20px;margin:0;color:var(--ink)}
@@ -1672,7 +1694,8 @@ load();render();
 .tr-ab.glow{border-color:var(--main);box-shadow:0 0 0 2px var(--main),0 0 14px var(--main)}
 .tr-ab.pressed{transform:scale(.93)}
 .tr-ab.deny{border-color:var(--warn)}
-.tr-nm{font-size:11px;color:var(--ink-3);text-align:center;line-height:1.25}
+.tr-ab .nm{display:block;padding:14px 6px 6px;font-size:13px;line-height:1.25;word-break:keep-all;text-align:center}
+@media (max-width:720px){.tr-ab .nm{font-size:12px}}
 .tr-ov{position:absolute;inset:0;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(3px);display:flex;overflow:auto;z-index:5;border-radius:var(--r-lg);padding:12px}
 .tr-ovcard{margin:auto;max-width:640px;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:20px;display:grid;gap:16px;box-shadow:0 10px 30px -18px rgba(40,36,70,.3)}
 .tr-ovcard.tr-small{max-width:340px;text-align:center}
@@ -1930,7 +1953,7 @@ function buildBar(){
   const bar = $('actionbar'); bar.innerHTML = '';
   ABIL.forEach(a => {
     const cell = document.createElement('div'); cell.className = 'tr-cell';
-    cell.innerHTML = `<button class="tr-ab" type="button" style="--tint:${a.tint}" aria-label="${a.name}"><span class="k"></span>${a.abbr}<span class="sweep"></span><span class="cdt"></span><span class="chg"></span></button><span class="tr-nm">${a.name}</span>`;
+    cell.innerHTML = `<button class="tr-ab" type="button" style="--tint:${a.tint}" aria-label="${a.name}"><span class="k"></span><span class="nm">${a.name}</span><span class="sweep"></span><span class="cdt"></span><span class="chg"></span></button>`;
     const b = cell.querySelector('.tr-ab');
     b.addEventListener('click', () => { pressFx(a.id); tryUse(a.id); });
     bar.appendChild(cell);
