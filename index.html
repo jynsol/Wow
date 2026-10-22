@@ -1541,9 +1541,10 @@ function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;',
 function ttDetail(){const el=document.getElementById('tt-detail');if(!el)return;const n=ttNode(ttFocus);if(!n){el.innerHTML='<p>특성을 선택하면 상세 정보가 표시돼요.</p>';el.classList.add('is-empty');return}el.classList.remove('is-empty');const s=n.spells[ttChoice(n)],a=SPECS[spec].find(a=>ttConfig().ids[a.id]===s.spell),key=a&&assign().where[a.id];el.innerHTML=`<h3>${s.name} ${key?'<span class="kk">'+label(key)+'</span>':''}</h3><p>${ttGranted(n)?'기본 지급 특성':n.type===3?'같은 노드에서 하나만 고르세요.':a?'선택하면 추천 키에 반영되는 사용 기술입니다.':'지속효과 · 별도의 단축키가 필요하지 않습니다.'}${n.requiredPoints?' · 앞 구간 '+n.requiredPoints+'포인트 필요':''}${n.requiredLevel?' · '+n.requiredLevel+'레벨부터':''}</p><p><a href="https://www.wowhead.com/ko/spell=${s.spell}" target="_blank" rel="noopener">한국어 효과 설명 보기 ↗</a></p>${n.type===3?n.spells.map((s,i)=>`<button type="button" class="btn ${ttOn(n)&&ttChoice(n)===i?'pri':''}" data-choice="${i}">${s.name}</button>`).join(''):''}${!ttGranted(n)?'<button type="button" class="btn" id="tt-minus">− 포인트 회수</button><button type="button" class="btn" id="tt-plus">+ 포인트 추가</button>':''}`;el.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>ttEdit(n,0,+b.dataset.choice));if(!ttGranted(n)){document.getElementById('tt-minus').onclick=()=>ttEdit(n,-1);document.getElementById('tt-plus').onclick=()=>ttEdit(n,1)}}
 function renderMeta(){
  const map=assign().map,ko=k=>map[k]?map[k].ko.replace(/ \(.*\)$/,''):'';
- const BAR1=['1','2','3','4','5','Q','W','R','T','A','G','Z'];
+ // 스킬은 2부터, 따로 쓰는 소모품(1 체력 물약 · ⇧1 생명석 · 장신구)은 줄 맨 오른쪽
+ const BAR1=['2','3','4','5','Q','W','R','T','A','G','Z','1'];
  const BAR2=BAR1.map(k=>'S+'+k);
- const ctrl=Object.keys(map).filter(k=>k.startsWith('C+')).sort();
+ const isItem=k=>map[k]&&map[k].g==='item';const ctrl=Object.keys(map).filter(k=>k.startsWith('C+')).sort((a,b)=>isItem(a)-isItem(b)||a.localeCompare(b));
  const BAR3=['X','C','V','S+X','S+C','S+V',...ctrl].slice(0,12);while(BAR3.length<12)BAR3.push('');
  const extra=ctrl.slice(6);
  const row=(n,title,keys)=>`<div class="bars-row"><div class="bars-h"><b>단축바 ${n}</b><span>${title}</span></div><ol class="bars-slots">${keys.map((k,i)=>`<li class="${k&&map[k]?'':'empty'}"><span class="bs-n">${i+1}</span><span class="bs-k">${k?label(k):'—'}</span><span class="bs-s">${k?(ko(k)||'비워 두기'):''}</span></li>`).join('')}</ol></div>`;
@@ -1552,7 +1553,7 @@ function renderMeta(){
  ${extra.length?`<p class="tt-note">Ctrl 조합이 많아 ${extra.map(label).join(', ')}는 단축바 4에 넣어 주세요.</p>`:''}
  <ol class="bars-steps">
   <li><b>단축바 2·3 켜기.</b> Esc → 설정 → 게임플레이 → 행동 단축바에서 2·3번을 켜요. 단축바 2가 1 바로 위에 붙어서, 자주 쓰는 X·C·V 줄이 눈에 잘 들어와요. 에스미어 UI(EllesmereUI)를 쓰면 그 설정 창의 행동 단축바 메뉴에서 켜요.</li>
-  <li><b>기술 넣기.</b> 주문책(P)에서 위 표 순서대로 끌어다 놓아요. 칸 번호는 왼쪽부터 1이에요.</li>
+  <li><b>기술 넣기.</b> 주문책(P)에서 위 표 순서대로 끌어다 놓아요. 칸 번호는 왼쪽부터 1이에요. 스킬은 왼쪽부터, 체력 물약·생명석·장신구처럼 따로 쓰는 건 줄 맨 오른쪽에 둬요.</li>
   <li><b>키 지정.</b> Esc → 설정 → 키 설정 → <b>빠른 단축키 설정 모드</b>를 켠 뒤, 칸에 마우스를 올리고 표의 키를 누르면 바로 지정돼요. Shift 조합은 Shift를 누른 채로 눌러요.</li>
   <li><b>이동 키 먼저 비우기.</b> E·S·D·F를 이동으로 바꾸면 원래 그 키에 있던 기능이 밀려나요. 아래 "스킬 말고 필요한 키" 표대로 정리해요.</li>
   <li><b>비워 둔 칸.</b> 특성에 따라 생기는 기술 자리라 비워 두면 돼요. 특성을 바꾸면 이 표에서 다시 확인하세요.</li>
