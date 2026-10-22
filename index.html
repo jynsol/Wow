@@ -1777,8 +1777,13 @@ body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-m
 .tr-seg button{flex:1;min-width:84px;padding:8px;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;font-size:13px;color:var(--ink)}
 .tr-seg button[aria-pressed="true"]{border-color:var(--main);background:var(--main-soft);color:var(--on-main);font-weight:600}
 .tr-seg small{display:block;font-size:11px;color:var(--ink-3);font-weight:400}
-#tr-diffSeg button[aria-pressed="true"]{border-color:var(--a1);background:var(--a1-soft);color:var(--ink)}
-#tr-diffChip{background:var(--a1-soft);border-color:color-mix(in srgb,var(--a1) 55%,var(--surface));color:var(--ink)}
+/* 난이도: 쉬움 연두 · 보통 하늘 · 어려움 핑크 (직업과 상관없이 고정) */
+#tr-diffSeg [data-d="easy"],#tr-diffChip[data-d="easy"]{--dc:var(--cg)}
+#tr-diffSeg [data-d="normal"],#tr-diffChip[data-d="normal"]{--dc:var(--cs)}
+#tr-diffSeg [data-d="hard"],#tr-diffChip[data-d="hard"]{--dc:var(--cp)}
+#tr-diffSeg button{border-color:color-mix(in srgb,var(--dc) 50%,var(--line));background:color-mix(in srgb,var(--dc) 7%,var(--surface))}
+#tr-diffSeg button[aria-pressed="true"]{border-color:var(--dc);background:color-mix(in srgb,var(--dc) 26%,var(--surface));color:var(--ink);font-weight:600}
+#tr-diffChip{background:color-mix(in srgb,var(--dc) 20%,var(--surface));border-color:color-mix(in srgb,var(--dc) 60%,var(--surface));color:var(--ink)}
 .tr-binds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px}
 .tr-bind{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;min-width:0}
 .tr-bind span{min-width:0}
@@ -2528,6 +2533,7 @@ function buildSetup(){
   const bl = Object.entries(DIFF).filter(([k]) => t.best[mode + '-' + bossKey + '-' + k] != null).map(([k, d]) => d.name + ' ' + t.best[mode + '-' + bossKey + '-' + k] + '점');
   $('bestLine').textContent = (bl.length ? '최고 기록 · ' + bl.join(' · ') + ' · ' : '') + '특성을 바꾸면 여기 키도 같이 바뀌어요.';
   $('diffChip').textContent = DIFF[diffKey].name;
+  $('diffChip').dataset.d = diffKey;
   $('meName').innerHTML = '나<small>' + MODES[mode].who + '</small>';
   $('resLbl').textContent = MODES[mode].res;
   refreshKeys();
