@@ -1457,7 +1457,7 @@ function assign(){
  const map={},where={},over=[],reserved=new Set(SPECS[spec].map(a=>a.pref).filter(Boolean));
  // 2·3·4·5는 생존기 자리: 찍은 생존기를 우선순위대로 빈틈없이 채워요. 분노는 X·⇧X·⇧R을 쿨기 순서대로 채워요.
  const GROUPS={prot:[{keys:['S+Q','S+R'],ids:['demolish','ravager','spear']}],
-   fury:[{keys:['X','S+X','S+R','S+Q'],ids:['odyn','reck','bstorm','avatar','spear']}],
+   fury:[{keys:['2','3','4','5'],ids:['regen','reflect','rally','vr','victory']},{keys:['X','S+X','S+R','S+Q'],ids:['odyn','reck','bstorm','avatar','spear']}],
    blood:[{keys:['X','S+X','S+R'],ids:['drw','devour','reaper']}]}[spec]||[];
  GROUPS.forEach(g=>{const list=g.ids.map(id=>active.find(a=>a.id===id)).filter(Boolean);g.keys.forEach((k,i)=>{const a=list[i];if(a&&!where[a.id]){map[k]=a;where[a.id]=k}})});
  active.forEach(a=>{if(!where[a.id]&&a.pref&&!map[a.pref]){map[a.pref]=a;where[a.id]=a.pref}});
@@ -1542,15 +1542,8 @@ function renderMeta(){
  const row=(n,title,keys)=>`<div class="bars-row"><div class="bars-h"><b>단축바 ${n}</b><span>${title}</span></div><ol class="bars-slots">${keys.map((k,i)=>{const a=map[k];return `<li class="${k==='TAB'||a?(a?'cat-'+a.g+' has-cat':''):'empty'}"><span class="bs-n">${i+1}</span><span class="bs-k">${k==='TAB'?'Tab':k?label(k):'—'}</span><span class="bs-s">${k==='TAB'?'탈것 (비행)':k?(ko(k)||'비워 두기'):''}</span></li>`}).join('')}</ol></div>`;
  document.getElementById('build-sub').textContent=SPEC_NAME[spec]+' 기준 · 특성을 바꾸면 칸 내용도 같이 바뀌어요.';
  document.getElementById('meta').innerHTML=`<div class="bars">${row(1,'공격·제어 · 글자 키 · 가장 자주',BAR1)}${row(2,'방어 · 숫자 키 · 소모품은 오른쪽',BAR2)}${row(3,'Shift + 글자 · 같은 키의 보조 역할',BAR3)}</div>
- <p class="tt-note">같은 역할은 같은 키로 묶었어요. 예를 들어 천둥벼락(W)과 충격파(⇧W)는 둘 다 광역, 들이치기(G)와 폭풍망치(⇧G)는 둘 다 끊기·기절이에요.</p>
  ${extra.length?`<p class="tt-note">자리가 모자란 ${extra.map(k=>label(k)+' '+ko(k)).join(', ')}는 단축바 4에 넣어 주세요. 자주 안 쓰는 기능이라 화면에 안 보여도 괜찮아요.</p>`:''}
- <ol class="bars-steps">
-  <li><b>단축바 2·3 켜기.</b> Esc → 설정 → 게임플레이 → 행동 단축바에서 2·3번을 켜요. 에스미어 UI(EllesmereUI)를 쓰면 그 설정 창의 행동 단축바 메뉴에서 켜요.</li>
-  <li><b>기술 넣기.</b> 주문책(P)에서 위 표 순서대로 끌어다 놓아요. 칸 번호는 왼쪽부터 1이에요.</li>
-  <li><b>키 지정.</b> Esc → 설정 → 키 설정 → <b>빠른 단축키 설정 모드</b>를 켠 뒤, 칸에 마우스를 올리고 표의 키를 누르면 바로 지정돼요. Shift 조합은 Shift를 누른 채로 눌러요.</li>
-  <li><b>이동 키 먼저 비우기.</b> E·S·D·F를 이동으로 바꾸면 원래 그 키에 있던 기능이 밀려나요. 아래 "스킬 말고 필요한 키" 표대로 정리해요.</li>
-  <li><b>특성을 바꾸면.</b> 새로 생긴 기술은 그 줄 빈칸에 넣고, 표의 키만 맞춰 주면 돼요.</li>
- </ol>`;
+`;
 }
 
 function ttChoose(n){
