@@ -1442,11 +1442,13 @@ const KEYMAP={
  prot:{block:'2',ip:'3',wall:'4',reflect:'5',vr:'S+2',victory:'S+2',rally:'S+3',demo:'S+4',
   ss:'R',tc:'W',rev:'A',exe:'Q',shock:'S+W',pummel:'G',bolt:'S+G',disrupt:'T',intim:'S+T',taunt:'Z',avatar:'X',scharge:'S+X',
   charge:'C',leap:'V',throw:'S+V',intervene:'C+C',howl:'C+A',wreck:'C+W',shatter:'C+W',brage:'C+5',bshout:'C+T',bcry:'C+V',dstance:'C+3',bstance:'C+4',trinket:'C+Q',pot:'1',hs:'S+1'},
- fury:{vr:'2',victory:'2',reflect:'3',rally:'4',regen:'5',reck:'X',avatar:'S+X',bstorm:'S+R',odyn:'S+R',spear:'S+Q',bt:'R',rb:'A',ramp:'T',exe:'Q',ww:'W',tc:'W',shock:'S+W',pummel:'G',bolt:'S+G',intim:'S+T',taunt:'Z',
+ fury:{vr:'2',victory:'2',reflect:'3',rally:'4',regen:'5',reck:'X',avatar:'S+X',bstorm:'S+R',odyn:'S+R',spear:'S+Q',bt:'R',rb:'A',ramp:'T',exe:'Q',ww:'W',tc:'W',shock:'S+W',pummel:'G',bolt:'S+G',intim:'S+T',
   charge:'C',leap:'V',throw:'S+V',intervene:'C+C',howl:'C+A',wreck:'C+W',shatter:'C+W',berserk:'C+4',dstance:'C+3',brage:'C+5',bshout:'C+T',bcry:'C+V',trinket:'C+Q',pot:'1',hs:'S+1'},
  blood:{ds:'R',boil:'W',hs_strike:'A',marrow:'Q',dnd:'T',taunt:'Z',freeze:'G',asphyx:'S+G',grisly:'S+G',gorefiend:'S+W',limbs:'S+W',blind:'S+T',raise:'C+T',coil:'C+R',control:'C+A',chains:'C+V',
   vamp:'2',ams:'3',ibf:'4',amz:'5',pact:'S+2',lich:'S+3',drw:'X',devour:'S+X',reaper:'S+R',grip:'C',advance:'V',dmarch:'S+V',wraith:'S+V',raiseally:'S+C',trinket:'C+Q',pot:'1',hs:'S+1'}};
 ['prot','fury','blood'].forEach(sp=>SPECS[sp].forEach(a=>{if(a.id in KEYMAP[sp])a.pref=KEYMAP[sp][a.id];else if(a.g!=='item')a.pref=a.pref&&/^(C\+)/.test(a.pref)?a.pref:'';}));
+// 분노는 딜러라 도발을 쓰지 않아요. 키에서 아예 빼요.
+SPECS.fury=SPECS.fury.filter(a=>a.id!=='taunt');
 SPECS.prot.forEach(a=>{if(['block','ip','demo','vr','victory','rally','reflect','wall'].includes(a.id))a.g='def';if(['disrupt','shock','bolt','intim'].includes(a.id))a.g='cc'});
 const ttSupported=()=>spec==='prot'||spec==='fury'||spec==='blood';
 const ttConfig=()=>spec==='blood'?{id:250,cls:6,clsTitle:'죽음의 기사 공통',whClass:'death-knight',title:'혈기',trees:BLOOD_TREES,presets:BLOOD_PRESETS,ids:BLOOD_IDS,basic:BLOOD_BASIC,heroes:[65567,65569],slug:'blood',icy:'blood-death-knight-pve-tank',role:'tank'}:spec==='fury'?{id:72,title:'분노',trees:FURY_TREES,presets:FURY_PRESETS,ids:FURY_IDS,basic:FURY_BASIC,heroes:[65597,65596],slug:'fury',role:'dps',cls:1,clsTitle:'전사 공통',whClass:'warrior',icy:'fury-warrior-pve-dps'}:{id:73,title:'방어',trees:PROT_TREES,presets:PROT_PRESETS,ids:PROT_IDS,basic:PROT_BASIC,heroes:[65597,65598],slug:'protection',role:'tank',cls:1,clsTitle:'전사 공통',whClass:'warrior',icy:'protection-warrior-pve-tank'};
