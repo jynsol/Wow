@@ -1,8 +1,8 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><style>/* 한밤 시즌 2 · 특성 / 단축키 가이드 */
-body:is([data-spec="prot"],[data-spec="fury"]) #skills .lvhelp,body:is([data-spec="prot"],[data-spec="fury"]) #skills>.sec-head{display:none}
-body:is([data-spec="prot"],[data-spec="fury"]) .cols:has(#skills){grid-template-columns:minmax(0,1fr) 290px;align-items:start}
-body:is([data-spec="prot"],[data-spec="fury"]) #skills{padding:0;overflow:hidden}
-body:is([data-spec="prot"],[data-spec="fury"]) .sheet{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto}
+body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) #skills .lvhelp,body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) #skills>.sec-head{display:none}
+body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .cols:has(#skills){grid-template-columns:minmax(0,1fr) 290px;align-items:start}
+body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) #skills{padding:0;overflow:hidden}
+body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .sheet{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto}
 .tt-head{padding:22px 22px 16px;border-bottom:1px solid var(--line)}
 .tt-eyebrow{font-size:11px;letter-spacing:.08em;font-weight:700;color:var(--ink-3);margin-bottom:6px}
 .tt-title{font-family:var(--f-display);font-size:24px;margin:0 0 8px}
@@ -36,19 +36,19 @@ body:is([data-spec="prot"],[data-spec="fury"]) .sheet{position:sticky;top:16px;m
 .tt-source{padding:12px 22px;border-top:1px solid var(--line);font-size:11px;line-height:1.8;color:var(--ink-3)}
 .tt-live{padding:12px 0;margin-bottom:8px;border-bottom:1px solid var(--line)}.tt-live p{font-size:12px;line-height:1.7;color:var(--ink-2);margin:4px 0}.tt-live strong{color:var(--ink)}
 .key-guide{width:100%;border-collapse:collapse}.key-guide td,.key-guide th{padding:9px;text-align:left;border-bottom:1px solid var(--line);font-size:12px}.key-guide th{color:var(--ink-3)}
-@media(max-width:1000px){body:is([data-spec="prot"],[data-spec="fury"]) .cols:has(#skills){grid-template-columns:1fr}body:is([data-spec="prot"],[data-spec="fury"]) .sheet{position:static;max-height:none}.tt-scroll{max-height:580px}}
+@media(max-width:1000px){body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .cols:has(#skills){grid-template-columns:1fr}body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .sheet{position:static;max-height:none}.tt-scroll{max-height:580px}}
 @media(max-width:600px){.tt-head{padding:18px 14px}.tt-tabs{padding:12px 14px 8px}.tt-node .tt-name{font-size:11px}.tt-scroll{max-height:530px}.tt-tools input{width:140px}.tt-source{padding:12px 14px}}
 
 .tt-pan-hint{font-size:11px;color:var(--ink-3);padding:0 22px;margin:4px 0 10px}.tt-dialog{border:1px solid var(--line-2);border-radius:18px;padding:24px;background:var(--surface);color:var(--ink);max-width:360px;width:calc(100% - 80px);box-shadow:0 20px 80px #0003}.tt-dialog::backdrop{background:#15121d66}.tt-dialog h3{margin-top:0}.tt-dialog p{font-size:12px;color:var(--ink-2)}.tt-dialog .btn{display:block;width:100%;margin-top:10px}
 .tt-hero button{font:inherit}.tt-node .tt-icon{flex-shrink:0}
 
 /* 두 특성 트리를 한 화면 폭에 맞춰 표시. 내부 스크롤 없음. */
-body:is([data-spec="prot"],[data-spec="fury"])[data-view="keys"] .wrap{max-width:1320px}
-body:is([data-spec="prot"],[data-spec="fury"]) .cols:has(#skills){grid-template-columns:minmax(0,1fr)}
-body:is([data-spec="prot"],[data-spec="fury"]) .sheet{position:static;max-height:none;overflow:visible}
-body:is([data-spec="prot"],[data-spec="fury"]) .sheet .list{columns:3;column-gap:28px}
-body:is([data-spec="prot"],[data-spec="fury"]) .sheet .list>.li,body:is([data-spec="prot"],[data-spec="fury"]) .sheet .list>.layer{break-inside:avoid}
-body:is([data-spec="prot"],[data-spec="fury"]) .sheet .tt-live{column-span:all}
+body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"])[data-view="keys"] .wrap{max-width:1320px}
+body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .cols:has(#skills){grid-template-columns:minmax(0,1fr)}
+body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .sheet{position:static;max-height:none;overflow:visible}
+body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .sheet .list{columns:3;column-gap:28px}
+body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .sheet .list>.li,body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .sheet .list>.layer{break-inside:avoid}
+body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .sheet .tt-live{column-span:all}
 .tt-layout-legend{padding:16px 22px;color:var(--ink-3);font-size:12px}
 .tt-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding:0 18px 18px}
 .tt-tree-panel{min-width:0;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:visible}
@@ -61,7 +61,7 @@ body:is([data-spec="prot"],[data-spec="fury"]) .sheet .tt-live{column-span:all}
 .tt-hero-section{min-width:0}.tt-hero{padding:12px 0 16px}.tt-bottom>.tt-detail{position:sticky;top:16px;margin-top:60px;border:1px solid var(--line);border-radius:14px;background:var(--surface-2)}
 .tt-autosave{font-size:12px;color:var(--ink-2)}
 html,body{scrollbar-width:none}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}
-@media(max-width:760px){.tt-pair,.tt-bottom{grid-template-columns:minmax(0,1fr);padding:0 12px 16px;gap:16px}.tt-bottom>.tt-detail{position:static;margin-top:0}.tt-layout-legend{padding:12px 14px;font-size:11px}.tt-tree-heading{padding:14px}.tt-node .tt-icon{width:32px;height:32px}.tt-node .tt-name{font-size:10px}.tt-node .tt-bound{font-size:9px;right:-1px;top:-8px}.tt-node .tt-rank{font-size:9px}.tt-tools{gap:10px}.tt-autosave{flex-basis:100%}body:is([data-spec="prot"],[data-spec="fury"]) .sheet .list{columns:1}}
+@media(max-width:760px){.tt-pair,.tt-bottom{grid-template-columns:minmax(0,1fr);padding:0 12px 16px;gap:16px}.tt-bottom>.tt-detail{position:static;margin-top:0}.tt-layout-legend{padding:12px 14px;font-size:11px}.tt-tree-heading{padding:14px}.tt-node .tt-icon{width:32px;height:32px}.tt-node .tt-name{font-size:10px}.tt-node .tt-bound{font-size:9px;right:-1px;top:-8px}.tt-node .tt-rank{font-size:9px}.tt-tools{gap:10px}.tt-autosave{flex-basis:100%}body:is([data-spec="prot"],[data-spec="fury"],[data-spec="blood"]) .sheet .list{columns:1}}
 
 /* 특성 영역의 정보 위계 */
 .tt-head{padding:22px 22px 16px;border-bottom:0}
