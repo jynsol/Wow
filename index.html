@@ -1536,7 +1536,7 @@ function renderMeta(){
  const has=k=>!!map[k];
  const plan=k=>SPECS[spec].find(a=>a.pref===k&&a.g!=='item'&&!['dstance','bstance','berserk'].includes(a.id));
  const L=['Q','W','R','T','A','G','Z','X','C','V'];
- const BAR1=L.concat('TAB');
+ const BAR1=L.concat('','TAB');
  const BAR2=['2','3','4','5','S+2','S+3','S+4','S+5','C+Q','1','S+1'];
  const PRI=['C+5','C+C','C+W','C+T','C+R','C+A','C+V','C+3','C+4'];
  const ctrl=Object.keys(map).filter(k=>k.startsWith('C+')&&k!=='C+Q').sort((x,y)=>(PRI.indexOf(x)+99)%108-(PRI.indexOf(y)+99)%108);
@@ -1546,7 +1546,7 @@ function renderMeta(){
  BAR3.push(...rest.slice(0,2));
  const more=rest.slice(2);for(let i=0;i<10&&more.length;i++)if(BAR3[i].startsWith('S+')&&open3(i))BAR3[i]=more.shift();
  const extra=more;
- const row=(n,title,keys)=>`<div class="bars-row"><div class="bars-h"><b>단축바 ${n}</b><span>${title}</span></div><ol class="bars-slots">${keys.map((k,i)=>{const a=map[k];const pl=!a&&k!=='TAB'?plan(k):null;return `<li class="${k==='TAB'||a?(a?'cat-'+a.g+' has-cat':''):'empty'}"><span class="bs-n">${i+1}</span><span class="bs-k">${k==='TAB'?'Tab':label(k)}</span><span class="bs-s">${k==='TAB'?'탈것 (비행)':a?ko(k):pl?pl.ko.replace(/ \(.*\)$/,'')+' · 아직 없음':'비워 두기'}</span></li>`}).join('')}</ol></div>`;
+ const row=(n,title,keys)=>`<div class="bars-row"><div class="bars-h"><b>단축바 ${n}</b><span>${title}</span></div><ol class="bars-slots">${keys.map((k,i)=>{const a=map[k];if(!k)return `<li class="empty"><span class="bs-n">${i+1}</span><span class="bs-k">—</span><span class="bs-s">비워 두기</span></li>`;const pl=!a&&k!=='TAB'?plan(k):null;return `<li class="${k==='TAB'||a?(a?'cat-'+a.g+' has-cat':''):'empty'}"><span class="bs-n">${i+1}</span><span class="bs-k">${k==='TAB'?'Tab':label(k)}</span><span class="bs-s">${k==='TAB'?'탈것 (비행)':a?ko(k):pl?pl.ko.replace(/ \(.*\)$/,'')+' · 아직 없음':'비워 두기'}</span></li>`}).join('')}</ol></div>`;
  document.getElementById('build-sub').textContent=SPEC_NAME[spec]+' 기준 · 특성을 바꾸면 칸 내용도 같이 바뀌어요.';
  document.getElementById('meta').innerHTML=`<div class="bars">${row(3,'맨 위 · Shift + 글자 · 아래 글자와 같은 칸',BAR3)}${row(2,'가운데 · 방어 · 숫자 키',BAR2)}${row(1,'맨 아래 · 공격·제어 · 글자 키',BAR1)}</div>
  ${extra.length?`<p class="tt-note">자리가 모자란 ${extra.map(k=>label(k)+' '+ko(k)).join(', ')}는 단축바 4에 넣어 주세요. 자주 안 쓰는 기능이라 화면에 안 보여도 괜찮아요.</p>`:''}
