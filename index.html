@@ -385,6 +385,11 @@ ul.rot-list li{grid-template-columns:auto minmax(0,1fr)}
 .rot-list .kk.nokey{color:var(--ink-3);box-shadow:none}
 .rot-list .rn{font-size:12px;color:var(--ink-3);grid-column:3}
 ul.rot-list .rn{grid-column:2}
+.rot-list .rn{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.res{font-size:11px;line-height:1.5;padding:0 7px;border-radius:99px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--ink-2)}
+.res-g{background:var(--main-soft);border-color:var(--main-line);color:var(--ink)}
+.res-u{background:var(--pt-soft);border-color:var(--pt-line);color:var(--ink)}
+.rot-grid.flow{margin-bottom:12px}.rot-list.plainnum li::before{content:none}
 .rot-tips-box{margin-top:12px;background:var(--surface-2);border-radius:var(--r-lg);padding:14px 16px}
 .rot-tips-box.newbie{background:var(--main-soft)}
 .rot-links{margin:10px 0 0;font-size:12.5px}
@@ -1200,10 +1205,10 @@ const ROT={
    ['무리면 광역, 보스면 밀쳐내기','몹이 많으면 천둥벼락·복수 비중을 높이고, 보스 하나면 방패 밀쳐내기 위주.'],
    ['위급기는 하나씩 돌려 쓰기','방패의 벽·주문 반사·예견된 승리를 상황에 맞춰 나눠 쓰세요. 시즌 2 최후의 저항은 방패의 벽을 강화하는 지속효과예요.']],
   blocks:[
-   {t:'평소 우선순위 (위에서부터)',type:'ol',items:[['block','끊기지 않게 · 공격보다 먼저'],['ss','쓸 수 있을 때마다 · 분노를 가장 많이 줘요'],['tc','쓸 수 있을 때마다 · 몹이 3마리 이상이면 밀쳐내기보다 먼저'],['rev','무료로 쓸 수 있게 빛나면 바로'],['exe','몹 체력 20% 이하일 때'],['rev','분노가 남으면 소모용으로']]},
+   {t:'평소 우선순위 (위에서부터)',type:'ol',items:[['block','끊기지 않게 · 공격보다 먼저'],['ss','쓸 수 있을 때마다'],['tc','쓸 수 있을 때마다 · 몹이 3마리 이상이면 밀쳐내기보다 먼저'],['rev','빛나면 바로 · 이때는 분노가 안 들어요'],['exe','몹 체력 20% 이하일 때'],['rev','분노가 남으면 소모용으로']]},
    {t:'위급할 때',type:'ul',items:[['wall','체력이 확 빠질 때, 큰 공격 직전'],['last','진짜 죽을 것 같을 때 · 최대 체력 증가'],['reflect','마법 공격 들어올 때'],['demo','몹이 많이 때릴 때 받는 피해 감소']]},
    {t:'탱커라면 손에 붙여둘 것',type:'ul',items:[['taunt','몹이 딜러·힐러한테 가면 바로'],['pummel','몹 주문 차단'],['charge','멀리 있는 몹에게 붙기'],['throw','멀리 있는 몹 끌어오기 · 체크하면 키가 생겨요']]},
-   {t:'무리를 끌어올 때',type:'ol',items:[['charge','돌진으로 들어가기'],['avatar','큰 무리면 바로 켜기 · 공격과 생존 둘 다 올라가요'],['tc','광역 어그로 잡기'],['block','']]}],
+   {t:'무리를 끌어올 때',type:'ol',items:[['charge','돌진으로 들어가기'],['avatar','큰 무리면 바로 켜기'],['tc','광역 어그로 잡기'],['block','']]}],
   decide:{q:'핵심은 "분노를 방어에 쓸지, 공격에 쓸지" 고르는 거예요.',def:{when:'아프다 · 힐러가 바쁘다',ids:['block','ip']},off:{when:'안정적이다 · 몹이 잘 녹는다',ids:['rev']}},
   newbie:['처음에는 방어 쪽으로 기울여서 하세요. Icy Veins 가이드도 익숙하지 않은 상황에서는 방어적으로, 충분히 익숙해진 뒤에 공격을 챙기라고 권해요.','탱커의 공격력은 "있으면 좋은 것"이에요. 쓰러지지 않고 어그로를 놓치지 않는 게 훨씬 중요해요.','투신은 큰 무리를 끌어올 때마다 바로 켜도 괜찮아요.'],
   tips:['<b>스탯은 가속이 제일 중요.</b> 아이템 레벨이 비슷하면 가속 붙은 걸로.','<b>보조 전투 기능</b>을 켜두면 다음 누를 기술을 알려줘요. 처음 손에 익힐 때 도움 돼요.','<b>특성은 레벨 따라 바뀌니</b> Icy Veins 레벨업 가이드에서 레벨 슬라이더를 움직여 보세요. 그 레벨에 맞춰 내용이 바뀌어요.','<b>한국어 자료</b>는 인벤 와우 전사 게시판이 제일 활발해요.','산왕 영웅 특성이면 천둥벼락이 가끔 우레 작렬로 바뀌어요. 같은 키라 그냥 누르면 돼요.'],
@@ -1229,16 +1234,24 @@ const ROT={
   blocks:[
    {t:'시작할 때',type:'ol',items:[['grip','멀리 있는 몹 끌어오기'],['dnd',''],['boil','광역 어그로'],['marrow','뼈의 보호막 쌓기'],['drw','큰 무리나 보스면']]},
    {t:'우선순위',type:'ol',items:[['dnd','항상 깔려 있게'],['marrow','뼈의 보호막이 적을 때'],['ds','룬 마력 많거나 아플 때'],['boil','충전 쌓이지 않게'],['drw','쓸 수 있을 때마다'],['devour','배웠다면 쿨마다'],['reaper','죽음의 인도자면'],['hs_strike','남는 룬을 쓸 때']]},
-   {t:'버티기',type:'ul',items:[['vamp','큰 생존기 · 회복량 증가'],['ams','마법 큰 공격'],['ibf','모든 피해 감소'],['amz','파티 전체 마법 피해'],['raiseally','쓰러진 파티원 전투 부활']]}],
+   {t:'버티기',type:'ul',items:[['vamp','크게 맞을 때 · 죽음의 일격과 같이'],['ams','마법 큰 공격 직전'],['ibf','기절 중에도 쓸 수 있어요'],['amz','파티 전체에 마법 피해가 올 때'],['raiseally','쓰러진 파티원 살리기']]}],
   tips:['죽음의 일격을 미리 다 쓰지 말고, 맞은 뒤에 쓰는 습관을 들이세요.','죽음의 손아귀(C)로 멀리서 주문 쓰는 몹을 끌어올 수 있어요.']}
 };
+// 딜사이클에서 기술마다 보여주는 역할. g=채우기, u=쓰기, o=그 밖의 역할
+const RES={
+ prot:{ss:['g','분노 채우기 · 제일 많이'],tc:['g','분노 채우기 · 광역'],rev:['u','분노 쓰기 · 광역 · 무료 발동 있음'],exe:['u','분노 쓰기'],block:['u','분노 쓰기 · 물리 피해 감소'],ip:['u','분노 쓰기 · 보호막'],vr:['u','분노 조금 쓰기 · 회복'],avatar:['g','분노 채우기 · 공격 강화'],scharge:['g','분노 채우기'],ravager:['g','분노 채우기 · 광역'],charge:['g','분노 채우기 · 이동'],demo:['o','적 공격력 감소'],demolish:['o','큰 한 방'],spear:['o','광역 장판'],wall:['o','큰 피해 감소'],reflect:['o','주문 되돌리기'],rally:['o','파티 최대 체력 증가'],victory:['o','무료 회복 · 처치 뒤'],taunt:['o','어그로 가져오기'],pummel:['o','주문 차단'],throw:['o','멀리서 끌어오기']},
+ fury:{bt:['g','분노 채우기 · 격노 확률'],rb:['g','분노 채우기'],ww:['g','분노 조금 채우기 · 다음 공격 광역'],tc:['g','분노 조금 채우기 · 광역'],charge:['g','분노 채우기 · 이동'],ramp:['u','분노 쓰기 · 격노 켜기'],exe:['u','분노 쓰기 · 급살이면 무료'],vr:['u','분노 조금 쓰기 · 회복'],reck:['o','분노 채우는 양 증가'],avatar:['o','공격 강화'],bstorm:['o','광역 회전 공격'],odyn:['o','광역 큰 공격'],spear:['o','광역 장판'],regen:['o','큰 생존기 · 회복'],victory:['o','무료 회복 · 처치 뒤'],reflect:['o','주문 되돌리기'],rally:['o','파티 최대 체력 증가']},
+ blood:{marrow:['g','룬 2개 · 룬 마력 채우기 · 뼈의 보호막'],hs_strike:['g','룬 1개 · 룬 마력 채우기'],dnd:['g','룬 1개 · 룬 마력 채우기 · 바닥'],ams:['g','마법 흡수 · 룬 마력 채우기'],ds:['u','룬 마력 쓰기 · 회복'],coil:['u','룬 마력 쓰기 · 원거리'],raiseally:['u','룬 마력 쓰기 · 전투 부활'],boil:['o','무료 · 광역 어그로'],drw:['o','생존 + 공격 쿨기'],devour:['o','흡혈 공격 · 회복'],reaper:['o','징표 걸고 터뜨리기'],vamp:['o','큰 생존기 · 회복 증가'],ibf:['o','모든 피해 감소'],amz:['o','파티 마법 피해 감소'],lich:['o','생존기'],pact:['o','즉시 회복'],grip:['o','몹 끌어오기'],freeze:['o','주문 차단'],taunt:['o','어그로 가져오기']}};
+const RES_NAME={prot:'분노',fury:'분노',blood:'룬 마력'};
 function renderRot(where){const d=ROT[spec],byId=Object.fromEntries(SPECS[spec].map(a=>[a.id,a]));
   document.getElementById('rot-title').textContent=SPEC_NAME[spec]+' 딜사이클';
   document.getElementById('rot-sub').textContent=d.sub;
-  const item=([id,n])=>{const a=byId[id];if(!a||(spec!=='prot'&&!where[id]))return'';const k=where[id];return `<li><span class="kk ${k?'':'nokey'}">${k?label(k):'—'}</span><span class="dot-c cat-${a.g}">${a.ko}</span>${n?`<span class="rn">${n}</span>`:''}</li>`};
+  const item=([id,n])=>{const a=byId[id];if(!a||(spec!=='prot'&&!where[id]))return'';const k=where[id];return `<li><span class="kk ${k?'':'nokey'}">${k?label(k):'—'}</span><span class="dot-c cat-${a.g}">${a.ko}</span>${(()=>{const r=(RES[spec]||{})[id];return r||n?`<span class="rn">${r?`<span class="res res-${r[0]}">${r[1]}</span>`:''}${n?`<span>${n}</span>`:''}</span>`:''})()}</li>`};
+  const flow=k=>Object.entries(RES[spec]||{}).filter(([id,r])=>r[0]===k&&byId[id]&&where[id]).map(([id])=>item([id,'']).replace(/<span class="rn">.*?<\/span><\/span><\/li>/,'</li>')).join('');
   document.getElementById('rot').innerHTML=`
    <div class="basics">${d.basics.map(([h,p],i)=>`<div class="basic"><span class="num">${i+1}</span><div><b>${h}</b><p>${p}</p></div></div>`).join('')}</div>
    ${d.decide?`<div class="decide"><p class="decide-q"><svg class="star big" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>${d.decide.q}</p><div class="decide-cols"><div class="dc def"><span class="dc-k">방어에 쓰기</span><b>${d.decide.def.when}</b><ul class="rot-list">${d.decide.def.ids.map(id=>item([id,''])).join('')}</ul></div><div class="dc off"><span class="dc-k">공격에 쓰기</span><b>${d.decide.off.when}</b><ul class="rot-list">${d.decide.off.ids.map(id=>item([id,''])).join('')}</ul></div></div></div>`:''}
+   <div class="rot-grid flow"><div class="rot-card"><h3>${RES_NAME[spec]} 채우는 기술</h3><ul class="rot-list plainnum">${flow('g')}</ul></div><div class="rot-card"><h3>${RES_NAME[spec]} 쓰는 기술</h3><ul class="rot-list plainnum">${flow('u')}</ul></div></div>
    <div class="rot-grid">${d.blocks.map(b=>`<div class="rot-card"><h3>${b.t}</h3><${b.type} class="rot-list">${b.items.map(item).join('')}</${b.type}></div>`).join('')}</div>
    ${d.newbie?`<div class="rot-tips-box newbie"><h3>초보 탱커 요령</h3><ul class="plain">${d.newbie.map(t=>`<li>${t}</li>`).join('')}</ul></div>`:''}
    <div class="rot-tips-box"><h3>그밖에 알아두면 좋은 것</h3><ul class="plain">${d.tips.map(t=>`<li>${t}</li>`).join('')}</ul>${d.links?`<p class="rot-links">${d.links.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(' · ')}</p>`:''}</div>
@@ -1566,7 +1579,7 @@ ROT.fury={sub:'분노 전사는 "격노" 상태를 계속 유지하면서 때리
  blocks:[{t:'시작할 때',type:'ol',items:[['charge','몹에게 붙기'],['reck','바로 켜기'],['avatar','무모한 희생과 같이'],['bt',''],['ramp','격노 켜기'],['bstorm','격노 중에'],['odyn','']]},
   {t:'우선순위',type:'ol',items:[['reck','쓸 수 있을 때마다'],['avatar','무모한 희생과 같이'],['ramp','격노가 꺼져 있거나 분노가 넘칠 때'],['bstorm','격노 중에'],['odyn',''],['exe','보스 20% 이하나 급살 발동 때'],['bt',''],['rb',''],['tc','할 게 없을 때'],['ww','할 게 없을 때']]},
   {t:'몹 여럿',type:'ol',items:[['ww','먼저 한 번 · 다음 공격이 광역으로'],['tc','산왕이면 천둥벼락으로 같은 역할'],['ramp',''],['bstorm',''],['odyn','']]},
-  {t:'버티기',type:'ul',items:[['regen','체력이 반쯤일 때'],['vr','자주 · 공짜 회복'],['victory','몹 처치 후 회복'],['reflect','나를 노리는 주문'],['rally','파티 전체가 아플 때']]}],
+  {t:'버티기',type:'ul',items:[['regen','체력이 반쯤일 때'],['vr','자주 쓰는 회복'],['victory','몹 처치 후 회복'],['reflect','나를 노리는 주문'],['rally','파티 전체가 아플 때']]}],
  tips:['공격보다 바닥 피하기가 먼저예요. 죽으면 피해량이 0.','탱커보다 먼저 몹을 치지 않기.','산왕이면 천둥벼락이 가끔 우레 작렬로 바뀌어요. 같은 키라 그냥 누르면 돼요.'],
  links:[['Icy Veins 분노 전사 가이드','https://www.icy-veins.com/wow/fury-warrior-pve-dps-rotation-cooldowns-abilities']]};
 
