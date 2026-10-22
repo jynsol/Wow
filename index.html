@@ -52,6 +52,7 @@ body:is([data-spec="prot"],[data-spec="fury"]) .sheet .tt-live{column-span:all}
 .tt-layout-legend{padding:16px 22px;color:var(--ink-3);font-size:12px}
 .tt-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding:0 18px 18px}
 .tt-tree-panel{min-width:0;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:visible}
+.tt-tree-panel{display:flex;flex-direction:column}.tt-tree-panel>.tt-canvas{flex:1 0 auto}
 .tt-tree-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
 .tt-tree-heading h3{font-size:16px;margin:0;font-weight:700}.tt-tree-heading>span{font-size:12px;background:var(--main-soft);border:1px solid var(--main-line);padding:4px 10px;border-radius:99px;white-space:nowrap}
 .tt-canvas{width:100%;min-width:0;margin:0;background:radial-gradient(ellipse at 50% 15%,var(--main-soft),transparent 75%),var(--surface-2);border-radius:0 0 14px 14px;overflow:visible}
@@ -517,7 +518,7 @@ section[id]{scroll-margin-top:72px}
 <div class="wrap">
   <header class="top">
     <div class="toprow"><div class="eyebrow">WoW 한밤 · 패치 12.1.5 · 시즌 2</div>
-      <nav class="tabs" aria-label="페이지"><button type="button" id="tab-home" data-view="home">홈</button><button type="button" id="tab-class" data-view="class">직업</button><button type="button" id="tab-route" data-view="route">진행 흐름</button><button type="button" id="tab-guide" data-view="guide">초보 자료</button></nav></div>
+      <nav class="tabs" aria-label="페이지"><button type="button" id="tab-home" data-view="home">홈</button><button type="button" id="tab-class" data-view="class">직업</button><button type="button" id="tab-route" data-view="route">진행 흐름</button><button type="button" id="tab-guide" data-view="guide">초보 자료</button><button type="button" id="tab-practice" data-view="practice">연습 게임</button></nav></div>
     <div class="titlebox"><h1 id="headline"><span class="bun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 10C8.3 6.5 7.6 3.2 9 2.6s2.4 3 2.6 6.6"/><path d="M14.5 10c1.2-3.5 1.9-6.8.5-7.4s-2.4 3-2.6 6.6"/><ellipse cx="12" cy="15.2" rx="6.2" ry="5.6"/><path d="M9.8 14.4h.01M14.2 14.4h.01M11.3 16.8c.4.4 1 .4 1.4 0"/></svg></span><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.6A4.4 4.4 0 0 1 12 7.1a4.4 4.4 0 0 1 7.5 2.8c0 6-7.5 10.6-7.5 10.6z"/></svg>와우 <em>노트</em></h1>
     <p class="lede">메인 방어 전사, 가끔 분노 전사, 부캐 혈기 죽기. 키 배치, 딜사이클, 레벨업, 초보 자료를 한곳에 모아둔 정리본이에요.</p></div>
     <div class="picker" id="picker"><div class="pick-label">캐릭터</div>
@@ -526,7 +527,7 @@ section[id]{scroll-margin-top:72px}
       <button class="plate" id="spec-fury" type="button" data-spec="fury"><i class="dot"></i><span><b>분노 전사</b><small>퀘스트용</small></span><span class="role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 3.5L20 3l-.5 5.5L9 19l-4-4z"/><path d="M6.5 13.5l4 4M5 17l-2 2"/></svg>딜러</span></button>
       <button class="plate" id="spec-blood" type="button" data-spec="blood"><i class="dot"></i><span><b>혈기 죽기</b><small>부캐 탱커</small></span><span class="role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>탱커</span></button>
     </div></div>
-    <nav class="subtabs" id="subtabs" aria-label="직업 메뉴"><button type="button" id="sub-keys" data-view="keys">키 배치</button><button type="button" id="sub-rotation" data-view="rotation">딜사이클</button><button type="button" id="sub-practice" data-view="practice" data-only="prot">탱킹 연습</button></nav>
+    <nav class="subtabs" id="subtabs" aria-label="직업 메뉴"><button type="button" id="sub-keys" data-view="keys">키 배치</button><button type="button" id="sub-rotation" data-view="rotation">딜사이클</button></nav>
   </header>
 
   <div class="view" id="v-home">
@@ -620,11 +621,12 @@ section[id]{scroll-margin-top:72px}
   </div>
 
   <div class="view" id="v-practice" hidden>
+    <nav class="subtabs" aria-label="연습 종류"><button type="button" data-trmode="tank" aria-pressed="true">탱커 · 방어 전사</button><button type="button" data-trmode="dps" aria-pressed="false">딜러 · 분노 전사</button></nav>
     <section class="card tr-card">
       <div class="tr-head">
         <div>
-          <h2 class="tr-title">탱킹 연습</h2>
-          <p class="tr-sub">방어 전사 · 보스 1 + 쫄 웨이브 · 키 배치 탭의 단축키 그대로</p>
+          <h2 class="tr-title" id="tr-title">탱커 연습</h2>
+          <p class="tr-sub" id="tr-sub"></p>
         </div>
         <div class="tr-hud">
           <span class="tr-chip" id="tr-diffChip">보통</span>
@@ -632,36 +634,27 @@ section[id]{scroll-margin-top:72px}
           <button class="btn" id="tr-pauseBtn" type="button">일시정지</button>
         </div>
       </div>
-
       <div class="tr-wrap" id="tr-wrap">
         <div class="tr-game">
           <section class="tr-panel" aria-label="보스">
-            <div class="tr-row"><span class="tr-boss">황혼 감시자 벨라스</span><span class="tr-mono" id="tr-bossPct">100%</span></div>
+            <div class="tr-row"><span class="tr-boss" id="tr-bossName"></span><span class="tr-mono" id="tr-bossPct">100%</span></div>
             <div class="tr-bar" id="tr-bossHp"><i></i></div>
             <div class="tr-cast idle" id="tr-cast"><i></i><span><em id="tr-castName">시전 없음</em><em id="tr-castTime" class="tr-mono"></em></span></div>
           </section>
-
           <section class="tr-adds" id="tr-adds" aria-label="쫄"><div class="tr-adds-empty" id="tr-addsEmpty">쫄 없음</div></section>
-
           <section class="tr-alert" aria-live="polite">
             <div class="tr-callout" id="tr-callout"></div>
             <div class="tr-err" id="tr-err"></div>
           </section>
-
           <section class="tr-lower">
             <div class="tr-panel tr-party">
               <div class="tr-unit">
-                <div class="tr-row"><span class="tr-uname">나<small>방어 전사</small></span><span class="tr-mono" id="tr-tankPct">100%</span></div>
+                <div class="tr-row"><span class="tr-uname" id="tr-meName">나</span><span class="tr-mono" id="tr-tankPct">100%</span></div>
                 <div class="tr-bar tr-hpbar" id="tr-tankHp"><i></i></div>
                 <div class="tr-bar tr-thin" id="tr-absorbBar" title="고통 감내 보호막"><i></i></div>
                 <div class="tr-row"><span class="tr-lbl">분노</span><span class="tr-mono" id="tr-rageTxt">0</span></div>
                 <div class="tr-bar" id="tr-rageBar"><i></i></div>
-                <div class="tr-buffs">
-                  <span class="tr-buff" id="tr-bSb">방패 올리기 —</span>
-                  <span class="tr-buff" id="tr-bIp">보호막 0</span>
-                  <span class="tr-buff" id="tr-bWall">방패의 벽 —</span>
-                  <span class="tr-buff" id="tr-bRev">무료 복수</span>
-                </div>
+                <div class="tr-buffs" id="tr-buffs"></div>
               </div>
               <div class="tr-unit">
                 <div class="tr-row"><span class="tr-uname">힐러<small>신성 사제</small></span><span class="tr-mono" id="tr-healPct">100%</span></div>
@@ -669,39 +662,16 @@ section[id]{scroll-margin-top:72px}
                 <div id="tr-healStatus" class="tr-hs">탱커를 치유하는 중</div>
               </div>
             </div>
-            <div class="tr-panel tr-log">
-              <h3>전투 기록</h3>
-              <ul id="tr-log"></ul>
-            </div>
+            <div class="tr-panel tr-log"><h3>전투 기록</h3><ul id="tr-log"></ul></div>
           </section>
-
           <section class="tr-actionbar" id="tr-actionbar" aria-label="단축바"></section>
         </div>
-
         <div class="tr-ov" id="tr-startOv">
           <div class="tr-ovcard">
-            <div>
-              <h3 class="tr-ovtitle">보스를 붙잡고 쫄을 끌어오세요</h3>
-              <p>시전바를 읽고, 힐러에게 달려드는 쫄을 끌어오세요. 약 100초 버티면 공대가 보스를 잡아요.</p>
-            </div>
-            <div>
-              <h4>규칙</h4>
-              <ul class="tr-rules">
-                <li><span class="tr-dot" style="background:var(--main)"></span><span><b>방패 올리기</b>를 최대한 켜 두세요. 보스 평타 피해가 절반이 돼요.</span></li>
-                <li><span class="tr-dot" style="background:var(--a1)"></span><span>보라색 <b>암흑 화살</b> 시전바가 뜨면 <b>들이치기</b>로 차단해요.</span></li>
-                <li><span class="tr-dot" style="background:var(--a3)"></span><span>빨간 <b>공허 분쇄</b>(탱커 버스터)는 방패 올리기, 방패의 벽, 고통 감내 중 하나로 대비해요.</span></li>
-                <li><span class="tr-dot" style="background:var(--a2)"></span><span>쫄은 힐러에게 달려가요. <b>천둥벼락·복수</b>로 광역 어그로, 남은 쫄은 <b>도발</b>.</span></li>
-                <li><span class="tr-dot" style="background:var(--main)"></span><span>분노가 100에서 넘치지 않게 <b>고통 감내</b>로 써 주세요.</span></li>
-              </ul>
-            </div>
-            <div>
-              <h4>난이도</h4>
-              <div class="tr-seg" id="tr-diffSeg"></div>
-            </div>
-            <div>
-              <h4>단축키 · 눌러서 바꾸기</h4>
-              <div class="tr-binds" id="tr-binds"></div>
-            </div>
+            <div><h4>보스</h4><div class="tr-seg" id="tr-bossSeg"></div></div>
+            <div><h4>규칙</h4><ul class="tr-rules" id="tr-rules"></ul></div>
+            <div><h4>난이도</h4><div class="tr-seg" id="tr-diffSeg"></div></div>
+            <div><h4>단축키 · 눌러서 바꾸기</h4><div class="tr-binds" id="tr-binds"></div></div>
             <div class="tr-btns">
               <button class="btn pri" id="tr-startBtn" type="button">전투 시작 (Enter)</button>
               <button class="btn" id="tr-resetBinds" type="button">노트 단축키로 되돌리기</button>
@@ -709,7 +679,6 @@ section[id]{scroll-margin-top:72px}
             <div class="tr-best" id="tr-bestLine"></div>
           </div>
         </div>
-
         <div class="tr-ov" id="tr-pauseOv" hidden>
           <div class="tr-ovcard tr-small">
             <h3 class="tr-ovtitle">일시정지</h3>
@@ -717,18 +686,14 @@ section[id]{scroll-margin-top:72px}
             <div class="tr-btns"><button class="btn pri" id="tr-resumeBtn" type="button">계속</button><button class="btn" id="tr-quitBtn" type="button">그만두기</button></div>
           </div>
         </div>
-
         <div class="tr-ov" id="tr-endOv" hidden>
           <div class="tr-ovcard">
-            <div class="tr-result">
-              <div class="tr-grade" id="tr-grade">A</div>
-              <div><h3 class="tr-ovtitle" id="tr-endTitle">보스 처치</h3><p id="tr-endSub"></p></div>
-            </div>
+            <div class="tr-result"><div class="tr-grade" id="tr-grade">A</div><div><h3 class="tr-ovtitle" id="tr-endTitle">보스 처치</h3><p id="tr-endSub"></p></div></div>
             <div class="tr-stats" id="tr-stats"></div>
             <div><h4>다음 판 포인트</h4><ul class="tr-tips" id="tr-tips"></ul></div>
             <div class="tr-btns">
               <button class="btn pri" id="tr-againBtn" type="button">다시 하기 (Enter)</button>
-              <button class="btn" id="tr-setupBtn" type="button">난이도·단축키</button>
+              <button class="btn" id="tr-setupBtn" type="button">보스·난이도·단축키</button>
             </div>
           </div>
         </div>
@@ -1282,7 +1247,7 @@ function renderRot(where){const d=ROT[spec],byId=Object.fromEntries(SPECS[spec].
    <ul class="foot foot-list"><li>가이드(Method·Icy Veins)의 우선순위를 쉽게 줄인 거예요.</li><li>특성에 따라 없는 스킬은 건너뛰면 돼요.</li><li>키는 내 키 배치 기준이에요.</li></ul>`;
 }
 let view='home',lastClass='keys';
-function showView(v){if(v==='class')v=lastClass;if(v==='growth')v='keys';if(v==='practice'&&spec!=='prot')v='keys';const isClass=['keys','rotation','practice'].includes(v);if(isClass)lastClass=v;view=v;document.body.dataset.view=v;requestAnimationFrame(fitKb);document.getElementById('subtabs').hidden=!isClass;document.querySelectorAll('#subtabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===v));document.getElementById('picker').hidden=['home','route','guide'].includes(v);if(v==='guide'&&!roleChosen)setRole(spec==='fury'?'dps':'tank');['home','keys','rotation','practice','route','guide'].forEach(x=>{document.getElementById('v-'+x).hidden=x!==v});if(v==='practice'&&window.trainerOpen)trainerOpen();
+function showView(v){if(v==='class')v=lastClass;if(v==='growth')v='keys';const isClass=['keys','rotation'].includes(v);if(isClass)lastClass=v;view=v;document.body.dataset.view=v;requestAnimationFrame(fitKb);document.getElementById('subtabs').hidden=!isClass;document.querySelectorAll('#subtabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===v));document.getElementById('picker').hidden=['home','route','guide','practice'].includes(v);if(v==='guide'&&!roleChosen)setRole(spec==='fury'?'dps':'tank');['home','keys','rotation','practice','route','guide'].forEach(x=>{document.getElementById('v-'+x).hidden=x!==v});if(v==='practice'&&window.trainerOpen)trainerOpen();
   document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===v||(isClass&&b.dataset.view==='class')));}
 document.querySelectorAll('.tabs button,#subtabs button').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.view);try{history.replaceState(null,'','#'+view)}catch(e){};window.scrollTo({top:0})}));
 
@@ -1310,7 +1275,6 @@ const ARROW={E:'↑',S:'←',D:'↓',F:'→'};
 function render(){
   ttSync();
   document.body.dataset.spec=spec;
-  if(typeof view!=='undefined'&&view==='practice'&&spec!=='prot')showView('keys');
   document.getElementById('headline').innerHTML=`<span class="bun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 10C8.3 6.5 7.6 3.2 9 2.6s2.4 3 2.6 6.6"/><path d="M14.5 10c1.2-3.5 1.9-6.8.5-7.4s-2.4 3-2.6 6.6"/><ellipse cx="12" cy="15.2" rx="6.2" ry="5.6"/><path d="M9.8 14.4h.01M14.2 14.4h.01M11.3 16.8c.4.4 1 .4 1.4 0"/></svg></span><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.6A4.4 4.4 0 0 1 12 7.1a4.4 4.4 0 0 1 7.5 2.8c0 6-7.5 10.6-7.5 10.6z"/></svg>와우 <em>노트</em>`;
   document.querySelectorAll('.plate').forEach(b=>b.setAttribute('aria-pressed',b.dataset.spec===spec));
   document.getElementById('kb-title').textContent=SPEC_NAME[spec]+' 단축키 가이드';
@@ -1524,7 +1488,7 @@ function ttTreePanel(tree,title,w){
  const min=Math.min(...tree.nodes.map(n=>n.cell%19)),max=Math.max(...tree.nodes.map(n=>n.cell%19));
  const width=(max-min)*35+80,px=cell=>40+(cell%19-min)*35;
  const height=(Math.floor(Math.max(...tree.nodes.map(n=>n.cell))/19)+1)*100+38;
- return `<section class="tt-tree-panel" aria-label="${title}"><header class="tt-tree-heading"><h3>${title}</h3><span>${tree.nodes.reduce((sum,n)=>sum+ttRank(n),0)}점</span></header><div class="tt-canvas" style="height:${height}px"><svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">${tree.nodes.flatMap(n=>n.requires.map(cell=>{const parent=tree.nodes.find(x=>x.cell===cell);return parent?`<line class="tt-edge ${ttOn(parent)&&ttOn(n)?'on':''}" x1="${px(cell)}" y1="${yPos(cell)}" x2="${px(n.cell)}" y2="${yPos(n.cell)}"/>`:''})).join('')}${tree.checkpoints.map(c=>`<line class="tt-gate" x1="12" x2="${width-12}" y1="${c.row*100+7}" y2="${c.row*100+7}"/>`).join('')}</svg>${tree.nodes.map(n=>{const s=n.spells[ttChoice(n)],a=SPECS[spec].find(a=>ttConfig().ids[a.id]===s.spell),key=a&&w[a.id];return `<div class="tt-node ${n.type===2||n.type===5?'passive':''} ${n.type===3?'choice':''} ${ttOn(n)?'selected':''}" style="left:${px(n.cell)/width*100}%;top:${yPos(n.cell)}px"><button type="button" id="tt-node-${n.node}" data-node="${n.node}" aria-pressed="${ttOn(n)}" aria-label="${s.name} ${ttGranted(n)?'기본 지급':ttRank(n)+' / '+ttMax(n)}${key?' 추천 키 '+label(key):''}" title="${s.name}${n.type===3?' · 선택 노드':''}${ttGranted(n)?' · 기본 지급':''}"><span class="tt-icon"><img src="${PROT_ICONS[s.icon]||'https://wow.zamimg.com/images/wow/icons/medium/'+s.icon+'.jpg'}" alt="" loading="lazy"></span>${ttGranted(n)?'<span class="tt-rank">기본</span>':ttMax(n)>1?`<span class="tt-rank">${ttRank(n)}/${ttMax(n)}</span>`:''}<span class="tt-name">${s.name}</span>${key?`<span class="tt-bound">${label(key)}</span>`:''}</button></div>`}).join('')}</div></section>`;
+ return `<section class="tt-tree-panel" aria-label="${title}"><header class="tt-tree-heading"><h3>${title}</h3><span>${tree.nodes.reduce((sum,n)=>sum+ttRank(n),0)}점</span></header><div class="tt-canvas" style="height:${height}px"><svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true" style="height:${height}px;bottom:auto">${tree.nodes.flatMap(n=>n.requires.map(cell=>{const parent=tree.nodes.find(x=>x.cell===cell);return parent?`<line class="tt-edge ${ttOn(parent)&&ttOn(n)?'on':''}" x1="${px(cell)}" y1="${yPos(cell)}" x2="${px(n.cell)}" y2="${yPos(n.cell)}"/>`:''})).join('')}${tree.checkpoints.map(c=>`<line class="tt-gate" x1="12" x2="${width-12}" y1="${c.row*100+7}" y2="${c.row*100+7}"/>`).join('')}</svg>${tree.nodes.map(n=>{const s=n.spells[ttChoice(n)],a=SPECS[spec].find(a=>ttConfig().ids[a.id]===s.spell),key=a&&w[a.id];return `<div class="tt-node ${n.type===2||n.type===5?'passive':''} ${n.type===3?'choice':''} ${ttOn(n)?'selected':''}" style="left:${px(n.cell)/width*100}%;top:${yPos(n.cell)}px"><button type="button" id="tt-node-${n.node}" data-node="${n.node}" aria-pressed="${ttOn(n)}" aria-label="${s.name} ${ttGranted(n)?'기본 지급':ttRank(n)+' / '+ttMax(n)}${key?' 추천 키 '+label(key):''}" title="${s.name}${n.type===3?' · 선택 노드':''}${ttGranted(n)?' · 기본 지급':''}"><span class="tt-icon"><img src="${PROT_ICONS[s.icon]||'https://wow.zamimg.com/images/wow/icons/medium/'+s.icon+'.jpg'}" alt="" loading="lazy"></span>${ttGranted(n)?'<span class="tt-rank">기본</span>':ttMax(n)>1?`<span class="tt-rank">${ttRank(n)}/${ttMax(n)}</span>`:''}<span class="tt-name">${s.name}</span>${key?`<span class="tt-bound">${label(key)}</span>`:''}</button></div>`}).join('')}</div></section>`;
 }
 function ttRender(){
  const p=ttStore(),trees=ttTrees(),w=assign().where;
@@ -1639,7 +1603,7 @@ body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-m
 .tr-chip{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--main-soft);border:1px solid var(--main-line);color:var(--on-main)}
 .tr-mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
 .tr-timer{font-family:var(--f-key);font-size:18px;min-width:3.2em;text-align:right;color:var(--ink)}
-.tr-wrap{position:relative;min-height:660px}
+.tr-wrap{position:relative}
 .tr-game{display:grid;gap:10px}
 .tr-panel{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:12px 14px;min-width:0}
 .tr-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
@@ -1754,51 +1718,111 @@ body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-m
   .tr-lower{grid-template-columns:1fr}
   .tr-actionbar{grid-template-columns:repeat(4,minmax(0,1fr))}
   .tr-binds,.tr-stats{grid-template-columns:1fr}
-  .tr-wrap{min-height:760px}
 }
+
+.tr-actionbar{display:grid;grid-template-columns:repeat(var(--n,8),minmax(0,1fr)) auto;gap:8px;align-items:stretch}
+.tr-move{display:grid;grid-template-columns:repeat(2,auto);gap:4px;align-content:center;justify-items:center;padding:6px 8px;border:1.5px dashed var(--line-2);border-radius:var(--r-md)}
+.tr-move span{grid-column:1/-1;font-size:11px;color:var(--ink-3)}
+.tr-move .tr-kbd{min-width:2.2em;padding:3px 6px}
+.tr-move .tr-kbd.glow{border-color:var(--main);box-shadow:0 0 0 2px var(--main)}
+.tr-kbd.static{cursor:default;color:var(--ink-2)}
+.tr-cast.kick>i{background:var(--a1)}
+.tr-cast.danger>i,.tr-cast.move>i{background:var(--a3)}
+.tr-cast.raid>i{background:var(--a2)}
+.tr-cast.kick span,.tr-cast.danger span,.tr-cast.move span,.tr-cast.raid span{color:var(--ink);font-weight:600}
+.tr-plate.ally{background:var(--surface)}
+.tr-plate.ally.loose{background:var(--main-soft);border-color:var(--main)}
+.tr-plate.glowing{background:var(--main-soft);border-color:var(--main)}
+.tr-plate .tr-hp>i{background:var(--a3)}
+.tr-plate.ally .tr-hp>i{background:var(--a2)}
+.tr-plate.glowing .tr-hp>i{background:var(--main)}
+.tr-stks{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink-3)}
+.tr-stks i{width:14px;height:14px;border-radius:999px;border:1.5px solid var(--line-2);background:var(--surface)}
+.tr-stks i.on{background:var(--a3);border-color:var(--a3)}
+.tr-stks span{margin-left:4px}
+.tr-seg button{line-height:1.35}
+@media (max-width:720px){.tr-actionbar{grid-template-columns:repeat(4,minmax(0,1fr))}.tr-move{grid-column:1/-1;grid-template-columns:auto repeat(4,auto);justify-content:center}.tr-move span{grid-column:auto;margin-right:6px}}
+#tr-startOv,#tr-endOv{position:static;background:none;backdrop-filter:none;padding:0;border-radius:0;display:block}
+#tr-startOv[hidden],#tr-endOv[hidden]{display:none!important}
+#tr-startOv .tr-ovcard,#tr-endOv .tr-ovcard{max-width:none;box-shadow:none;border:0;padding:0}
+.tr-wrap:has(#tr-startOv:not([hidden])) .tr-game,.tr-wrap:has(#tr-endOv:not([hidden])) .tr-game{display:none}
 @media (prefers-reduced-motion:reduce){.tr-callout.show{animation:trfade 2.1s ease forwards}.tr-bar>i,.tr-ab{transition:none}}
 </style>
 
 <script>
-/* 탱킹 연습: 키 배치 탭(방어 전사)의 단축키를 기본으로 사용 */
+/* 연습 게임: 탱커(방어 전사) · 딜러(분노 전사). 기본 단축키는 키 배치 탭의 해당 전문화 배치를 그대로 사용 */
 (() => {
 const $ = id => document.getElementById('tr-' + id);
-const ABIL = [
-  {id:'slam', note:'ss',     name:'방패 밀쳐내기', abbr:'밀쳐', def:'R',  cd:9,  gcd:true,  cost:0,  hint:'쿨마다. 분노 +15', tint:'var(--c-core)'},
-  {id:'tc',   note:'tc',     name:'천둥벼락',     abbr:'천둥', def:'W',  cd:6,  gcd:true,  cost:0,  hint:'광역 어그로. 분노 +5', tint:'var(--c-core)'},
-  {id:'rev',  note:'rev',    name:'복수',         abbr:'복수', def:'A',  cd:0,  gcd:true,  cost:20, hint:'분노 20 광역. 회피 뒤 무료', tint:'var(--c-core)'},
-  {id:'sb',   note:'block',  name:'방패 올리기',  abbr:'방패', def:'2',  cd:0,  gcd:false, cost:30, hint:'분노 30. 6초간 물리 피해 절반', tint:'var(--c-def)'},
-  {id:'ip',   note:'ip',     name:'고통 감내',    abbr:'감내', def:'3',  cd:1,  gcd:false, cost:35, hint:'분노 35 보호막', tint:'var(--c-def)'},
-  {id:'wall', note:'wall',   name:'방패의 벽',    abbr:'벽',   def:'4',  cd:60, gcd:false, cost:0,  hint:'8초간 받는 피해 40% 감소', tint:'var(--c-def)'},
-  {id:'kick', note:'pummel', name:'들이치기',     abbr:'차단', def:'G',  cd:15, gcd:false, cost:0,  hint:'보라 시전바 차단', tint:'var(--c-cc)'},
-  {id:'taunt',note:'taunt',  name:'도발',         abbr:'도발', def:'Z',  cd:8,  gcd:false, cost:0,  hint:'힐러 노리는 쫄 하나 끌기', tint:'var(--c-cc)'},
-];
-const A = Object.fromEntries(ABIL.map(a => [a.id, a]));
-const SB_RECHARGE = 8, SB_MAX = 12, IP_CAP = 30, GCD = 1.0;
-const DIFF = {
-  easy:   {name:'쉬움',   note:'느린 패턴', speed:.8,  dmg:.75, heal:1.15, dur:90,  adds:2},
-  normal: {name:'보통',   note:'기본',      speed:1,   dmg:1,   heal:1,    dur:100, adds:3},
-  hard:   {name:'어려움', note:'쫄 4마리',  speed:1.2, dmg:1.2, heal:.9,   dur:110, adds:4},
+const MOVE = ['E','S','D','F'];
+const MODES = {
+  tank:{spec:'prot', who:'방어 전사', res:'분노', bosses:['vel','orgol']},
+  dps:{spec:'fury', who:'분노 전사', res:'분노', bosses:['vel','orgol']},
 };
-const CASTS = {bolt:{name:'암흑 화살', dur:2.4, kick:true}, smash:{name:'공허 분쇄', dur:2.6, kick:false}};
-const PATTERN = ['bolt','smash','bolt','smash'];
+const BOSS = {
+  vel:{name:'황혼 감시자 벨라스', tag:'던전형 · 차단 · 쫄', note:'차단, 탱커 버스터, 쫄 웨이브'},
+  orgol:{name:'심연 집행자 오르골', tag:'레이드형 · 교대 · 회피', note:'탱 교대, 전방 브레스, 광역 마법'},
+};
+const DIFF = {
+  easy:{name:'쉬움', note:'느린 패턴', speed:.8, dmg:.75, heal:1.15, dur:90, adds:2},
+  normal:{name:'보통', note:'기본', speed:1, dmg:1, heal:1, dur:100, adds:3},
+  hard:{name:'어려움', note:'빠른 패턴', speed:1.2, dmg:1.2, heal:.9, dur:110, adds:4},
+};
 const ADD_NAMES = ['황혼 추종자','공허 그림자','어스름 광신도','밤그늘 사냥개'];
 
-/* 노트 상태(state.prot)에 저장해 기기 간 동기화 */
-const store = () => { const p = state.prot; if (!p.__trainer || typeof p.__trainer !== 'object') p.__trainer = {binds:{}, diff:'normal', best:{}}; return p.__trainer; };
+/* 기술 정의: notes = 노트(키 배치) 기술 id 후보. 이름은 노트에 찍힌 기술 이름을 그대로 써요 */
+const TANK_ABIL = [
+  {id:'slam', notes:['ss'],     name:'방패 밀쳐내기', def:'R', cd:9,  gcd:true,  cost:0,  hint:'쿨마다. 분노 +15'},
+  {id:'tc',   notes:['tc'],     name:'천둥벼락',     def:'W', cd:6,  gcd:true,  cost:0,  hint:'광역 어그로. 분노 +5'},
+  {id:'rev',  notes:['rev'],    name:'복수',         def:'A', cd:0,  gcd:true,  cost:20, hint:'분노 20 광역. 회피 뒤 무료'},
+  {id:'sb',   notes:['block'],  name:'방패 올리기',  def:'2', cd:0,  gcd:false, cost:30, hint:'분노 30. 6초간 물리 피해 절반'},
+  {id:'ip',   notes:['ip'],     name:'고통 감내',    def:'3', cd:1,  gcd:false, cost:35, hint:'분노 35. 마법·물리 모두 막는 보호막'},
+  {id:'wall', notes:['wall'],   name:'방패의 벽',    def:'4', cd:60, gcd:false, cost:0,  hint:'8초간 받는 피해 40% 감소'},
+  {id:'kick', notes:['pummel'], name:'들이치기',     def:'G', cd:15, gcd:false, cost:0,  hint:'보라 시전바 차단'},
+  {id:'taunt',notes:['taunt'],  name:'도발',         def:'Z', cd:8,  gcd:false, cost:0,  hint:'쫄 끌기 · 탱 교대'},
+];
+const DPS_ABIL = [
+  {id:'bt',   notes:['bt'],   name:'피의 갈증',   def:'R', cd:4.5, gcd:true,  cost:0,  hint:'쿨마다. 분노 +8, 가끔 격노'},
+  {id:'rb',   notes:['rb'],   name:'분노의 강타', def:'A', cd:0, charges:2, recharge:7, gcd:true, cost:0, hint:'충전 2회. 분노 +12'},
+  {id:'ramp', notes:['ramp'], name:'광란',        def:'T', cd:0,   gcd:true,  cost:80, hint:'분노 80. 격노 켜기'},
+  {id:'aoe',  notes:['ww','tc'], name:'소용돌이', def:'W', cd:0,   gcd:true,  cost:0,  hint:'쫄이 있으면 먼저. 다음 공격 2번이 광역'},
+  {id:'exe',  notes:['exe'],  name:'마무리 일격', def:'Q', cd:6,   gcd:true,  cost:0,  hint:'보스 20% 이하 또는 급살 발동 때'},
+  {id:'burst',notes:['odyn','bstorm','avatar'], name:'오딘의 격노', def:'X', cd:30, gcd:true, cost:0, hint:'큰 광역 피해 + 격노'},
+  {id:'reck', notes:['reck'], name:'무모한 희생', def:'S+X', cd:60, gcd:false, cost:0, hint:'10초간 피해·분노 증가'},
+  {id:'def',  notes:['regen','rally','vr','victory'], name:'격노의 재생력', def:'2', cd:45, gcd:false, cost:0, hint:'8초간 받는 피해 감소 + 회복'},
+  {id:'kick', notes:['pummel'], name:'들이치기', def:'G', cd:15, gcd:false, cost:0, hint:'보라 시전바 차단'},
+];
+
+/* 노트 상태 */
+const store = () => {
+  const p = state.prot;
+  if (!p.__trainer || typeof p.__trainer !== 'object') p.__trainer = {};
+  const t = p.__trainer;
+  if (!t.binds || typeof t.binds !== 'object') t.binds = {};
+  if (t.binds.tank === undefined && Object.keys(t.binds).length && !t.binds.dps) t.binds = {tank:t.binds};
+  t.binds.tank = t.binds.tank || {}; t.binds.dps = t.binds.dps || {};
+  if (!t.best || typeof t.best !== 'object') t.best = {};
+  t.mode = MODES[t.mode] ? t.mode : 'tank';
+  t.boss = BOSS[t.boss] ? t.boss : 'vel';
+  t.diff = DIFF[t.diff] ? t.diff : 'normal';
+  return t;
+};
 const persist = () => { try { save(); } catch(e) {} };
-function noteBinds(){
-  const out = {};
-  try {
-    const keep = spec; spec = 'prot';
-    const w = assign().where; spec = keep;
-    ABIL.forEach(a => { if (w[a.note]) out[a.id] = w[a.note]; });
-  } catch(e) {}
-  ABIL.forEach(a => { if (!out[a.id]) out[a.id] = a.def; });
-  return out;
+function noteMap(sp){
+  const keep = spec;
+  try { spec = sp; ttSync(); return assign().map; } catch(e) { return {}; } finally { spec = keep; }
 }
-const binds = () => Object.assign(noteBinds(), store().binds);
-let diffKey = 'normal';
+let mode = 'tank', bossKey = 'vel', diffKey = 'normal', ABIL = [], A = {};
+function buildAbil(){
+  const map = noteMap(MODES[mode].spec), byNote = {};
+  Object.entries(map).forEach(([k, a]) => { byNote[a.id] = {k, ko:a.ko}; });
+  const list = (mode === 'tank' ? TANK_ABIL : DPS_ABIL).map(a => {
+    const hit = a.notes.map(n => byNote[n]).find(Boolean);
+    return Object.assign({}, a, {noteKey: hit ? hit.k : a.def, name: hit ? hit.ko.replace(/ \(.*\)$/, '') : a.name});
+  });
+  const custom = store().binds[mode];
+  list.forEach(a => { a.key = custom[a.id] || a.noteKey; });
+  ABIL = list; A = Object.fromEntries(list.map(a => [a.id, a]));
+}
 const keyText = k => k ? label(k) : '-';
 function evKey(e){
   let k = null;
@@ -1808,59 +1832,124 @@ function evKey(e){
   return (e.ctrlKey ? 'C+' : e.shiftKey ? 'S+' : '') + k;
 }
 const fmt = t => { t = Math.max(0, Math.floor(t)); return Math.floor(t/60) + ':' + String(t%60).padStart(2,'0'); };
+const rnd = (a, b) => a + Math.random() * (b - a);
 
+/* ---------- 상태 ---------- */
 let S;
 function newGame(){
   const d = DIFF[diffKey];
-  S = {d, t:0, running:false, paused:false, over:false, countdown:0,
-    hp:100, rage:15, absorb:0, sb:0, sbCharges:2, sbRe:0, wall:0, gcd:0, queued:null, revFree:false,
-    cds:Object.fromEntries(ABIL.map(a => [a.id, 0])), healer:100,
-    boss:{hp:100, swing:1.5, cast:null, next:6, pat:0},
-    adds:[], addSeq:0, waves:[.2,.48,.76].map(f => Math.round(d.dur*f)),
-    st:{fight:0, sb:0, bolts:0, kicks:0, waste:0, busters:0, bustOk:0, loose:0, taken:0, cap:0},
-    log:[], logDirty:true};
+  S = {mode, boss:bossKey, d, t:0, running:false, paused:false, over:false, countdown:0,
+    hp:100, rage:mode === 'tank' ? 15 : 10, absorb:0, gcd:0, queued:null, healer:100,
+    cds:Object.fromEntries(ABIL.map(a => [a.id, 0])), charges:{rb:2}, recharge:{rb:0},
+    b:{hp:100, swing:1.5, cast:null, timers:{}},
+    adds:[], addSeq:0, waves:bossKey !== 'vel' ? [] : (mode === 'tank' ? [.2,.48,.76] : [.22,.52]).map(f => Math.round(d.dur * f)),
+    moved:false, buffs:{}, log:[], logDirty:true, st:{fight:0, cap:0}};
+  const T = S.b.timers;
+  if (mode === 'tank') {
+    Object.assign(S, {sb:0, sbCharges:2, sbRe:0, wall:0, revFree:false});
+    Object.assign(S.st, {sb:0, tankTime:0, bolts:0, kicks:0, waste:0, busters:0, bustOk:0, loose:0});
+    if (bossKey === 'vel') { T.next = 6; S.pat = 0; }
+    else { Object.assign(S, {tanking:true, stk:0, stkT:99, ot:{hp:100, stk:0, stkT:99}, otTauntAt:null});
+      Object.assign(S.st, {swaps:0, swapOk:0, early:0, otBig:0, breaths:0, dodged:0, waves:0, waveOk:0});
+      T.strike = 6; T.breath = 13; T.wave = 21; }
+  } else {
+    Object.assign(S, {enrage:0, reck:0, cleave:0, sd:false, defBuff:0, weak:0, dmg:0});
+    Object.assign(S.st, {enr:0, bolts:0, kicks:0, waste:0, pools:0, poolHit:0, waves:0, waveOk:0, windows:0, windowCd:0, addAlive:0, cleaveWaste:0, exeMiss:0});
+    if (bossKey === 'vel') { T.bolt = 8; }
+    else { T.pool = 7; T.wave = 22; T.weak = 18; }
+  }
 }
+
+/* ---------- 피드백 ---------- */
 function callout(text, kind){ const el = $('callout'); el.textContent = text; el.className = 'tr-callout ' + (kind || 'info'); void el.offsetWidth; el.classList.add('show'); }
 function errMsg(text){ const el = $('err'); el.textContent = text; el.className = 'tr-err'; void el.offsetWidth; el.classList.add('show'); }
 function log(text, kind){ S.log.unshift({t:S.t, text, kind:kind || ''}); if (S.log.length > 7) S.log.length = 7; S.logDirty = true; }
-
-const addRage = n => { S.rage = Math.min(100, S.rage + n); };
+const addRage = n => { if (S.mode === 'dps' && S.reck > 0 && n > 0) n *= 1.5; S.rage = Math.min(100, S.rage + n); };
 function hit(raw, physical){
-  let dmg = raw * S.d.dmg, blocked = false, wall = false;
-  if (physical && S.sb > 0) { dmg *= .5; blocked = true; }
-  if (S.wall > 0) { dmg *= .6; wall = true; }
+  let dmg = raw * S.d.dmg, blocked = false, wall = false, dr = false;
+  if (S.mode === 'tank') {
+    if (physical && S.sb > 0) { dmg *= .5; blocked = true; }
+    if (S.wall > 0) { dmg *= .6; wall = true; }
+  } else if (S.defBuff > 0) { dmg *= .7; dr = true; }
   const ab = Math.min(S.absorb, dmg); S.absorb -= ab; dmg -= ab;
-  S.hp -= dmg; S.st.taken += dmg;
-  return {dmg, blocked, wall, ab};
+  S.hp -= dmg;
+  return {dmg, blocked, wall, ab, dr};
 }
 const liveAdds = () => S.adds.filter(a => !a.dead);
 const looseAdd = () => liveAdds().filter(a => a.target === 'healer').sort((a,b) => (b.thH-b.thT)-(a.thH-a.thT))[0];
+function startCast(type, name, dur, kind){ S.b.cast = {type, name, total:dur, left:dur, kind}; S.moved = false; }
+
+/* ---------- 기술 사용 ---------- */
 function canUse(id){
   const a = A[id];
-  if (id === 'sb') { if (S.sbCharges < 1) return '아직 사용할 수 없어요.'; if (S.sb >= SB_MAX - .01) return '방패 올리기가 이미 최대예요.'; }
-  else if (S.cds[id] > 0) return '아직 사용할 수 없어요.';
-  const cost = (id === 'rev' && S.revFree) ? 0 : a.cost;
-  if (S.rage < cost) return '분노가 부족해요.';
-  if (id === 'taunt' && !looseAdd()) return '도발할 대상이 없어요.';
+  if (S.mode === 'tank') {
+    if (id === 'sb') { if (S.sbCharges < 1) return '아직 사용할 수 없어요.'; if (S.sb >= 11.99) return '방패 올리기가 이미 최대예요.'; }
+    else if (S.cds[id] > 0) return '아직 사용할 수 없어요.';
+    const cost = (id === 'rev' && S.revFree) ? 0 : a.cost;
+    if (S.rage < cost) return '분노가 부족해요.';
+    if (id === 'taunt') {
+      if (S.boss === 'vel' && !looseAdd()) return '도발할 대상이 없어요.';
+      if (S.boss === 'orgol' && S.tanking && !looseAdd()) return '이미 내가 보스를 잡고 있어요.';
+    }
+  } else {
+    if (id === 'rb') { if (S.charges.rb < 1) return '아직 사용할 수 없어요.'; }
+    else if (S.cds[id] > 0) return '아직 사용할 수 없어요.';
+    if (S.rage < a.cost) return '분노가 부족해요.';
+    if (id === 'exe' && !(S.b.hp < 20 || S.sd)) return '지금은 마무리 일격을 쓸 수 없어요.';
+  }
   return true;
 }
-function doUse(id){
-  const a = A[id], free = id === 'rev' && S.revFree;
-  S.rage -= free ? 0 : a.cost;
-  if (a.cd) S.cds[id] = a.cd;
-  if (a.gcd) S.gcd = GCD;
+function dealDps(base, aoe){
+  let m = 1; if (S.enrage > 0) m *= 1.15; if (S.reck > 0) m *= 1.25; if (S.weak > 0) m *= 1.5;
+  const dmg = base * m; S.dmg += dmg; S.b.hp -= dmg * .03;
   const adds = liveAdds();
-  switch (id) {
-    case 'slam': addRage(15); S.boss.hp -= 1; break;
-    case 'tc': addRage(5); S.boss.hp -= .4; adds.forEach(x => { x.thT += 60; x.hp -= 14; }); break;
-    case 'rev': S.revFree = false; S.boss.hp -= .6; adds.forEach(x => { x.thT += 35; x.hp -= 16; }); break;
-    case 'ip': S.absorb = Math.min(IP_CAP, S.absorb + 14); break;
-    case 'sb': S.sbCharges--; if (S.sbRe <= 0) S.sbRe = SB_RECHARGE; S.sb = Math.min(SB_MAX, S.sb + 6); break;
-    case 'kick': { const c = S.boss.cast;
-      if (c && CASTS[c.type].kick) { S.st.bolts++; S.st.kicks++; S.boss.cast = null; callout('차단 성공!', 'good'); log('암흑 화살 차단', 'good'); }
-      else { S.st.waste++; log('들이치기 헛손질 (15초 쿨)', 'bad'); } break; }
-    case 'taunt': { const x = looseAdd(); x.thT = x.thH * 1.25 + 10; x.target = 'tank'; log(x.name + ' 도발', 'good'); break; }
-    case 'wall': S.wall = 8; log('방패의 벽', 'good'); break;
+  if (adds.length && (aoe || S.cleave > 0)) { adds.forEach(x => x.hp -= base * 2.2); if (!aoe) S.cleave--; }
+  else if (adds.length && !aoe) S.st.cleaveWaste++;
+}
+function doUse(id){
+  const a = A[id];
+  if (S.mode === 'tank') {
+    const free = id === 'rev' && S.revFree;
+    S.rage -= free ? 0 : a.cost;
+    if (a.cd) S.cds[id] = a.cd;
+    if (a.gcd) S.gcd = 1;
+    const adds = liveAdds();
+    switch (id) {
+      case 'slam': addRage(15); S.b.hp -= 1; break;
+      case 'tc': addRage(5); S.b.hp -= .4; adds.forEach(x => { x.thT += 60; x.hp -= 14; }); break;
+      case 'rev': S.revFree = false; S.b.hp -= .6; adds.forEach(x => { x.thT += 35; x.hp -= 16; }); break;
+      case 'ip': S.absorb = Math.min(30, S.absorb + 14); break;
+      case 'sb': S.sbCharges--; if (S.sbRe <= 0) S.sbRe = 8; S.sb = Math.min(12, S.sb + 6); break;
+      case 'wall': S.wall = 8; log(a.name, 'good'); break;
+      case 'kick': { const c = S.b.cast;
+        if (c && c.kind === 'kick') { S.st.kicks++; S.st.bolts++; S.b.cast = null; callout('차단 성공!', 'good'); log(c.name + ' 차단', 'good'); }
+        else { S.st.waste++; log(a.name + ' 헛손질 (15초 쿨)', 'bad'); } break; }
+      case 'taunt': {
+        const x = looseAdd();
+        if (x) { x.thT = x.thH * 1.25 + 10; x.target = 'tank'; log(x.name + ' 도발', 'good'); break; }
+        S.tanking = true; S.otTauntAt = null; S.st.swaps++;
+        if (S.ot.stk >= 2 && S.stk === 0) { S.st.swapOk++; log('탱 교대 성공', 'good'); callout('교대 성공!', 'good'); }
+        else { S.st.early++; log(S.stk > 0 ? '내 낙인이 남았는데 도발' : '조금 이른 도발', 'bad'); }
+        break; }
+    }
+  } else {
+    S.rage -= a.cost;
+    if (id === 'rb') { S.charges.rb--; if (S.recharge.rb <= 0) S.recharge.rb = a.recharge; }
+    else if (a.cd) S.cds[id] = a.cd;
+    if (a.gcd) S.gcd = 1;
+    switch (id) {
+      case 'bt': addRage(8); dealDps(6); if (Math.random() < .35) S.enrage = Math.max(S.enrage, 4); S.hp = Math.min(100, S.hp + 2); break;
+      case 'rb': addRage(12); dealDps(5); break;
+      case 'ramp': S.enrage = 4; dealDps(18); break;
+      case 'aoe': addRage(3); S.cleave = 2; dealDps(3, true); if (!liveAdds().length) S.st.cleaveWaste += .5; break;
+      case 'exe': { const wasSd = S.sd && S.b.hp >= 20; S.sd = false; addRage(wasSd ? 10 : 0); dealDps(14); break; }
+      case 'burst': S.enrage = 4; dealDps(15, true); if (S.weak > 0) S.st.windowCd++; log(a.name, 'good'); break;
+      case 'reck': S.reck = 10; if (S.weak > 0) S.st.windowCd++; log(a.name, 'good'); break;
+      case 'def': S.defBuff = 8; S.hp = Math.min(100, S.hp + 15); log(a.name, 'good'); break;
+      case 'kick': { const c = S.b.cast;
+        if (c && c.kind === 'kick') { S.st.kicks++; S.st.bolts++; S.b.cast = null; callout('차단 성공!', 'good'); log(c.name + ' 차단', 'good'); }
+        else { S.st.waste++; log(a.name + ' 헛손질 (15초 쿨)', 'bad'); } break; }
+    }
   }
 }
 function tryUse(id){
@@ -1871,48 +1960,94 @@ function tryUse(id){
   if (r !== true) { errMsg(r); denyBtn(id); return; }
   doUse(id);
 }
-function startCast(){
-  const b = S.boss, type = PATTERN[b.pat++ % PATTERN.length], c = CASTS[type];
-  b.cast = {type, total:c.dur, left:c.dur}; b.next = 9 / S.d.speed;
-  if (type === 'bolt') { callout('암흑 화살 — 들이치기!', 'bolt'); log('암흑 화살 시전', 'cast'); }
-  else { callout('공허 분쇄 — 생존기!', 'smash'); log('공허 분쇄 시전', 'cast'); }
+function move(){
+  if (!S.running || S.paused || S.over || S.countdown > 0) return;
+  const c = S.b.cast;
+  if (c && c.kind === 'move' && !S.moved) { S.moved = true; log('옆으로 이동', 'good'); }
 }
-function resolveCast(){
-  const c = S.boss.cast; S.boss.cast = null;
-  if (c.type === 'bolt') { S.st.bolts++; const r = hit(18, false); S.healer -= 15 * S.d.dmg; log('암흑 화살 적중 (−' + Math.round(r.dmg) + ')', 'bad'); }
-  else {
-    S.st.busters++; const r = hit(50, true); addRage(6);
-    const ok = r.blocked || r.wall || r.ab >= 15;
-    if (ok) { S.st.bustOk++; log('공허 분쇄 버팀 (−' + Math.round(r.dmg) + ')', 'good'); }
-    else { log('공허 분쇄 생으로 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); callout('생으로 맞았어요!', 'bad'); }
-  }
-}
+
+/* ---------- 쫄 ---------- */
 function spawnWave(){
   const n = S.d.adds;
-  for (let i = 0; i < n; i++) S.adds.push({id:++S.addSeq, name:ADD_NAMES[i % ADD_NAMES.length], hp:100, thH:30, thT:0, target:'healer', swing:1.4, age:0, dead:false});
-  callout('쫄 ' + n + '마리 — 천둥벼락!', 'add'); log('쫄 ' + n + '마리 등장, 힐러에게 돌진', 'bad');
+  for (let i = 0; i < n; i++) S.adds.push({id:++S.addSeq, name:ADD_NAMES[i % ADD_NAMES.length], hp:100, thH:30, thT:0, target:S.mode === 'tank' ? 'healer' : 'tank', swing:1.4, age:0, dead:false});
+  if (S.mode === 'tank') { callout('쫄 ' + n + '마리 — ' + A.tc.name + '!', 'add'); log('쫄 ' + n + '마리 등장, 힐러에게 돌진', 'bad'); }
+  else { callout('쫄 ' + n + '마리 — ' + A.aoe.name + '!', 'add'); log('쫄 ' + n + '마리 등장', 'bad'); }
 }
-function step(dt){
-  const d = S.d, st = S.st, b = S.boss;
-  S.t += dt; st.fight += dt;
+
+/* ---------- 진행 ---------- */
+function commonStep(dt){
+  S.t += dt; S.st.fight += dt;
   S.gcd = Math.max(0, S.gcd - dt);
   for (const k in S.cds) S.cds[k] = Math.max(0, S.cds[k] - dt);
-  if (S.sbCharges < 2) { S.sbRe -= dt; if (S.sbRe <= 0) { S.sbCharges++; S.sbRe = S.sbCharges < 2 ? SB_RECHARGE : 0; } }
-  if (S.sb > 0) { st.sb += Math.min(dt, S.sb); S.sb = Math.max(0, S.sb - dt); }
-  S.wall = Math.max(0, S.wall - dt);
   if (S.queued && S.gcd === 0) { const q = S.queued; S.queued = null; if (canUse(q) === true) doUse(q); }
-  addRage(2 * dt);
-  if (S.rage >= 99.9) st.cap += dt;
+  if (S.rage >= 99.9) S.st.cap += dt;
+  if (S.waves.length && S.t >= S.waves[0]) { S.waves.shift(); spawnWave(); }
+  if (S.healer > 0) { let h = 2.5 * S.d.heal; if (S.looseNow) h *= .45; if (S.hp < 40) h *= 1.5; S.hp = Math.min(100, S.hp + h * dt); }
+}
+function stepTank(dt){
+  const d = S.d, st = S.st, b = S.b, T = b.timers;
+  commonStep(dt);
+  if (S.sbCharges < 2) { S.sbRe -= dt; if (S.sbRe <= 0) { S.sbCharges++; S.sbRe = S.sbCharges < 2 ? 8 : 0; } }
+  const tanking = S.boss === 'vel' || S.tanking;
+  if (tanking) { st.tankTime += dt; if (S.sb > 0) st.sb += Math.min(dt, S.sb); }
+  S.sb = Math.max(0, S.sb - dt); S.wall = Math.max(0, S.wall - dt);
+  addRage((tanking ? 2 : 1.2) * dt);
   b.hp -= (100 / d.dur) * .96 * dt;
   b.swing -= dt;
   if (b.swing <= 0) {
     b.swing = 1.5 / d.speed;
-    if (Math.random() < .18) { if (!S.revFree) log('평타 회피 → 복수 무료', 'good'); S.revFree = true; }
-    else { hit(6, true); addRage(4); }
+    if (tanking) {
+      if (Math.random() < .18) { if (!S.revFree) log('평타 회피 → 복수 무료', 'good'); S.revFree = true; }
+      else { hit(6, true); addRage(4); }
+    }
   }
-  if (b.cast) { b.cast.left -= dt; if (b.cast.left <= 0) resolveCast(); }
-  else { b.next -= dt; if (b.next <= 0) startCast(); }
-  if (S.waves.length && S.t >= S.waves[0]) { S.waves.shift(); spawnWave(); }
+  if (S.boss === 'vel') {
+    if (b.cast) { b.cast.left -= dt; if (b.cast.left <= 0) {
+      const c = b.cast; b.cast = null;
+      if (c.type === 'bolt') { st.bolts++; const r = hit(18, false); S.healer -= 15 * d.dmg; log(c.name + ' 적중 (−' + Math.round(r.dmg) + ')', 'bad'); }
+      else { st.busters++; const r = hit(50, true); addRage(6);
+        if (r.blocked || r.wall || r.ab >= 15) { st.bustOk++; log(c.name + ' 버팀 (−' + Math.round(r.dmg) + ')', 'good'); }
+        else { log(c.name + ' 생으로 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); callout('생으로 맞았어요!', 'bad'); } }
+    } }
+    else { T.next -= dt; if (T.next <= 0) { T.next = 9 / d.speed;
+      if (S.pat++ % 2 === 0) { startCast('bolt', '암흑 화살', 2.4, 'kick'); callout('암흑 화살 — ' + A.kick.name + '!', 'bolt'); log('암흑 화살 시전', 'cast'); }
+      else { startCast('smash', '공허 분쇄', 2.6, 'danger'); callout('공허 분쇄 — 생존기!', 'smash'); log('공허 분쇄 시전', 'cast'); } } }
+  } else {
+    // 오르골: 낙인 강타(교대) · 공허 숨결(전방, 이동) · 공허 파동(광역 마법)
+    if (!S.tanking) { S.stkT += dt; if (S.stkT > 12) S.stk = 0; }
+    if (S.tanking) { S.ot.stkT += dt; if (S.ot.stkT > 12) S.ot.stk = 0; }
+    if (S.otTauntAt != null && S.t >= S.otTauntAt) { S.otTauntAt = null; S.tanking = false; log('동료 탱커가 도발해서 보스를 가져감', 'cast'); callout('동료가 가져갔어요 · 낙인이 빠질 때까지 대기', 'info'); }
+    if (!S.tanking) S.ot.hp = Math.min(100, S.ot.hp + 2.2 * dt);
+    else S.ot.hp = Math.min(100, S.ot.hp + 3 * dt);
+    if (b.cast) { b.cast.left -= dt; if (b.cast.left <= 0) {
+      const c = b.cast; b.cast = null;
+      if (c.type === 'strike') {
+        if (S.tanking) { st.busters++; const r = hit(28, true); addRage(6); S.stk++; S.stkT = 0;
+          if (r.blocked || r.wall || r.ab >= 12) { st.bustOk++; log('낙인 강타 버팀 · 낙인 ' + S.stk, 'good'); } else log('낙인 강타 생으로 맞음 · 낙인 ' + S.stk, 'bad');
+          if (S.stk >= 3) { hit(30, false); log('낙인 3중첩 폭발!', 'bad'); callout('낙인 3중첩!', 'bad'); }
+          if (S.stk >= 2) S.otTauntAt = S.t + 1.5;
+        } else { S.ot.stk++; S.ot.stkT = 0; S.ot.hp -= 12 * d.dmg;
+          if (S.ot.stk >= 3) { S.ot.hp -= 45 * d.dmg; st.otBig++; log('동료 탱커 낙인 3중첩 · 도발이 늦었어요', 'bad'); callout('동료가 위험해요 — 도발!', 'bad'); }
+          else if (S.ot.stk >= 2) { callout('동료 낙인 2 — 도발할 타이밍!', 'go'); log('동료 낙인 2중첩', 'cast'); }
+        }
+      } else if (c.type === 'breath') {
+        if (S.tanking) { st.breaths++;
+          if (S.moved) { st.dodged++; log('공허 숨결 피함', 'good'); callout('피했어요!', 'good'); }
+          else { const r = hit(40, false); log('공허 숨결 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); callout('숨결을 맞았어요!', 'bad'); } }
+        else log('동료가 숨결을 피함', '');
+      } else if (c.type === 'wave') { st.waves++; const r = hit(26, false); S.healer -= 10 * d.dmg; S.ot.hp -= 10 * d.dmg;
+        if (r.ab >= 10 || r.wall) { st.waveOk++; log('공허 파동 대비 (−' + Math.round(r.dmg) + ')', 'good'); }
+        else log('공허 파동 생으로 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); }
+    } }
+    else {
+      for (const k in T) T[k] -= dt;
+      if (T.wave <= 0) { T.wave = 22 / d.speed; startCast('wave', '공허 파동', 2.5, 'raid'); callout('공허 파동 — ' + A.ip.name + '!', 'bolt'); log('공허 파동 시전 (마법)', 'cast'); }
+      else if (T.breath <= 0) { T.breath = 15 / d.speed; startCast('breath', '공허 숨결', 2.4, 'move'); if (S.tanking) callout('공허 숨결 — 옆으로 이동(' + MOVE.join('·') + ')!', 'smash'); log('공허 숨결 시전 (전방)', 'cast'); }
+      else if (T.strike <= 0) { T.strike = 9 / d.speed; startCast('strike', '낙인 강타', 1.6, 'danger'); if (S.tanking) callout('낙인 강타 — ' + A.sb.name + '!', 'smash'); log('낙인 강타 시전', 'cast'); }
+    }
+    if (S.ot.hp <= 0) { S.ot.hp = 0; return end(false, '동료 탱커가 쓰러졌어요'); }
+  }
+  // 쫄 (벨라스만)
   let loose = 0;
   for (const a of S.adds) {
     if (a.dead) continue;
@@ -1928,80 +2063,184 @@ function step(dt){
   S.adds = S.adds.filter(a => !a.dead || S.t - a.deadAt < 1.2);
   if (loose) st.loose += dt; else S.healer = Math.min(100, S.healer + 1.5 * dt);
   S.looseNow = loose;
-  if (S.healer > 0) { let h = 2.5 * d.heal; if (loose) h *= .45; if (S.hp < 40) h *= 1.5; S.hp = Math.min(100, S.hp + h * dt); }
+  checkEnd();
+}
+function stepDps(dt){
+  const d = S.d, st = S.st, b = S.b, T = b.timers;
+  commonStep(dt);
+  if (S.charges.rb < 2) { S.recharge.rb -= dt * (S.enrage > 0 ? 1.4 : 1); if (S.recharge.rb <= 0) { S.charges.rb++; S.recharge.rb = S.charges.rb < 2 ? A.rb.recharge : 0; } }
+  if (S.enrage > 0) st.enr += Math.min(dt, S.enrage);
+  S.enrage = Math.max(0, S.enrage - dt); S.reck = Math.max(0, S.reck - dt); S.defBuff = Math.max(0, S.defBuff - dt); S.weak = Math.max(0, S.weak - dt);
+  b.hp -= (100 / d.dur) * .74 * dt;
+  b.swing -= dt;
+  if (b.swing <= 0) { b.swing = 1.5; addRage(6); dealDps(1); if (!S.sd && b.hp >= 20 && Math.random() < .12) { S.sd = true; callout('급살 — ' + A.exe.name + '!', 'go'); log('급살 발동', 'good'); } }
+  if (S.boss === 'vel') {
+    if (b.cast) { b.cast.left -= dt; if (b.cast.left <= 0) { const c = b.cast; b.cast = null; st.bolts++; const r = hit(14, false); S.healer -= 12 * d.dmg; log(c.name + ' 적중 (−' + Math.round(r.dmg) + ')', 'bad'); } }
+    else { T.bolt -= dt; if (T.bolt <= 0) { T.bolt = 11 / d.speed; startCast('bolt', '암흑 화살', 2.2, 'kick'); callout('암흑 화살 — ' + A.kick.name + '!', 'bolt'); log('암흑 화살 시전', 'cast'); } }
+  } else {
+    for (const k in T) if (k !== 'weak' || S.weak <= 0) T[k] -= dt;
+    if (T.weak <= 0) { T.weak = 30; S.weak = 8; st.windows++; callout('약점 노출 — 쿨기!', 'go'); log('약점 노출 8초', 'good'); }
+    if (b.cast) { b.cast.left -= dt; if (b.cast.left <= 0) { const c = b.cast; b.cast = null;
+      if (c.type === 'pool') { st.pools++; if (S.moved) { log('장판 피함', 'good'); } else { st.poolHit++; const r = hit(22, false); log('발밑 장판 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); callout('장판을 밟았어요!', 'bad'); } }
+      else if (c.type === 'wave') { st.waves++; const r = hit(35, false); if (r.dr) { st.waveOk++; log('공허 파동 대비 (−' + Math.round(r.dmg) + ')', 'good'); } else log('공허 파동 생으로 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); }
+    } }
+    else if (T.wave <= 0) { T.wave = 24 / d.speed; startCast('wave', '공허 파동', 2.5, 'raid'); callout('공허 파동 — ' + A.def.name + '!', 'bolt'); log('공허 파동 시전', 'cast'); }
+    else if (T.pool <= 0) { T.pool = rnd(7, 9) / d.speed; startCast('pool', '발밑 공허 웅덩이', 1.6, 'move'); callout('발밑 장판 — 이동(' + MOVE.join('·') + ')!', 'smash'); log('발밑 장판 생성', 'cast'); }
+  }
+  for (const a of S.adds) {
+    if (a.dead) continue;
+    a.age += dt; a.hp -= 5 * dt; st.addAlive += dt;
+    if (a.age > 14 && !a.boom) { a.boom = true; hit(10, false); S.healer -= 6 * d.dmg; log(a.name + ' 폭발 · 쫄을 더 빨리 잡아요', 'bad'); }
+    if (a.hp <= 0) { a.dead = true; a.deadAt = S.t; }
+  }
+  S.adds = S.adds.filter(a => !a.dead || S.t - a.deadAt < 1.2);
+  S.looseNow = 0;
+  if (b.hp < 20 && !S.exeShown) { S.exeShown = true; callout('보스 20% — ' + A.exe.name + ' 구간!', 'go'); }
+  if (b.hp < 20 && S.cds.exe <= 0 && S.gcd <= 0) S.st.exeMiss += dt;
+  checkEnd();
+}
+function checkEnd(){
+  if (S.over) return;
   if (S.hp <= 0) { S.hp = 0; end(false, '내가 쓰러졌어요'); }
   else if (S.healer <= 0) { S.healer = 0; end(false, '힐러가 쓰러졌어요'); }
-  else if (b.hp <= 0) { b.hp = 0; end(true, '보스 처치'); }
+  else if (S.b.hp <= 0) { S.b.hp = 0; end(true, '보스 처치'); }
 }
+
+/* ---------- 결과 ---------- */
 function end(win, reason){
   S.over = true; S.running = false;
-  const st = S.st, up = st.fight ? st.sb / st.fight : 0;
-  const missed = st.bolts - st.kicks, bustFail = st.busters - st.bustOk;
-  let score = 100;
-  score -= 25 * Math.max(0, 1 - up / .65);
-  score -= missed * 8 + bustFail * 12 + st.waste * 3;
-  score -= Math.min(25, st.loose * 1.2);
-  score -= Math.min(10, st.cap * .4);
+  const st = S.st, K = id => A[id] ? A[id].name + '(' + keyText(A[id].key) + ')' : '';
+  let score = 100, rows = [], tips = [];
+  if (S.mode === 'tank') {
+    const up = st.tankTime ? st.sb / st.tankTime : 0;
+    score -= 25 * Math.max(0, 1 - up / .65);
+    score -= (st.busters - st.bustOk) * 10 + Math.min(10, st.cap * .4);
+    rows.push(['방패 올리기 유지율', Math.round(up * 100) + '%', up >= .65 ? 'good' : up < .45 ? 'bad' : '']);
+    rows.push([S.boss === 'vel' ? '공허 분쇄 대비' : '낙인 강타 대비', st.bustOk + ' / ' + st.busters, st.busters - st.bustOk ? 'bad' : 'good']);
+    if (S.boss === 'vel') {
+      const missed = st.bolts - st.kicks;
+      score -= missed * 8 + st.waste * 3 + Math.min(25, st.loose * 1.2);
+      rows.push(['암흑 화살 차단', st.kicks + ' / ' + st.bolts, missed ? 'bad' : 'good'], ['힐러가 쫄에 맞은 시간', st.loose.toFixed(1) + '초', st.loose > 6 ? 'bad' : 'good']);
+      if (missed) tips.push(`보라색 시전바가 뜨면 바로 ${K('kick')}. 쿨이 15초라 다음 화살 전에 돌아와요.`);
+      if (st.loose > 6) tips.push(`쫄이 나오면 ${K('tc')}부터, 그다음 ${K('rev')}. 남은 쫄은 ${K('taunt')}로 하나씩 끌어와요.`);
+    } else {
+      const missSwap = st.otBig, dodgeMiss = st.breaths - st.dodged, waveMiss = st.waves - st.waveOk;
+      score -= missSwap * 12 + st.early * 6 + dodgeMiss * 8 + waveMiss * 6;
+      rows.push(['탱 교대 성공', st.swapOk + ' / ' + (st.swapOk + missSwap + st.early), missSwap || st.early ? 'bad' : 'good'], ['공허 숨결 피함', st.dodged + ' / ' + st.breaths, dodgeMiss ? 'bad' : 'good'], ['공허 파동 대비', st.waveOk + ' / ' + st.waves, waveMiss ? 'bad' : 'good']);
+      if (missSwap) tips.push(`동료의 낙인이 2가 되면 바로 ${K('taunt')}. 3이 되면 동료가 큰 피해를 받아요.`);
+      if (st.early) tips.push('내 낙인이 다 빠진 뒤(내 낙인 0, 동료 낙인 2)에 도발하세요. 너무 빨리 가져오면 내 낙인이 3까지 쌓여요.');
+      if (dodgeMiss) tips.push(`공허 숨결 시전바가 뜨면 이동 키(${MOVE.join('·')}) 중 하나로 옆으로 비켜요.`);
+      if (waveMiss) tips.push(`공허 파동은 마법이라 방패 올리기로 못 막아요. 시전 중에 ${K('ip')}를 미리 써요.`);
+    }
+    if (st.busters - st.bustOk) tips.push(`탱커 버스터 시전바가 다 차기 전에 ${K('sb')}가 켜져 있는지 보세요. 충전이 없으면 ${K('wall')}나 ${K('ip')}로 대신해요.`);
+    if (up < .5) tips.push('방패 올리기는 꺼지기 전에 미리 겹쳐 써도 돼요(최대 12초). 분노 30을 항상 남겨 두는 습관이 핵심이에요.');
+    if (st.cap > 8) rows.push(['분노 100 넘친 시간', st.cap.toFixed(1) + '초', 'bad']), tips.push(`분노가 넘쳤어요. 남는 분노는 ${K('ip')}로.`);
+  } else {
+    const dps = S.dmg / Math.max(1, st.fight), target = 6, enr = st.fight ? st.enr / st.fight : 0;
+    score = 40 * Math.min(1, dps / target) + 20 * Math.min(1, enr / .6) + 40;
+    score -= Math.min(15, st.cap * .5);
+    rows.push(['초당 피해', dps.toFixed(1) + ' / 목표 ' + target, dps >= target ? 'good' : dps < target * .75 ? 'bad' : ''], ['격노 유지율', Math.round(enr * 100) + '%', enr >= .6 ? 'good' : enr < .4 ? 'bad' : '']);
+    if (S.boss === 'vel') {
+      const missed = st.bolts - st.kicks; score -= missed * 6 + st.waste * 2 + Math.min(10, st.cleaveWaste * 1.5);
+      rows.push(['암흑 화살 차단', st.kicks + ' / ' + st.bolts, missed ? 'bad' : 'good'], ['쫄 있을 때 광역 놓침', Math.round(st.cleaveWaste) + '회', st.cleaveWaste > 2 ? 'bad' : 'good']);
+      if (missed) tips.push(`보라색 시전바는 딜러도 끊어요. ${K('kick')}`);
+      if (st.cleaveWaste > 2) tips.push(`쫄이 나오면 ${K('aoe')}를 먼저 눌러야 다음 공격 2번이 쫄까지 때려요.`);
+    } else {
+      const hitP = st.poolHit, waveMiss = st.waves - st.waveOk;
+      score -= hitP * 6 + waveMiss * 6 + Math.max(0, st.windows - st.windowCd) * 4;
+      rows.push(['장판 피함', (st.pools - hitP) + ' / ' + st.pools, hitP ? 'bad' : 'good'], ['공허 파동 대비', st.waveOk + ' / ' + st.waves, waveMiss ? 'bad' : 'good'], ['약점 노출에 쿨기', st.windowCd + ' / ' + st.windows, st.windowCd < st.windows ? 'bad' : 'good']);
+      if (hitP) tips.push(`발밑 장판 시전바가 뜨면 이동 키(${MOVE.join('·')})로 바로 비켜요. 딜보다 먼저예요.`);
+      if (waveMiss) tips.push(`공허 파동 시전 중에 ${K('def')}를 켜 두세요.`);
+      if (st.windowCd < st.windows) tips.push(`약점 노출(피해 1.5배) 때 ${K('burst')}·${K('reck')}를 몰아 써요.`);
+    }
+    if (enr < .5) tips.push(`분노 80이 모이면 ${K('ramp')}로 격노를 켜요. 격노 중엔 ${K('rb')} 충전이 빨라져요.`);
+    if (dps < target * .8) tips.push(`쉬는 시간이 없게 ${K('bt')} → ${K('rb')} 순서로 계속 눌러요.`);
+    if (st.cap > 6) rows.push(['분노 100 넘친 시간', st.cap.toFixed(1) + '초', 'bad']);
+  }
   if (!win) score = Math.min(score, 45);
   score = Math.max(0, Math.round(score));
   const grade = score >= 90 ? 'S' : score >= 80 ? 'A' : score >= 65 ? 'B' : score >= 50 ? 'C' : 'D';
-  const best = store().best, prev = best[diffKey], isBest = prev == null || score > prev;
-  if (isBest) { best[diffKey] = score; persist(); }
+  const bk = S.mode + '-' + S.boss + '-' + diffKey, best = store().best, prev = best[bk], isBest = prev == null || score > prev;
+  if (isBest) { best[bk] = score; persist(); }
   callout(win ? '보스 처치!' : '전멸', win ? 'go' : 'bad');
   $('grade').textContent = grade;
   $('endTitle').textContent = win ? '보스 처치' : '전멸 · ' + reason;
-  $('endSub').textContent = DIFF[diffKey].name + ' · ' + fmt(S.t) + ' · 점수 ' + score + (isBest ? ' (최고 기록)' : ' (최고 ' + prev + ')');
-  const rows = [
-    ['방패 올리기 유지율', Math.round(up * 100) + '%', up >= .65 ? 'good' : up < .45 ? 'bad' : ''],
-    ['암흑 화살 차단', st.kicks + ' / ' + st.bolts, missed ? 'bad' : 'good'],
-    ['공허 분쇄 대비', st.bustOk + ' / ' + st.busters, bustFail ? 'bad' : 'good'],
-    ['힐러가 쫄에 맞은 시간', st.loose.toFixed(1) + '초', st.loose > 6 ? 'bad' : 'good'],
-    ['분노 100 넘친 시간', st.cap.toFixed(1) + '초', st.cap > 8 ? 'bad' : ''],
-    ['헛손질 들이치기', st.waste + '회', st.waste ? 'bad' : ''],
-  ];
+  $('endSub').textContent = BOSS[S.boss].name + ' · ' + DIFF[diffKey].name + ' · ' + fmt(S.t) + ' · 점수 ' + score + (isBest ? ' (최고 기록)' : ' (최고 ' + prev + ')');
   $('stats').innerHTML = rows.map(r => `<div class="tr-stat"><span>${r[0]}</span><b class="${r[2]}">${r[1]}</b></div>`).join('');
-  const b = binds(), K = id => keyText(b[id]);
-  const tips = [];
-  if (bustFail) tips.push(`공허 분쇄 시전바가 다 차기 전에 방패 올리기(${K('sb')})가 켜져 있는지 보세요. 충전이 없으면 방패의 벽(${K('wall')})이나 고통 감내(${K('ip')})로 대신해요.`);
-  if (missed) tips.push(`보라색 시전바가 뜨면 바로 들이치기(${K('kick')}). 쿨이 15초라 다음 화살 전에 돌아오니, 아무 때나 누르지 마세요.`);
-  if (st.loose > 6) tips.push(`쫄이 나오면 천둥벼락(${K('tc')})부터, 그다음 복수(${K('rev')}). 그래도 힐러로 가는 쫄은 도발(${K('taunt')})로 하나씩 끌어와요.`);
-  if (up < .5) tips.push('방패 올리기는 버프가 꺼지기 전에 미리 겹쳐 써도 돼요(최대 12초). 분노 30을 항상 남겨 두는 습관이 핵심이에요.');
-  if (st.cap > 8) tips.push('분노가 100에서 넘친 시간이 길어요. 방패 올리기를 켠 뒤 남는 분노는 고통 감내로.');
   if (!tips.length) tips.push(diffKey === 'hard' ? '깔끔해요. 이 키 그대로 게임에서도 손에 익혀 보세요.' : '깔끔해요. 한 단계 높은 난이도에 도전해 보세요.');
   $('tips').innerHTML = tips.slice(0, 2).map(t => `<li>${t}</li>`).join('');
   setTimeout(() => { $('endOv').hidden = false; $('againBtn').focus({preventScroll:true}); }, 900);
 }
+
+/* ---------- 화면 ---------- */
 const btns = {};
 function buildBar(){
   const bar = $('actionbar'); bar.innerHTML = '';
+  bar.style.setProperty('--n', ABIL.length);
   ABIL.forEach(a => {
-    const cell = document.createElement('div'); cell.className = 'tr-cell';
-    cell.innerHTML = `<button class="tr-ab" type="button" style="--tint:${a.tint}" aria-label="${a.name}"><span class="k"></span><span class="nm">${a.name}</span><span class="sweep"></span><span class="cdt"></span><span class="chg"></span></button>`;
-    const b = cell.querySelector('.tr-ab');
+    const b = document.createElement('button');
+    b.className = 'tr-ab'; b.type = 'button'; b.setAttribute('aria-label', a.name);
+    b.innerHTML = `<span class="k"></span><span class="nm">${a.name}</span><span class="sweep"></span><span class="cdt"></span><span class="chg"></span>`;
     b.addEventListener('click', () => { pressFx(a.id); tryUse(a.id); });
-    bar.appendChild(cell);
+    bar.appendChild(b);
     btns[a.id] = {el:b, key:b.querySelector('.k'), cdt:b.querySelector('.cdt'), chg:b.querySelector('.chg'), sweep:b.querySelector('.sweep')};
   });
+  const mv = document.createElement('div'); mv.className = 'tr-move';
+  mv.innerHTML = `<span>이동</span>${MOVE.map(k => `<button type="button" class="tr-kbd" data-move="${k}">${k}</button>`).join('')}`;
+  mv.querySelectorAll('[data-move]').forEach(x => x.addEventListener('click', move));
+  bar.appendChild(mv);
   refreshKeys();
 }
-function refreshKeys(){ const b = binds(); ABIL.forEach(a => btns[a.id].key.textContent = keyText(b[a.id])); }
-function pressFx(id){ const e = btns[id].el; e.classList.add('pressed'); setTimeout(() => e.classList.remove('pressed'), 90); }
-function denyBtn(id){ const e = btns[id].el; e.classList.add('deny'); setTimeout(() => e.classList.remove('deny'), 250); }
+function refreshKeys(){ ABIL.forEach(a => btns[a.id] && (btns[a.id].key.textContent = keyText(a.key))); }
+function pressFx(id){ const e = btns[id] && btns[id].el; if (!e) return; e.classList.add('pressed'); setTimeout(() => e.classList.remove('pressed'), 90); }
+function denyBtn(id){ const e = btns[id] && btns[id].el; if (!e) return; e.classList.add('deny'); setTimeout(() => e.classList.remove('deny'), 250); }
+function rulesFor(){
+  const K = id => `<b>${A[id].name}</b>(${keyText(A[id].key)})`;
+  const mv = `이동 키(${MOVE.join('·')})`;
+  if (mode === 'tank' && bossKey === 'vel') return [
+    ['main', `${K('sb')}를 최대한 켜 두세요. 보스 평타 피해가 절반이 돼요.`],
+    ['a1', `보라색 <b>암흑 화살</b> 시전바가 뜨면 ${K('kick')}로 차단해요.`],
+    ['a3', `빨간 <b>공허 분쇄</b>(탱커 버스터)는 방패 올리기, 방패의 벽, 고통 감내 중 하나로 대비해요.`],
+    ['a2', `쫄은 힐러에게 달려가요. ${K('tc')}·${K('rev')}로 광역 어그로, 남은 쫄은 ${K('taunt')}.`]];
+  if (mode === 'tank') return [
+    ['a3', `<b>낙인 강타</b>를 맞을 때마다 낙인이 1씩 쌓여요. 2가 되면 동료 탱커가 보스를 가져가요.`],
+    ['main', `동료 낙인이 2가 되고 내 낙인이 빠지면 ${K('taunt')}로 다시 가져와요. 이게 탱 교대예요.`],
+    ['a1', `<b>공허 숨결</b>(전방) 시전바가 뜨면 ${mv}로 옆으로 비켜요. 보스를 잡고 있을 때만 나를 노려요.`],
+    ['a2', `<b>공허 파동</b>은 마법이라 방패 올리기로 못 막아요. ${K('ip')}나 ${K('wall')}로 대비해요.`]];
+  if (bossKey === 'vel') return [
+    ['main', `${K('bt')} → ${K('rb')}를 쉬지 않고, 분노 80이 모이면 ${K('ramp')}로 격노를 켜요.`],
+    ['a1', `보라색 <b>암흑 화살</b>은 딜러도 ${K('kick')}로 끊어요.`],
+    ['a2', `쫄이 나오면 ${K('aoe')} 먼저. 다음 공격 2번이 쫄까지 때려요. 14초 넘게 살아 있으면 폭발해요.`],
+    ['a3', `급살이 뜨거나 보스가 20% 이하면 ${K('exe')}.`]];
+  return [
+    ['a3', `<b>발밑 장판</b> 시전바가 뜨면 ${mv}로 바로 비켜요. 딜보다 먼저예요.`],
+    ['a1', `<b>공허 파동</b> 시전 중에 ${K('def')}를 켜 두세요.`],
+    ['main', `<b>약점 노출</b>(8초, 피해 1.5배) 때 ${K('burst')}·${K('reck')}를 몰아 써요.`],
+    ['a2', `평소엔 ${K('bt')} → ${K('rb')}, 분노 80이면 ${K('ramp')}.`]];
+}
 let rebinding = null;
 function buildSetup(){
-  const b = binds(), custom = store().binds;
+  const t = store(), custom = t.binds[mode];
+  document.querySelectorAll('[data-trmode]').forEach(b => b.setAttribute('aria-pressed', b.dataset.trmode === mode));
+  $('title').textContent = mode === 'tank' ? '탱커 연습' : '딜러 연습';
+  $('sub').textContent = MODES[mode].who + ' · ' + BOSS[bossKey].name + ' · 키 배치 탭의 ' + MODES[mode].who + ' 단축키 그대로';
+  $('bossSeg').innerHTML = MODES[mode].bosses.map(k => `<button type="button" data-boss="${k}" aria-pressed="${k === bossKey}">${BOSS[k].name}<small>${BOSS[k].tag}</small></button>`).join('');
+  $('bossSeg').querySelectorAll('button').forEach(x => x.addEventListener('click', () => { bossKey = x.dataset.boss; t.boss = bossKey; persist(); reset(); }));
   $('diffSeg').innerHTML = Object.entries(DIFF).map(([k, d]) => `<button type="button" data-d="${k}" aria-pressed="${k === diffKey}">${d.name}<small>${d.note}</small></button>`).join('');
-  $('diffSeg').querySelectorAll('button').forEach(x => x.addEventListener('click', () => { diffKey = x.dataset.d; store().diff = diffKey; persist(); buildSetup(); newGame(); draw(); }));
-  $('binds').innerHTML = ABIL.map(a => `<div class="tr-bind"><span>${a.name}<small>${a.hint}</small></span><button class="tr-kbd${rebinding === a.id ? ' wait' : ''}${custom[a.id] ? ' custom' : ''}" type="button" data-id="${a.id}">${rebinding === a.id ? '입력…' : keyText(b[a.id])}</button></div>`).join('');
-  $('binds').querySelectorAll('.tr-kbd').forEach(x => x.addEventListener('click', () => { rebinding = x.dataset.id; buildSetup(); }));
-  const best = store().best, bl = Object.entries(DIFF).filter(([k]) => best[k] != null).map(([k, d]) => d.name + ' ' + best[k] + '점');
-  $('bestLine').textContent = (bl.length ? '최고 기록 · ' + bl.join(' · ') + ' · ' : '') + '기본 단축키는 키 배치 탭의 방어 전사 배치를 따라가요. 특성을 바꾸면 여기도 바뀌어요.';
+  $('diffSeg').querySelectorAll('button').forEach(x => x.addEventListener('click', () => { diffKey = x.dataset.d; t.diff = diffKey; persist(); reset(); }));
+  $('rules').innerHTML = rulesFor().map(([c, h]) => `<li><span class="tr-dot" style="background:var(--${c})"></span><span>${h}</span></li>`).join('');
+  $('binds').innerHTML = ABIL.map(a => `<div class="tr-bind"><span>${a.name}<small>${a.hint}</small></span><button class="tr-kbd${rebinding === a.id ? ' wait' : ''}${custom[a.id] ? ' custom' : ''}" type="button" data-id="${a.id}">${rebinding === a.id ? '입력…' : keyText(a.key)}</button></div>`).join('') + `<div class="tr-bind"><span>이동<small>회피 패턴에서 옆으로 비키기</small></span><span class="tr-kbd static">${MOVE.join(' ')}</span></div>`;
+  $('binds').querySelectorAll('button.tr-kbd').forEach(x => x.addEventListener('click', () => { rebinding = x.dataset.id; buildSetup(); }));
+  const bl = Object.entries(DIFF).filter(([k]) => t.best[mode + '-' + bossKey + '-' + k] != null).map(([k, d]) => d.name + ' ' + t.best[mode + '-' + bossKey + '-' + k] + '점');
+  $('bestLine').textContent = (bl.length ? '최고 기록 · ' + bl.join(' · ') + ' · ' : '') + '특성을 바꾸면 여기 키도 같이 바뀌어요.';
   $('diffChip').textContent = DIFF[diffKey].name;
+  $('meName').innerHTML = '나<small>' + MODES[mode].who + '</small>';
   refreshKeys();
 }
-$('resetBinds').addEventListener('click', () => { store().binds = {}; persist(); rebinding = null; buildSetup(); });
+function reset(){ buildAbil(); newGame(); buildBar(); buildSetup(); plates.forEach(p => p.remove()); plates.clear(); draw(); }
+$('resetBinds').addEventListener('click', () => { store().binds[mode] = {}; persist(); rebinding = null; reset(); });
 function startGame(){
-  newGame(); S.running = true; S.countdown = 3;
+  buildAbil(); newGame(); refreshKeys(); S.running = true; S.countdown = 3;
   plates.forEach(p => p.remove()); plates.clear();
   ['startOv','endOv','pauseOv'].forEach(id => $(id).hidden = true);
   rebinding = null; callout('3', 'info');
@@ -2013,13 +2252,17 @@ function setPause(p){
   $('pauseBtn').textContent = p ? '계속' : '일시정지';
   if (p) $('resumeBtn').focus({preventScroll:true});
 }
-function toSetup(){ S.running = false; S.paused = false; ['endOv','pauseOv'].forEach(id => $(id).hidden = true); $('startOv').hidden = false; $('pauseBtn').textContent = '일시정지'; newGame(); buildSetup(); }
+function toSetup(){ S.running = false; S.paused = false; ['endOv','pauseOv'].forEach(id => $(id).hidden = true); $('startOv').hidden = false; $('pauseBtn').textContent = '일시정지'; reset(); }
 $('startBtn').addEventListener('click', startGame);
 $('againBtn').addEventListener('click', startGame);
 $('setupBtn').addEventListener('click', toSetup);
 $('pauseBtn').addEventListener('click', () => setPause(!S.paused));
 $('resumeBtn').addEventListener('click', () => setPause(false));
 $('quitBtn').addEventListener('click', toSetup);
+document.querySelectorAll('[data-trmode]').forEach(b => b.addEventListener('click', () => {
+  if (S.running && !S.over) return errMsg('전투 중에는 바꿀 수 없어요.');
+  mode = b.dataset.trmode; store().mode = mode; persist(); $('startOv').hidden = false; $('endOv').hidden = true; reset();
+}));
 document.addEventListener('visibilitychange', () => { if (document.hidden) setPause(true); });
 const active = () => !document.getElementById('v-practice').hidden;
 addEventListener('keydown', e => {
@@ -2027,10 +2270,10 @@ addEventListener('keydown', e => {
   if (rebinding) {
     e.preventDefault();
     const k = evKey(e);
-    if (k && !['E','S','D','F'].includes(k)) {
-      const id = rebinding, cur = binds(), c = store().binds;
-      for (const other in cur) if (other !== id && cur[other] === k) c[other] = cur[id];
-      c[id] = k; persist();
+    if (k && !MOVE.includes(k)) {
+      const id = rebinding, c = store().binds[mode];
+      ABIL.forEach(o => { if (o.id !== id && o.key === k) c[o.id] = A[id].key; });
+      c[id] = k; persist(); buildAbil();
     }
     if (k || e.code === 'Escape' || e.code === 'Enter') { rebinding = null; buildSetup(); }
     return;
@@ -2038,89 +2281,137 @@ addEventListener('keydown', e => {
   if (!$('startOv').hidden || !$('endOv').hidden) { if (e.code === 'Enter') { e.preventDefault(); startGame(); } return; }
   if (e.code === 'Escape') { e.preventDefault(); setPause(!S.paused); return; }
   const k = evKey(e); if (!k) return;
-  const b = binds(), a = ABIL.find(x => b[x.id] === k);
+  if (MOVE.includes(k)) { e.preventDefault(); move(); return; }
+  const a = ABIL.find(x => x.key === k);
   if (a) { e.preventDefault(); if (!e.repeat) pressFx(a.id); tryUse(a.id); }
 });
 const plates = new Map();
 const setW = (el, pct) => { el.style.width = Math.max(0, Math.min(100, pct)) + '%'; };
+function plate(id, html){ let el = plates.get(id); if (!el) { el = document.createElement('div'); el.className = 'tr-plate'; el.innerHTML = html; $('adds').appendChild(el); plates.set(id, el); } return el; }
 function draw(){
-  const b = S.boss;
+  const b = S.b;
   $('timer').textContent = fmt(S.t);
+  $('bossName').textContent = BOSS[S.boss].name;
   setW($('bossHp').firstElementChild, b.hp); $('bossPct').textContent = Math.max(0, Math.ceil(b.hp)) + '%';
   const castEl = $('cast');
   if (b.cast) {
-    const c = CASTS[b.cast.type];
-    castEl.className = 'tr-cast ' + b.cast.type;
+    castEl.className = 'tr-cast ' + b.cast.kind;
     setW(castEl.firstElementChild, (1 - b.cast.left / b.cast.total) * 100);
-    $('castName').textContent = c.name + (c.kick ? ' · 차단 가능' : ' · 차단 불가');
+    const tag = {kick:' · 차단 가능', danger:' · 탱커 버스터', move:' · 이동해서 피하기', raid:' · 광역 마법'}[b.cast.kind] || '';
+    $('castName').textContent = b.cast.name + tag;
     $('castTime').textContent = Math.max(0, b.cast.left).toFixed(1);
   } else {
     castEl.className = 'tr-cast idle'; setW(castEl.firstElementChild, 0);
     $('castName').textContent = S.running ? '다음 시전 대기' : '시전 없음';
-    $('castTime').textContent = S.running && S.countdown <= 0 ? b.next.toFixed(1) + '초' : '';
+    $('castTime').textContent = '';
   }
-  const ids = new Set(S.adds.map(a => a.id));
-  plates.forEach((el, id) => { if (!ids.has(id)) { el.remove(); plates.delete(id); } });
+  // 위쪽 칸: 쫄 / 동료 탱커 / 약점 노출
+  const want = new Set();
+  if (S.mode === 'tank' && S.boss === 'orgol') {
+    want.add('ot');
+    const el = plate('ot', `<div class="tr-row"><b>동료 탱커</b><span class="tr-tgt"></span></div><div class="tr-bar tr-hp"><i></i></div><div class="tr-threat"><span class="tr-stk"></span></div>`);
+    el.classList.add('ally'); el.classList.toggle('loose', S.ot.stk >= 2 && !S.tanking);
+    el.querySelector('.tr-tgt').textContent = S.tanking ? '대기' : '보스 잡는 중';
+    el.querySelector('.tr-tgt').className = 'tr-tgt ' + (S.tanking ? '' : 'tank');
+    setW(el.querySelector('.tr-hp>i'), S.ot.hp);
+    el.querySelector('.tr-stk').textContent = '낙인 ' + S.ot.stk + (S.ot.stk >= 2 && !S.tanking ? ' · 지금 도발!' : '');
+    want.add('me');
+    const me = plate('me', `<div class="tr-row"><b>내 낙인</b><span class="tr-tgt"></span></div><div class="tr-stks"></div>`);
+    me.classList.add('ally');
+    me.querySelector('.tr-tgt').textContent = S.tanking ? '보스 잡는 중' : '대기';
+    me.querySelector('.tr-tgt').className = 'tr-tgt ' + (S.tanking ? 'tank' : '');
+    me.querySelector('.tr-stks').innerHTML = [0,1,2].map(i => `<i class="${i < S.stk ? 'on' : ''}"></i>`).join('') + `<span>${S.stk ? (S.tanking ? '쌓이는 중' : Math.max(0, 12 - S.stkT).toFixed(0) + '초 뒤 사라짐') : '없음'}</span>`;
+  }
+  if (S.mode === 'dps' && S.boss === 'orgol') {
+    want.add('weak');
+    const el = plate('weak', `<div class="tr-row"><b>약점 노출</b><span class="tr-tgt"></span></div><div class="tr-bar tr-hp"><i></i></div><div class="tr-threat"><span class="tr-wk"></span></div>`);
+    el.classList.add('ally'); el.classList.toggle('glowing', S.weak > 0);
+    el.querySelector('.tr-tgt').textContent = S.weak > 0 ? S.weak.toFixed(1) + '초' : '';
+    setW(el.querySelector('.tr-hp>i'), S.weak / 8 * 100);
+    el.querySelector('.tr-wk').textContent = S.weak > 0 ? '피해 1.5배 · 쿨기 지금!' : S.running ? '다음 약점까지 ' + Math.ceil(S.b.timers.weak) + '초' : '30초마다 8초';
+  }
   S.adds.forEach(a => {
-    let el = plates.get(a.id);
-    if (!el) {
-      el = document.createElement('div'); el.className = 'tr-plate';
-      el.innerHTML = `<div class="tr-row"><b>${a.name}</b><span class="tr-tgt"></span></div><div class="tr-bar tr-hp"><i></i></div><div class="tr-threat"><span>내 위협</span><div class="tr-bar"><i></i></div></div>`;
-      $('adds').appendChild(el); plates.set(a.id, el);
-    }
-    const loose = !a.dead && a.target === 'healer';
-    el.classList.toggle('loose', loose); el.classList.toggle('dead', a.dead);
+    want.add('a' + a.id);
+    const el = plate('a' + a.id, `<div class="tr-row"><b>${a.name}</b><span class="tr-tgt"></span></div><div class="tr-bar tr-hp"><i></i></div>` + (S.mode === 'tank' ? `<div class="tr-threat"><span>내 위협</span><div class="tr-bar"><i></i></div></div>` : `<div class="tr-threat"><span class="tr-boom"></span></div>`));
+    const loose = !a.dead && S.mode === 'tank' && a.target === 'healer';
+    el.classList.toggle('loose', loose || (S.mode === 'dps' && !a.dead && a.age > 10)); el.classList.toggle('dead', a.dead);
     const t = el.querySelector('.tr-tgt');
-    t.className = 'tr-tgt ' + (a.dead ? '' : a.target);
-    t.textContent = a.dead ? '처치' : loose ? '→ 힐러!' : '→ 나';
+    t.className = 'tr-tgt ' + (a.dead ? '' : S.mode === 'tank' ? a.target : '');
+    t.textContent = a.dead ? '처치' : S.mode === 'tank' ? (loose ? '→ 힐러!' : '→ 나') : '';
     setW(el.querySelector('.tr-hp>i'), a.hp);
-    setW(el.querySelector('.tr-threat .tr-bar>i'), a.thT / (a.thT + a.thH) * 100);
+    if (S.mode === 'tank') setW(el.querySelector('.tr-threat .tr-bar>i'), a.thT / (a.thT + a.thH) * 100);
+    else el.querySelector('.tr-boom').textContent = a.dead ? '' : a.boom ? '폭발함' : '폭발까지 ' + Math.max(0, Math.ceil(14 - a.age)) + '초';
   });
+  plates.forEach((el, id) => { if (!want.has(id)) { el.remove(); plates.delete(id); } });
   const empty = $('addsEmpty');
   empty.hidden = plates.size > 0;
   if (!plates.size) empty.textContent = S.waves.length ? (S.running ? '다음 쫄까지 ' + Math.ceil(S.waves[0] - S.t) + '초' : '쫄은 ' + S.waves.length + '번 몰려와요') : '남은 쫄 없음';
+  // 나
   const tHp = $('tankHp'); setW(tHp.firstElementChild, S.hp); tHp.classList.toggle('low', S.hp < 35);
   $('tankPct').textContent = Math.max(0, Math.ceil(S.hp)) + '%';
-  setW($('absorbBar').firstElementChild, S.absorb / IP_CAP * 100);
+  $('absorbBar').hidden = S.mode !== 'tank';
+  setW($('absorbBar').firstElementChild, S.absorb / 30 * 100);
   setW($('rageBar').firstElementChild, S.rage); $('rageTxt').textContent = Math.floor(S.rage);
-  const bSb = $('bSb');
-  bSb.textContent = '방패 올리기 ' + (S.sb > 0 ? S.sb.toFixed(1) + '초' : '꺼짐');
-  bSb.className = 'tr-buff ' + (S.sb > 0 ? 'on' : (S.running && S.countdown <= 0 ? 'warn' : ''));
-  $('bIp').textContent = '보호막 ' + Math.round(S.absorb); $('bIp').className = 'tr-buff' + (S.absorb > 0 ? ' on' : '');
-  $('bWall').textContent = '방패의 벽 ' + (S.wall > 0 ? S.wall.toFixed(1) + '초' : '—'); $('bWall').className = 'tr-buff' + (S.wall > 0 ? ' on' : '');
-  $('bRev').className = 'tr-buff' + (S.revFree ? ' on' : '');
+  const live = S.running && S.countdown <= 0, buffs = [];
+  if (S.mode === 'tank') {
+    const tk = S.boss === 'vel' || S.tanking;
+    buffs.push([A.sb.name + ' ' + (S.sb > 0 ? S.sb.toFixed(1) + '초' : '꺼짐'), S.sb > 0 ? 'on' : (live && tk ? 'warn' : '')]);
+    buffs.push(['보호막 ' + Math.round(S.absorb), S.absorb > 0 ? 'on' : '']);
+    buffs.push([A.wall.name + ' ' + (S.wall > 0 ? S.wall.toFixed(1) + '초' : '—'), S.wall > 0 ? 'on' : '']);
+    buffs.push(['무료 ' + A.rev.name, S.revFree ? 'on' : '']);
+  } else {
+    buffs.push(['격노 ' + (S.enrage > 0 ? S.enrage.toFixed(1) + '초' : '꺼짐'), S.enrage > 0 ? 'on' : (live ? 'warn' : '')]);
+    buffs.push(['광역 ' + S.cleave + '회', S.cleave > 0 ? 'on' : (live && liveAdds().length ? 'warn' : '')]);
+    buffs.push(['급살', S.sd ? 'on' : '']);
+    buffs.push([A.reck.name + (S.reck > 0 ? ' ' + S.reck.toFixed(1) + '초' : ''), S.reck > 0 ? 'on' : '']);
+    buffs.push([A.def.name + (S.defBuff > 0 ? ' ' + S.defBuff.toFixed(1) + '초' : ''), S.defBuff > 0 ? 'on' : '']);
+  }
+  $('buffs').innerHTML = buffs.map(([t, c]) => `<span class="tr-buff ${c}">${t}</span>`).join('');
   const hHp = $('healHp'); setW(hHp.firstElementChild, S.healer); hHp.classList.toggle('low', S.healer < 35);
   $('healPct').textContent = Math.max(0, Math.ceil(S.healer)) + '%';
   const hs = $('healStatus');
   if (S.looseNow) { hs.textContent = '쫄 ' + S.looseNow + '마리에게 맞는 중! 치유량 감소'; hs.className = 'tr-hs bad'; }
-  else { hs.textContent = '탱커를 치유하는 중'; hs.className = 'tr-hs'; }
+  else { hs.textContent = S.mode === 'tank' ? '탱커를 치유하는 중' : '공대를 치유하는 중'; hs.className = 'tr-hs'; }
   if (S.logDirty) {
     $('log').innerHTML = S.log.length ? S.log.map(l => `<li class="${l.kind}"><span class="tr-mono">${fmt(l.t)}</span><span>${l.text}</span></li>`).join('') : '<li><span>전투를 시작하면 여기에 기록돼요.</span></li>';
     S.logDirty = false;
   }
-  const casting = b.cast && b.cast.type;
+  const c = b.cast;
   ABIL.forEach(a => {
-    const B = btns[a.id];
+    const B = btns[a.id]; if (!B) return;
     let rem = 0, tot = 1, isG = false;
-    if (a.id === 'sb') { if (S.sbCharges < 1) { rem = S.sbRe; tot = SB_RECHARGE; } }
-    else { rem = S.cds[a.id]; tot = a.cd || 1; if (a.gcd && S.gcd > rem) { rem = S.gcd; tot = GCD; isG = true; } }
+    if (a.id === 'sb' && S.mode === 'tank') { if (S.sbCharges < 1) { rem = S.sbRe; tot = 8; } }
+    else if (a.id === 'rb' && S.mode === 'dps') { if (S.charges.rb < 1) { rem = S.recharge.rb; tot = a.recharge; } }
+    else { rem = S.cds[a.id] || 0; tot = a.cd || 1; if (a.gcd && S.gcd > rem) { rem = S.gcd; tot = 1; isG = true; } }
     B.sweep.style.setProperty('--p', rem > 0 ? rem / tot : 0);
     B.cdt.textContent = rem > 0 && !isG ? (rem >= 3 ? Math.ceil(rem) : rem.toFixed(1)) : '';
-    B.chg.textContent = a.id === 'sb' ? S.sbCharges : '';
+    B.chg.textContent = a.id === 'sb' && S.mode === 'tank' ? S.sbCharges : a.id === 'rb' && S.mode === 'dps' ? S.charges.rb : '';
     const cost = a.id === 'rev' && S.revFree ? 0 : a.cost;
-    B.el.classList.toggle('nomana', S.rage < cost);
+    B.el.classList.toggle('nomana', S.rage < cost || (a.id === 'exe' && S.mode === 'dps' && !(b.hp < 20 || S.sd)));
     let glow = false;
-    if (S.running && S.countdown <= 0) {
-      if (a.id === 'kick') glow = casting === 'bolt' && S.cds.kick <= 0;
-      if (a.id === 'rev') glow = S.revFree;
-      if (a.id === 'sb') glow = (casting === 'smash' && S.sb < b.cast.left + .1 && S.sbCharges > 0) || (S.sb <= 0 && S.sbCharges > 0 && S.rage >= 30);
-      if (a.id === 'wall') glow = casting === 'smash' && S.sb < b.cast.left + .1 && S.cds.wall <= 0 && S.sbCharges < 1;
-      if (a.id === 'tc') glow = S.looseNow > 0 && S.cds.tc <= 0;
-      if (a.id === 'taunt') glow = S.looseNow > 0 && S.cds.taunt <= 0;
-      if (a.id === 'ip') glow = S.rage >= 90;
+    if (live) {
+      if (a.id === 'kick') glow = c && c.kind === 'kick' && S.cds.kick <= 0;
+      if (S.mode === 'tank') {
+        const tk = S.boss === 'vel' || S.tanking;
+        if (a.id === 'rev') glow = S.revFree;
+        if (a.id === 'sb') glow = tk && S.sbCharges > 0 && ((c && c.kind === 'danger' && S.sb < c.left + .1) || (S.sb <= 0 && S.rage >= 30));
+        if (a.id === 'wall') glow = c && c.kind === 'danger' && tk && S.sbCharges < 1 && S.cds.wall <= 0;
+        if (a.id === 'ip') glow = (c && c.kind === 'raid' && S.rage >= 35) || S.rage >= 90;
+        if (a.id === 'tc') glow = S.looseNow > 0 && S.cds.tc <= 0;
+        if (a.id === 'taunt') glow = S.cds.taunt <= 0 && (S.looseNow > 0 || (S.boss === 'orgol' && !S.tanking && S.ot.stk >= 2 && S.stk === 0));
+      } else {
+        if (a.id === 'bt') glow = S.cds.bt <= 0;
+        if (a.id === 'rb') glow = S.charges.rb >= 2;
+        if (a.id === 'ramp') glow = S.rage >= 80 && (S.enrage <= 0 || S.rage >= 95);
+        if (a.id === 'aoe') glow = liveAdds().length > 0 && S.cleave <= 0;
+        if (a.id === 'exe') glow = (b.hp < 20 || S.sd) && S.cds.exe <= 0;
+        if (a.id === 'burst' || a.id === 'reck') glow = S.cds[a.id] <= 0 && (S.boss === 'vel' || S.weak > 0);
+        if (a.id === 'def') glow = c && c.kind === 'raid' && S.cds.def <= 0;
+      }
     }
-    B.el.classList.toggle('glow', glow);
+    B.el.classList.toggle('glow', !!glow);
   });
+  document.querySelectorAll('.tr-move .tr-kbd').forEach(x => x.classList.toggle('glow', !!(live && c && c.kind === 'move' && !S.moved)));
 }
 let last = performance.now();
 function frame(now){
@@ -2128,14 +2419,16 @@ function frame(now){
   if (active()) {
     if (S.running && !S.paused && !S.over) {
       if (S.countdown > 0) { const before = Math.ceil(S.countdown); S.countdown -= dt; const after = Math.ceil(S.countdown); if (after !== before) callout(after > 0 ? String(after) : '전투 시작!', after > 0 ? 'info' : 'go'); }
-      else step(dt);
+      else (S.mode === 'tank' ? stepTank : stepDps)(dt);
     }
     draw();
   } else if (S.running && !S.paused && !S.over) setPause(true);
   requestAnimationFrame(frame);
 }
-window.trainerOpen = () => { diffKey = DIFF[store().diff] ? store().diff : 'normal'; if (!S.running) buildSetup(); refreshKeys(); draw(); };
-diffKey = 'normal'; newGame(); buildBar(); buildSetup(); draw();
+Object.defineProperty(window,'__trS',{get:()=>S,configurable:true});
+window.trainerOpen = () => { const t = store(); mode = t.mode; bossKey = t.boss; diffKey = t.diff; if (!S || !S.running) reset(); else { buildAbil(); refreshKeys(); } };
+const t0 = store(); mode = t0.mode; bossKey = t0.boss; diffKey = t0.diff;
+reset();
 requestAnimationFrame(frame);
 })();
 </script>
