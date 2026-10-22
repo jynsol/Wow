@@ -1453,7 +1453,8 @@ const ttConfig=()=>spec==='blood'?{id:250,cls:6,clsTitle:'죽음의 기사 공�
 // 같은 역할의 자리를 고정하고, 비선택 기술의 빈칸은 남겨 근육 기억을 유지합니다.
 function assign(){
  if(!ttSupported())return assignLegacy();
- const active=SPECS[spec].filter(a=>state[spec][a.id]);
+ // 태세는 한 번 켜 두면 계속 유지돼서 단축키를 주지 않아요 (방어: 방어 태세, 분노: 광폭 태세).
+ const active=SPECS[spec].filter(a=>state[spec][a.id]&&!['dstance','bstance','berserk'].includes(a.id));
  const map={},where={},over=[],reserved=new Set(SPECS[spec].map(a=>a.pref).filter(Boolean));
  // 2·3·4·5는 생존기 자리: 찍은 생존기를 우선순위대로 빈틈없이 채워요. 분노는 X·⇧X·⇧R을 쿨기 순서대로 채워요.
  const GROUPS={prot:[{keys:['S+Q','S+R'],ids:['demolish','ravager','spear']}],
