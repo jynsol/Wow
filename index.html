@@ -387,9 +387,9 @@ ul.rot-list li{grid-template-columns:auto minmax(0,1fr)}
 ul.rot-list .rn{grid-column:2}
 .rot-list .rn{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
 .res{font-size:11px;line-height:1.5;padding:0 7px;border-radius:99px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--ink-2)}
-.res-g{background:var(--main-soft);border-color:var(--main-line);color:var(--ink)}
-.res-u{background:var(--pt-soft);border-color:var(--pt-line);color:var(--ink)}
-.rot-grid.flow{margin-bottom:12px}.rot-list.plainnum li::before{content:none}
+.res-g{background:color-mix(in srgb,var(--cg) 24%,var(--surface));border-color:color-mix(in srgb,var(--cg) 55%,var(--surface));color:var(--ink)}
+.res-u{background:color-mix(in srgb,var(--cy) 26%,var(--surface));border-color:color-mix(in srgb,var(--cy) 60%,var(--surface));color:var(--ink)}
+.rot-grid.flow{margin-bottom:12px}.rot-card.flow-g{background:color-mix(in srgb,var(--cg) 14%,var(--surface))}.rot-card.flow-u{background:color-mix(in srgb,var(--cy) 16%,var(--surface))}.rot-list.plainnum li::before{content:none}
 .rot-tips-box{margin-top:12px;background:var(--surface-2);border-radius:var(--r-lg);padding:14px 16px}
 .rot-tips-box.newbie{background:var(--main-soft)}
 .rot-links{margin:10px 0 0;font-size:12.5px}
@@ -570,7 +570,7 @@ section[id]{scroll-margin-top:72px}
       <h2 data-ico="keyboard"><span id="kb-title">키 배치</span></h2>
       <p class="sub">키캡 위 줄은 그냥 누르기, 점선 아래 ⇧ 줄은 Shift와 같이 누르기예요.</p>
       <div class="legend">
-        <span class="dot-c cat-core">공격</span><span class="dot-c cat-cd">쿨기</span><span class="dot-c cat-def">생존기</span><span class="dot-c cat-move">이동기</span><span class="dot-c cat-cc">차단·군중제어</span><span class="dot-c cat-item">소모품</span>
+        <span class="dot-c cat-core">공격</span><span class="dot-c cat-cd">쿨기</span><span class="dot-c cat-def">생존기</span><span class="dot-c cat-move">이동기</span><span class="dot-c cat-cc">차단·도발·제어</span><span class="dot-c cat-item">소모품</span><span class="dot-c cat-misc">기타</span>
         <span><i class="sw mv"></i>이동 E·S·D·F</span><span><i class="sw fx"></i>고정 키</span>
       </div>
     </div>
@@ -1018,7 +1018,7 @@ const SPECS={
     A('hs_strike','심장 강타','Heart Strike','core','A',1),
     A('marrow','골수분쇄','Marrowrend','core','Q',1),
     A('dnd','죽음과 부패','Death and Decay','core','T',1),
-    A('taunt','어둠의 명령 (도발)','Dark Command','core','Z',1),
+    A('taunt','어둠의 명령','Dark Command','core','Z',1),
     A('coil','죽음의 고리','Death Coil','core','C+R',0),
     A('drw','춤추는 룬 무기','Dancing Rune Weapon','cd','X',1),
     A('devour','섭취','Consume','cd','S+X',0),
@@ -1035,7 +1035,7 @@ const SPECS={
     A('advance','죽음의 진군','Death\'s Advance','move','V',1),
     A('dmarch','어둠의 행군','Death\'s March','move','S+V',0),
     A('wraith','망령 걸음','Wraith Walk','move','S+V',0),
-    A('freeze','정신 얼리기 (차단)','Mind Freeze','cc','G',1,'차단은 항상 G에 고정돼요'),
+    A('freeze','정신 얼리기','Mind Freeze','cc','G',1,'차단은 항상 G에 고정돼요'),
     A('asphyx','어둠의 질식','Asphyxiate','cc','S+G',1),
     A('grisly','섬뜩한 죽음','Grisly Death','cc','S+G',0),
     A('gorefiend','고어핀드의 손아귀','Gorefiend\'s Grasp','cc','S+Z',1),
@@ -1251,7 +1251,7 @@ function renderRot(where){const d=ROT[spec],byId=Object.fromEntries(SPECS[spec].
   document.getElementById('rot').innerHTML=`
    <div class="basics">${d.basics.map(([h,p],i)=>`<div class="basic"><span class="num">${i+1}</span><div><b>${h}</b><p>${p}</p></div></div>`).join('')}</div>
    ${d.decide?`<div class="decide"><p class="decide-q"><svg class="star big" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>${d.decide.q}</p><div class="decide-cols"><div class="dc def"><span class="dc-k">방어에 쓰기</span><b>${d.decide.def.when}</b><ul class="rot-list">${d.decide.def.ids.map(id=>item([id,''])).join('')}</ul></div><div class="dc off"><span class="dc-k">공격에 쓰기</span><b>${d.decide.off.when}</b><ul class="rot-list">${d.decide.off.ids.map(id=>item([id,''])).join('')}</ul></div></div></div>`:''}
-   <div class="rot-grid flow"><div class="rot-card"><h3>${RES_NAME[spec]} 채우는 기술</h3><ul class="rot-list plainnum">${flow('g')}</ul></div><div class="rot-card"><h3>${RES_NAME[spec]} 쓰는 기술</h3><ul class="rot-list plainnum">${flow('u')}</ul></div></div>
+   <div class="rot-grid flow"><div class="rot-card flow-g"><h3>${RES_NAME[spec]} 채우는 기술</h3><ul class="rot-list plainnum">${flow('g')}</ul></div><div class="rot-card flow-u"><h3>${RES_NAME[spec]} 쓰는 기술</h3><ul class="rot-list plainnum">${flow('u')}</ul></div></div>
    <div class="rot-grid">${d.blocks.map(b=>`<div class="rot-card"><h3>${b.t}</h3><${b.type} class="rot-list">${b.items.map(item).join('')}</${b.type}></div>`).join('')}</div>
    ${d.newbie?`<div class="rot-tips-box newbie"><h3>초보 탱커 요령</h3><ul class="plain">${d.newbie.map(t=>`<li>${t}</li>`).join('')}</ul></div>`:''}
    <div class="rot-tips-box"><h3>그밖에 알아두면 좋은 것</h3><ul class="plain">${d.tips.map(t=>`<li>${t}</li>`).join('')}</ul>${d.links?`<p class="rot-links">${d.links.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(' · ')}</p>`:''}</div>
@@ -1462,6 +1462,7 @@ const KEYMAP={
 ['prot','fury','blood'].forEach(sp=>SPECS[sp].forEach(a=>{if(a.id in KEYMAP[sp])a.pref=KEYMAP[sp][a.id];else if(a.g!=='item')a.pref=a.pref&&/^(C\+)/.test(a.pref)?a.pref:'';}));
 // 분노는 딜러라 도발을 쓰지 않아요. 키에서 아예 빼요.
 SPECS.fury=SPECS.fury.filter(a=>a.id!=='taunt');
+['prot','fury','blood'].forEach(sp=>SPECS[sp].forEach(a=>{if(a.id==='taunt')a.g='cc'}));
 SPECS.prot.forEach(a=>{if(['block','ip','demo','vr','victory','rally','reflect','wall'].includes(a.id))a.g='def';if(['disrupt','shock','bolt','intim'].includes(a.id))a.g='cc'});
 const ttSupported=()=>spec==='prot'||spec==='fury'||spec==='blood';
 const ttConfig=()=>spec==='blood'?{id:250,cls:6,clsTitle:'죽음의 기사 공통',whClass:'death-knight',title:'혈기',trees:BLOOD_TREES,presets:BLOOD_PRESETS,ids:BLOOD_IDS,basic:BLOOD_BASIC,heroes:[65567,65569],slug:'blood',icy:'blood-death-knight-pve-tank',role:'tank'}:spec==='fury'?{id:72,title:'분노',trees:FURY_TREES,presets:FURY_PRESETS,ids:FURY_IDS,basic:FURY_BASIC,heroes:[65597,65596],slug:'fury',role:'dps',cls:1,clsTitle:'전사 공통',whClass:'warrior',icy:'fury-warrior-pve-dps'}:{id:73,title:'방어',trees:PROT_TREES,presets:PROT_PRESETS,ids:PROT_IDS,basic:PROT_BASIC,heroes:[65597,65598],slug:'protection',role:'tank',cls:1,clsTitle:'전사 공통',whClass:'warrior',icy:'protection-warrior-pve-tank'};
@@ -2517,7 +2518,7 @@ function buildSetup(){
   $('bossSeg').querySelectorAll('button').forEach(x => x.addEventListener('click', () => { bossKey = x.dataset.boss; t.boss = bossKey; persist(); reset(); }));
   $('diffSeg').innerHTML = Object.entries(DIFF).map(([k, d]) => `<button type="button" data-d="${k}" aria-pressed="${k === diffKey}">${d.name}<small>${d.note}</small></button>`).join('');
   $('diffSeg').querySelectorAll('button').forEach(x => x.addEventListener('click', () => { diffKey = x.dataset.d; t.diff = diffKey; persist(); reset(); }));
-  $('rules').innerHTML = rulesFor().map(([c, h]) => `<li><span class="tr-dot" style="background:var(--${c})"></span><span>${h}</span></li>`).join('');
+  $('rules').innerHTML = rulesFor().map(([c, h]) => `<li><span class="tr-dot" style="background:var(--main)"></span><span>${h}</span></li>`).join('');
   $('binds').innerHTML = ABIL.map(a => `<div class="tr-bind"><span>${a.name}<small>${a.hint}</small></span><button class="tr-kbd${rebinding === a.id ? ' wait' : ''}${custom[a.id] ? ' custom' : ''}" type="button" data-id="${a.id}">${rebinding === a.id ? '입력…' : keyText(a.key)}</button></div>`).join('') + `<div class="tr-bind"><span>이동<small>회피 패턴에서 옆으로 비키기</small></span><span class="tr-kbd static">${MOVE.join(' ')}</span></div>`;
   $('binds').querySelectorAll('button.tr-kbd').forEach(x => x.addEventListener('click', () => { rebinding = x.dataset.id; buildSetup(); }));
   const bl = Object.entries(DIFF).filter(([k]) => t.best[mode + '-' + bossKey + '-' + k] != null).map(([k, d]) => d.name + ' ' + t.best[mode + '-' + bossKey + '-' + k] + '점');
