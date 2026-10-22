@@ -419,6 +419,13 @@ section[id]{scroll-margin-top:72px}
 .plate[aria-pressed="true"]{box-shadow:0 6px 18px -12px var(--main)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .card{box-shadow:none}}
 :root[data-theme="dark"] .card{box-shadow:none}
+.lvtag{display:inline-block;font-size:10.5px;font-weight:600;color:var(--ink-2);background:var(--surface-2);border-radius:999px;padding:0 7px;margin-left:2px;vertical-align:1px;white-space:nowrap}
+.lvtag.tal{color:var(--pt-ink);background:var(--pt-soft)}
+.lvtag.later{color:var(--ink-3);background:none;border:1px dashed var(--line-2)}
+.ab .en{white-space:normal;overflow:visible}
+.ab.notyet .nm{color:var(--ink-3)}
+.lvhelp{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;background:var(--surface-2);border-radius:var(--r-md);padding:10px 12px;margin:-4px 0 18px;font-size:12.5px;color:var(--ink-2)}
+.lvhelp div{flex:1 1 280px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -483,7 +490,11 @@ section[id]{scroll-margin-top:72px}
   <div class="cols">
     <section class="card" id="skills">
       <div class="sec-head"><h2 data-ico="check">내가 찍은 스킬</h2>
-      <p class="sub">배운 스킬과 특성으로 찍은 스킬만 체크하세요. 체크하면 키보드에서 그 자리가 반짝여요.</p></div>
+      <p class="sub">체크하면 키보드에서 그 자리가 반짝여요.</p></div>
+      <div class="lvhelp">
+        <div><b>"레벨"</b> 표시는 그 레벨이 되면 자동으로 배우는 기본 스킬, <b>"특성"</b> 표시는 특성 포인트(레벨 10부터)로 직접 찍어야 생기는 스킬이에요. 특성 스킬은 찍은 것만 직접 체크하세요.</div>
+        <button type="button" class="go" id="sync-lv">내 레벨에 맞게 기본 스킬 체크</button>
+      </div>
       <div id="abilities"></div>
     </section>
     <aside class="card sheet">
@@ -1088,6 +1099,12 @@ var roleChosen=false;
 function setRole(r){document.body.dataset.role=r;document.querySelectorAll('[data-role-btn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.roleBtn===r))}
 document.querySelectorAll('[data-role-btn]').forEach(b=>b.addEventListener('click',()=>{roleChosen=true;setRole(b.dataset.roleBtn)}));
 setRole('tank');
+
+const LEARN_W={charge:2,ss:3,vr:5,block:6,pummel:7,taunt:8,ww:9,bshout:10,exe:10,throw:10,brage:12,pot:0,hs:0,trinket:0};
+const LEARN_DK={dnd:8,coil:8,grip:8,taunt:9,advance:9,lich:9,chains:13,ams:14,raiseally:19,caress:23,pot:0,hs:0,trinket:0};
+function learnLv(id){const m=spec==='blood'?LEARN_DK:LEARN_W;if(id in m)return m[id]||null;return 'T'}
+function myLevel(){const v=parseInt(document.getElementById('lvl-input')?.value,10);return v>=1?Math.min(v,90):90}
+function syncToLevel(){const L=myLevel();let n=0;SPECS[spec].forEach(a=>{const lv=learnLv(a.id);if(typeof lv==='number'){const want=lv<=L;if(state[spec][a.id]!==want){state[spec][a.id]=want;n++}}else if(lv==='T'&&L<10&&state[spec][a.id]){state[spec][a.id]=false;n++}});save();render();toast(n?`레벨 ${L} 기준으로 ${n}개 맞췄어요`:'이미 레벨에 맞게 체크되어 있어요')}
 const ARROW={E:'↑',S:'←',D:'↓',F:'→'};
 function render(){
   document.body.dataset.spec=spec;
@@ -1120,7 +1137,10 @@ function render(){
     const wrap=d.querySelector('.chips');
     items.forEach(a=>{const id='ab-'+spec+'-'+a.id;const l=document.createElement('label');l.className='ab';l.htmlFor=id;
       const on=state[spec][a.id];const sl=where[a.id];
-      l.innerHTML=`<input type="checkbox" id="${id}" ${on?'checked':''}><span class="box">✓</span><span style="min-width:0"><span class="nm">${a.ko}</span><span class="en">${a.en}</span>${a.note&&on?`<span class="note">${a.note}</span>`:''}</span><span class="slot ${on&&!sl?'miss':''}">${on?(sl?label(sl):'칸 부족'):''}</span>`;
+      const lv=learnLv(a.id),curLv=myLevel(),notYet=typeof lv==='number'&&lv>curLv;
+      if(notYet)l.classList.add('notyet');
+      const lvTag=typeof lv==='number'?`<span class="lvtag${notYet?' later':''}">${notYet?'레벨 '+lv+'에 배워요':'레벨 '+lv}</span>`:(lv==='T'?'<span class="lvtag tal">특성</span>':'');
+      l.innerHTML=`<input type="checkbox" id="${id}" ${on?'checked':''}><span class="box">✓</span><span style="min-width:0"><span class="nm">${a.ko}</span><span class="en">${a.en}${lvTag?' ':''}${lvTag}</span>${a.note&&on?`<span class="note">${a.note}</span>`:''}</span><span class="slot ${on&&!sl?'miss':''}">${on?(sl?label(sl):'칸 부족'):''}</span>`;
       l.querySelector('input').addEventListener('change',e=>{state[spec][a.id]=e.target.checked;save();buildMsg[spec]=null;render();flashAbilities([a.id]);document.getElementById('ab-'+spec+'-'+a.id)?.focus()});
       const hl=v=>{if(!sl)return;const c=kb.querySelector(`[data-key="${sl.replace('S+','')}"]`);if(c)c.classList.toggle('hl',v)};
       l.addEventListener('mouseenter',()=>hl(true));l.addEventListener('mouseleave',()=>hl(false));
@@ -1169,9 +1189,10 @@ function applyLevel(){const inp=document.getElementById('lvl-input');let l=parse
   document.querySelectorAll('.timeline li').forEach((li,i)=>li.classList.toggle('now',i===st&&l<90));
   renderTodo(l>=90?4:st);}
 (()=>{const inp=document.getElementById('lvl-input');try{const v=localStorage.getItem('wk-lvl');if(v)inp.value=v}catch(e){}
-  inp.addEventListener('input',()=>{applyLevel();try{localStorage.setItem('wk-lvl',inp.value)}catch(e){};markDirty()});applyLevel();})();
-document.querySelectorAll('.go').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.go);try{history.replaceState(null,'','#'+b.dataset.go)}catch(e){};window.scrollTo({top:0})}));
+  inp.addEventListener('input',()=>{applyLevel();render();try{localStorage.setItem('wk-lvl',inp.value)}catch(e){};markDirty()});applyLevel();})();
+document.querySelectorAll('.go[data-go]').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.go);try{history.replaceState(null,'','#'+b.dataset.go)}catch(e){};window.scrollTo({top:0})}));
 document.querySelectorAll('[data-rt]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-rt]').forEach(x=>x.setAttribute('aria-pressed',x===b));['level','story'].forEach(k=>document.getElementById('rt-panel-'+k).hidden=k!==b.dataset.rt)}));
+document.getElementById('sync-lv').addEventListener('click',syncToLevel);
 look='cute';applyLook();
 /* 기기 간 동기화: 내 개인 저장 공간(data/users/<id>/wownote) */
 let syncRef=null,syncBusy=false,syncAgain=false,syncTimer=null;
