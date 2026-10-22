@@ -1330,7 +1330,9 @@ Object.entries(PROT_KO).forEach(([id,name])=>SPECS.prot.filter(a=>a.id===id).for
 SPECS.prot=SPECS.prot.filter(a=>!['ravager','roar'].includes(a.id));
 SPECS.prot.push(A('devastate','압도','Devastate','core','T',0),A('victory','연전연승','Victory Rush','def','S+A',0),A('challenge','도전의 외침','Challenging Shout','cc','S+5',0),A('wreck','격파의 투척','Wrecking Throw','misc','S+4',0),A('bcry','광전사의 외침','Berserker Shout','misc','S+V',0),A('dstance','방어 태세','Defensive Stance','def','S+3',0),A('bstance','전투 태세','Battle Stance','misc','S+2',0));
 Object.assign(PROT_IDS,{devastate:20243,victory:34428,challenge:1161,wreck:384110,bcry:384100,dstance:386208,bstance:386164});
-Object.assign(PROT_BASIC,{devastate:10,victory:5,challenge:16});
+Object.assign(PROT_BASIC,{devastate:10,victory:5});
+// 도전의 외침은 한밤 특성트리·주문책에 없어 제외합니다.
+SPECS.prot=SPECS.prot.filter(a=>a.id!=='challenge');
 Object.assign(PROT_PREF,{victory:'S+2',challenge:'S+W',wreck:'C+W',bcry:'C+V',dstance:'C+3',bstance:'C+4'});
 SPECS.prot.forEach(a=>{a.pref=PROT_PREF[a.id]||a.pref;a.note=a.id==='pummel'?'차단은 G에 고정됩니다.':undefined});
 
