@@ -1,0 +1,1197 @@
+<title>와우 노트</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* ───────────────────────────────────────────────
+   와우 노트 · 디자인 원칙
+   1) 바탕·글자는 모든 캐릭터가 같은 중립색. 글자색은 항상 --ink 계열.
+   2) 캐릭터 색(--main)은 채우기·테두리·점에만. 글자를 캐릭터 색으로 칠하지 않음.
+   3) 포인트 색(--pt)은 이동키·강조 반짝임·스티커에만.
+   4) 스킬 종류 색(--c-*)은 작은 점으로만.
+   위계: h1 24 / h2 18 / h3 14 / 본문 14 / 보조 13 / 캡션 12
+   ─────────────────────────────────────────────── */
+:root{
+  --bg:#fafafc; --surface:#ffffff; --surface-2:#f4f4f9; --line:#e7e7f0; --line-2:#d7d8e6;
+  --ink:#2b2a35; --ink-2:#5a5a6d; --ink-3:#8b8ba0;
+  --cap:#ffffff; --cap-edge:#d6d7e6; --void:#f0f0f6; --warn:#d9534f; --ok:#2f9e8a;
+  --main:#f6cf55; --main-soft:#fdf5d8; --main-line:#efd88c; --on-main:#3a2e0a;
+  --pt:#5aa9e6; --pt-soft:#e9f3fc; --pt-line:#bcdaf2; --pt-ink:#2a6ea3; --on-pt:#ffffff;
+  --c-core:#ee7f55; --c-cd:#9877e6; --c-def:#34aa98; --c-move:#4f9ee0; --c-cc:#e46aa2; --c-misc:#a2a6ae; --c-item:#84b84a;
+  --f-display:"Jua","Noto Sans KR",system-ui,sans-serif;
+  --f-body:"Noto Sans KR",system-ui,-apple-system,sans-serif;
+  --f-key:"Jua","Noto Sans KR",system-ui,sans-serif;
+  --r-xl:20px; --r-lg:14px; --r-md:12px; --r-sm:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#18171b; --surface:#211f25; --surface-2:#2a272f; --line:#36323c; --line-2:#443f4b;
+  --ink:#f3f0f5; --ink-2:#c9c3cd; --ink-3:#9a94a0;
+  --cap:#2b2830; --cap-edge:#121115; --void:#1d1b20; --warn:#ff8a85; --ok:#5fd0bd;
+  --c-core:#ff9c78; --c-cd:#b9a2ff; --c-def:#5ccfbd; --c-move:#7fb9f2; --c-cc:#ff8fc2; --c-misc:#b2b6bd; --c-item:#a8d877;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#18171b; --surface:#211f25; --surface-2:#2a272f; --line:#36323c; --line-2:#443f4b;
+  --ink:#f3f0f5; --ink-2:#c9c3cd; --ink-3:#9a94a0;
+  --cap:#2b2830; --cap-edge:#121115; --void:#1d1b20; --warn:#ff8a85; --ok:#5fd0bd;
+  --c-core:#ff9c78; --c-cd:#b9a2ff; --c-def:#5ccfbd; --c-move:#7fb9f2; --c-cc:#ff8fc2; --c-misc:#b2b6bd; --c-item:#a8d877;
+  color-scheme:dark}
+
+/* 캐릭터 색 */
+body[data-spec="prot"]{--bg:#fffcf3;--main:#f6cf55;--main-soft:#fdf5d8;--main-line:#efd88c;--on-main:#3a2e0a;--pt:#5aa9e6;--pt-soft:#e9f3fc;--pt-line:#bcdaf2;--pt-ink:#2a6ea3;--on-pt:#fff}
+body[data-spec="fury"]{--bg:#f9fcf4;--main:#a8db6c;--main-soft:#eef8e1;--main-line:#cbe7a7;--on-main:#20330a;--pt:#ff9268;--pt-soft:#fff0e9;--pt-line:#fbcab6;--pt-ink:#b8502a;--on-pt:#fff}
+body[data-spec="blood"]{--bg:#fff8fa;--main:#ff9cb9;--main-soft:#ffecf2;--main-line:#f8c5d5;--on-main:#45111f;--pt:#a183f0;--pt-soft:#f1ecff;--pt-line:#d5c8fb;--pt-ink:#6845cf;--on-pt:#fff}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) body[data-spec="prot"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#3a331d;--main-line:#5a4e27;--pt-soft:#1d2b39;--pt-line:#2b4560;--pt-ink:#9fd0f6}
+  :root:not([data-theme="light"]) body[data-spec="fury"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#28351c;--main-line:#3f5428;--pt-soft:#3a2620;--pt-line:#5d3a2e;--pt-ink:#ffb497}
+  :root:not([data-theme="light"]) body[data-spec="blood"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#3d2430;--main-line:#5d3446;--pt-soft:#2b2445;--pt-line:#43386a;--pt-ink:#c8b5ff}}
+:root[data-theme="dark"] body[data-spec="prot"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#3a331d;--main-line:#5a4e27;--pt-soft:#1d2b39;--pt-line:#2b4560;--pt-ink:#9fd0f6}
+:root[data-theme="dark"] body[data-spec="fury"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#28351c;--main-line:#3f5428;--pt-soft:#3a2620;--pt-line:#5d3a2e;--pt-ink:#ffb497}
+:root[data-theme="dark"] body[data-spec="blood"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#3d2430;--main-line:#5d3446;--pt-soft:#2b2445;--pt-line:#43386a;--pt-ink:#c8b5ff}
+
+/* 기본 */
+html,body{scrollbar-width:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar,.tblwrap::-webkit-scrollbar{display:none}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.6;word-break:keep-all;overflow-wrap:break-word}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
+.wrap{max-width:1040px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:20px}
+p,li,dd{text-wrap:pretty}
+h1,h2,h3{text-wrap:balance}
+b,strong{font-weight:600}
+a{color:var(--pt-ink);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--pt);outline-offset:2px}
+[hidden]{display:none!important}
+.ico,.bun{display:none!important}
+
+/* 터치 피드백 */
+button,label,a{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button,.ab,.tchk{transition:transform .12s ease,background-color .15s,border-color .15s,color .15s}
+button:active,.ab:active{transform:scale(.97)}
+
+/* 헤더 */
+.top{display:grid;gap:12px}
+.toprow{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-block:10px;margin-block:-10px}
+.eyebrow{font-size:12px;font-weight:500;color:var(--ink-3)}
+.tabs{display:inline-flex;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.tabs button{font:inherit;font-size:13px;font-weight:500;border:0;background:none;color:var(--ink-2);padding:6px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-pressed="true"]{background:var(--main);color:var(--on-main);font-weight:600}
+.titlebox{display:grid;gap:4px}
+h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:24px;line-height:1.3}
+h1 em{font-style:normal;color:var(--ink);box-shadow:inset 0 -.38em 0 var(--main-soft)}
+.lede{margin:0;color:var(--ink-2);font-size:13.5px}
+body:not([data-view="home"]) .lede{display:none}
+
+/* 캐릭터 선택 */
+.picker{display:grid;gap:8px}
+.pick-label{font-size:12px;font-weight:600;color:var(--ink-3)}
+.plates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.plate{font:inherit;color:var(--ink);text-align:left;cursor:pointer;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:10px 12px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px}
+.plate .dot{width:12px;height:12px;border-radius:50%}
+.plate[data-spec="prot"] .dot{background:#f6cf55} .plate[data-spec="fury"] .dot{background:#a8db6c} .plate[data-spec="blood"] .dot{background:#ff9cb9}
+.plate b{font-size:14px}
+.plate small{margin-left:6px;font-size:12px;color:var(--ink-3)}
+.role{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:500;color:var(--ink-2);background:var(--surface-2);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.role svg{width:12px;height:12px}
+.plate[aria-pressed="true"]{border-color:var(--main);background:var(--main-soft)}
+.plate[aria-pressed="true"] .role{background:var(--main);color:var(--on-main)}
+.plate:active{transform:scale(.985)}
+
+/* 작은 탭 */
+.subtabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1.5px solid var(--line)}
+.subtabs button{font:inherit;font-size:14px;font-weight:500;color:var(--ink-3);background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-1.5px;padding:8px 12px;cursor:pointer}
+.subtabs button{border-radius:10px 10px 0 0}
+.subtabs button[aria-pressed="true"]{color:var(--ink);font-weight:600;border-bottom-color:var(--main);background:none}
+.rt-tabs,.role-tabs{margin-bottom:-4px}
+
+/* 화면·카드 */
+.view,.rt-panel{display:grid;gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:20px;min-width:0}
+.sec-head{display:grid;gap:4px;margin-bottom:16px}
+.sec-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:18px;line-height:1.35}
+.sub{margin:0;color:var(--ink-2);font-size:13px}
+.guide-2,.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.cols{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+.sheet{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px)}
+h3{margin:0 0 10px;font-size:14px;font-weight:600;color:var(--ink);line-height:1.4}
+
+/* 공통 조각 */
+.kk{display:inline-block;font-family:var(--f-key);font-size:12px;line-height:1.5;color:var(--ink);background:var(--cap);border:1px solid var(--cap-edge);box-shadow:0 2px 0 var(--cap-edge);border-radius:6px;padding:0 6px;min-width:2em;text-align:center;white-space:nowrap}
+.cat-core{--c:var(--c-core)} .cat-cd{--c:var(--c-cd)} .cat-def{--c:var(--c-def)} .cat-move{--c:var(--c-move)} .cat-cc{--c:var(--c-cc)} .cat-misc{--c:var(--c-misc)} .cat-item{--c:var(--c-item)}
+.dot-c::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c);margin-right:6px;vertical-align:middle;position:relative;top:-1px}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap}
+.plain,.steps{margin:0;padding-left:20px;display:grid;gap:8px;font-size:13.5px;line-height:1.6}
+.note-line{margin:14px 0 0;font-size:12.5px;color:var(--ink-2);background:var(--surface-2);border-radius:var(--r-md);padding:10px 12px}
+.foot{margin:0;font-size:12px;color:var(--ink-3)}
+.foot-list{list-style:none;padding:0;display:grid;gap:2px}
+.foot-list li{position:relative;padding-left:12px}
+.foot-list li::before{content:"·";position:absolute;left:2px}
+.btn{font:inherit;font-size:13px;font-weight:600;cursor:pointer;border-radius:999px;padding:8px 16px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.btn.pri{background:var(--main);border-color:var(--main);color:var(--on-main)}
+.go{font:inherit;font-size:12px;font-weight:500;flex:none;cursor:pointer;color:var(--ink-2);background:var(--surface);border:1px solid var(--line-2);border-radius:999px;padding:4px 11px}
+.toast{font-size:12.5px;color:var(--ink-2)}
+.toast:not(:empty){background:var(--ink);color:var(--surface);border-radius:999px;padding:3px 12px;animation:pop .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+@keyframes flashring{0%,40%{box-shadow:0 0 0 3px var(--pt)}100%{box-shadow:0 0 0 3px transparent}}
+@media (hover:hover){
+  .tabs button:hover,.subtabs button:hover{color:var(--ink)}
+  .plate:hover,.pre:hover,.btn:hover,.go:hover,.ab:hover{border-color:var(--main)}
+}
+
+/* 홈 */
+.now-top{margin-bottom:18px}
+.lvbox{display:flex;align-items:center;gap:10px;margin-top:4px}
+#lvl-input{width:72px;font:inherit;font-family:var(--f-display);font-size:22px;text-align:center;color:var(--ink);background:var(--surface-2);border:1.5px solid var(--line);border-radius:var(--r-md);padding:4px 6px}
+#lvl-input:focus{outline:none;border-color:var(--main)}
+.stage{font-size:13px;font-weight:600;color:var(--on-main);background:var(--main-soft);border:1px solid var(--main-line);border-radius:999px;padding:2px 12px}
+.now-h{margin:0 0 4px;font-family:var(--f-display);font-weight:400;font-size:18px}
+.todo-sub{margin:0 0 10px}
+.todo{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.todo li{display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:var(--r-md);padding:7px 10px 7px 12px;font-size:13.5px}
+.tchk{display:flex;align-items:center;gap:10px;flex:1;min-width:0;cursor:pointer}
+.tchk input{position:absolute;opacity:0;pointer-events:none}
+.todo .tbox{width:16px;height:16px;flex:0 0 16px;box-sizing:border-box;border-radius:50%;border:1.5px solid var(--line-2);background:var(--surface);display:grid;place-items:center}
+.tchk input:checked+.tbox{background:var(--main);border-color:var(--main)}
+.tchk input:checked+.tbox::after{content:"";width:6px;height:3px;border:1.5px solid var(--on-main);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.tchk input:focus-visible+.tbox{outline:2px solid var(--pt);outline-offset:2px}
+.todo .ttext{flex:1;min-width:0}
+.todo li.done .ttext{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--line-2)}
+.chips-set{display:flex;flex-wrap:wrap;gap:8px}
+.chips-set>div{display:flex;align-items:center;gap:8px;background:var(--surface-2);border-radius:999px;padding:6px 12px 6px 10px;font-size:13px}
+.chips-set .cl{font-size:11.5px;font-weight:600;color:var(--ink-3)}
+.chips-set .kk{font-size:11px;margin-right:3px;min-width:1.8em}
+.memo{width:100%;box-sizing:border-box;font:inherit;font-size:13.5px;line-height:1.6;color:var(--ink);background:var(--surface-2);border:1.5px solid var(--line);border-radius:var(--r-md);padding:12px 14px;resize:vertical}
+.memo:focus{outline:none;border-color:var(--main)}
+
+/* 키보드 */
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center}
+.legend .sw{width:12px;height:12px;border-radius:4px;margin-right:6px;border:1px solid var(--cap-edge);background:var(--cap)}
+.legend .sw.mv{background:var(--pt-soft);border-color:var(--pt-line)}
+.legend .sw.fx{border-color:var(--main);box-shadow:inset 0 -2px 0 var(--main)}
+.scroll{padding:12px 12px 14px;overflow:hidden;margin:0 -8px}
+.kb{display:grid;gap:8px;width:max-content;transform-origin:top left}
+.row{display:flex;gap:8px}
+.cap{position:relative;width:88px;height:86px;background:var(--cap);border:1px solid var(--cap-edge);border-radius:var(--r-md);box-shadow:0 3px 0 var(--cap-edge);padding:8px 9px 7px;display:grid;grid-template-rows:auto 1fr auto;gap:2px;min-width:0}
+.cap .k{font-family:var(--f-key);font-size:12px;line-height:1;color:var(--ink-3)}
+.cap .b{align-self:center;font-size:12.5px;line-height:1.3;font-weight:600;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.cap .b.empty{color:var(--ink-3);font-weight:400}
+.cap .s{font-size:10.5px;line-height:1.35;color:var(--ink-2);font-weight:500;border-top:1px dashed var(--line-2);padding-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cap .s .sh{font-style:normal;color:var(--ink-3);margin-right:3px}
+.cap .s .dot-c::before{margin-right:4px}
+.cap .s.empty{color:var(--ink-3)}
+.cap.fixed{border-color:var(--main);box-shadow:0 3px 0 var(--main)}
+.cap.move{background:var(--pt-soft);border-color:var(--pt-line);box-shadow:0 3px 0 var(--pt-line)}
+.cap.move .k,.cap.move .b,.cap.move .arrow{color:var(--pt-ink)}
+.cap.move .arrow{align-self:center;justify-self:center;font-size:20px;line-height:1}
+.cap.move .b{font-size:11px;font-weight:500;align-self:end}
+.cap.util,.cap.shiftkey{background:var(--surface-2)}
+.cap.util .b,.cap.shiftkey .b{font-size:11.5px;font-weight:500;color:var(--ink-2)}
+.cap.shiftkey .b{align-self:end}
+.cap.util .s{color:var(--ink-3);border-top-style:solid}
+.cap.off{background:var(--void);border-style:dashed;border-color:var(--line-2);box-shadow:none;transform:translateY(3px)}
+.cap.off .b{color:var(--ink-3);font-weight:400;font-size:11.5px}
+.cap.hl{outline:2px solid var(--pt);outline-offset:2px}
+.cap[data-key="G"]::after,.cap[data-key="1"]::after{position:absolute;top:-9px;right:-8px;background:var(--pt);color:var(--on-pt);font-family:var(--f-display);font-size:10px;line-height:1.6;border-radius:999px;padding:0 7px;transform:rotate(8deg)}
+.cap[data-key="G"]::after{content:"차단!"}
+.cap[data-key="1"]::after{content:"물약"}
+.cap.flash,.mcap.flash,.ab.flash{animation:flashring 1.8s ease-out}
+.mkb{display:none}
+.mmove{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:var(--pt-soft);border-radius:var(--r-md);padding:8px 10px}
+.mml{font-size:12px;font-weight:600;color:var(--pt-ink)}
+.mmh{margin-left:auto;font-size:11.5px;color:var(--ink-3)}
+.mrow h4{margin:0 0 6px;font-size:12px;font-weight:600;color:var(--ink-3)}
+.mgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mcap{position:relative;background:var(--cap);border:1px solid var(--cap-edge);box-shadow:0 2px 0 var(--cap-edge);border-radius:var(--r-md);padding:10px 12px;display:grid;gap:4px;min-width:0}
+.mcap .mk{font-family:var(--f-key);font-size:13px;color:var(--ink-3);line-height:1}
+.mcap .mb{font-size:14px;font-weight:600;line-height:1.35}
+.mcap .mb.empty{color:var(--ink-3);font-weight:400}
+.mcap .ms{font-size:12px;color:var(--ink-2);border-top:1px dashed var(--line-2);padding-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mcap .ms .dot-c::before{margin-right:4px}
+.mcap.fixed{border-color:var(--main);box-shadow:0 2px 0 var(--main)}
+.mcap.util{background:var(--surface-2)}
+.mcap.util .mb{font-weight:500;color:var(--ink-2)}
+.mcap.util .ms{color:var(--ink-3);border-top-style:solid}
+
+/* 스킬 체크 */
+.grp+.grp{margin-top:20px}
+.grp h3{margin:0 0 8px;font-size:13px;color:var(--ink-2)}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:6px}
+.ab{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r-sm);cursor:pointer}
+.ab input{position:absolute;opacity:0;pointer-events:none}
+.ab .box{box-sizing:border-box;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;font-size:10px;line-height:1;color:transparent;background:var(--surface)}
+.ab:has(input:checked){border-color:var(--main);background:var(--main-soft)}
+.ab:has(input:checked) .box{background:var(--main);border-color:var(--main);color:var(--on-main)}
+.ab:has(input:focus-visible){outline:2px solid var(--pt);outline-offset:2px}
+.ab .nm{display:block;font-size:13.5px;font-weight:500;line-height:1.35}
+.ab .en{display:block;font-size:11.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ab .note{display:block;font-size:11.5px;color:var(--pt-ink);line-height:1.4;margin-top:2px}
+.ab .slot:not(:empty){font-family:var(--f-key);font-size:11.5px;color:var(--ink);background:var(--cap);border:1px solid var(--cap-edge);box-shadow:0 2px 0 var(--cap-edge);border-radius:6px;padding:1px 6px;min-width:2.2em;text-align:center;white-space:nowrap}
+.ab .slot.miss{font-family:var(--f-body);color:var(--warn);border-color:var(--warn);box-shadow:none;font-size:11px}
+.list{display:grid;font-variant-numeric:tabular-nums}
+.layer{font-size:13px;font-weight:600;color:var(--ink-2);padding:0 0 6px}
+.layer:not(:first-child){padding-top:18px}
+.li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:center;padding:7px 0;border-top:1px solid var(--line);font-size:13.5px}
+.over{margin-top:14px;color:var(--warn);font-size:13px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:20px}
+
+/* 특성·빌드 */
+.lv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.lv-card{background:var(--surface-2);border-radius:var(--r-lg);padding:14px 16px;min-width:0}
+.lv-card ol,.lv-card ul{margin:0;padding-left:20px;display:grid;gap:8px;font-size:13.5px;line-height:1.5}
+.lv-card p{margin:0 0 8px;font-size:13.5px}
+.lv-card li .kk{min-width:2.4em;margin-right:6px;font-size:11px}
+.lv-card .en{color:var(--ink-3);font-size:12px}
+.build{display:grid;gap:18px}
+.h-note{font-family:var(--f-body);font-size:12px;font-weight:600;color:var(--on-main);background:var(--main-soft);border:1px solid var(--main-line);border-radius:999px;padding:1px 9px;margin-left:8px;vertical-align:3px}
+.heroes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.hero{background:var(--surface-2);border:1.5px solid transparent;border-radius:var(--r-md);padding:12px 14px;min-width:0}
+.hero.on{border-color:var(--main);background:var(--main-soft)}
+.hero-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 6px}
+.hero-top b{font-size:14px}
+.hero .en{font-size:11.5px;color:var(--ink-3)}
+.hero .tag{margin-left:auto;font-size:11px;font-weight:600;color:var(--on-main);background:var(--main);border-radius:999px;padding:1px 9px}
+.hero p{margin:6px 0 0;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.build-row{display:grid;gap:8px}
+.build-label{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-size:13px;font-weight:600}
+.build-label span{font-weight:400;color:var(--ink-3);font-size:12px}
+.presets{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.pre{font:inherit;color:var(--ink);text-align:left;cursor:pointer;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r-md);padding:10px 12px;display:grid;gap:4px}
+.pre-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pre-top b{font-size:13.5px}
+.pre-state{font-size:11px;font-weight:600;color:var(--ink-3);border:1px solid var(--line-2);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.pre-sub{font-size:12px;color:var(--ink-3);line-height:1.4}
+.pre[aria-pressed="true"]{border-color:var(--main);background:var(--main-soft)}
+.pre[aria-pressed="true"] .pre-state{background:var(--main);border-color:var(--main);color:var(--on-main)}
+.build-msg{background:var(--surface-2);border-radius:var(--r-md);padding:12px 14px;display:grid;gap:8px;font-size:13px}
+.bm-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.bm-row.muted{color:var(--ink-3)}
+.bm-row .kk{font-size:10.5px;min-width:1.9em;margin-left:2px}
+.bm-k{font-size:11px;font-weight:600;border-radius:999px;padding:1px 8px}
+.bm-k.add{background:var(--main);color:var(--on-main)}
+.bm-k.rem{background:var(--surface);color:var(--ink-2);border:1px solid var(--line-2)}
+.bm-go{justify-self:start}
+.build-foot{margin:0;font-size:12px;color:var(--ink-3);line-height:1.6}
+
+/* 딜사이클 */
+.basics{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:16px}
+.basic{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;background:var(--main-soft);border-radius:var(--r-lg);padding:12px 14px}
+.basic .num,.qnum{width:22px;height:22px;border-radius:50%;background:var(--main);color:var(--on-main);font-family:var(--f-display);font-size:12px;display:grid;place-items:center}
+.basic b{display:block;font-size:13.5px;margin-bottom:2px}
+.basic p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+.decide{border:1.5px solid var(--main-line);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:12px;display:grid;gap:10px}
+.decide-q{margin:0;font-size:14px;font-weight:600}
+.decide-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.dc{border-radius:var(--r-md);padding:10px 12px;display:grid;gap:6px;align-content:start}
+.dc.def{background:var(--surface-2)}
+.dc.off{background:var(--surface-2)}
+.dc-k::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle;position:relative;top:-1px}
+.dc.def .dc-k::before{background:var(--c-def)}
+.dc.off .dc-k::before{background:var(--c-core)}
+.dc-k{font-size:12px;font-weight:600;color:var(--ink-2)}
+.dc b{font-size:13.5px;font-weight:500}
+.rot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+.rot-card{background:var(--surface-2);border-radius:var(--r-lg);padding:14px 16px;min-width:0}
+.rot-list{margin:0;padding:0;list-style:none;display:grid;gap:7px;counter-reset:r}
+.rot-list li{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:2px 8px;font-size:13.5px}
+ol.rot-list li::before{counter-increment:r;content:counter(r);font-size:11px;color:var(--ink-3);width:12px;text-align:right}
+ul.rot-list li{grid-template-columns:auto minmax(0,1fr)}
+.rot-list .kk{min-width:2.4em;font-size:11px}
+.rot-list .kk.nokey{color:var(--ink-3);box-shadow:none}
+.rot-list .rn{font-size:12px;color:var(--ink-3);grid-column:3}
+ul.rot-list .rn{grid-column:2}
+.rot-tips-box{margin-top:12px;background:var(--surface-2);border-radius:var(--r-lg);padding:14px 16px}
+.rot-tips-box.newbie{background:var(--main-soft)}
+.rot-links{margin:10px 0 0;font-size:12.5px}
+
+/* 진행 흐름 */
+.timeline{list-style:none;margin:0;padding:0;display:grid}
+.timeline li{display:grid;grid-template-columns:70px minmax(0,1fr);gap:14px;padding:12px 0;border-top:1px solid var(--line);align-items:start}
+.timeline li:first-child{border-top:0;padding-top:0}
+.timeline .lvl{font-family:var(--f-display);font-size:13px;color:var(--ink-2);background:var(--surface-2);border-radius:999px;padding:2px 10px;justify-self:start;white-space:nowrap}
+.timeline li.now .lvl{background:var(--main);color:var(--on-main)}
+.timeline b{font-size:14px}
+.timeline p{margin:2px 0 0;font-size:13px;color:var(--ink-2);line-height:1.55}
+.zones{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.6fr) auto minmax(0,1fr);gap:10px;align-items:stretch}
+.zone{background:var(--surface-2);border-radius:var(--r-lg);padding:12px 14px;display:grid;gap:3px;align-content:center;min-width:0}
+.zone.multi{gap:10px}
+.zone.multi>div{display:grid;gap:3px}
+.zone.multi>div+div{border-top:1px solid var(--line);padding-top:10px}
+.zone .lvl{font-size:12px;font-weight:600;color:var(--ink-3)}
+.zone b{font-size:14px}
+.zone .en{font-size:11.5px;color:var(--ink-3)}
+.zone-arrow{align-self:center;color:var(--ink-3);font-size:18px}
+.eras{list-style:none;margin:0;padding:0;display:grid}
+.era{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.era:first-child{border-top:0;padding-top:0}
+.era-y{font-family:var(--f-display);font-size:15px;color:var(--ink-3)}
+.era.key .era-y{color:var(--ink)}
+.era-h{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.era-h b{font-size:15px}
+.must{font-size:11.5px;font-weight:600;color:var(--on-main);background:var(--main);border-radius:999px;padding:1px 9px}
+.era-z{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+.era p{margin:6px 0 0;font-size:13.5px}
+.era-how{margin-top:8px;font-size:12.5px;color:var(--ink-2);display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.howk{font-size:11.5px;font-weight:600;color:var(--pt-ink);background:var(--pt-soft);border-radius:999px;padding:1px 8px}
+
+/* 초보 자료 */
+.terms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.term-grp{background:var(--surface-2);border-radius:var(--r-lg);padding:14px 16px}
+.term-grp dl{margin:0;display:grid;gap:8px}
+.term-grp dt{font-weight:600;font-size:13px}
+.term-grp dd{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.facts{margin:0;display:grid}
+.facts div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px;padding:10px 0;border-top:1px solid var(--line)}
+.facts div:first-child{border-top:0;padding-top:0}
+.facts dt{font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.facts dd{margin:0;font-size:13.5px;line-height:1.6}
+.tblwrap{overflow-x:auto;scrollbar-width:none}
+.ut{width:100%;border-collapse:collapse;font-size:13.5px}
+.ut th{font-size:12px;font-weight:600;color:var(--ink-3);text-align:left;padding:0 14px 10px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+.ut td{border-top:1px solid var(--line);padding:11px 14px 11px 0;vertical-align:middle;line-height:1.5}
+.ut tr:first-child td{border-top:0}
+.ut th:first-child,.ut td:first-child{width:120px;white-space:nowrap}
+.ut .why{color:var(--ink-2);font-size:12.5px}
+.ut .from{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.copy{text-align:center;font-size:12px;color:var(--ink-3);padding-top:8px}
+
+/* 캐릭터·역할별 보이기 */
+body[data-spec="prot"] [data-only]:not([data-only~="prot"]),body[data-spec="fury"] [data-only]:not([data-only~="fury"]),body[data-spec="blood"] [data-only]:not([data-only~="blood"]){display:none!important}
+body[data-role="tank"] [data-for]:not([data-for~="tank"]),body[data-role="dps"] [data-for]:not([data-for~="dps"]),body[data-role="heal"] [data-for]:not([data-for~="heal"]){display:none!important}
+section[id]{scroll-margin-top:72px}
+
+/* 반응형 */
+@media (max-width:840px){
+  .cols,.guide-2,.lv,.terms{grid-template-columns:minmax(0,1fr)}
+  .sheet{position:static}
+}
+@media (max-width:760px){.zones{grid-template-columns:minmax(0,1fr)}.zone-arrow{transform:rotate(90deg);justify-self:center}}
+@media (max-width:700px){.rot-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){
+  .toprow{flex-direction:column;align-items:stretch}
+  .tabs{display:flex}
+  .tabs button{flex:1;padding:6px 8px;font-size:12.5px}
+  .plate{grid-template-columns:auto minmax(0,1fr);padding:9px 10px;gap:8px}
+  .plate small,.plate .role{display:none}
+  .plate b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+  .plates{gap:6px}
+  .card{padding:16px}
+  .deck .scroll{display:none}
+  .mkb{display:grid;gap:14px}
+  .deck .legend span:has(.sw){display:none}
+  .heroes,.decide-cols{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:520px){.era{grid-template-columns:minmax(0,1fr);gap:4px}.facts div{grid-template-columns:minmax(0,1fr);gap:2px}}
+@media (hover:none){.tabs button,.subtabs button{min-height:40px}.go{padding:7px 12px}.ab{padding:10px}}
+
+/* 색 위계: 1) 캐릭터 색 = 선택·주요 버튼  2) 포인트 색 = 이동·도움 버튼·안내  3) 중립 = 카드·안쪽 칸  4) 의미 색 = 완료(초록)·주의(빨강) */
+.go{color:var(--pt-ink);background:var(--pt-soft);border-color:transparent;font-weight:600}
+@media (hover:hover){.go:hover{border-color:var(--pt-line)}}
+.note-line{background:var(--pt-soft);color:var(--ink-2)}
+.note-line b{color:var(--pt-ink)}
+.rot-tips-box.newbie{background:var(--pt-soft)}
+.rot-tips-box.newbie h3{color:var(--pt-ink)}
+.stage{background:var(--main);border-color:var(--main);color:var(--on-main)}
+.todo li{background:var(--surface);border:1px solid var(--line)}
+.todo li.done{background:var(--surface-2);border-color:transparent}
+
+.todo-sub{color:var(--ink-3)}
+.chips-set>div{background:var(--surface);border:1px solid var(--line)}
+.basic{background:var(--main-soft)}
+.lv-card,.rot-card,.term-grp,.zone,.hero,.build-msg{background:var(--surface-2)}
+.hero.on{background:var(--main-soft)}
+.timeline .lvl{background:var(--surface-2)}
+.btn{border-color:var(--line-2)}
+.memo{background:var(--surface)}
+.pre-state{color:var(--pt-ink);border-color:var(--pt-line);background:var(--pt-soft)}
+.mmove{background:var(--pt-soft)}
+.layer,.grp h3{color:var(--ink)}
+.toast:not(:empty){background:var(--pt);color:var(--on-pt)}
+.heart{width:20px;height:20px;margin-right:8px;fill:var(--main);stroke:none;flex:none}
+.star{width:11px;height:11px;fill:currentColor;margin-right:3px;vertical-align:-1px}
+.hero .tag,.must{display:inline-flex;align-items:center}
+.star.big{width:14px;height:14px;color:var(--main);margin-right:6px;vertical-align:-2px}
+.basics[data-for]{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:0}
+.basics.setup4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:0}
+.basic .kk{font-size:10.5px;min-width:1.6em;margin:0 1px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="toprow"><div class="eyebrow">WoW 한밤 · 패치 12.1.5 · 시즌 2</div>
+      <nav class="tabs" aria-label="페이지"><button type="button" id="tab-home" data-view="home">홈</button><button type="button" id="tab-class" data-view="class">직업</button><button type="button" id="tab-route" data-view="route">진행 흐름</button><button type="button" id="tab-guide" data-view="guide">초보 자료</button></nav></div>
+    <div class="titlebox"><h1 id="headline"><span class="bun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 10C8.3 6.5 7.6 3.2 9 2.6s2.4 3 2.6 6.6"/><path d="M14.5 10c1.2-3.5 1.9-6.8.5-7.4s-2.4 3-2.6 6.6"/><ellipse cx="12" cy="15.2" rx="6.2" ry="5.6"/><path d="M9.8 14.4h.01M14.2 14.4h.01M11.3 16.8c.4.4 1 .4 1.4 0"/></svg></span><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.6A4.4 4.4 0 0 1 12 7.1a4.4 4.4 0 0 1 7.5 2.8c0 6-7.5 10.6-7.5 10.6z"/></svg>와우 <em>노트</em></h1>
+    <p class="lede">메인 방어 전사, 가끔 분노 전사, 부캐 혈기 죽기. 키 배치, 딜사이클, 레벨업, 초보 자료를 한곳에 모아둔 정리본이에요.</p></div>
+    <div class="picker" id="picker"><div class="pick-label">캐릭터</div>
+    <div class="plates" role="group" aria-label="전문화 선택">
+      <button class="plate" id="spec-prot" type="button" data-spec="prot"><i class="dot"></i><span><b>방어 전사</b><small>메인</small></span><span class="role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>탱커</span></button>
+      <button class="plate" id="spec-fury" type="button" data-spec="fury"><i class="dot"></i><span><b>분노 전사</b><small>퀘스트용</small></span><span class="role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 3.5L20 3l-.5 5.5L9 19l-4-4z"/><path d="M6.5 13.5l4 4M5 17l-2 2"/></svg>딜러</span></button>
+      <button class="plate" id="spec-blood" type="button" data-spec="blood"><i class="dot"></i><span><b>혈기 죽기</b><small>부캐 탱커</small></span><span class="role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>탱커</span></button>
+    </div></div>
+    <nav class="subtabs" id="subtabs" aria-label="직업 메뉴"><button type="button" id="sub-keys" data-view="keys">키 배치</button><button type="button" id="sub-rotation" data-view="rotation">딜사이클</button></nav>
+  </header>
+
+  <div class="view" id="v-home">
+  <section class="card" id="now">
+    <div class="now-top">
+      <div><div class="pick-label">지금 레벨</div>
+        <div class="lvbox"><input id="lvl-input" type="number" min="1" max="90" value="30" inputmode="numeric" aria-label="지금 레벨"><span id="stage-name" class="stage"></span></div></div>
+    </div>
+    <h2 class="now-h">다음에 할 일</h2>
+    <p class="sub todo-sub" id="todo-sub"></p>
+    <ol class="todo" id="todo"></ol>
+  </section>
+
+  <section class="card" id="play">
+    <div class="sec-head"><h2 data-ico="bunny">내 설정</h2></div>
+    <div class="chips-set">
+      <div><span class="cl">캐릭터</span><span>우사기 · 방어 전사 (메인)</span></div>
+      <div><span class="cl">이동</span><span><span class="kk">E</span><span class="kk">S</span><span class="kk">D</span><span class="kk">F</span></span></div>
+      <div><span class="cl">차단</span><span><span class="kk">G</span></span></div>
+      <div><span class="cl">대상 · 탈것</span><span><span class="kk">Caps</span> · <span class="kk">Tab</span></span></div>
+      <div><span class="cl">애드온</span><span>EllesmereUI · HandyNotes</span></div>
+    </div>
+  </section>
+
+  <section class="card" id="memo">
+    <div class="sec-head"><h2 data-ico="note">메모</h2>
+    <p class="sub">자유롭게 적어두세요. <span id="sync-note">이 브라우저에 자동 저장돼요.</span></p></div>
+    <textarea id="memo-text" class="memo" rows="6" placeholder="예: 쐐기 갈 때 해골 징표 먼저, 차단 담당 몹 이름…"></textarea>
+  </section>
+  </div>
+
+  <div class="view" id="v-keys" hidden>
+  <section class="card deck" id="keys" aria-label="키보드 배치">
+    <div class="sec-head">
+      <h2 data-ico="keyboard"><span id="kb-title">키 배치</span></h2>
+      <p class="sub">키캡 위 줄은 그냥 누르기, 점선 아래 ⇧ 줄은 Shift와 같이 누르기예요.</p>
+      <div class="legend">
+        <span class="dot-c cat-core">공격</span><span class="dot-c cat-cd">강화 기술</span><span class="dot-c cat-def">생존기</span><span class="dot-c cat-move">이동기</span><span class="dot-c cat-cc">차단·군중제어</span><span class="dot-c cat-item">소모품</span>
+        <span><i class="sw mv"></i>이동 E·S·D·F</span><span><i class="sw fx"></i>고정 키</span>
+      </div>
+    </div>
+    <div class="scroll"><div class="kb" id="kb"></div></div>
+    <div class="mkb" id="mkb"></div>
+  </section>
+
+  <div class="cols">
+    <section class="card" id="skills">
+      <div class="sec-head"><h2 data-ico="check">내가 찍은 스킬</h2>
+      <p class="sub">배운 스킬과 특성으로 찍은 스킬만 체크하세요. 체크하면 키보드에서 그 자리가 반짝여요.</p></div>
+      <div id="abilities"></div>
+    </section>
+    <aside class="card sheet">
+      <div class="sec-head"><h2 data-ico="list">치트시트</h2>
+      <p class="sub">게임에서 ESC → 옵션 → 단축키로 이 순서대로 지정하세요.</p></div>
+      <div class="list" id="list"></div>
+      <div class="over" id="over" hidden></div>
+      <div class="actions">
+        <button class="btn pri" id="copy" type="button">목록 복사</button>
+        <button class="btn" id="reset" type="button">기본 체크로</button>
+        <span class="toast" id="toast" aria-live="polite"></span>
+      </div>
+    </aside>
+  </div>
+
+  <section class="card" id="build">
+    <div class="sec-head"><h2 data-ico="star">최고 레벨 빌드 <span class="h-note">레벨 90부터</span></h2>
+    <p class="sub" id="build-sub">레벨 90이 되면 영웅 특성을 둘 중 하나 골라요. 빌드를 고르면 위 스킬 체크와 키 배치가 그 빌드에 맞게 바뀌어요.</p></div>
+    <div class="build" id="meta"></div>
+  </section>
+
+  <section class="card" id="setup">
+    <div class="sec-head"><h2 data-ico="tool">스킬 말고 필요한 키</h2>
+    <p class="sub">스킬 말고도 키가 필요한 기능들이에요. ESDF로 바꾸면서 원래 C·V·R·T·Z에 있던 기능이 밀려나니 같이 정리하세요.</p></div>
+    <div class="tblwrap"><table class="ut"><thead><tr><th>추천 키</th><th>기능</th><th>원래</th><th>메모</th></tr></thead><tbody id="ut"></tbody></table></div>
+  </section>
+
+  <ul class="foot foot-list"><li>스킬 이름은 한글 표기와 조금 다를 수 있어 영문 이름을 함께 적었어요.</li><li>체크 상태는 이 브라우저에만 저장돼요.</li><li>아직 안 배운 스킬은 비워두고, 배울 때마다 체크를 늘리면 돼요.</li></ul>
+  </div>
+
+
+  <div class="view" id="v-rotation" hidden>
+    <section class="card">
+      <div class="sec-head"><h2 data-ico="bolt"><span id="rot-title">딜사이클</span></h2>
+      <p class="sub" id="rot-sub"></p></div>
+      <div class="rot" id="rot"></div>
+    </section>
+  </div>
+
+  <div class="view" id="v-route" hidden>
+    <nav class="subtabs rt-tabs" aria-label="진행 흐름 메뉴"><button type="button" id="rt-level" data-rt="level" aria-pressed="true">레벨업 흐름</button><button type="button" id="rt-story" data-rt="story" aria-pressed="false">스토리 흐름</button></nav>
+    <div class="rt-panel" id="rt-panel-level">
+    <section class="card">
+      <div class="sec-head"><h2 data-ico="flag">레벨업 흐름</h2>
+      <p class="sub">레벨 구간마다 어디서 무엇을 하는지예요. 홈에 적은 레벨 기준으로 지금 단계가 표시돼요.</p></div>
+      <ol class="timeline">
+        <li><span class="lvl">10–70</span><div><b>크로미 시간</b><p>대도시의 크로미에게 말을 걸어 어느 확장팩에서 레벨업할지 골라요. 기본은 용군단이에요. 탱커라면 퀘스트를 하면서 던전을 계속 신청해 두세요.</p></div></li>
+        <li><span class="lvl">70–80</span><div><b>내부 전쟁 · 빠른 스토리</b><p>한밤 바로 앞 이야기를 빠르게 따라잡는 퀘스트가 있어요. 약 2시간 분량이라 건너뛰지 않는 걸 추천해요.</p></div></li>
+        <li><span class="lvl">78+</span><div><b>한밤 도입 퀘스트 시작</b><p>레벨 78부터 한밤 이야기를 시작할 수 있어요.</p></div></li>
+        <li><span class="lvl">80–90</span><div><b>한밤 캠페인</b><p>17장으로 된 캠페인을 따라가면 거의 90에 가까워져요. 나머지는 전역 퀘스트로 채워요.</p></div></li>
+      </ol>
+      <p class="note-line"><b>특성은</b> 특성창의 추천(스타터) 빌드를 켜두면 레벨마다 알아서 찍혀요. 더 신경 쓰고 싶으면 Icy Veins 레벨업 가이드의 레벨 슬라이더를 참고하세요.</p>
+    </section>
+
+    <section class="card">
+      <div class="sec-head"><h2 data-ico="map">한밤 지역 순서 (80–90)</h2>
+      <p class="sub">첫 캐릭터는 이 순서로 열려요. 가운데 세 곳은 원하는 순서로 하되 셋 다 끝내야 마지막 지역이 열려요.</p></div>
+      <div class="zones">
+        <div class="zone"><span class="lvl">80–82</span><b>영원노래 숲</b><span class="en">Eversong Woods</span></div>
+        <div class="zone-arrow" aria-hidden="true">→</div>
+        <div class="zone multi">
+          <div><span class="lvl">82–88</span><b>줄아만</b><span class="en">Zul'Aman</span></div>
+          <div><span class="lvl">82–88</span><b>하란다르</b><span class="en">Harandar</span></div>
+          <div><span class="lvl">82–88</span><b>아라토르 퀘스트</b><span class="en">Arator questline · 동부 왕국</span></div>
+        </div>
+        <div class="zone-arrow" aria-hidden="true">→</div>
+        <div class="zone"><span class="lvl">88–90</span><b>공허폭풍</b><span class="en">Voidstorm</span></div>
+      </div>
+      <p class="note-line">한글 지역 이름은 실제 게임 표기와 다를 수 있어서 영어 이름을 함께 적었어요.</p>
+    </section>
+
+    <div>
+      <section class="card">
+        <div class="sec-head"><h2 data-ico="bolt">빠른 루트</h2>
+        <p class="sub">빨리 최고 레벨을 찍고 싶을 때.</p></div>
+        <ul class="plain">
+          <li><b>10–70은 던전 위주.</b> 탱커는 대기가 거의 없어서 던전을 계속 도는 게 빨라요. 기다리는 동안 크로미 시간 퀘스트를 해요.</li>
+          <li><b>70–80은 내부 전쟁 빠른 스토리</b>를 따라가면서 던전을 섞어요.</li>
+          <li><b>80–90은 캠페인 + 사이드 퀘스트 + 던전.</b> 레벨업 던전은 바람달리기 첨탑(Windrunner Spire), 날로라크의 굴(Den of Nalorakk) 등 다섯 곳이에요.</li>
+          <li><b>구렁은 첫 완료 퀘스트만.</b> 처음 깰 때 주는 퀘스트 보상 경험치가 좋아요. 반복은 효율이 낮아요.</li>
+          <li><b>탈것 비행</b>은 한밤 시작부터 제한 없이 쓸 수 있어요.</li>
+        </ul>
+      </section>
+    </div>
+    <ul class="foot foot-list"><li>출처: Icy Veins 한밤 레벨업 가이드(2026년 5월 갱신), Warcraft Wiki</li><li>레벨 구간은 패치에 따라 바뀔 수 있어요.</li></ul>
+    </div>
+    <div class="rt-panel" id="rt-panel-story" hidden>
+      <section class="card">
+        <div class="sec-head"><h2>와우 이야기 한눈에</h2>
+        <p class="sub">출시 순서가 곧 이야기 순서예요. 큰 줄기만 적어서 결말 스포일러는 피했어요.</p></div>
+        <ol class="eras">
+        <li class="era"><div class="era-y">2004</div><div class="era-b"><div class="era-h"><b>오리지널</b></div><div class="era-z">옛 세계 (칼림도어 · 동부 왕국)</div><p>3차 대전쟁 뒤 호드와 얼라이언스가 각자 다시 일어서는 이야기. 검은용 오닉시아, 고대 신 크툰, 리치 왕의 부하 켈투자드가 등장해요.</p><div class="era-how"><span class="howk">보는 법</span>지금 게임에선 원래 모습 그대로 볼 수 없어요. 옛 세계 퀘스트는 대격변 때 다시 만들어진 거예요.</div></div></li>
+        <li class="era key"><div class="era-y">2007</div><div class="era-b"><div class="era-h"><b>불타는 성전</b><span class="must"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>한밤 전에 추천</span></div><div class="era-z">아웃랜드</div><p>일리단과 불타는 군단이 남긴 땅. 블러드 엘프가 처음 등장하고, 마지막에 <b>태양샘</b>을 되살리는 이야기로 끝나요.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간</div></div></li>
+        <li class="era"><div class="era-y">2008</div><div class="era-b"><div class="era-h"><b>리치 왕의 분노</b></div><div class="era-z">노스렌드</div><p>아서스, 리치 왕과의 결전. 와우에서 가장 사랑받는 이야기 중 하나예요.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간</div></div></li>
+        <li class="era"><div class="era-y">2010</div><div class="era-b"><div class="era-h"><b>대격변</b></div><div class="era-z">옛 세계 전체</div><p>검은용 데스윙이 돌아와 세계가 갈라져요. 옛 세계 퀘스트가 지금 모습으로 바뀐 때예요.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간</div></div></li>
+        <li class="era"><div class="era-y">2012</div><div class="era-b"><div class="era-h"><b>판다리아의 안개</b></div><div class="era-z">판다리아</div><p>안개에 가려졌던 대륙과 판다렌. 마지막엔 가로쉬와의 오그리마 공성전.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간</div></div></li>
+        <li class="era"><div class="era-y">2014</div><div class="era-b"><div class="era-h"><b>드레노어의 전쟁군주</b></div><div class="era-z">과거의 드레노어</div><p>시간을 거슬러 간 오크들의 고향. 철호드와 굴단의 이야기.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간</div></div></li>
+        <li class="era key"><div class="era-y">2016</div><div class="era-b"><div class="era-h"><b>군단</b><span class="must"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>한밤 전에 추천</span></div><div class="era-z">부서진 섬</div><p>불타는 군단의 본격 침공. 직업별 유물 무기 이야기가 있고, 훗날 한밤까지 이어지는 <b>공허</b>와 <b>잘라타스</b>가 처음 얼굴을 비춰요.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간</div></div></li>
+        <li class="era"><div class="era-y">2018</div><div class="era-b"><div class="era-h"><b>격전의 아제로스</b></div><div class="era-z">쿨 티라스 · 잔달라</div><p>호드와 얼라이언스의 전쟁, 그리고 실바나스의 이탈. 고대 신 느조스.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간</div></div></li>
+        <li class="era"><div class="era-y">2020</div><div class="era-b"><div class="era-h"><b>어둠땅</b></div><div class="era-z">사후 세계</div><p>죽음 너머의 세계, 간수와 실바나스의 이야기.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간</div></div></li>
+        <li class="era"><div class="era-y">2022</div><div class="era-b"><div class="era-h"><b>용군단</b></div><div class="era-z">용의 섬</div><p>위상(용들의 수호자)들이 고향으로 돌아오는 이야기. 크로미 시간 기본값이라 처음 레벨업하면 보통 여기서 해요.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간 (기본)</div></div></li>
+        <li class="era key"><div class="era-y">2024</div><div class="era-b"><div class="era-h"><b>내부 전쟁</b><span class="must"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>한밤 전에 추천</span></div><div class="era-z">카즈 알가르 (새 대륙과 그 아래 지하 세계)</div><p>세계영혼 사가 1부. 공허의 존재 잘라타스가 본격적으로 움직여요. <b>한밤 바로 앞 이야기</b>예요.</p><div class="era-how"><span class="howk">보는 법</span>70–80 빠른 스토리</div></div></li>
+        <li class="era key"><div class="era-y">2026</div><div class="era-b"><div class="era-h"><b>한밤</b><span class="must"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>한밤 전에 추천</span></div><div class="era-z">쿠엘탈라스</div><p>세계영혼 사가 2부. 블러드 엘프의 고향과 태양샘을 공허로부터 지키는 이야기.</p><div class="era-how"><span class="howk">보는 법</span>80–90 캠페인</div></div></li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <div class="sec-head"><h2>스토리를 보고 싶다면</h2>
+        <p class="sub">레벨업하면서 자연스럽게 보는 방법이에요.</p></div>
+        <ol class="steps">
+          <li><b>10–70: 크로미 시간에서 불타는 성전부터.</b> 이야기 순서대로 보고 싶다면 불타는 성전이 시작점이에요. 한밤의 무대인 태양샘 이야기도 여기서 시작해요. 레벨이 남으면 리치 왕의 분노로 이어가세요.</li>
+          <li><b>70–80: 내부 전쟁 빠른 스토리는 꼭.</b> 한밤 바로 앞 이야기라 건너뛰면 한밤이 이해하기 어려워요.</li>
+          <li><b>80–90: 한밤 캠페인을 순서대로.</b> 지역마다 사이드 퀘스트에도 이야기가 있어요.</li>
+          <li><b>최고 레벨 이후: 놓친 시대 돌아보기.</b> 레벨이 높아지면 옛 지역 퀘스트와 던전을 혼자서도 쉽게 할 수 있어요. 리치 왕의 분노나 군단처럼 유명한 이야기를 천천히 따라가 보세요.</li>
+          <li><b>부캐로 다른 시대.</b> 혈기 죽기는 크로미 시간에서 다른 시대를 골라 레벨업하면 이야기를 새로 볼 수 있어요.</li>
+        </ol>
+        <p class="note-line"><b>대격변부터가 아니에요.</b> 지금 옛 세계(칼림도어·동부 왕국) 퀘스트는 대격변 때 다시 만든 것이라, 시간상으로는 리치 왕의 분노 <b>다음</b> 이야기예요. 그래서 순서대로 보려면 불타는 성전 → 리치 왕의 분노 → 대격변 순이에요.</p>
+        <p class="note-line">원래 2004년 모습의 옛 세계는 별도 게임인 <b>WoW 클래식</b> 서버에서 볼 수 있어요. 지금 게임(한밤)의 옛 세계는 대격변 이후 모습이에요.</p>
+      </section>
+    </div>
+  </div>
+
+  <div class="view" id="v-guide" hidden>
+    <nav class="subtabs role-tabs" aria-label="역할"><button type="button" data-role-btn="tank" id="role-tank">탱커</button><button type="button" data-role-btn="dps" id="role-dps">딜러</button><button type="button" data-role-btn="heal" id="role-heal">힐러</button></nav>
+    <section class="card">
+      <div class="sec-head"><h2><span data-for="tank">탱커 기본기</span><span data-for="dps">딜러 기본기</span><span data-for="heal">힐러 기본기</span></h2>
+      <p class="sub">이것만 알아도 던전이 훨씬 편해져요.</p></div>
+      <div class="basics" data-for="tank"><div class="basic"><span class="num">1</span><div><b>몹이 파티를 보지 않게</b><p>몹의 정면(브레스·휩쓸기)이 파티원에게 가지 않도록, 몹을 끌어와 파티 반대쪽을 보게 세워요.</p></div></div><div class="basic"><span class="num">2</span><div><b>주문 쓰는 몹은 기둥 뒤로</b><p>멀리서 주문만 쏘는 몹은 벽이나 기둥 뒤로 숨어서 다가오게 만들면 한곳에 모여요.</p></div></div><div class="basic"><span class="num">3</span><div><b>순찰하는 몹 조심</b><p>길을 따라 움직이는 몹이 싸움 중에 끼어들면 위험해요. 지나간 뒤에 끌어요.</p></div></div><div class="basic"><span class="num">4</span><div><b>끝나기 전에 다음 무리 끌지 않기</b><p>익숙해지기 전엔 한 무리씩. 힐러 마나와 내 생존기가 돌아왔는지 보고 다음으로.</p></div></div><div class="basic"><span class="num">5</span><div><b>죽어도 괜찮아요</b><p>던전에서 쓰러지면 입구에서 부활해 다시 걸어오면 돼요. 파티원이 살려주기도 해요.</p></div></div></div>
+      <div class="basics" data-for="dps"><div class="basic"><span class="num">1</span><div><b>탱커 뒤나 옆에 서기</b><p>몹 정면에 서면 브레스나 휩쓸기를 맞아요.</p></div></div><div class="basic"><span class="num">2</span><div><b>위협 수준 조심</b><p>탱커가 몹을 잡기 전에 세게 때리면 몹이 나에게 와요. 시작은 한 박자 늦게.</p></div></div><div class="basic"><span class="num">3</span><div><b>차단 담당 정하기</b><p>위험한 주문을 쓰는 몹은 딜러도 차단해요. 분노 전사는 자루 공격(G).</p></div></div><div class="basic"><span class="num">4</span><div><b>광역은 같이</b><p>탱커가 무리를 모으면 소용돌이로 함께 잡아요.</p></div></div><div class="basic"><span class="num">5</span><div><b>바닥이 먼저</b><p>바닥 공격을 피하는 게 피해량보다 중요해요.</p></div></div></div>
+      <div class="basics" data-for="heal"><div class="basic"><span class="num">1</span><div><b>탱커를 시야 안에</b><p>기둥이나 벽에 가리면 치유가 닿지 않아요.</p></div></div><div class="basic"><span class="num">2</span><div><b>마나 관리</b><p>무리 사이에 마시고 회복하는 시간을 가져요.</p></div></div><div class="basic"><span class="num">3</span><div><b>위급하면 말하기</b><p>"마나 없어요", "잠시만요"처럼 짧게 알려주면 파티가 기다려 줘요.</p></div></div></div>
+    </section>
+    <section class="card">
+      <div class="sec-head"><h2>꼭 해둘 설정</h2>
+      <p class="sub">한 번만 해두면 계속 편해요. 특히 탱커에게 중요해요.</p></div>
+      <div class="basics setup4">
+        <div class="basic"><span class="num">1</span><div><b>적 이름표 항상 켜기</b><p>ESC → 옵션 → 이름표에서 적 이름표를 항상 표시로. 어떤 몹이 나를 안 때리는지 이름표 색으로 보여서 어그로 관리가 쉬워져요.</p></div></div>
+        <div class="basic"><span class="num">2</span><div><b>카메라 거리 최대로</b><p>옵션 → 카메라에서 최대 거리를 끝까지. 몹 무리와 바닥 공격이 한눈에 보여요.</p></div></div>
+        <div class="basic"><span class="num">3</span><div><b>모험 안내서 <span class="kk">Shift</span>+<span class="kk">J</span></b><p>던전과 보스 기술이 역할별로 정리돼 있어요. 들어가기 전에 탱커 항목만 읽어도 충분해요.</p></div></div>
+        <div class="basic"><span class="num">4</span><div><b>보조 전투 기능</b><p>다음에 누를 기술을 강조해 줘요. 손에 익을 때까지만 켜두면 좋아요.</p></div></div>
+      </div>
+    </section>
+    <div class="guide-2">
+      <section class="card">
+        <div class="sec-head"><h2 data-ico="shield"><span data-for="tank">탱커 매너</span><span data-for="dps">딜러 매너</span><span data-for="heal">힐러 매너</span></h2></div>
+        <ul class="plain" data-for="tank">
+          <li><b>들어가면 인사 한마디.</b> "안녕하세요, 탱커가 처음이라 천천히 가겠습니다" 정도만 써도 분위기가 훨씬 너그러워져요.</li>
+          <li><b>탱커가 길을 안내해요.</b> 길을 잘 모르면 "길을 잘 몰라서 알려주시면 감사하겠습니다"라고 부탁하면 돼요.</li>
+          <li><b>힐러 마나 확인하기.</b> 다음 무리를 끌어오기 전에 힐러 마나가 낮으면 잠시 기다려 주세요.</li>
+          <li><b>몹은 벽이나 구석으로 모으기.</b> 딜러분들이 광역 기술로 한 번에 잡기 쉬워져요.</li>
+          <li><b>실수했을 땐 "죄송합니다" 한마디면 충분해요.</b> 다들 처음엔 그랬어요.</li>
+          <li data-only="blood"><b>전투 부활은 상황 보고.</b> 동맹 되살리기는 보통 쓰러진 힐러나 탱커를 먼저 살려요. 살릴 때 "부활 드립니다"라고 알려주면 좋아요.</li>
+        </ul>
+        <ul class="plain" data-for="dps">
+          <li><b>들어가면 인사 한마디.</b> "안녕하세요, 잘 부탁드립니다" 정도면 충분해요.</li>
+          <li><b>탱커보다 먼저 몹을 치지 않기.</b> 딜러가 먼저 때리면 몹이 딜러에게 와서 탱커와 힐러 모두 힘들어져요.</li>
+          <li><b>차단은 딜러도 적극적으로.</b> 탱커 혼자서는 다 끊기 어려워요.</li>
+          <li><b>바닥 피하기가 공격보다 먼저.</b> 쓰러지면 피해량이 0이 돼요.</li>
+          <li><b>실수했을 땐 "죄송합니다" 한마디면 충분해요.</b></li>
+        </ul>
+        <ul class="plain" data-for="heal">
+          <li><b>들어가면 인사 한마디.</b> "안녕하세요, 잘 부탁드립니다" 정도면 충분해요.</li>
+          <li><b>마나가 부족하면 알려주기.</b> "마나 회복할 시간을 조금만 주세요"라고 말하면 탱커가 기다려 줘요.</li>
+          <li><b>탱커가 보이는 곳에 서기.</b> 시야가 막히면 치유가 닿지 않아요.</li>
+          <li><b>바닥 피하기와 차단도 함께.</b> 여유가 있으면 차단도 도와주세요.</li>
+          <li><b>실수했을 땐 "죄송합니다" 한마디면 충분해요.</b></li>
+        </ul>
+        <p class="note-line" data-for="heal">지금 캐릭터 중엔 힐러가 없지만, 힐러가 무엇을 바라는지 알면 탱커를 할 때 훨씬 편해져요.</p>
+      </section>
+      <section class="card">
+        <div class="sec-head"><h2 data-ico="map"><span data-for="tank dps">던전 길 익히기</span><span data-for="heal">힐러 이해하기</span></h2>
+        <p class="sub" data-for="tank">딜러로 구경하고, 추종자 던전에서 연습한 뒤 실제 파티로 가요.</p>
+        <p class="sub" data-for="dps">분노 전사로 돌면서 나중에 탱커로 갈 길을 미리 봐두세요.</p>
+        <p class="sub" data-for="heal">힐러가 보는 화면을 이해하면 탱커로 갈 때 도움이 돼요.</p></div>
+        <ol class="steps" data-for="tank" data-only="prot fury">
+          <li><b>분노 전사로 무작위 던전.</b> 탱커가 어디서 멈추고 어떤 무리를 건너뛰는지 봐두세요.</li>
+          <li><b>추종자 던전에서 방어 전사로 연습.</b> 파티 찾기(I) 창에서 NPC와 함께 가는 던전이에요. 내 속도로 천천히 해볼 수 있어요.</li>
+          <li><b>익숙해지면 실제 파티에서 탱커로.</b></li>
+        </ol>
+        <ol class="steps" data-for="tank" data-only="blood">
+          <li><b>추종자 던전에서 혈기로 연습.</b> 파티 찾기(I) 창에서 NPC와 함께 가는 던전이에요.</li>
+          <li><b>죽음의 손아귀로 모으기 연습.</b> 멀리 있는 몹을 끌어와 한곳에 모으는 게 혈기 죽음의 기사의 장점이에요.</li>
+          <li><b>익숙해지면 실제 파티에서 탱커로.</b> 방어 전사로 익힌 길을 그대로 쓰면 돼요.</li>
+        </ol>
+        <ol class="steps" data-for="heal">
+          <li><b>힐러는 파티원 체력 바를 봐요.</b> 큰 무리를 끌기 전에 잠깐 멈추면 힐러가 준비할 수 있어요.</li>
+          <li><b>마나는 무리 사이에 회복해요.</b> 쉬지 않고 계속 끌면 마나가 바닥날 수 있어요.</li>
+          <li><b>탱커의 생존기가 힐러를 살려요.</b> 위급할 때 생존기를 먼저 쓰면 힐러가 여유를 찾아요.</li>
+        </ol>
+        <ol class="steps" data-for="dps">
+          <li><b>무작위 던전 신청.</b> 딜러는 대기가 길어요. 기다리는 동안 퀘스트나 구렁을 하면 좋아요.</li>
+          <li><b>탱커의 동선 보기.</b> 어디서 멈추는지, 어떤 무리를 건너뛰는지가 나중에 방어 전사로 갈 길이에요.</li>
+          <li><b>다음은 추종자 던전에서 방어 전사로.</b> 길이 익숙해지면 탱커 연습으로 넘어가세요.</li>
+        </ol>
+      </section>
+    </div>
+    <section class="card">
+      <div class="sec-head"><h2 data-ico="chat">채팅 명령어</h2>
+      <p class="sub">Enter를 누르고 바로 입력하면 직전에 쓴 채널로 보내져요. 파티 이야기를 일반 채널에 보내지 않도록 확인하고 보내세요.</p></div>
+      <div class="tblwrap"><table class="ut"><thead><tr><th>명령어</th><th>받는 사람</th><th>언제 쓰나요</th></tr></thead><tbody>
+        <tr><td><span class="kk">/p</span></td><td>파티원</td><td class="why">일반 파티</td></tr>
+        <tr><td><span class="kk">/i</span></td><td>인스턴스 파티</td><td class="why">파티 찾기로 들어간 던전·공격대에서는 /p 대신 이걸 써요</td></tr>
+        <tr><td><span class="kk">/raid</span></td><td>공격대원</td><td class="why">공격대</td></tr>
+        <tr><td><span class="kk">/w 이름</span></td><td>귓속말</td><td class="why">한 사람과 대화할 때</td></tr>
+        <tr><td><span class="kk">/r</span></td><td>마지막으로 귓속말한 사람</td><td class="why">귓속말에 답장할 때</td></tr>
+        <tr><td><span class="kk">/g</span></td><td>길드원</td><td class="why">길드에 가입한 뒤</td></tr>
+        <tr><td><span class="kk">/s</span></td><td>근처 사람</td><td class="why">옆에 있는 사람에게 말할 때</td></tr>
+        <tr><td><span class="kk">/1</span></td><td>일반 채널</td><td class="why">지역 전체 대화</td></tr>
+        <tr><td><span class="kk">/2</span></td><td>거래 채널</td><td class="why">대도시에서만 보여요. 판매·구인 글이 많아요</td></tr>
+        <tr><td><span class="kk">/y</span> <span class="kk">/3</span></td><td>외치기 · 지역 방어</td><td class="why">거의 쓰지 않아요</td></tr>
+      </tbody></table></div>
+    </section>
+    <section class="card">
+      <div class="sec-head"><h2 data-ico="book">자주 보는 용어</h2>
+      <p class="sub">파티 채팅에서 다른 분들이 자주 쓰는 말이에요. 괄호 안은 줄여서 부르는 말이에요.</p></div>
+      <div class="terms">
+        <div class="term-grp"><h3>역할</h3><dl>
+          <div><dt>탱커 (탱)</dt><dd>몹을 붙잡고 대신 맞는 역할이에요.</dd></div>
+          <div><dt>힐러 (힐)</dt><dd>파티원을 치유하는 역할이에요.</dd></div>
+          <div><dt>딜러 (딜)</dt><dd>피해를 주는 역할이에요.</dd></div></dl></div>
+        <div class="term-grp"><h3>전투</h3><dl>
+          <div><dt>위협 수준 (어그로)</dt><dd>몹이 누구를 공격하는지예요. 탱커가 잡고 있어야 해요.</dd></div>
+          <div><dt>몹 끌어오기 (풀)</dt><dd>몹 무리를 데려오는 것. "크게 끈다"는 여러 무리를 한 번에 데려온다는 뜻이에요.</dd></div>
+          <div><dt>차단 (짤)</dt><dd>몹의 주문 시전을 끊는 것. 전사는 자루 공격, 죽음의 기사는 정신 얼리기예요.</dd></div>
+          <div><dt>재사용 대기시간 (쿨)</dt><dd>기술을 다시 쓸 수 있을 때까지의 시간이에요.</dd></div>
+          <div><dt>영웅심 (블러드)</dt><dd>파티 전체 공격 속도가 빨라지는 효과. 보스나 큰 무리에서 써요.</dd></div>
+          <div><dt>전투 부활 (전부)</dt><dd>전투 중에 쓰러진 사람을 살리는 것. 죽음의 기사는 동맹 되살리기로 할 수 있어요.</dd></div>
+          <div><dt>일반 몹 · 마지막 보스 (쫄 · 막넴)</dt><dd>보스가 아닌 몹 · 던전의 마지막 보스</dd></div>
+          <div><dt>바닥 공격</dt><dd>바닥에 깔리는 장판 공격이에요. 꼭 피해 주세요.</dd></div></dl></div>
+        <div class="term-grp"><h3>콘텐츠</h3><dl>
+          <div><dt>파티 찾기 (파찾)</dt><dd>단축키 I. 무작위 던전도 여기서 신청해요.</dd></div>
+          <div><dt>신화+ 던전 (쐐기)</dt><dd>시간 제한이 있는 높은 난이도 던전이에요.</dd></div>
+          <div><dt>구렁</dt><dd>1~4인이 하는 소규모 콘텐츠예요 (Delves).</dd></div>
+          <div><dt>아이템 레벨 (아이템 레벨)</dt><dd>장비의 평균 수준이에요.</dd></div>
+          <div><dt>위대한 금고 (금고)</dt><dd>주간 콘텐츠를 하면 다음 주에 보상을 골라요.</dd></div>
+          <div><dt>임시 파티 (공팟)</dt><dd>모르는 분들끼리 모인 파티나 공격대예요.</dd></div></dl></div>
+      </div>
+    </section>
+
+
+
+    <div class="guide-2">
+      <section class="card">
+        <div class="sec-head"><h2 data-ico="puzzle">애드온</h2></div>
+        <dl class="facts">
+          <div><dt>EllesmereUI</dt><dd>사용 중. 행동 단축바·프레임·가방·미니맵을 이것 하나로 정리해요. 업데이트가 잦아서 CurseForge 앱으로 설치해 두고 가끔 업데이트하면 편해요.</dd></div>
+          <div><dt>HandyNotes</dt><dd>사용 중. 보물·희귀 몹 위치를 지도에 표시해요. 본체만으로는 표시가 거의 없어서 <b>HandyNotes: Midnight</b> 같은 지역 데이터 플러그인을 함께 설치해야 해요.</dd></div>
+          <div><dt>추천 · DBM 또는 BigWigs</dt><dd>한밤에서도 작동해요. 다만 블리자드가 애드온 제한을 강화해서 예전보다 알려주는 정보가 줄었고, 게임 기본 보스 알림 기능도 생겼어요. 그래도 여전히 많이 쓰니 둘 중 하나를 설치해 두면 좋아요.</dd></div>
+          <div><dt>추천 · Details!</dt><dd>피해량·치유량·받은 피해를 보여줘요. 한밤에서 일부 실시간 정보가 가려졌지만 거의 예전처럼 쓸 수 있어요.</dd></div>
+        </dl>
+      </section>
+      <section class="card">
+        <div class="sec-head"><h2 data-ico="heart">생활 팁</h2></div>
+        <ul class="plain">
+          <li><b>친구 창은 <span class="kk">O</span>.</b> 애드온과 상관없이 열려요. 친구 추가는 <span class="kk">/친구 이름</span> 또는 이름을 오른쪽 클릭해서 할 수 있어요.</li>
+          <li><b>EllesmereUI 미니맵.</b> 마우스를 올리면 친구·길드원 버튼이 나와요. 보이지 않으면 미니맵 설정에서 Hide Extra Buttons를 꺼 주세요. 휠을 클릭하면 메뉴 바로가기가 떠요.</li>
+          <li><b>귀환석.</b> 가방의 귀환석을 쓰면 귀환 장소(여관)로 돌아가요. 여관 주인에게 말을 걸어 귀환 장소를 정할 수 있어요.</li>
+          <li><b>장비 수리.</b> 탱커는 많이 맞아서 장비가 빨리 닳아요. 대장장이나 수리 상인에게서 가끔 수리하세요.</li>
+          <li><b>파티 찾기 역할.</b> 신청할 때 역할에 탱커만 체크하면 대기가 가장 짧아요.</li>
+          <li><b>장비 비교.</b> 새 장비에 마우스를 올리면 비교 창이 떠요. 초록색 숫자는 좋아진다는 뜻이에요.</li>
+          <li><b>전리품.</b> 던전 장비는 대부분 개인 획득이라 서로 다툴 일이 적어요.</li>
+          <li><b>경매장</b>은 대도시에 있어요. 재료와 장비를 사고팔 수 있어요.</li>
+          <li><b>사기 주의.</b> "블리자드 운영자입니다"라는 귓속말이나 골드 판매 귓속말은 모두 사기예요. 링크는 누르지 말고 이름을 오른쪽 클릭해서 신고해 주세요.</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  <footer class="copy">© 진솔 / 우사기</footer>
+</div>
+
+<script>
+const BASE=['2','3','4','W','R','5','A','Q','T','Z','C','V'];
+const SH=['S+2','S+3','S+4','S+5','S+W','S+R','S+A','S+Q','S+T','S+Z','S+C','S+V','S+G'];
+const FALL={
+  core:[...BASE,...SH],
+  cd:['Q','T','A','R','W','5','Z','V','C','S+Q','S+T','S+R','S+W',...SH],
+  def:[...SH,'Z','V','C','T'],
+  move:['C','V','Z','S+C','S+V','S+Z',...SH,...BASE],
+  cc:['Z','S+G','S+Z','S+C','S+T',...SH,...BASE],
+  misc:['S+T','S+Q','S+V','S+C','S+Z','S+R','S+W',...SH,...BASE],
+  item:['1','S+1',...SH]
+};
+const GN={core:'핵심 로테이션',cd:'강화 기술',def:'생존기',move:'이동기',cc:'차단 · 군중제어',misc:'기타',item:'소모품'};
+const A=(id,ko,en,g,pref,on,note)=>({id,ko,en,g,pref,on,note});
+const COMMON_TAIL=[
+  A('charge','돌진','Charge','move','C',1),
+  A('leap','영웅의 도약','Heroic Leap','move','V',1),
+  A('intervene','가로막기','Intervene','move','S+V',1),
+  A('pummel','자루 공격 (차단)','Pummel','cc','G',1,'차단은 항상 G에 고정됩니다'),
+  A('bolt','폭풍망치','Storm Bolt','cc','S+G',1),
+  A('shock','충격파','Shockwave','cc','S+G',0),
+  A('howl','날카로운 고함','Piercing Howl','cc','',0),
+  A('throw','영웅의 투척','Heroic Throw','misc','',0),
+  A('shatter','산산조각 투척','Shattering Throw','misc','',0),
+  A('brage','광전사의 격노','Berserker Rage','misc','',0),
+  A('bshout','전투의 외침','Battle Shout','misc','S+T',1),
+  A('trinket','장신구 사용','On-use Trinket','item','S+Q',1),
+  A('pot','체력 물약','Healing Potion','item','1',1),
+  A('hs','생명석','Healthstone','item','S+1',1)
+];
+const SPECS={
+  fury:[
+    A('bt','피의 갈증','Bloodthirst','core','2',1),
+    A('rb','분노의 강타','Raging Blow','core','3',1),
+    A('ramp','광란','Rampage','core','4',1),
+    A('exe','마무리 일격','Execute','core','5',1),
+    A('ww','소용돌이','Whirlwind','core','W',1),
+    A('odyn','오딘의 격노','Odyn\'s Fury','core','R',1),
+    A('rend','분쇄','Rend','core','A',1),
+    A('tc','천둥벼락','Thunder Clap','core','',0),
+    A('reck','무모한 희생','Recklessness','cd','Q',1),
+    A('bstorm','칼날폭풍','Bladestorm','cd','T',1,'투신과 같은 선택 노드라 하나만 찍힙니다'),
+    A('avatar','투신','Avatar','cd','T',0,'칼날폭풍과 같은 선택 노드라 하나만 찍힙니다'),
+    A('spear','용사의 창','Champion\'s Spear','cd','',0),
+    A('roar','우레의 포효','Thunderous Roar','cd','',0),
+    A('regen','격노의 재생력','Enraged Regeneration','def','S+2',1),
+    A('reflect','주문 반사','Spell Reflection','def','S+3',1),
+    A('rally','집결의 함성','Rallying Cry','def','S+4',1),
+    A('dstance','방어 태세','Defensive Stance','def','S+5',1),
+    A('vr','승리의 돌진 / 연승','Victory Rush / Impending Victory','def','S+A',1),
+    A('intim','위협의 외침','Intimidating Shout','cc','Z',1),
+    A('taunt','도발','Taunt','cc','',0),
+    ...COMMON_TAIL
+  ],
+  prot:[
+    A('ss','방패 밀쳐내기','Shield Slam','core','2',1),
+    A('tc','천둥벼락','Thunder Clap','core','3',1),
+    A('rev','복수','Revenge','core','4',1),
+    A('exe','마무리 일격','Execute','core','5',1),
+    A('block','방패 올리기','Shield Block','core','W',1),
+    A('ip','고통 감내','Ignore Pain','core','R',1),
+    A('demo','사기의 외침','Demoralizing Shout','core','A',1),
+    A('taunt','도발','Taunt','core','Z',1),
+    A('avatar','투신','Avatar','cd','Q',1),
+    A('ravager','파괴자','Ravager','cd','T',1),
+    A('scharge','방패 돌진','Shield Charge','cd','T',0),
+    A('demolish','붕괴 (거신 영웅 특성)','Demolish','cd','',0),
+    A('spear','용사의 창','Champion\'s Spear','cd','',0),
+    A('roar','우레의 포효','Thunderous Roar','cd','',0),
+    A('wall','방패의 벽','Shield Wall','def','S+2',1),
+    A('last','최후의 저항','Last Stand','def','S+3',1),
+    A('reflect','주문 반사','Spell Reflection','def','S+4',1),
+    A('rally','집결의 함성','Rallying Cry','def','S+5',1),
+    A('vr','승리의 돌진 / 연승','Victory Rush / Impending Victory','def','S+A',1),
+    A('intim','위협의 외침','Intimidating Shout','cc','S+Z',1),
+    A('disrupt','교란의 외침 (광역 차단)','Disrupting Shout','cc','S+C',0),
+    ...COMMON_TAIL
+  ],
+  blood:[
+    A('hs_strike','심장 강타','Heart Strike','core','2',1),
+    A('marrow','골수분쇄','Marrowrend','core','3',1),
+    A('ds','죽음의 일격','Death Strike','core','4',1),
+    A('boil','피의 소용돌이','Blood Boil','core','5',1),
+    A('dnd','죽음과 부패','Death and Decay','core','W',1),
+    A('caress','죽음의 손길','Death\'s Caress','core','R',1),
+    A('coil','죽음의 고리','Death Coil','core','A',0),
+    A('taunt','어둠의 명령 (도발)','Dark Command','core','Z',1),
+    A('drw','춤추는 룬 무기','Dancing Rune Weapon','cd','Q',1),
+    A('reaper','사신의 징표 (죽음의 인도자)','Reaper\'s Mark','cd','T',0),
+    A('bonestorm','뼈폭풍','Bonestorm','cd','S+T',0),
+    A('tomb','비석','Tombstone','cd','S+R',0),
+    A('consume','소모','Consumption','cd','',0),
+    A('raise','시체 되살리기','Raise Dead','cd','',0),
+    A('vamp','흡혈귀의 피','Vampiric Blood','def','S+2',1),
+    A('ams','대마법 보호막','Anti-Magic Shell','def','S+3',1),
+    A('ibf','얼음같은 인내력','Icebound Fortitude','def','S+4',1),
+    A('runetap','룬 전환','Rune Tap','def','S+5',0),
+    A('amz','대마법 지대','Anti-Magic Zone','def','S+W',1),
+    A('lich','리치의 힘','Lichborne','def','',0),
+    A('pact','희생의 서약','Sacrificial Pact','def','',0),
+    A('grip','죽음의 손아귀','Death Grip','move','C',1),
+    A('advance','죽음의 진군','Death\'s Advance','move','V',1),
+    A('wraith','망령의 걸음','Wraith Walk','move','S+V',0),
+    A('freeze','정신 얼리기 (차단)','Mind Freeze','cc','G',1,'차단은 항상 G에 고정됩니다'),
+    A('asphyx','질식','Asphyxiate','cc','S+G',1),
+    A('gorefiend','고어핀드의 손아귀','Gorefiend\'s Grasp','cc','S+Z',1),
+    A('blind','눈부신 진눈깨비','Blinding Sleet','cc','',0),
+    A('chains','얼음의 사슬','Chains of Ice','misc','',0),
+    A('raiseally','동맹 되살리기 (전투 부활)','Raise Ally','misc','S+C',1,'전투 중 쓰러진 파티원을 살려요. 죽기 탱커 필수'),
+    A('trinket','장신구 사용','On-use Trinket','item','S+Q',1),
+    A('pot','체력 물약','Healing Potion','item','1',1),
+    A('hs','생명석','Healthstone','item','S+1',1)
+  ]
+};
+const SPEC_NAME={fury:'분노 전사',prot:'방어 전사',blood:'혈기 죽기'};
+const ROWS=[
+  [['1'],['2'],['3'],['4'],['5'],['6','off']],
+  [['TAB','util','탈것',112],['Q'],['W'],['E','move','앞으로'],['R'],['T']],
+  [['CAPS','util','다음 적 대상',132],['A'],['S','move','왼쪽 이동'],['D','move','뒤로'],['F','move','오른쪽 이동'],['G']],
+  [['SHIFT','shiftkey','',172],['Z'],['X','util','상호작용'],['C'],['V'],['B','util','특수 행동 버튼']]
+];
+const OFFSET=[72,0,0,0];
+const UTIL=[
+  ['CAPS','다음 적 대상 선택','Tab → Caps','전투 중 몹을 바꿔 잡을 때 자주 누르니 새끼손가락 바로 옆에 둡니다. 단축키 → 대상 지정 → 가장 가까운 적.'],
+  ['TAB','탈것 타기','새로 지정','전투 밖에서만 누르니 조금 먼 자리여도 괜찮아요. 탈것을 이 칸 단축키에 넣으세요.'],
+  ['X','상호작용','새로 지정','NPC 대화, 시체 루팅, 퀘스트 물건 줍기를 키 하나로 합니다. 옵션의 단축키 → 상호작용에서 지정.'],
+  ['B','특수 행동 버튼','새로 지정','보스전에서 가끔 생기는 특수 버튼입니다. 안 누르면 공략이 안 되는 경우가 많아서 꼭 필요합니다.'],
+  ['⇧B','모든 가방 열기','그대로','가방은 B 대신 Shift+B로 엽니다.'],
+  ['Ctrl+V','적 이름표 켜고 끄기','V → Ctrl+V','V를 스킬에 썼으니 옮깁니다. 옵션에서 이름표를 항상 켜두면 거의 안 누릅니다.'],
+  ['Ctrl+C','캐릭터 정보','C → Ctrl+C','C를 스킬에 썼으니 옮깁니다.'],
+  ['Ctrl+2~5','징표 (해골 · X · 달 · 네모)','새로 지정','탱커는 쐐기에서 먼저 잡을 몹에 징표를 찍습니다. 단축키 → 대상 지정 → 징표 항목.'],
+  ['Ctrl+G','주시 대상 지정','새로 지정','차단할 몹을 주시해두면 놓치지 않습니다. 익숙해지면 쓰세요.'],
+  ['해제','공격(T) · 무기 넣기(Z) · 답장(R)','해제','스킬 자리로 썼으니 지워도 됩니다. 귓말 답장은 Enter 후 /r로 대신합니다.'],
+  ['그대로','지도 M · 퀘스트 L · 특성 N · 주문책 P · 던전 찾기 I','그대로','안 겹치는 키라 바꿀 필요 없습니다.']
+];
+
+let spec='prot';
+let state={};
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function defaults(s){const o={};SPECS[s].forEach(a=>o[a.id]=!!a.on);return o}
+function load(){const saved=store.get('wk-state')||{};spec=store.get('wk-spec2');if(!SPECS[spec])spec='prot';
+  ['fury','prot','blood'].forEach(s=>{state[s]=Object.assign(defaults(s),saved[s]||{})})}
+function save(){store.set('wk-state',state);store.set('wk-spec2',spec);markDirty()}
+
+function assign(){
+  const list=SPECS[spec].filter(a=>state[spec][a.id]);
+  const map={},where={},over=[];
+  list.forEach(a=>{if(a.pref&&!map[a.pref]){map[a.pref]=a;where[a.id]=a.pref}});
+  list.forEach(a=>{if(where[a.id])return;
+    const slot=FALL[a.g].find(k=>!map[k]&&(a.g==='item'||!['G','1','S+1'].includes(k)));
+    if(slot){map[slot]=a;where[a.id]=slot}else over.push(a)});
+  return {map,where,over};
+}
+const label=k=>k.startsWith('S+')?'⇧'+k.slice(2):k;
+
+
+const META={
+  prot:{heroes:[
+      {n:'산왕',en:'Mountain Thane',pick:'레이드 · 쐐기 추천',d:'천둥벼락이 번개 섞인 천둥 폭발로 강해지는 스타일. 광역 딜이 세요.'},
+      {n:'거신',en:'Colossus',pick:'',d:'붕괴(Demolish)라는 큰 한 방 버튼이 하나 생기는 스타일.'}],
+    builds:[
+      {name:'레이드용 체크',sub:'산왕 · 최후의 저항 포함',on:['ss','tc','rev','exe','block','ip','demo','taunt','avatar','last','wall'],off:['demolish']},
+      {name:'쐐기용 체크',sub:'산왕 · 광역 기절 · 광역 차단',on:['ss','tc','rev','exe','block','ip','demo','taunt','avatar','shock','bolt','disrupt'],off:['demolish']},
+      {name:'거신으로 할 때',sub:'붕괴 버튼 추가',on:['demolish'],off:[]}],
+    links:[['Icy Veins','https://www.icy-veins.com/wow/protection-warrior-pve-tank-spec-builds-talents'],['Method','https://www.method.gg/guides/protection-warrior/talents'],['Archon','https://www.archon.gg/wow/builds/protection/warrior/raid/overview/heroic/crown']]},
+  fury:{heroes:[
+      {n:'학살자',en:'Slayer',pick:'레이드 추천',d:'마무리 일격과 칼날폭풍으로 한 대상을 세게 때리는 스타일.'},
+      {n:'산왕',en:'Mountain Thane',pick:'일반 몹이 많을 때',d:'소용돌이 대신 천둥벼락을 쓰는 광역 스타일. 쐐기에선 둘이 비슷해요.'}],
+    builds:[
+      {name:'학살자 체크',sub:'마무리 일격 · 칼날폭풍',on:['bt','rb','ramp','exe','reck','bstorm'],off:['avatar']},
+      {name:'산왕 체크',sub:'소용돌이 대신 천둥벼락',on:['bt','rb','ramp','exe','reck','tc'],off:['ww']}],
+    links:[['Icy Veins','https://www.icy-veins.com/wow/fury-warrior-pve-dps-spec-builds-talents'],['murlok.io','https://murlok.io/warrior/fury/m+']]},
+  blood:{heroes:[
+      {n:'산레인',en:'San\'layn',pick:'레이드 · 쐐기 추천',d:'춤추는 룬 무기를 켜면 흡혈 공격을 계속 쓰는 흡혈귀 스타일.'},
+      {n:'죽음의 인도자',en:'Deathbringer',pick:'',d:'사신의 징표 버튼이 생겨요. 더 단순하지만 광역이 약해요.'}],
+    builds:[
+      {name:'산레인 체크',sub:'춤추는 룬 무기 중심',on:['drw','vamp'],off:['reaper']},
+      {name:'죽음의 인도자 체크',sub:'사신의 징표 추가',on:['drw','vamp','reaper'],off:[]}],
+    links:[['Icy Veins','https://www.icy-veins.com/wow/blood-death-knight-pve-tank-spec-builds-talents'],['Archon','https://www.archon.gg/wow/builds/blood/death-knight/mythic-plus/overview/high-keys/all-dungeons/this-week']]}
+};
+let buildMsg={};
+function flashAbilities(ids){requestAnimationFrame(()=>{ids.forEach(id=>{const lab=document.querySelector(`label[for="ab-${spec}-${id}"]`);if(lab){lab.classList.remove('flash');void lab.offsetWidth;lab.classList.add('flash')}
+  const slot=assign().where[id];if(slot){document.querySelectorAll(`.cap[data-key="${slot.replace('S+','')}"],.mcap[data-key="${slot.replace('S+','')}"]`).forEach(c=>{c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash')})}})})}
+function renderMeta(){const m=META[spec],el=document.getElementById('meta');
+  const byId=Object.fromEntries(SPECS[spec].map(a=>[a.id,a]));
+  const applied=b=>b.on.every(id=>state[spec][id])&&b.off.every(id=>!state[spec][id]);
+  el.innerHTML=`<div class="heroes">${m.heroes.map(h=>`<div class="hero${h.pick?' on':''}"><div class="hero-top"><b>${h.n}</b><span class="en">${h.en}</span>${h.pick?`<span class="tag"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>${h.pick}</span>`:''}</div><p>${h.d}</p></div>`).join('')}</div>
+  <div class="build-row"><div class="build-label">빌드 고르기 <span>누르면 그 빌드에서 쓰는 스킬로 키 배치가 바뀌어요.</span></div><div class="presets"></div><div class="build-msg" id="build-msg" aria-live="polite"></div></div>
+  <p class="build-foot">패치 12.1.5 · 시즌 2 기준. 정확한 특성 문자열은 ${m.links.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(' · ')}에서 복사해 게임에서 불러오세요.</p>`;
+  const box=el.querySelector('.presets');
+  m.builds.forEach((b,i)=>{const on=state[spec].__build===i&&applied(b);const btn=document.createElement('button');btn.type='button';btn.className='pre';btn.id='pre-'+spec+'-'+i;btn.setAttribute('aria-pressed',on);
+    btn.innerHTML=`<span class="pre-top"><b>${b.name.replace(' 체크','')}</b><span class="pre-state">${on?'적용됨':'적용하기'}</span></span><span class="pre-sub">${b.sub}</span>`;
+    btn.addEventListener('click',()=>{const added=b.on.filter(id=>!state[spec][id]&&byId[id]),removed=b.off.filter(id=>state[spec][id]&&byId[id]);
+      b.on.forEach(id=>state[spec][id]=true);b.off.forEach(id=>state[spec][id]=false);state[spec].__build=i;save();
+      buildMsg[spec]={name:b.name.replace(' 체크',''),added,removed};render();flashAbilities([...added,...removed]);});
+    box.appendChild(btn)});
+  const msg=buildMsg[spec],mb=document.getElementById('build-msg');
+  if(msg){const w=assign().where;const nm=id=>`<span class="dot-c cat-${byId[id].g}">${byId[id].ko}</span>${w[id]?` <span class="kk">${label(w[id])}</span>`:''}`;
+    mb.innerHTML=`<div class="bm-h"><b>${msg.name}</b> 빌드로 바꿨어요.</div>`+
+      (msg.added.length||msg.removed.length?`${msg.added.length?`<div class="bm-row"><span class="bm-k add">추가</span>${msg.added.map(nm).join('')}</div>`:''}${msg.removed.length?`<div class="bm-row"><span class="bm-k rem">뺌</span>${msg.removed.map(id=>`<span class="dot-c cat-${byId[id].g}">${byId[id].ko}</span>`).join('')}</div>`:''}`:'<div class="bm-row muted">이미 이 빌드대로 체크되어 있어서 바뀐 스킬은 없어요.</div>')+
+      `<button type="button" class="go bm-go" id="bm-go">키 배치에서 확인하기</button>`;
+    mb.hidden=false;
+    document.getElementById('bm-go').addEventListener('click',()=>{showView('keys');try{history.replaceState(null,'','#keys')}catch(e){};window.scrollTo({top:0});flashAbilities([...msg.added,...msg.removed]);});
+  }else mb.hidden=true;
+}
+
+const LV={
+  prot:{talent:'특성은 가이드의 레벨 80 특성 문자열을 게임에서 불러오면, 레벨이 오를 때마다 같은 순서로 자동 추천됩니다. 귀찮으면 특성창의 추천(스타터) 빌드를 켜도 충분해요.',
+    order:['charge','ss','tc','demo','exe','rev','block','ip','vr'],
+    orderNote:{exe:'적 체력 20% 이하',rev:'남는 분노를 쓸 때',block:'물리 피해 셀 때',ip:'분노로 피해 흡수',vr:'처치 후 회복'},
+    tips:['몹을 크게 모아서 한 번에 잡아도 잘 안 죽어요.','퀘스트 사이사이 던전을 신청하세요. 탱커는 대기가 짧고 경험치도 많아요.','장비는 아이템 레벨 높은 걸로. 고르기 애매하면 가속이 붙은 쪽.','전쟁 모드를 켜면 PvP 특성 Morale Killer · Dragon Charge · Sword and Board가 레벨업에 좋아요.'],
+    link:['Icy Veins 방어 전사 레벨업 가이드','https://icy-veins.com/wow/protection-warrior-leveling-guide']},
+  fury:{talent:'퀘스트용으로 잠깐 쓸 거면 특성창 추천(스타터) 빌드로 충분해요. 최고 레벨 빌드는 위 메타 버튼을 참고하세요.',
+    order:['charge','reck','ramp','exe','bt','rb','ww','vr'],
+    orderNote:{ramp:'격노가 꺼져 있으면 먼저',exe:'적 체력 낮을 때',ww:'몹 여럿이면 먼저 한 번',vr:'처치 후 회복'},
+    tips:['격노의 재생력은 체력이 반쯤일 때 눌러요.','쿨기는 아끼지 말고 쓸 수 있을 때마다 쓰세요. 금방 돌아와요.','몹 여럿이면 소용돌이 → 광란 순서로 광역을 돌려요.'],
+    link:['Icy Veins 분노 전사 특성','https://www.icy-veins.com/wow/fury-warrior-pve-dps-spec-builds-talents']},
+  blood:{talent:'가이드의 레벨 80 특성 문자열을 불러와 레벨마다 순서대로 찍으면 돼요. 귀찮으면 특성창 추천(스타터) 빌드.',
+    order:['dnd','ds','boil','reaper','marrow','drw','hs_strike'],
+    orderNote:{ds:'회복 겸 공격',reaper:'배웠다면',marrow:'뼈의 보호막 유지',hs_strike:'룬 남을 때'},
+    tips:['죽음과 부패를 깔고 그 안에서 싸우는 게 기본이에요.','몹을 많이 모아도 죽음의 일격 회복으로 버텨요.','전쟁 모드 PvP 특성은 Death Chain이 레벨업에 특히 좋아요.','장비는 아이템 레벨 높은 걸로.'],
+    link:['Icy Veins 혈기 죽기 레벨업 가이드','https://www.icy-veins.com/wow/blood-death-knight-leveling-guide']}
+};
+function renderLv(map){if(!document.getElementById('lv'))return;const d=LV[spec],where={};Object.entries(map).forEach(([k,a])=>where[a.id]=k);
+  const byId=Object.fromEntries(SPECS[spec].map(a=>[a.id,a]));
+  document.getElementById('lv-title').innerHTML=icoHTML('sprout')+SPEC_NAME[spec]+' 레벨업 가이드';
+  document.getElementById('lv').innerHTML=`
+  <div class="lv-card"><h3>특성 찍는 법</h3><p>${d.talent}</p><p><a href="${d.link[1]}" target="_blank" rel="noopener">${d.link[0]}</a></p></div>
+  <div class="lv-card"><h3>누르는 순서</h3><ol>${d.order.map(id=>{const a=byId[id];if(!a)return'';const k=where[id];return `<li>${k?`<span class="kk">${label(k)}</span>`:''}${a.ko}${d.orderNote[id]?` <span class="en">· ${d.orderNote[id]}</span>`:''}</li>`}).join('')}</ol></div>
+  <div class="lv-card"><h3>레벨업 팁</h3><ul>${d.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>`;
+}
+let look='cute';document.body.dataset.look='cute';
+function applyLook(){document.body.dataset.look='cute'}
+
+function fitKb(){const sc=document.querySelector('.scroll'),kb=document.getElementById('kb');if(!sc||!kb)return;
+  kb.style.transform='none';sc.style.height='';
+  const cs=getComputedStyle(sc);const avail=sc.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+  if(avail<=0)return;
+  const k=Math.min(1,avail/kb.scrollWidth);
+  if(k<1){kb.style.transform=`scale(${k})`;sc.style.height=(kb.offsetHeight*k+parseFloat(cs.paddingTop)+parseFloat(cs.paddingBottom))+'px'}}
+window.addEventListener('resize',fitKb);
+
+const ICONS={
+ keyboard:'<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
+ check:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 9.5"/>',
+ list:'<path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>',
+ sprout:'<path d="M12 20v-8"/><path d="M12 12C12 8 9 6 5 6c0 4 3 6 7 6z"/><path d="M12 12c0-3 2-5 6-5 0 3-2 5-6 5z"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+ puzzle:'<path d="M10 4a2 2 0 1 1 4 0v2h4v4h-2a2 2 0 1 0 0 4h2v4h-4v-2a2 2 0 1 0-4 0v2H6v-4h2a2 2 0 1 0 0-4H6V6h4z"/>',
+ note:'<path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4M8 12h8M8 16h5"/>',
+ flag:'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+ bunny:'<path d="M9.5 10C8.3 6.5 7.6 3.2 9 2.6s2.4 3 2.6 6.6"/><path d="M14.5 10c1.2-3.5 1.9-6.8.5-7.4s-2.4 3-2.6 6.6"/><ellipse cx="12" cy="15.2" rx="6.2" ry="5.6"/><path d="M9.8 14.4h.01M14.2 14.4h.01M11.3 16.8c.4.4 1 .4 1.4 0"/>',
+ compass:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+ star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+ bolt:'<path d="M13 3L5 13h6l-1 8 8-10h-6z"/>',
+ chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+ book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/>',
+ shield:'<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/>',
+ map:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+ heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+ tool:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>'};
+const icoHTML=n=>`<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg></span>`;
+document.querySelectorAll('h2[data-ico]').forEach(h=>{if(h.id!=='lv-title')h.insertAdjacentHTML('afterbegin',icoHTML(h.dataset.ico))});
+
+const ROT={
+ prot:{sub:'레벨업 중엔 핵심 원리만 잡아두면 충분해요. 방어 전사는 한밤에서도 변화가 적었고, 운영 방식이 몇 확장팩째 거의 그대로라 기본만 익혀두면 오래 써먹어요.',
+  basics:[
+   ['분노 = 생존력','공격해서 분노를 모으고, 그 분노로 방어기를 돌리는 구조예요. 공격을 쉬면 방어기도 못 켜요.'],
+   ['방패 올리기는 거의 항상','물리 공격을 크게 줄여줘요. 탱커의 기본 중 기본.'],
+   ['무리면 광역, 보스면 밀쳐내기','몹이 많으면 천둥벼락·복수 비중을 높이고, 보스 하나면 방패 밀쳐내기 위주.'],
+   ['위급기는 하나씩 돌려 쓰기','한 번에 다 쓰지 말고, 방패의 벽이 끝나면 다음 큰 무리에 최후의 저항, 이런 식으로.']],
+  blocks:[
+   {t:'평소 우선순위 (위에서부터)',type:'ol',items:[['block','끊기지 않게 · 공격보다 먼저'],['ss','쓸 수 있을 때마다 · 분노를 가장 많이 줘요'],['tc','쓸 수 있을 때마다 · 몹이 3마리 이상이면 밀쳐내기보다 먼저'],['rev','무료로 쓸 수 있게 빛나면 바로'],['exe','몹 체력 20% 이하일 때'],['rev','분노가 남으면 소모용으로']]},
+   {t:'위급할 때',type:'ul',items:[['wall','체력이 확 빠질 때, 큰 공격 직전'],['last','진짜 죽을 것 같을 때 · 최대 체력 증가'],['reflect','마법 공격 들어올 때'],['demo','몹이 많이 때릴 때 받는 피해 감소']]},
+   {t:'탱커라면 손에 붙여둘 것',type:'ul',items:[['taunt','몹이 딜러·힐러한테 가면 바로'],['pummel','몹 주문 차단'],['charge','멀리 있는 몹에게 붙기'],['throw','멀리 있는 몹 끌어오기 · 체크하면 키가 생겨요']]},
+   {t:'무리를 끌어올 때',type:'ol',items:[['charge','돌진으로 들어가기'],['avatar','큰 무리면 바로 켜기 · 공격과 생존 둘 다 올라가요'],['tc','광역 어그로 잡기'],['block','']]}],
+  decide:{q:'핵심은 "분노를 방어에 쓸지, 공격에 쓸지" 고르는 거예요.',def:{when:'아프다 · 힐러가 바쁘다',ids:['block','ip']},off:{when:'안정적이다 · 몹이 잘 녹는다',ids:['rev']}},
+  newbie:['처음에는 방어 쪽으로 기울여서 하세요. Icy Veins 가이드도 익숙하지 않은 상황에서는 방어적으로, 충분히 익숙해진 뒤에 공격을 챙기라고 권해요.','탱커의 공격력은 "있으면 좋은 것"이에요. 쓰러지지 않고 어그로를 놓치지 않는 게 훨씬 중요해요.','투신은 큰 무리를 끌어올 때마다 바로 켜도 괜찮아요.'],
+  tips:['<b>스탯은 가속이 제일 중요.</b> 아이템 레벨이 비슷하면 가속 붙은 걸로.','<b>보조 전투 기능</b>을 켜두면 다음 누를 기술을 알려줘요. 처음 손에 익힐 때 도움 돼요.','<b>특성은 레벨 따라 바뀌니</b> Icy Veins 레벨업 가이드에서 레벨 슬라이더를 움직여 보세요. 그 레벨에 맞춰 내용이 바뀌어요.','<b>한국어 자료</b>는 인벤 와우 전사 게시판이 제일 활발해요.','산왕 영웅 특성이면 천둥벼락이 가끔 천둥 폭발로 바뀌어요. 같은 키라 그냥 누르면 돼요.'],
+  links:[['Icy Veins 방어 전사 레벨업 가이드','https://icy-veins.com/wow/protection-warrior-leveling-guide'],['인벤 와우 전사 게시판','https://www.inven.co.kr/board/wow/35']]},
+ fury:{sub:'분노 전사는 "격노" 상태를 계속 유지하면서 때리는 딜러예요. 광란을 쓰면 격노가 켜져요.',
+  basics:[
+   ['격노 유지가 핵심','광란을 쓰면 격노가 켜지고, 격노 중엔 피해가 세져요. 격노가 꺼져 있으면 광란부터.'],
+   ['분노 모으고 쓰기','피의 갈증·분노의 강타로 분노를 모으고, 광란으로 써요.'],
+   ['쿨기는 아끼지 않기','무모한 희생은 금방 다시 돌아와요. 쓸 수 있을 때마다 쓰세요.'],
+   ['광역은 소용돌이 먼저','소용돌이를 한 번 쓰면 다음 공격들이 여러 몹을 같이 때려요.']],
+  blocks:[
+   {t:'시작할 때',type:'ol',items:[['charge',''],['bt',''],['reck','투신 찍었으면 같이'],['odyn',''],['ramp',''],['bstorm','찍었다면']]},
+   {t:'우선순위',type:'ol',items:[['reck','쓸 수 있을 때마다'],['ramp','격노가 꺼져 있으면'],['bstorm','찍었다면'],['exe',''],['ramp',''],['odyn',''],['bt',''],['rend','남은 시간 5초 미만일 때'],['rb',''],['ww','할 게 없을 때']]},
+   {t:'몹 여럿',type:'ol',items:[['ww','먼저 한 번 (산왕이면 천둥벼락)'],['ramp','광역으로 나가요'],['odyn',''],['bstorm','']]},
+   {t:'버티기',type:'ul',items:[['regen','체력이 반쯤일 때'],['dstance','위험할 때 잠깐'],['reflect','주문 시전 볼 때'],['vr','처치 후 회복']]}],
+  tips:['공격보다 바닥 피하기가 먼저예요. 죽으면 피해량이 0.','탱커보다 먼저 몹을 치지 않기.']},
+ blood:{sub:'혈기 죽기는 "맞은 만큼 회복하는" 탱커예요. 죽음의 일격이 최근 받은 피해만큼 체력을 돌려줘요.',
+  basics:[
+   ['죽음의 일격 = 회복','최근에 맞은 피해에 비례해 회복해요. 크게 맞은 직후에 쓰면 효과가 커요. 룬 마력을 모아뒀다 써요.'],
+   ['뼈의 보호막 유지','골수분쇄가 뼈의 보호막을 쌓아요. 받는 물리 피해가 줄어드니 떨어지지 않게.'],
+   ['죽음과 부패 깔고 싸우기','바닥을 깔고 그 위에서 싸우면 심장 강타가 여러 몹을 때려요.'],
+   ['피의 소용돌이 = 광역 어그로','몹을 끌어오자마자 써서 무리 어그로 잡기.']],
+  blocks:[
+   {t:'시작할 때',type:'ol',items:[['grip','멀리 있는 몹 끌어오기'],['dnd',''],['boil','광역 어그로'],['marrow','뼈의 보호막 쌓기'],['drw','큰 무리나 보스면']]},
+   {t:'우선순위',type:'ol',items:[['dnd','항상 깔려 있게'],['marrow','뼈의 보호막이 적을 때'],['ds','룬 마력 많거나 아플 때'],['boil','충전 쌓이지 않게'],['drw','쓸 수 있을 때마다'],['reaper','죽음의 인도자면'],['hs_strike','남는 룬을 쓸 때']]},
+   {t:'버티기',type:'ul',items:[['vamp','큰 생존기 · 회복량 증가'],['ams','마법 큰 공격'],['ibf','모든 피해 감소'],['amz','파티 전체 마법 피해'],['raiseally','쓰러진 파티원 전투 부활']]}],
+  tips:['죽음의 일격을 미리 다 쓰지 말고, 맞은 뒤에 쓰는 습관을 들이세요.','죽음의 손아귀(C)로 멀리서 주문 쓰는 몹을 끌어올 수 있어요.']}
+};
+function renderRot(where){const d=ROT[spec],byId=Object.fromEntries(SPECS[spec].map(a=>[a.id,a]));
+  document.getElementById('rot-title').textContent=SPEC_NAME[spec]+' 딜사이클';
+  document.getElementById('rot-sub').textContent=d.sub;
+  const item=([id,n])=>{const a=byId[id];if(!a)return'';const k=where[id];return `<li><span class="kk ${k?'':'nokey'}">${k?label(k):'—'}</span><span class="dot-c cat-${a.g}">${a.ko}</span>${n?`<span class="rn">${n}</span>`:''}</li>`};
+  document.getElementById('rot').innerHTML=`
+   <div class="basics">${d.basics.map(([h,p],i)=>`<div class="basic"><span class="num">${i+1}</span><div><b>${h}</b><p>${p}</p></div></div>`).join('')}</div>
+   ${d.decide?`<div class="decide"><p class="decide-q"><svg class="star big" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>${d.decide.q}</p><div class="decide-cols"><div class="dc def"><span class="dc-k">방어에 쓰기</span><b>${d.decide.def.when}</b><ul class="rot-list">${d.decide.def.ids.map(id=>item([id,''])).join('')}</ul></div><div class="dc off"><span class="dc-k">공격에 쓰기</span><b>${d.decide.off.when}</b><ul class="rot-list">${d.decide.off.ids.map(id=>item([id,''])).join('')}</ul></div></div></div>`:''}
+   <div class="rot-grid">${d.blocks.map(b=>`<div class="rot-card"><h3>${b.t}</h3><${b.type} class="rot-list">${b.items.map(item).join('')}</${b.type}></div>`).join('')}</div>
+   ${d.newbie?`<div class="rot-tips-box newbie"><h3>초보 탱커 요령</h3><ul class="plain">${d.newbie.map(t=>`<li>${t}</li>`).join('')}</ul></div>`:''}
+   <div class="rot-tips-box"><h3>그밖에 알아두면 좋은 것</h3><ul class="plain">${d.tips.map(t=>`<li>${t}</li>`).join('')}</ul>${d.links?`<p class="rot-links">${d.links.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(' · ')}</p>`:''}</div>
+   <ul class="foot foot-list"><li>가이드(Method·Icy Veins)의 우선순위를 쉽게 줄인 거예요.</li><li>특성에 따라 없는 스킬은 건너뛰면 돼요.</li><li>키는 내 키 배치 기준이에요.</li></ul>`;
+}
+let view='home',lastClass='keys';
+function showView(v){if(v==='class')v=lastClass;if(v==='growth')v='keys';const isClass=['keys','rotation'].includes(v);if(isClass)lastClass=v;view=v;document.body.dataset.view=v;requestAnimationFrame(fitKb);document.getElementById('subtabs').hidden=!isClass;document.querySelectorAll('#subtabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===v));document.getElementById('picker').hidden=['home','route','guide'].includes(v);if(v==='guide'&&!roleChosen)setRole(spec==='fury'?'dps':'tank');['home','keys','rotation','route','guide'].forEach(x=>{document.getElementById('v-'+x).hidden=x!==v});
+  document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===v||(isClass&&b.dataset.view==='class')));}
+document.querySelectorAll('.tabs button,#subtabs button').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.view);try{history.replaceState(null,'','#'+view)}catch(e){};window.scrollTo({top:0})}));
+
+const MROWS=[['숫자 줄',['1','2','3','4','5']],['윗줄',['TAB','Q','W','R','T']],['가운데 줄',['CAPS','A','G']],['아랫줄',['Z','X','C','V','B']]];
+const MUTIL={TAB:'탈것',CAPS:'다음 적 대상',X:'상호작용',B:'특수 행동 버튼'};
+function renderMkb(map){const el=document.getElementById('mkb');
+  el.innerHTML=`<div class="mmove"><span class="mml">이동</span>${['E↑','S←','D↓','F→'].map(t=>`<span class="kk">${t}</span>`).join('')}<span class="mmh">Shift는 ⇧</span></div>`+
+  MROWS.map(([t,keys])=>`<div class="mrow"><h4>${t}</h4><div class="mgrid">${keys.map(k=>{
+    if(MUTIL[k])return `<div class="mcap util"><span class="mk">${k==='CAPS'?'Caps':k==='TAB'?'Tab':k}</span><span class="mb">${MUTIL[k]}</span><span class="ms">기본 기능</span></div>`;
+    const b=map[k],sh=map['S+'+k];
+    return `<div class="mcap${k==='G'||k==='1'?' fixed':''}" data-key="${k}"><span class="mk">${k}</span><span class="mb ${b?'dot-c cat-'+b.g:'empty'}">${b?b.ko:'비어 있음'}</span><span class="ms">${sh?`⇧ <span class="dot-c cat-${sh.g}"></span>${sh.ko}`:'⇧ —'}</span></div>`}).join('')}</div></div>`).join('');
+}
+
+var roleChosen=false;
+function setRole(r){document.body.dataset.role=r;document.querySelectorAll('[data-role-btn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.roleBtn===r))}
+document.querySelectorAll('[data-role-btn]').forEach(b=>b.addEventListener('click',()=>{roleChosen=true;setRole(b.dataset.roleBtn)}));
+setRole('tank');
+const ARROW={E:'↑',S:'←',D:'↓',F:'→'};
+function render(){
+  document.body.dataset.spec=spec;
+  document.getElementById('headline').innerHTML=`<span class="bun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 10C8.3 6.5 7.6 3.2 9 2.6s2.4 3 2.6 6.6"/><path d="M14.5 10c1.2-3.5 1.9-6.8.5-7.4s-2.4 3-2.6 6.6"/><ellipse cx="12" cy="15.2" rx="6.2" ry="5.6"/><path d="M9.8 14.4h.01M14.2 14.4h.01M11.3 16.8c.4.4 1 .4 1.4 0"/></svg></span><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.6A4.4 4.4 0 0 1 12 7.1a4.4 4.4 0 0 1 7.5 2.8c0 6-7.5 10.6-7.5 10.6z"/></svg>와우 <em>노트</em>`;
+  document.querySelectorAll('.plate').forEach(b=>b.setAttribute('aria-pressed',b.dataset.spec===spec));
+  document.getElementById('kb-title').textContent=SPEC_NAME[spec]+' 키 배치';
+  renderMeta();
+  const {map,where,over}=assign();
+  renderLv(map);
+  renderMkb(map);
+  renderRot(where);
+  const kb=document.getElementById('kb');kb.innerHTML='';
+  ROWS.forEach((r,i)=>{const row=document.createElement('div');row.className='row';row.style.paddingLeft=OFFSET[i]+'px';
+    r.forEach(([k,type,txt,w])=>{r.w=w;const c=document.createElement('div');c.className='cap';c.dataset.key=k;
+      if(r.w)c.style.width=r.w+'px';
+      if(type==='util'){c.classList.add('util');c.innerHTML=`<span class="k">${k}</span><span class="b">${txt}</span><span class="s util-s">기본 기능</span>`;row.appendChild(c);return}
+      if(type==='shiftkey'){c.classList.add('shiftkey');c.innerHTML=`<span class="k">SHIFT</span><span class="b">아래 줄 스킬</span>`;row.appendChild(c);return}
+      if(type==='move'){c.classList.add('move');c.innerHTML=`<span class="k">${k}</span><span class="arrow">${ARROW[k]}</span><span class="b">${txt}</span>`;row.appendChild(c);return}
+      if(type==='off'){c.classList.add('off');c.innerHTML=`<span class="k">${k}</span><span class="b">안 씀</span>`;row.appendChild(c);return}
+      if(k==='G'||k==='1')c.classList.add('fixed');
+      const b=map[k],s=map['S+'+k];
+      c.innerHTML=`<span class="k">${k}</span><span class="b ${b?'dot-c cat-'+b.g:'empty'}">${b?b.ko:'비어 있음'}</span><span class="s ${s?'':'empty'}"><i class="sh">⇧</i>${s?`<span class="dot-c cat-${s.g}"></span>${s.ko}`:'—'}</span>`;
+      c.title=(b?k+': '+b.ko:'')+(s?'\nShift+'+k+': '+s.ko:'');
+      row.appendChild(c)});
+    kb.appendChild(row)});
+  fitKb();
+  const box=document.getElementById('abilities');box.innerHTML='';
+  Object.keys(GN).forEach(g=>{const items=SPECS[spec].filter(a=>a.g===g);if(!items.length)return;
+    const d=document.createElement('div');d.className='grp';d.innerHTML=`<h3 class="dot-c cat-${g}">${GN[g]}</h3><div class="chips"></div>`;
+    const wrap=d.querySelector('.chips');
+    items.forEach(a=>{const id='ab-'+spec+'-'+a.id;const l=document.createElement('label');l.className='ab';l.htmlFor=id;
+      const on=state[spec][a.id];const sl=where[a.id];
+      l.innerHTML=`<input type="checkbox" id="${id}" ${on?'checked':''}><span class="box">✓</span><span style="min-width:0"><span class="nm">${a.ko}</span><span class="en">${a.en}</span>${a.note&&on?`<span class="note">${a.note}</span>`:''}</span><span class="slot ${on&&!sl?'miss':''}">${on?(sl?label(sl):'칸 부족'):''}</span>`;
+      l.querySelector('input').addEventListener('change',e=>{state[spec][a.id]=e.target.checked;save();buildMsg[spec]=null;render();flashAbilities([a.id]);document.getElementById('ab-'+spec+'-'+a.id)?.focus()});
+      const hl=v=>{if(!sl)return;const c=kb.querySelector(`[data-key="${sl.replace('S+','')}"]`);if(c)c.classList.toggle('hl',v)};
+      l.addEventListener('mouseenter',()=>hl(true));l.addEventListener('mouseleave',()=>hl(false));
+      wrap.appendChild(l)});
+    box.appendChild(d)});
+  const ls=document.getElementById('list');ls.innerHTML='';
+  const order=['1','2','3','4','5','Q','W','R','T','A','G','Z','C','V'];
+  const add=t=>ls.insertAdjacentHTML('beforeend',`<div class="layer">${t}</div>`);
+  add('그냥 누르기');order.forEach(k=>{if(map[k])ls.insertAdjacentHTML('beforeend',`<div class="li"><span class="kk">${k}</span><span class="dot-c cat-${map[k].g}">${map[k].ko}</span></div>`)});
+  add('SHIFT와 같이');order.forEach(k=>{const s=map['S+'+k];if(s)ls.insertAdjacentHTML('beforeend',`<div class="li"><span class="kk">⇧${k}</span><span class="dot-c cat-${s.g}">${s.ko}</span></div>`)});
+  const ov=document.getElementById('over');
+  if(over.length){ov.hidden=false;ov.textContent='칸이 모자라 못 넣은 스킬: '+over.map(a=>a.ko).join(', ')+'. 덜 쓰는 스킬 체크를 빼거나 Ctrl 조합을 추가해 보세요.'}else ov.hidden=true;
+  window.__copy=()=>{const lines=[SPEC_NAME[spec]+' 단축키 (ESDF 이동)'];
+    order.forEach(k=>{if(map[k])lines.push(`${k}: ${map[k].ko}`)});
+    order.forEach(k=>{const s=map['S+'+k];if(s)lines.push(`Shift+${k}: ${s.ko}`)});lines.push('','기본 기능');UTIL.forEach(([k,f])=>lines.push(`${k}: ${f}`));return lines.join('\n')};
+}
+document.querySelectorAll('.plate').forEach(b=>b.addEventListener('click',()=>{spec=b.dataset.spec;save();render()}));
+document.getElementById('reset').addEventListener('click',()=>{state[spec]=defaults(spec);save();render();toast('기본 체크로 되돌렸어요')});
+function toast(t){const el=document.getElementById('toast');el.textContent=t;clearTimeout(toast.t);toast.t=setTimeout(()=>el.textContent='',2200)}
+document.getElementById('copy').addEventListener('click',()=>{const txt=window.__copy();
+  navigator.clipboard.writeText(txt).then(()=>toast('복사했어요'),()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('복사했어요')}catch(e){toast('복사가 막혀 있어요')}ta.remove()})});
+document.getElementById('ut').innerHTML=UTIL.map(([k,f,from,why])=>`<tr><td><span class="kk">${k}</span></td><td><b style="font-weight:500">${f}</b></td><td class="from">${from}</td><td class="why">${why}</td></tr>`).join('');
+document.querySelectorAll('.qk').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.go);try{history.replaceState(null,'','#'+b.dataset.go)}catch(e){};window.scrollTo({top:0})}));
+
+
+const TODO=[
+ [['s0a','방어 특성으로 <b>던전 신청</b>하고, 기다리는 동안 크로미 시간 퀘스트','route'],['s0b','새로 배운 스킬을 <b>체크하고 게임에 키 지정</b>','keys'],['s0c','방어 전사 <b>원리 4가지</b>와 분노 쓰는 기준 읽기','rotation'],['s0d','<b>추종자 던전</b>에서 탱커 연습해 보기','guide'],['s0e','<b>꼭 해둘 설정</b> 4가지 하기 (이름표·카메라 등)','guide']],
+ [['s1a','<b>내부 전쟁 빠른 스토리</b> 시작하기 (건너뛰지 않기)','route'],['s1b','<b>DBM 또는 BigWigs</b> 설치하기','guide'],['s1c','레벨업 <b>특성 점검</b>하기 (특성창 추천 빌드)','route'],['s1d','<b>위급할 때</b> 기술을 하나씩 돌려 쓰는 연습','rotation']],
+ [['s2a','레벨 78이 되면 <b>한밤 도입 퀘스트</b> 시작','route'],['s2b','내부 전쟁 스토리 마무리하기','route'],['s2c','새로 생긴 스킬 <b>키 지정</b>','keys']],
+ [['s3a','<b>영원노래 숲</b>부터 한밤 캠페인 따라가기','route'],['s3b','<b>레벨업 던전</b> 섞어서 돌기','route'],['s3c','구렁은 <b>첫 완료 퀘스트</b>만 챙기기','route'],['s3d','HandyNotes에 <b>한밤 데이터 플러그인</b> 설치','guide']],
+ [['s4a','<b>영웅 특성</b> 고르기 (방어 전사는 산왕 추천)','keys'],['s4b','<b>최고 레벨 빌드</b> 적용하고 키 다시 확인','keys'],['s4c','쐐기 대비 <b>징표 단축키</b> 지정','keys']]
+];
+const TAB_NAME={route:'진행 흐름',keys:'키 배치',rotation:'딜사이클',growth:'특성·빌드',guide:'초보 자료'};
+let done={};try{done=JSON.parse(localStorage.getItem('wk-done')||'{}')}catch(e){}
+function renderTodo(st){const items=TODO[st],ol=document.getElementById('todo');
+  const n=items.filter(([id])=>done[id]).length;
+  document.getElementById('todo-sub').textContent=`이 단계에서 할 일 ${items.length}개 중 ${n}개 완료`;
+  ol.innerHTML=items.map(([id,t,go])=>`<li class="${done[id]?'done':''}"><label class="tchk"><input type="checkbox" id="todo-${id}" data-id="${id}" ${done[id]?'checked':''}><span class="tbox" aria-hidden="true"></span><span class="ttext">${t}</span></label><button type="button" class="go" data-go="${go}">${TAB_NAME[go]}</button></li>`).join('');
+  ol.querySelectorAll('input').forEach(i=>i.addEventListener('change',()=>{done[i.dataset.id]=i.checked;try{localStorage.setItem('wk-done',JSON.stringify(done))}catch(e){};markDirty();renderTodo(st)}));
+  ol.querySelectorAll('.go').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.go);try{history.replaceState(null,'','#'+view)}catch(e){};window.scrollTo({top:0})}));
+}
+const STAGES=['크로미 시간 (10–70)','내부 전쟁 빠른 스토리 (70–80)','한밤 도입 (78+)','한밤 캠페인 (80–90)'];
+function stageOf(l){return l<70?0:l<78?1:l<80?2:3}
+function applyLevel(){const inp=document.getElementById('lvl-input');let l=parseInt(inp.value,10);if(!(l>=1))l=1;if(l>90)l=90;
+  const st=stageOf(l);document.getElementById('stage-name').textContent=l>=90?'최고 레벨':STAGES[st]+' 단계';
+  document.querySelectorAll('.timeline li').forEach((li,i)=>li.classList.toggle('now',i===st&&l<90));
+  renderTodo(l>=90?4:st);}
+(()=>{const inp=document.getElementById('lvl-input');try{const v=localStorage.getItem('wk-lvl');if(v)inp.value=v}catch(e){}
+  inp.addEventListener('input',()=>{applyLevel();try{localStorage.setItem('wk-lvl',inp.value)}catch(e){};markDirty()});applyLevel();})();
+document.querySelectorAll('.go').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.go);try{history.replaceState(null,'','#'+b.dataset.go)}catch(e){};window.scrollTo({top:0})}));
+document.querySelectorAll('[data-rt]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-rt]').forEach(x=>x.setAttribute('aria-pressed',x===b));['level','story'].forEach(k=>document.getElementById('rt-panel-'+k).hidden=k!==b.dataset.rt)}));
+look='cute';applyLook();
+/* 기기 간 동기화: 내 개인 저장 공간(data/users/<id>/wownote) */
+let syncRef=null,syncBusy=false,syncAgain=false,syncTimer=null;
+function snapshotLocal(){return {v:1,state,spec,done,lvl:String(document.getElementById('lvl-input').value||''),memo:document.getElementById('memo-text').value||''}}
+function markDirty(){if(!syncRef)return;clearTimeout(syncTimer);syncTimer=setTimeout(pushSync,700)}
+async function pushSync(){if(!syncRef)return;if(syncBusy){syncAgain=true;return}syncBusy=true;
+  try{await syncRef.set(snapshotLocal())}catch(e){}
+  syncBusy=false;if(syncAgain){syncAgain=false;pushSync()}}
+function applyRemote(d){if(!d||d.v!==1)return;
+  if(d.state&&typeof d.state==='object'){['fury','prot','blood'].forEach(k=>{state[k]=Object.assign(defaults(k),d.state[k]||{})})}
+  if(d.spec&&SPECS[d.spec])spec=d.spec;
+  if(d.done&&typeof d.done==='object')done=Object.assign({},d.done);
+  const inp=document.getElementById('lvl-input');if(d.lvl)inp.value=d.lvl;
+  const m=document.getElementById('memo-text');if(typeof d.memo==='string'&&document.activeElement!==m)m.value=d.memo;
+  try{localStorage.setItem('wk-state',JSON.stringify(state));localStorage.setItem('wk-spec2',JSON.stringify(spec));localStorage.setItem('wk-done',JSON.stringify(done));localStorage.setItem('wk-lvl',inp.value);localStorage.setItem('wk-memo',m.value)}catch(e){}
+  render();applyLevel();}
+(async()=>{try{
+  const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user)return;
+  const uid=await user.id();if(!uid)return;
+  const ref=db.doc('data/users/'+uid+'/wownote');
+  const snap=await ref.get();syncRef=ref;
+  if(snap.exists)applyRemote(snap.data());else await pushSync();
+  document.getElementById('sync-note').textContent='PC와 폰 어디서 열어도 같은 내용이 보여요.';
+  ref.onSnapshot(sn=>{if(sn.exists&&!sn.metadata.hasPendingWrites&&!syncBusy)applyRemote(sn.data())},()=>{});
+}catch(e){}})();
+
+showView(['keys','rotation','growth','route','guide'].includes(location.hash.slice(1))?location.hash.slice(1):'home');
+(()=>{const m=document.getElementById('memo-text');try{m.value=localStorage.getItem('wk-memo')||''}catch(e){}
+  let t;m.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(()=>{try{localStorage.setItem('wk-memo',m.value)}catch(e){};markDirty()},300)})})();
+load();render();
+</script>
