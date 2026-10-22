@@ -1540,10 +1540,11 @@ function renderMeta(){
  const PRI=['C+5','C+C','C+W','C+T','C+R','C+A','C+V','C+3','C+4'];
  const ctrl=Object.keys(map).filter(k=>k.startsWith('C+')&&k!=='C+Q').sort((x,y)=>(PRI.indexOf(x)+99)%108-(PRI.indexOf(y)+99)%108);
  const BAR3=L.map(k=>has('S+'+k)?'S+'+k:'');
- // Ctrl+글자는 그 글자 위 칸이 비어 있으면 거기, 아니면 오른쪽 끝(11·12번), 그래도 남으면 단축바 4
+ // Ctrl+글자는 그 글자 위 칸이 비어 있으면 거기, 아니면 오른쪽 끝(11·12번), 그래도 남으면 단축바 3의 빈칸
  const rest=[];ctrl.forEach(k=>{const i=L.indexOf(k.slice(2));if(i>=0&&!BAR3[i])BAR3[i]=k;else rest.push(k)});
  BAR3.push(...rest.slice(0,2));
- const extra=rest.slice(2);
+ const more=rest.slice(2);for(let i=0;i<BAR3.length&&more.length;i++)if(!BAR3[i])BAR3[i]=more.shift();
+ const extra=more;
  const row=(n,title,keys)=>`<div class="bars-row"><div class="bars-h"><b>단축바 ${n}</b><span>${title}</span></div><ol class="bars-slots">${keys.map((k,i)=>{const a=map[k];if(!k)return '<li class="gap" aria-hidden="true"></li>';return `<li class="${k==='TAB'||a?(a?'cat-'+a.g+' has-cat':''):'empty'}"><span class="bs-n">${i+1}</span><span class="bs-k">${k==='TAB'?'Tab':k?label(k):'—'}</span><span class="bs-s">${k==='TAB'?'탈것 (비행)':k?(ko(k)||'비워 두기'):''}</span></li>`}).join('')}</ol></div>`;
  document.getElementById('build-sub').textContent=SPEC_NAME[spec]+' 기준 · 특성을 바꾸면 칸 내용도 같이 바뀌어요.';
  document.getElementById('meta').innerHTML=`<div class="bars">${row(3,'맨 위 · Shift + 글자 · 아래 글자와 같은 칸',BAR3)}${row(2,'가운데 · 방어 · 숫자 키',BAR2)}${row(1,'맨 아래 · 공격·제어 · 글자 키',BAR1)}</div>
