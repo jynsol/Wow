@@ -1440,7 +1440,7 @@ BLOOD_IDS.lich=49039;
 // 키 역할 정리 (2026-10-22): 숫자 = 방어, 글자 = 공격·제어, 같은 역할은 키 + Shift로 묶기
 const KEYMAP={
  prot:{block:'2',ip:'3',wall:'4',reflect:'5',vr:'S+2',victory:'S+2',rally:'S+3',demo:'S+4',
-  ss:'R',tc:'W',rev:'A',exe:'S+A',shock:'S+W',pummel:'G',bolt:'S+G',disrupt:'T',intim:'S+T',taunt:'Z',avatar:'X',scharge:'S+X',
+  ss:'R',tc:'W',rev:'A',exe:'Q',shock:'S+W',pummel:'G',bolt:'S+G',disrupt:'T',intim:'S+T',taunt:'Z',avatar:'X',scharge:'S+X',
   charge:'C',leap:'V',throw:'S+V',intervene:'C+C',howl:'C+A',wreck:'C+W',shatter:'C+W',brage:'C+5',bshout:'C+T',bcry:'C+V',dstance:'C+3',bstance:'C+4',trinket:'C+Q',pot:'1',hs:'S+1'},
  fury:{regen:'2',reflect:'3',rally:'4',vr:'5',victory:'5',bt:'R',rb:'A',ramp:'T',exe:'Q',ww:'W',tc:'W',shock:'S+W',pummel:'G',bolt:'S+G',intim:'S+T',taunt:'Z',
   charge:'C',leap:'V',throw:'S+V',intervene:'C+C',howl:'C+A',wreck:'C+W',shatter:'C+W',berserk:'C+4',dstance:'C+3',brage:'C+5',bshout:'C+T',bcry:'C+V',trinket:'C+Q',pot:'1',hs:'S+1'},
@@ -1456,7 +1456,7 @@ function assign(){
  const active=SPECS[spec].filter(a=>state[spec][a.id]);
  const map={},where={},over=[],reserved=new Set(SPECS[spec].map(a=>a.pref).filter(Boolean));
  // 2·3·4·5는 생존기 자리: 찍은 생존기를 우선순위대로 빈틈없이 채워요. 분노는 X·⇧X·⇧R을 쿨기 순서대로 채워요.
- const GROUPS={prot:[{keys:['Q','S+Q','S+R'],ids:['demolish','ravager','spear']}],
+ const GROUPS={prot:[{keys:['S+Q','S+R'],ids:['demolish','ravager','spear']}],
    fury:[{keys:['X','S+X','S+R','S+Q'],ids:['odyn','reck','bstorm','avatar','spear']}],
    blood:[{keys:['X','S+X','S+R'],ids:['drw','devour','reaper']}]}[spec]||[];
  GROUPS.forEach(g=>{const list=g.ids.map(id=>active.find(a=>a.id===id)).filter(Boolean);g.keys.forEach((k,i)=>{const a=list[i];if(a&&!where[a.id]){map[k]=a;where[a.id]=k}})});
