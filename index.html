@@ -617,7 +617,7 @@ section[id]{scroll-margin-top:72px}
   </div>
 
   <div class="view" id="v-practice" hidden>
-    <nav class="subtabs" aria-label="연습 종류"><button type="button" data-trmode="tank" aria-pressed="true">탱커 · 방어 전사</button><button type="button" data-trmode="dps" aria-pressed="false">딜러 · 분노 전사</button></nav>
+    <nav class="subtabs" aria-label="연습 종류"><button type="button" data-trmode="tank" aria-pressed="true">탱커 · 방어 전사</button><button type="button" data-trmode="blood" aria-pressed="false">탱커 · 혈기 죽기</button><button type="button" data-trmode="dps" aria-pressed="false">딜러 · 분노 전사</button></nav>
     <section class="card tr-card">
       <div class="tr-head">
         <div>
@@ -648,7 +648,7 @@ section[id]{scroll-margin-top:72px}
                 <div class="tr-row"><span class="tr-uname" id="tr-meName">나</span><span class="tr-mono" id="tr-tankPct">100%</span></div>
                 <div class="tr-bar tr-hpbar" id="tr-tankHp"><i></i></div>
                 <div class="tr-bar tr-thin" id="tr-absorbBar" title="고통 감내 보호막"><i></i></div>
-                <div class="tr-row"><span class="tr-lbl">분노</span><span class="tr-mono" id="tr-rageTxt">0</span></div>
+                <div class="tr-row"><span class="tr-lbl" id="tr-resLbl">분노</span><span class="tr-mono" id="tr-rageTxt">0</span></div>
                 <div class="tr-bar" id="tr-rageBar"><i></i></div>
                 <div class="tr-buffs" id="tr-buffs"></div>
               </div>
@@ -686,6 +686,7 @@ section[id]{scroll-margin-top:72px}
           <div class="tr-ovcard">
             <div class="tr-result"><div class="tr-grade" id="tr-grade">A</div><div><h3 class="tr-ovtitle" id="tr-endTitle">보스 처치</h3><p id="tr-endSub"></p></div></div>
             <div class="tr-stats" id="tr-stats"></div>
+            <div><h4>전투 다시 보기</h4><div class="tr-tl" id="tr-tl"></div><ul class="tr-misses" id="tr-misses"></ul></div>
             <div><h4>다음 판 포인트</h4><ul class="tr-tips" id="tr-tips"></ul></div>
             <div class="tr-btns">
               <button class="btn pri" id="tr-againBtn" type="button">다시 하기 (Enter)</button>
@@ -1742,21 +1743,37 @@ body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-m
 #tr-startOv[hidden],#tr-endOv[hidden]{display:none!important}
 #tr-startOv .tr-ovcard,#tr-endOv .tr-ovcard{max-width:none;box-shadow:none;border:0;padding:0}
 .tr-wrap:has(#tr-startOv:not([hidden])) .tr-game,.tr-wrap:has(#tr-endOv:not([hidden])) .tr-game{display:none}
+.tr-tl-bar{position:relative;height:22px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+.tr-tl-bar i{position:absolute;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:999px;border:2px solid var(--surface)}
+.tr-tl-bar i.bad{background:var(--a3)}
+.tr-tl-bar i.good{background:var(--a2);width:8px;height:8px;margin:-4px 0 0 -4px}
+.tr-tl-axis{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);margin-top:3px}
+.tr-misses{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:4px;font-size:12.5px}
+.tr-misses li{display:flex;gap:8px}
+.tr-misses li .tr-mono{color:var(--ink-3);min-width:2.6em}
+.tr-misses li span:last-child{color:var(--a3-ink)}
+.tr-misses li.clean span:last-child,.tr-misses li.more span:last-child{color:var(--ink-3)}
+.tr-actionbar{grid-template-columns:repeat(var(--n,8),minmax(0,1fr)) auto}
+@media (max-width:900px){.tr-actionbar{grid-template-columns:repeat(6,minmax(0,1fr))}.tr-move{grid-column:1/-1;grid-template-columns:auto repeat(4,auto);justify-content:center}.tr-move span{grid-column:auto;margin-right:6px}}
+@media (max-width:720px){.tr-actionbar{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){.tr-callout.show{animation:trfade 2.1s ease forwards}.tr-bar>i,.tr-ab{transition:none}}
 </style>
 
 <script>
-/* 연습 게임: 탱커(방어 전사) · 딜러(분노 전사). 기본 단축키는 키 배치 탭의 해당 전문화 배치를 그대로 사용 */
+/* 연습 게임: 탱커(방어 전사 · 혈기 죽기) · 딜러(분노 전사). 기본 단축키는 키 배치 탭의 해당 전문화 배치를 그대로 사용 */
 (() => {
 const $ = id => document.getElementById('tr-' + id);
 const MOVE = ['E','S','D','F'];
 const MODES = {
-  tank:{spec:'prot', who:'방어 전사', res:'분노', bosses:['vel','orgol']},
-  dps:{spec:'fury', who:'분노 전사', res:'분노', bosses:['vel','orgol']},
+  tank:{spec:'prot', who:'방어 전사', res:'분노', role:'탱커', bosses:['vel','orgol','drill']},
+  blood:{spec:'blood', who:'혈기 죽기', res:'룬 마력', role:'탱커', bosses:['vel','orgol','drill']},
+  dps:{spec:'fury', who:'분노 전사', res:'분노', role:'딜러', bosses:['vel','orgol','drill']},
 };
+const TANKY = m => m !== 'dps';
 const BOSS = {
-  vel:{name:'황혼 감시자 벨라스', tag:'던전형 · 차단 · 쫄', note:'차단, 탱커 버스터, 쫄 웨이브'},
-  orgol:{name:'심연 집행자 오르골', tag:'레이드형 · 교대 · 회피', note:'탱 교대, 전방 브레스, 광역 마법'},
+  vel:{name:'황혼 감시자 벨라스', tag:'던전형 · 차단 · 쫄'},
+  orgol:{name:'심연 집행자 오르골', tag:'레이드형 · 교대 · 회피'},
+  drill:{name:'반응 훈련', tag:'45초 · 신호 보고 바로 누르기'},
 };
 const DIFF = {
   easy:{name:'쉬움', note:'느린 패턴', speed:.8, dmg:.75, heal:1.15, dur:90, adds:2},
@@ -1765,16 +1782,34 @@ const DIFF = {
 };
 const ADD_NAMES = ['황혼 추종자','공허 그림자','어스름 광신도','밤그늘 사냥개'];
 
-/* 기술 정의: notes = 노트(키 배치) 기술 id 후보. 이름은 노트에 찍힌 기술 이름을 그대로 써요 */
+/* 기술: notes = 노트(키 배치) 기술 id 후보. 이름은 노트에 찍힌 기술 이름 그대로 */
 const TANK_ABIL = [
   {id:'slam', notes:['ss'],     name:'방패 밀쳐내기', def:'R', cd:9,  gcd:true,  cost:0,  hint:'쿨마다. 분노 +15'},
   {id:'tc',   notes:['tc'],     name:'천둥벼락',     def:'W', cd:6,  gcd:true,  cost:0,  hint:'광역 어그로. 분노 +5'},
   {id:'rev',  notes:['rev'],    name:'복수',         def:'A', cd:0,  gcd:true,  cost:20, hint:'분노 20 광역. 회피 뒤 무료'},
+  {id:'exe',  notes:['exe'],    name:'마무리 일격',  def:'Q', cd:0,  gcd:true,  cost:20, hint:'보스 20% 이하 또는 급살 발동 때'},
+  {id:'demo', notes:['demo'],   name:'사기의 외침',  def:'T', cd:30, gcd:false, cost:0,  hint:'8초간 보스 공격력 감소'},
   {id:'sb',   notes:['block'],  name:'방패 올리기',  def:'2', cd:0,  gcd:false, cost:30, hint:'분노 30. 6초간 물리 피해 절반'},
   {id:'ip',   notes:['ip'],     name:'고통 감내',    def:'3', cd:1,  gcd:false, cost:35, hint:'분노 35. 마법·물리 모두 막는 보호막'},
   {id:'wall', notes:['wall'],   name:'방패의 벽',    def:'4', cd:60, gcd:false, cost:0,  hint:'8초간 받는 피해 40% 감소'},
+  {id:'reflect', notes:['reflect'], name:'주문 반사', def:'5', cd:25, gcd:false, cost:0, hint:'5초 안에 오는 주문 하나를 되돌려요'},
+  {id:'avatar', notes:['avatar'], name:'투신',      def:'X', cd:45, gcd:false, cost:0,  hint:'15초간 분노·피해 증가'},
   {id:'kick', notes:['pummel'], name:'들이치기',     def:'G', cd:15, gcd:false, cost:0,  hint:'보라 시전바 차단'},
-  {id:'taunt',notes:['taunt'],  name:'도발',         def:'Z', cd:8,  gcd:false, cost:0,  hint:'쫄 끌기 · 탱 교대'},
+  {id:'taunt',notes:['taunt'],  name:'도발',         def:'Z', cd:8,  gcd:false, cost:0,  hint:'쫄 끌기 · 탱 교대 · 어그로 되찾기'},
+];
+const BLOOD_ABIL = [
+  {id:'ds',   notes:['ds'],        name:'죽음의 일격',   def:'R', cd:0,  gcd:true,  cost:40, hint:'룬 마력 40. 최근 받은 피해만큼 회복'},
+  {id:'boil', notes:['boil'],      name:'피의 소용돌이', def:'W', cd:0, charges:2, recharge:7.5, gcd:true, cost:0, hint:'충전 2회. 광역 어그로'},
+  {id:'hs',   notes:['hs_strike'], name:'심장 강타',     def:'A', cd:0,  gcd:true,  runes:1, cost:0, hint:'룬 1. 룬 마력 +10'},
+  {id:'marrow', notes:['marrow'],  name:'골수분쇄',      def:'Q', cd:0,  gcd:true,  runes:2, cost:0, hint:'룬 2. 뼈 보호막 +3 (최대 10)'},
+  {id:'dnd',  notes:['dnd'],       name:'죽음과 부패',   def:'T', cd:15, gcd:true,  runes:1, cost:0, hint:'룬 1. 바닥 깔고 그 안에서 싸우기'},
+  {id:'vamp', notes:['vamp'],      name:'흡혈',          def:'2', cd:45, gcd:false, cost:0, hint:'10초간 받는 피해 감소 + 회복 증가'},
+  {id:'ams',  notes:['ams'],       name:'대마법 보호막', def:'3', cd:40, gcd:false, cost:0, hint:'5초간 마법 피해 흡수'},
+  {id:'ibf',  notes:['ibf'],       name:'얼음같은 인내력', def:'4', cd:60, gcd:false, cost:0, hint:'8초간 모든 피해 30% 감소'},
+  {id:'drw',  notes:['drw'],       name:'춤추는 룬 무기', def:'X', cd:45, gcd:true, cost:0, hint:'8초간 물리 피해 크게 감소'},
+  {id:'kick', notes:['freeze'],    name:'정신 얼리기',   def:'G', cd:15, gcd:false, cost:0, hint:'보라 시전바 차단'},
+  {id:'grip', notes:['grip'],      name:'죽음의 손아귀', def:'C', cd:25, gcd:false, cost:0, hint:'힐러에게 가는 쫄 하나 끌어오기'},
+  {id:'taunt', notes:['taunt'],    name:'어둠의 명령',   def:'Z', cd:8,  gcd:false, cost:0, hint:'쫄 끌기 · 탱 교대 · 어그로 되찾기'},
 ];
 const DPS_ABIL = [
   {id:'bt',   notes:['bt'],   name:'피의 갈증',   def:'R', cd:4.5, gcd:true,  cost:0,  hint:'쿨마다. 분노 +8, 가끔 격노'},
@@ -1787,6 +1822,18 @@ const DPS_ABIL = [
   {id:'def',  notes:['regen','rally','vr','victory'], name:'격노의 재생력', def:'2', cd:45, gcd:false, cost:0, hint:'8초간 받는 피해 감소 + 회복'},
   {id:'kick', notes:['pummel'], name:'들이치기', def:'G', cd:15, gcd:false, cost:0, hint:'보라 시전바 차단'},
 ];
+/* 역할별로 같은 뜻의 기술: 버스터 대비 · 마법 대비 · 광역 어그로 */
+const ROLE = {
+  tank:{buster:'sb', magic:'ip', aoe:'tc', big:'wall'},
+  blood:{buster:'drw', magic:'ams', aoe:'boil', big:'ibf'},
+  dps:{magic:'def', aoe:'aoe'},
+};
+/* 반응 훈련 신호 */
+const CUES = {
+  tank:[['kick','보라 시전바 — 차단'],['sb','탱커 버스터 — 방패 올리기'],['ip','광역 마법 — 보호막'],['tc','쫄 몰려옴 — 광역 어그로'],['taunt','딜러가 어그로 — 도발'],['reflect','나를 노리는 주문 — 주문 반사'],['move','전방 브레스 — 옆으로 이동']],
+  blood:[['kick','보라 시전바 — 차단'],['drw','탱커 버스터 — 춤추는 룬 무기'],['ams','광역 마법 — 대마법 보호막'],['boil','쫄 몰려옴 — 광역 어그로'],['taunt','딜러가 어그로 — 도발'],['marrow','뼈 보호막 없음 — 골수분쇄'],['ds','크게 맞음 — 죽음의 일격'],['move','전방 브레스 — 옆으로 이동']],
+  dps:[['kick','보라 시전바 — 차단'],['aoe','쫄 등장 — 광역'],['def','광역 마법 — 생존기'],['burst','약점 노출 — 쿨기'],['exe','급살 발동 — 마무리 일격'],['ramp','분노 80 — 광란'],['move','발밑 장판 — 이동']],
+};
 
 /* 노트 상태 */
 const store = () => {
@@ -1795,7 +1842,7 @@ const store = () => {
   const t = p.__trainer;
   if (!t.binds || typeof t.binds !== 'object') t.binds = {};
   if (t.binds.tank === undefined && Object.keys(t.binds).length && !t.binds.dps) t.binds = {tank:t.binds};
-  t.binds.tank = t.binds.tank || {}; t.binds.dps = t.binds.dps || {};
+  ['tank','blood','dps'].forEach(m => { if (!t.binds[m] || typeof t.binds[m] !== 'object') t.binds[m] = {}; });
   if (!t.best || typeof t.best !== 'object') t.best = {};
   t.mode = MODES[t.mode] ? t.mode : 'tank';
   t.boss = BOSS[t.boss] ? t.boss : 'vel';
@@ -1811,7 +1858,8 @@ let mode = 'tank', bossKey = 'vel', diffKey = 'normal', ABIL = [], A = {};
 function buildAbil(){
   const map = noteMap(MODES[mode].spec), byNote = {};
   Object.entries(map).forEach(([k, a]) => { byNote[a.id] = {k, ko:a.ko}; });
-  const list = (mode === 'tank' ? TANK_ABIL : DPS_ABIL).map(a => {
+  const src = mode === 'tank' ? TANK_ABIL : mode === 'blood' ? BLOOD_ABIL : DPS_ABIL;
+  const list = src.map(a => {
     const hit = a.notes.map(n => byNote[n]).find(Boolean);
     return Object.assign({}, a, {noteKey: hit ? hit.k : a.def, name: hit ? hit.ko.replace(/ \(.*\)$/, '') : a.name});
   });
@@ -1829,28 +1877,32 @@ function evKey(e){
 }
 const fmt = t => { t = Math.max(0, Math.floor(t)); return Math.floor(t/60) + ':' + String(t%60).padStart(2,'0'); };
 const rnd = (a, b) => a + Math.random() * (b - a);
+const R = () => ROLE[S ? S.mode : mode];
 
 /* ---------- 상태 ---------- */
 let S;
 function newGame(){
   const d = DIFF[diffKey];
   S = {mode, boss:bossKey, d, t:0, running:false, paused:false, over:false, countdown:0,
-    hp:100, rage:mode === 'tank' ? 15 : 10, absorb:0, gcd:0, queued:null, healer:100,
-    cds:Object.fromEntries(ABIL.map(a => [a.id, 0])), charges:{rb:2}, recharge:{rb:0},
+    hp:100, rage:mode === 'tank' ? 15 : mode === 'blood' ? 20 : 10, absorb:0, gcd:0, queued:null, healer:100,
+    cds:Object.fromEntries(ABIL.map(a => [a.id, 0])), charges:{rb:2, boil:2}, recharge:{rb:0, boil:0},
     b:{hp:100, swing:1.5, cast:null, timers:{}},
-    adds:[], addSeq:0, waves:bossKey !== 'vel' ? [] : (mode === 'tank' ? [.2,.48,.76] : [.22,.52]).map(f => Math.round(d.dur * f)),
-    moved:false, buffs:{}, log:[], logDirty:true, st:{fight:0, cap:0}};
+    adds:[], addSeq:0, waves:bossKey !== 'vel' ? [] : (TANKY(mode) ? [.2,.48,.76] : [.22,.52]).map(f => Math.round(d.dur * f)),
+    moved:false, log:[], events:[], logDirty:true, pull:null, st:{fight:0, cap:0, pulls:0, pullOk:0, dpsDown:0}};
   const T = S.b.timers;
-  if (mode === 'tank') {
-    Object.assign(S, {sb:0, sbCharges:2, sbRe:0, wall:0, revFree:false});
-    Object.assign(S.st, {sb:0, tankTime:0, bolts:0, kicks:0, waste:0, busters:0, bustOk:0, loose:0});
+  if (bossKey === 'drill') { S.dr = {cue:null, next:1.2, left:0, total:0, hits:0, miss:0, wrong:0, rts:[], len:45}; return; }
+  if (TANKY(mode)) {
+    Object.assign(S, {sb:0, sbCharges:2, sbRe:0, wall:0, revFree:false, demo:0, refl:0, avatar:0, sd:false,
+      runes:6, bone:0, drw:0, vamp:0, ibf:0, amsT:0, dndT:0, recent:[]});
+    Object.assign(S.st, {sb:0, tankTime:0, bolts:0, kicks:0, reflects:0, waste:0, busters:0, bustOk:0, loose:0, dsGood:0, dsAll:0});
+    T.pull = rnd(24, 32);
     if (bossKey === 'vel') { T.next = 6; S.pat = 0; }
     else { Object.assign(S, {tanking:true, stk:0, stkT:99, ot:{hp:100, stk:0, stkT:99}, otTauntAt:null});
       Object.assign(S.st, {swaps:0, swapOk:0, early:0, otBig:0, breaths:0, dodged:0, waves:0, waveOk:0});
       T.strike = 6; T.breath = 13; T.wave = 21; }
   } else {
     Object.assign(S, {enrage:0, reck:0, cleave:0, sd:false, defBuff:0, weak:0, dmg:0});
-    Object.assign(S.st, {enr:0, bolts:0, kicks:0, waste:0, pools:0, poolHit:0, waves:0, waveOk:0, windows:0, windowCd:0, addAlive:0, cleaveWaste:0, exeMiss:0});
+    Object.assign(S.st, {enr:0, bolts:0, kicks:0, waste:0, pools:0, poolHit:0, waves:0, waveOk:0, windows:0, windowCd:0, cleaveWaste:0});
     if (bossKey === 'vel') { T.bolt = 8; }
     else { T.pool = 7; T.wave = 22; T.weak = 18; }
   }
@@ -1859,40 +1911,53 @@ function newGame(){
 /* ---------- 피드백 ---------- */
 function callout(text, kind){ const el = $('callout'); el.textContent = text; el.className = 'tr-callout ' + (kind || 'info'); void el.offsetWidth; el.classList.add('show'); }
 function errMsg(text){ const el = $('err'); el.textContent = text; el.className = 'tr-err'; void el.offsetWidth; el.classList.add('show'); }
-function log(text, kind){ S.log.unshift({t:S.t, text, kind:kind || ''}); if (S.log.length > 7) S.log.length = 7; S.logDirty = true; }
-const addRage = n => { if (S.mode === 'dps' && S.reck > 0 && n > 0) n *= 1.5; S.rage = Math.min(100, S.rage + n); };
+function log(text, kind){
+  S.log.unshift({t:S.t, text, kind:kind || ''}); if (S.log.length > 7) S.log.length = 7; S.logDirty = true;
+  if (kind === 'bad' || kind === 'good') S.events.push({t:S.t, text, kind});
+}
+const addRage = n => { if (S.mode === 'dps' && S.reck > 0 && n > 0) n *= 1.5; if (S.mode === 'tank' && S.avatar > 0 && n > 0) n *= 1.5; S.rage = Math.min(100, S.rage + n); };
 function hit(raw, physical){
-  let dmg = raw * S.d.dmg, blocked = false, wall = false, dr = false;
+  let dmg = raw * S.d.dmg, m = 1, blocked = false, wall = false, dr = false;
   if (S.mode === 'tank') {
-    if (physical && S.sb > 0) { dmg *= .5; blocked = true; }
-    if (S.wall > 0) { dmg *= .6; wall = true; }
-  } else if (S.defBuff > 0) { dmg *= .7; dr = true; }
-  const ab = Math.min(S.absorb, dmg); S.absorb -= ab; dmg -= ab;
+    if (physical && S.sb > 0) { m *= .5; blocked = true; }
+    if (S.wall > 0) { m *= .6; wall = true; }
+    if (S.demo > 0) m *= .8;
+  } else if (S.mode === 'blood') {
+    if (physical && S.bone > 0) m *= .7;
+    if (physical && S.drw > 0) m *= .6;
+    if (S.vamp > 0) m *= .75;
+    if (S.ibf > 0) { m *= .7; wall = true; }
+    blocked = m <= .55;
+  } else if (S.defBuff > 0) { m *= .7; dr = true; }
+  dmg *= m;
+  let ab = 0;
+  if (S.mode === 'blood' && !physical && S.amsT > 0) { ab = Math.min(S.absorb, dmg); S.absorb -= ab; dmg -= ab; }
+  else if (S.mode === 'tank') { ab = Math.min(S.absorb, dmg); S.absorb -= ab; dmg -= ab; }
   S.hp -= dmg;
-  return {dmg, blocked, wall, ab, dr};
+  if (S.recent) S.recent.push({t:S.t, d:dmg});
+  return {dmg, blocked, wall, ab, dr, m};
 }
 const liveAdds = () => S.adds.filter(a => !a.dead);
 const looseAdd = () => liveAdds().filter(a => a.target === 'healer').sort((a,b) => (b.thH-b.thT)-(a.thH-a.thT))[0];
-function startCast(type, name, dur, kind){ S.b.cast = {type, name, total:dur, left:dur, kind}; S.moved = false; }
+function startCast(type, name, dur, kind){ S.b.cast = {type, name, total:dur, left:dur, kind}; S.moved = false; S.reflectUsed = false; }
+const tankingNow = () => S.boss === 'vel' || S.tanking;
 
 /* ---------- 기술 사용 ---------- */
 function canUse(id){
   const a = A[id];
-  if (S.mode === 'tank') {
-    if (id === 'sb') { if (S.sbCharges < 1) return '아직 사용할 수 없어요.'; if (S.sb >= 11.99) return '방패 올리기가 이미 최대예요.'; }
-    else if (S.cds[id] > 0) return '아직 사용할 수 없어요.';
-    const cost = (id === 'rev' && S.revFree) ? 0 : a.cost;
-    if (S.rage < cost) return '분노가 부족해요.';
-    if (id === 'taunt') {
-      if (S.boss === 'vel' && !looseAdd()) return '도발할 대상이 없어요.';
-      if (S.boss === 'orgol' && S.tanking && !looseAdd()) return '이미 내가 보스를 잡고 있어요.';
-    }
-  } else {
-    if (id === 'rb') { if (S.charges.rb < 1) return '아직 사용할 수 없어요.'; }
-    else if (S.cds[id] > 0) return '아직 사용할 수 없어요.';
-    if (S.rage < a.cost) return '분노가 부족해요.';
-    if (id === 'exe' && !(S.b.hp < 20 || S.sd)) return '지금은 마무리 일격을 쓸 수 없어요.';
+  if (a.charges) { if (S.charges[id] < 1) return '아직 사용할 수 없어요.'; }
+  else if (id === 'sb') { if (S.sbCharges < 1) return '아직 사용할 수 없어요.'; if (S.sb >= 11.99) return '방패 올리기가 이미 최대예요.'; }
+  else if (S.cds[id] > 0) return '아직 사용할 수 없어요.';
+  const cost = (id === 'rev' && S.revFree) ? 0 : (id === 'exe' && S.mode === 'tank' && S.sd) ? 0 : a.cost;
+  if (S.rage < cost) return S.mode === 'blood' ? '룬 마력이 부족해요.' : '분노가 부족해요.';
+  if (a.runes && S.runes < a.runes) return '룬이 부족해요.';
+  if (id === 'exe' && !(S.b.hp < 20 || S.sd)) return '지금은 마무리 일격을 쓸 수 없어요.';
+  if (id === 'taunt' && TANKY(S.mode)) {
+    if (S.pull) return true;
+    if (S.boss === 'vel' && !looseAdd()) return '도발할 대상이 없어요.';
+    if (S.boss === 'orgol' && S.tanking && !looseAdd()) return '이미 내가 보스를 잡고 있어요.';
   }
+  if (id === 'grip' && !looseAdd()) return '끌어올 쫄이 없어요.';
   return true;
 }
 function dealDps(base, aoe){
@@ -1902,37 +1967,60 @@ function dealDps(base, aoe){
   if (adds.length && (aoe || S.cleave > 0)) { adds.forEach(x => x.hp -= base * 2.2); if (!aoe) S.cleave--; }
   else if (adds.length && !aoe) S.st.cleaveWaste++;
 }
+function interrupt(a){
+  const c = S.b.cast;
+  if (c && c.kind === 'kick') { S.st.kicks++; S.st.bolts++; S.b.cast = null; callout('차단 성공!', 'good'); log(c.name + ' 차단', 'good'); }
+  else { S.st.waste++; log(a.name + ' 헛손질 (15초 쿨)', 'bad'); }
+}
+function tauntUse(){
+  if (S.pull) { S.pull = null; S.st.pullOk++; log('어그로 되찾음', 'good'); callout('어그로 되찾았어요!', 'good'); return; }
+  const x = looseAdd();
+  if (x) { x.thT = x.thH * 1.25 + 10; x.target = 'tank'; log(x.name + ' 도발', 'good'); return; }
+  S.tanking = true; S.otTauntAt = null; S.st.swaps++;
+  if (S.ot.stk >= 2 && S.stk === 0) { S.st.swapOk++; log('탱 교대 성공', 'good'); callout('교대 성공!', 'good'); }
+  else { S.st.early++; log(S.stk > 0 ? '내 낙인이 남았는데 도발' : '조금 이른 도발', 'bad'); }
+}
 function doUse(id){
   const a = A[id];
+  const free = (id === 'rev' && S.revFree) || (id === 'exe' && S.mode === 'tank' && S.sd);
+  S.rage -= free ? 0 : a.cost;
+  if (a.runes) S.runes -= a.runes;
+  if (a.charges) { S.charges[id]--; if (S.recharge[id] <= 0) S.recharge[id] = a.recharge; }
+  else if (a.cd) S.cds[id] = a.cd;
+  if (a.gcd) S.gcd = 1;
+  const adds = liveAdds();
   if (S.mode === 'tank') {
-    const free = id === 'rev' && S.revFree;
-    S.rage -= free ? 0 : a.cost;
-    if (a.cd) S.cds[id] = a.cd;
-    if (a.gcd) S.gcd = 1;
-    const adds = liveAdds();
     switch (id) {
-      case 'slam': addRage(15); S.b.hp -= 1; break;
+      case 'slam': addRage(15); S.b.hp -= S.avatar > 0 ? 1.3 : 1; break;
       case 'tc': addRage(5); S.b.hp -= .4; adds.forEach(x => { x.thT += 60; x.hp -= 14; }); break;
       case 'rev': S.revFree = false; S.b.hp -= .6; adds.forEach(x => { x.thT += 35; x.hp -= 16; }); break;
+      case 'exe': S.sd = false; S.b.hp -= 1.2; break;
+      case 'demo': S.demo = 8; addRage(10); log(a.name, 'good'); break;
       case 'ip': S.absorb = Math.min(30, S.absorb + 14); break;
       case 'sb': S.sbCharges--; if (S.sbRe <= 0) S.sbRe = 8; S.sb = Math.min(12, S.sb + 6); break;
       case 'wall': S.wall = 8; log(a.name, 'good'); break;
-      case 'kick': { const c = S.b.cast;
-        if (c && c.kind === 'kick') { S.st.kicks++; S.st.bolts++; S.b.cast = null; callout('차단 성공!', 'good'); log(c.name + ' 차단', 'good'); }
-        else { S.st.waste++; log(a.name + ' 헛손질 (15초 쿨)', 'bad'); } break; }
-      case 'taunt': {
-        const x = looseAdd();
-        if (x) { x.thT = x.thH * 1.25 + 10; x.target = 'tank'; log(x.name + ' 도발', 'good'); break; }
-        S.tanking = true; S.otTauntAt = null; S.st.swaps++;
-        if (S.ot.stk >= 2 && S.stk === 0) { S.st.swapOk++; log('탱 교대 성공', 'good'); callout('교대 성공!', 'good'); }
-        else { S.st.early++; log(S.stk > 0 ? '내 낙인이 남았는데 도발' : '조금 이른 도발', 'bad'); }
-        break; }
+      case 'reflect': S.refl = 5; break;
+      case 'avatar': S.avatar = 15; log(a.name, 'good'); break;
+      case 'kick': interrupt(a); break;
+      case 'taunt': tauntUse(); break;
+    }
+  } else if (S.mode === 'blood') {
+    switch (id) {
+      case 'ds': { const since = S.recent.filter(r => S.t - r.t <= 5).reduce((s, r) => s + r.d, 0); const heal = Math.max(7, since * .5) * (S.vamp > 0 ? 1.3 : 1);
+        S.hp = Math.min(100, S.hp + heal); S.st.dsAll++; if (since >= 14 || S.rage >= 90) S.st.dsGood++; S.b.hp -= .8; break; }
+      case 'boil': S.b.hp -= .4; adds.forEach(x => { x.thT += 55; x.hp -= 12; }); break;
+      case 'hs': S.rage = Math.min(100, S.rage + (S.drw > 0 ? 15 : 10)); S.b.hp -= .6; if (S.dndT > 0) adds.forEach(x => { x.thT += 20; x.hp -= 10; }); break;
+      case 'marrow': S.bone = Math.min(10, S.bone + 3); S.rage = Math.min(100, S.rage + 15); S.b.hp -= .7; break;
+      case 'dnd': S.dndT = 10; adds.forEach(x => { x.thT += 30; }); break;
+      case 'vamp': S.vamp = 10; log(a.name, 'good'); break;
+      case 'ams': S.amsT = 5; S.absorb = 40; break;
+      case 'ibf': S.ibf = 8; log(a.name, 'good'); break;
+      case 'drw': S.drw = 8; log(a.name, 'good'); break;
+      case 'kick': interrupt(a); break;
+      case 'grip': { const x = looseAdd(); x.thT = x.thH * 1.3 + 15; x.target = 'tank'; log(x.name + ' 끌어옴', 'good'); break; }
+      case 'taunt': tauntUse(); break;
     }
   } else {
-    S.rage -= a.cost;
-    if (id === 'rb') { S.charges.rb--; if (S.recharge.rb <= 0) S.recharge.rb = a.recharge; }
-    else if (a.cd) S.cds[id] = a.cd;
-    if (a.gcd) S.gcd = 1;
     switch (id) {
       case 'bt': addRage(8); dealDps(6); if (Math.random() < .35) S.enrage = Math.max(S.enrage, 4); S.hp = Math.min(100, S.hp + 2); break;
       case 'rb': addRage(12); dealDps(5); break;
@@ -1942,14 +2030,13 @@ function doUse(id){
       case 'burst': S.enrage = 4; dealDps(15, true); if (S.weak > 0) S.st.windowCd++; log(a.name, 'good'); break;
       case 'reck': S.reck = 10; if (S.weak > 0) S.st.windowCd++; log(a.name, 'good'); break;
       case 'def': S.defBuff = 8; S.hp = Math.min(100, S.hp + 15); log(a.name, 'good'); break;
-      case 'kick': { const c = S.b.cast;
-        if (c && c.kind === 'kick') { S.st.kicks++; S.st.bolts++; S.b.cast = null; callout('차단 성공!', 'good'); log(c.name + ' 차단', 'good'); }
-        else { S.st.waste++; log(a.name + ' 헛손질 (15초 쿨)', 'bad'); } break; }
+      case 'kick': interrupt(a); break;
     }
   }
 }
 function tryUse(id){
   if (!S.running || S.paused || S.over || S.countdown > 0) return;
+  if (S.boss === 'drill') return drillPress(id);
   const a = A[id];
   if (a.gcd && S.gcd > 0) { if (S.gcd < .35) S.queued = id; return; }
   const r = canUse(id);
@@ -1958,16 +2045,44 @@ function tryUse(id){
 }
 function move(){
   if (!S.running || S.paused || S.over || S.countdown > 0) return;
+  if (S.boss === 'drill') return drillPress('move');
   const c = S.b.cast;
   if (c && c.kind === 'move' && !S.moved) { S.moved = true; log('옆으로 이동', 'good'); }
+}
+
+/* ---------- 반응 훈련 ---------- */
+function drillPress(id){
+  const D = S.dr;
+  if (!D.cue) { D.wrong++; errMsg('아직 신호가 없어요.'); if (id !== 'move') denyBtn(id); return; }
+  if (id === D.cue.id) { const rt = D.total - D.left; D.rts.push(rt); D.hits++; log(D.cue.text.split(' — ')[1] + ' ' + rt.toFixed(2) + '초', 'good'); callout(rt < .8 ? '빨라요!' : '좋아요', 'good'); D.cue = null; D.next = rnd(.5, 1.1); if (id !== 'move') pressFx(id); }
+  else { D.wrong++; log('틀린 키 · ' + D.cue.text, 'bad'); errMsg('다른 키예요.'); if (id !== 'move') denyBtn(id); }
+}
+function stepDrill(dt){
+  const D = S.dr;
+  S.t += dt; S.st.fight += dt;
+  S.b.hp = Math.max(0, 100 * (1 - S.t / D.len));
+  if (D.cue) {
+    D.left -= dt;
+    if (D.left <= 0) { D.miss++; log('놓침 · ' + D.cue.text, 'bad'); callout('놓쳤어요', 'bad'); D.cue = null; D.next = rnd(.5, 1); }
+  } else {
+    D.next -= dt;
+    if (D.next <= 0) {
+      const pool = CUES[S.mode].filter(([id]) => id === 'move' || A[id]);
+      let pick; do { pick = pool[Math.floor(Math.random() * pool.length)]; } while (D.cue && pick[0] === D.cue.id && pool.length > 1);
+      D.total = D.left = 2.2 / S.d.speed;
+      D.cue = {id:pick[0], text:pick[1]};
+      callout(pick[1], 'go');
+    }
+  }
+  if (S.t >= D.len) end(true, '훈련 끝');
 }
 
 /* ---------- 쫄 ---------- */
 function spawnWave(){
   const n = S.d.adds;
-  for (let i = 0; i < n; i++) S.adds.push({id:++S.addSeq, name:ADD_NAMES[i % ADD_NAMES.length], hp:100, thH:30, thT:0, target:S.mode === 'tank' ? 'healer' : 'tank', swing:1.4, age:0, dead:false});
-  if (S.mode === 'tank') { callout('쫄 ' + n + '마리 — ' + A.tc.name + '!', 'add'); log('쫄 ' + n + '마리 등장, 힐러에게 돌진', 'bad'); }
-  else { callout('쫄 ' + n + '마리 — ' + A.aoe.name + '!', 'add'); log('쫄 ' + n + '마리 등장', 'bad'); }
+  for (let i = 0; i < n; i++) S.adds.push({id:++S.addSeq, name:ADD_NAMES[i % ADD_NAMES.length], hp:100, thH:30, thT:0, target:TANKY(S.mode) ? 'healer' : 'tank', swing:1.4, age:0, dead:false});
+  callout('쫄 ' + n + '마리 — ' + A[R().aoe].name + '!', 'add');
+  log('쫄 ' + n + '마리 등장' + (TANKY(S.mode) ? ', 힐러에게 돌진' : ''), 'cast');
 }
 
 /* ---------- 진행 ---------- */
@@ -1975,51 +2090,67 @@ function commonStep(dt){
   S.t += dt; S.st.fight += dt;
   S.gcd = Math.max(0, S.gcd - dt);
   for (const k in S.cds) S.cds[k] = Math.max(0, S.cds[k] - dt);
+  ABIL.filter(a => a.charges).forEach(a => {
+    if (S.charges[a.id] < 2) { S.recharge[a.id] -= dt * (a.id === 'rb' && S.enrage > 0 ? 1.4 : 1); if (S.recharge[a.id] <= 0) { S.charges[a.id]++; S.recharge[a.id] = S.charges[a.id] < 2 ? a.recharge : 0; } }
+  });
   if (S.queued && S.gcd === 0) { const q = S.queued; S.queued = null; if (canUse(q) === true) doUse(q); }
   if (S.rage >= 99.9) S.st.cap += dt;
   if (S.waves.length && S.t >= S.waves[0]) { S.waves.shift(); spawnWave(); }
-  if (S.healer > 0) { let h = 2.5 * S.d.heal; if (S.looseNow) h *= .45; if (S.hp < 40) h *= 1.5; S.hp = Math.min(100, S.hp + h * dt); }
+  if (S.healer > 0) { let h = 2.5 * S.d.heal * (S.mode === 'blood' ? .6 : 1); if (S.vamp > 0) h *= 1.3; if (S.looseNow) h *= .45; if (S.hp < 40) h *= 1.5; S.hp = Math.min(100, S.hp + h * dt); }
 }
+function busterOk(r, strike){ return S.mode === 'tank' ? (r.blocked || r.wall || r.ab >= (strike ? 12 : 15)) : (r.blocked || r.wall); }
+function magicOk(r){ return S.mode === 'tank' ? (r.ab >= 10 || r.wall) : (r.ab >= 10 || r.wall); }
 function stepTank(dt){
-  const d = S.d, st = S.st, b = S.b, T = b.timers;
+  const d = S.d, st = S.st, b = S.b, T = b.timers, tk = tankingNow();
   commonStep(dt);
-  if (S.sbCharges < 2) { S.sbRe -= dt; if (S.sbRe <= 0) { S.sbCharges++; S.sbRe = S.sbCharges < 2 ? 8 : 0; } }
-  const tanking = S.boss === 'vel' || S.tanking;
-  if (tanking) { st.tankTime += dt; if (S.sb > 0) st.sb += Math.min(dt, S.sb); }
-  S.sb = Math.max(0, S.sb - dt); S.wall = Math.max(0, S.wall - dt);
-  addRage((tanking ? 2 : 1.2) * dt);
+  if (S.mode === 'tank') {
+    if (S.sbCharges < 2) { S.sbRe -= dt; if (S.sbRe <= 0) { S.sbCharges++; S.sbRe = S.sbCharges < 2 ? 8 : 0; } }
+    if (tk && S.sb > 0) st.sb += Math.min(dt, S.sb);
+    S.sb = Math.max(0, S.sb - dt); S.wall = Math.max(0, S.wall - dt); S.demo = Math.max(0, S.demo - dt); S.refl = Math.max(0, S.refl - dt); S.avatar = Math.max(0, S.avatar - dt);
+    addRage((tk ? 2 : 1.2) * dt);
+  } else {
+    if (tk && S.bone > 0) st.sb += dt;
+    if (S.runes < 6) S.runes = Math.min(6, S.runes + dt / 2.4);
+    S.drw = Math.max(0, S.drw - dt); S.vamp = Math.max(0, S.vamp - dt); S.ibf = Math.max(0, S.ibf - dt); S.dndT = Math.max(0, S.dndT - dt);
+    S.amsT = Math.max(0, S.amsT - dt); if (S.amsT <= 0) S.absorb = 0;
+    S.recent = S.recent.filter(r => S.t - r.t <= 5);
+  }
+  if (tk) st.tankTime += dt;
   b.hp -= (100 / d.dur) * .96 * dt;
+  // 어그로 놓침 경보
+  if (S.pull) { S.pull.left -= dt; if (S.pull.left <= 0) { S.pull = null; st.dpsDown++; S.healer -= 8 * d.dmg; log('딜러가 보스에게 쓰러짐 · 도발이 늦었어요', 'bad'); callout('딜러가 쓰러졌어요', 'bad'); } }
+  else if (tk && !b.cast) { T.pull -= dt; if (T.pull <= 0) { T.pull = rnd(26, 36) / d.speed; S.pull = {left:4}; st.pulls++; callout('딜러가 어그로를 끌었어요 — ' + A.taunt.name + '!', 'smash'); log('딜러가 보스 어그로를 가져감', 'cast'); } }
   b.swing -= dt;
   if (b.swing <= 0) {
     b.swing = 1.5 / d.speed;
-    if (tanking) {
-      if (Math.random() < .18) { if (!S.revFree) log('평타 회피 → 복수 무료', 'good'); S.revFree = true; }
-      else { hit(6, true); addRage(4); }
+    if (tk && !S.pull) {
+      if (S.mode === 'tank' && Math.random() < .18) { if (!S.revFree) log('평타 회피 → 복수 무료', 'good'); S.revFree = true; }
+      else { hit(6, true); if (S.mode === 'tank') { addRage(4); if (!S.sd && b.hp >= 20 && Math.random() < .08) { S.sd = true; log('급살 발동', 'good'); } } else { S.rage = Math.min(100, S.rage + 3); if (S.bone > 0) S.bone = Math.max(0, S.bone - .5); } }
     }
   }
   if (S.boss === 'vel') {
     if (b.cast) { b.cast.left -= dt; if (b.cast.left <= 0) {
       const c = b.cast; b.cast = null;
-      if (c.type === 'bolt') { st.bolts++; const r = hit(18, false); S.healer -= 15 * d.dmg; log(c.name + ' 적중 (−' + Math.round(r.dmg) + ')', 'bad'); }
-      else { st.busters++; const r = hit(50, true); addRage(6);
-        if (r.blocked || r.wall || r.ab >= 15) { st.bustOk++; log(c.name + ' 버팀 (−' + Math.round(r.dmg) + ')', 'good'); }
+      if (c.type === 'bolt') {
+        if (S.mode === 'tank' && S.refl > 0) { S.refl = 0; st.bolts++; st.reflects++; log(c.name + ' 반사', 'good'); callout('반사 성공!', 'good'); }
+        else { st.bolts++; const r = hit(18, false); S.healer -= 15 * d.dmg; log(c.name + ' 적중 (−' + Math.round(r.dmg) + ')', 'bad'); }
+      } else { st.busters++; const r = hit(50, true); if (S.mode === 'tank') addRage(6);
+        if (busterOk(r)) { st.bustOk++; log(c.name + ' 버팀 (−' + Math.round(r.dmg) + ')', 'good'); }
         else { log(c.name + ' 생으로 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); callout('생으로 맞았어요!', 'bad'); } }
     } }
     else { T.next -= dt; if (T.next <= 0) { T.next = 9 / d.speed;
       if (S.pat++ % 2 === 0) { startCast('bolt', '암흑 화살', 2.4, 'kick'); callout('암흑 화살 — ' + A.kick.name + '!', 'bolt'); log('암흑 화살 시전', 'cast'); }
-      else { startCast('smash', '공허 분쇄', 2.6, 'danger'); callout('공허 분쇄 — 생존기!', 'smash'); log('공허 분쇄 시전', 'cast'); } } }
+      else { startCast('smash', '공허 분쇄', 2.6, 'danger'); callout('공허 분쇄 — ' + A[R().buster].name + '!', 'smash'); log('공허 분쇄 시전', 'cast'); } } }
   } else {
-    // 오르골: 낙인 강타(교대) · 공허 숨결(전방, 이동) · 공허 파동(광역 마법)
     if (!S.tanking) { S.stkT += dt; if (S.stkT > 12) S.stk = 0; }
     if (S.tanking) { S.ot.stkT += dt; if (S.ot.stkT > 12) S.ot.stk = 0; }
-    if (S.otTauntAt != null && S.t >= S.otTauntAt) { S.otTauntAt = null; S.tanking = false; log('동료 탱커가 도발해서 보스를 가져감', 'cast'); callout('동료가 가져갔어요 · 낙인이 빠질 때까지 대기', 'info'); }
-    if (!S.tanking) S.ot.hp = Math.min(100, S.ot.hp + 2.2 * dt);
-    else S.ot.hp = Math.min(100, S.ot.hp + 3 * dt);
+    if (S.otTauntAt != null && S.t >= S.otTauntAt) { S.otTauntAt = null; S.tanking = false; S.pull = null; log('동료 탱커가 도발해서 보스를 가져감', 'cast'); callout('동료가 가져갔어요 · 낙인이 빠질 때까지 대기', 'info'); }
+    S.ot.hp = Math.min(100, S.ot.hp + (S.tanking ? 3 : 2.2) * dt);
     if (b.cast) { b.cast.left -= dt; if (b.cast.left <= 0) {
       const c = b.cast; b.cast = null;
       if (c.type === 'strike') {
-        if (S.tanking) { st.busters++; const r = hit(28, true); addRage(6); S.stk++; S.stkT = 0;
-          if (r.blocked || r.wall || r.ab >= 12) { st.bustOk++; log('낙인 강타 버팀 · 낙인 ' + S.stk, 'good'); } else log('낙인 강타 생으로 맞음 · 낙인 ' + S.stk, 'bad');
+        if (S.tanking) { st.busters++; const r = hit(28, true); if (S.mode === 'tank') addRage(6); S.stk++; S.stkT = 0;
+          if (busterOk(r, true)) { st.bustOk++; log('낙인 강타 버팀 · 낙인 ' + S.stk, 'good'); } else log('낙인 강타 생으로 맞음 · 낙인 ' + S.stk, 'bad');
           if (S.stk >= 3) { hit(30, false); log('낙인 3중첩 폭발!', 'bad'); callout('낙인 3중첩!', 'bad'); }
           if (S.stk >= 2) S.otTauntAt = S.t + 1.5;
         } else { S.ot.stk++; S.ot.stkT = 0; S.ot.hp -= 12 * d.dmg;
@@ -2032,29 +2163,28 @@ function stepTank(dt){
           else { const r = hit(40, false); log('공허 숨결 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); callout('숨결을 맞았어요!', 'bad'); } }
         else log('동료가 숨결을 피함', '');
       } else if (c.type === 'wave') { st.waves++; const r = hit(26, false); S.healer -= 10 * d.dmg; S.ot.hp -= 10 * d.dmg;
-        if (r.ab >= 10 || r.wall) { st.waveOk++; log('공허 파동 대비 (−' + Math.round(r.dmg) + ')', 'good'); }
+        if (magicOk(r)) { st.waveOk++; log('공허 파동 대비 (−' + Math.round(r.dmg) + ')', 'good'); }
         else log('공허 파동 생으로 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); }
     } }
     else {
-      for (const k in T) T[k] -= dt;
-      if (T.wave <= 0) { T.wave = 22 / d.speed; startCast('wave', '공허 파동', 2.5, 'raid'); callout('공허 파동 — ' + A.ip.name + '!', 'bolt'); log('공허 파동 시전 (마법)', 'cast'); }
+      for (const k in T) if (k !== 'pull') T[k] -= dt;
+      if (T.wave <= 0) { T.wave = 22 / d.speed; startCast('wave', '공허 파동', 2.5, 'raid'); callout('공허 파동 — ' + A[R().magic].name + '!', 'bolt'); log('공허 파동 시전 (마법)', 'cast'); }
       else if (T.breath <= 0) { T.breath = 15 / d.speed; startCast('breath', '공허 숨결', 2.4, 'move'); if (S.tanking) callout('공허 숨결 — 옆으로 이동(' + MOVE.join('·') + ')!', 'smash'); log('공허 숨결 시전 (전방)', 'cast'); }
-      else if (T.strike <= 0) { T.strike = 9 / d.speed; startCast('strike', '낙인 강타', 1.6, 'danger'); if (S.tanking) callout('낙인 강타 — ' + A.sb.name + '!', 'smash'); log('낙인 강타 시전', 'cast'); }
+      else if (T.strike <= 0) { T.strike = 9 / d.speed; startCast('strike', '낙인 강타', 1.6, 'danger'); if (S.tanking) callout('낙인 강타 — ' + A[R().buster].name + '!', 'smash'); log('낙인 강타 시전', 'cast'); }
     }
     if (S.ot.hp <= 0) { S.ot.hp = 0; return end(false, '동료 탱커가 쓰러졌어요'); }
   }
-  // 쫄 (벨라스만)
   let loose = 0;
   for (const a of S.adds) {
     if (a.dead) continue;
     a.age += dt; a.thH += 8 * d.speed * dt;
-    if (a.target === 'tank') a.thT += 6 * dt;
+    if (a.target === 'tank') a.thT += (S.mode === 'blood' && S.dndT > 0 ? 9 : 6) * dt;
     if (a.target === 'healer' && a.thT > a.thH) a.target = 'tank';
     else if (a.target === 'tank' && a.thH > a.thT * 1.1) { a.target = 'healer'; log(a.name + ' 어그로 놓침', 'bad'); }
-    if (a.age > 2) a.hp -= 6.5 * dt;
+    if (a.age > 2) a.hp -= (S.mode === 'blood' && S.dndT > 0 ? 8 : 6.5) * dt;
     if (a.hp <= 0) { a.dead = true; a.deadAt = S.t; continue; }
-    if (a.target === 'healer') { loose++; S.healer -= 2.6 * d.dmg * dt; }
-    else { a.swing -= dt; if (a.swing <= 0) { a.swing = 1.4; hit(1.5, true); addRage(2); } }
+    if (a.target === 'healer') { loose++; S.healer -= 2.6 * d.dmg * dt; a.looseT = (a.looseT || 0) + dt; if (a.looseT > 4 && !a.looseLog) { a.looseLog = true; log(a.name + ' · 힐러를 4초 넘게 때림', 'bad'); } }
+    else { a.looseT = 0; a.swing -= dt; if (a.swing <= 0) { a.swing = 1.4; hit(1.5, true); if (S.mode === 'tank') addRage(2); else S.rage = Math.min(100, S.rage + 1); } }
   }
   S.adds = S.adds.filter(a => !a.dead || S.t - a.deadAt < 1.2);
   if (loose) st.loose += dt; else S.healer = Math.min(100, S.healer + 1.5 * dt);
@@ -2064,7 +2194,6 @@ function stepTank(dt){
 function stepDps(dt){
   const d = S.d, st = S.st, b = S.b, T = b.timers;
   commonStep(dt);
-  if (S.charges.rb < 2) { S.recharge.rb -= dt * (S.enrage > 0 ? 1.4 : 1); if (S.recharge.rb <= 0) { S.charges.rb++; S.recharge.rb = S.charges.rb < 2 ? A.rb.recharge : 0; } }
   if (S.enrage > 0) st.enr += Math.min(dt, S.enrage);
   S.enrage = Math.max(0, S.enrage - dt); S.reck = Math.max(0, S.reck - dt); S.defBuff = Math.max(0, S.defBuff - dt); S.weak = Math.max(0, S.weak - dt);
   b.hp -= (100 / d.dur) * .74 * dt;
@@ -2075,7 +2204,7 @@ function stepDps(dt){
     else { T.bolt -= dt; if (T.bolt <= 0) { T.bolt = 11 / d.speed; startCast('bolt', '암흑 화살', 2.2, 'kick'); callout('암흑 화살 — ' + A.kick.name + '!', 'bolt'); log('암흑 화살 시전', 'cast'); } }
   } else {
     for (const k in T) if (k !== 'weak' || S.weak <= 0) T[k] -= dt;
-    if (T.weak <= 0) { T.weak = 30; S.weak = 8; st.windows++; callout('약점 노출 — 쿨기!', 'go'); log('약점 노출 8초', 'good'); }
+    if (T.weak <= 0) { T.weak = 30; S.weak = 8; st.windows++; callout('약점 노출 — 쿨기!', 'go'); log('약점 노출 8초', 'cast'); }
     if (b.cast) { b.cast.left -= dt; if (b.cast.left <= 0) { const c = b.cast; b.cast = null;
       if (c.type === 'pool') { st.pools++; if (S.moved) { log('장판 피함', 'good'); } else { st.poolHit++; const r = hit(22, false); log('발밑 장판 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); callout('장판을 밟았어요!', 'bad'); } }
       else if (c.type === 'wave') { st.waves++; const r = hit(35, false); if (r.dr) { st.waveOk++; log('공허 파동 대비 (−' + Math.round(r.dmg) + ')', 'good'); } else log('공허 파동 생으로 맞음 (−' + Math.round(r.dmg) + ')', 'bad'); }
@@ -2085,14 +2214,13 @@ function stepDps(dt){
   }
   for (const a of S.adds) {
     if (a.dead) continue;
-    a.age += dt; a.hp -= 5 * dt; st.addAlive += dt;
+    a.age += dt; a.hp -= 5 * dt;
     if (a.age > 14 && !a.boom) { a.boom = true; hit(10, false); S.healer -= 6 * d.dmg; log(a.name + ' 폭발 · 쫄을 더 빨리 잡아요', 'bad'); }
     if (a.hp <= 0) { a.dead = true; a.deadAt = S.t; }
   }
   S.adds = S.adds.filter(a => !a.dead || S.t - a.deadAt < 1.2);
   S.looseNow = 0;
   if (b.hp < 20 && !S.exeShown) { S.exeShown = true; callout('보스 20% — ' + A.exe.name + ' 구간!', 'go'); }
-  if (b.hp < 20 && S.cds.exe <= 0 && S.gcd <= 0) S.st.exeMiss += dt;
   checkEnd();
 }
 function checkEnd(){
@@ -2105,36 +2233,45 @@ function checkEnd(){
 /* ---------- 결과 ---------- */
 function end(win, reason){
   S.over = true; S.running = false;
+  if (!win) S.events.push({t:S.t, text:reason, kind:'bad'});
   const st = S.st, K = id => A[id] ? A[id].name + '(' + keyText(A[id].key) + ')' : '';
   let score = 100, rows = [], tips = [];
-  if (S.mode === 'tank') {
-    const up = st.tankTime ? st.sb / st.tankTime : 0;
+  if (S.boss === 'drill') {
+    const D = S.dr, tot = D.hits + D.miss, acc = tot ? D.hits / tot : 0, avg = D.rts.length ? D.rts.reduce((a, b) => a + b, 0) / D.rts.length : 0;
+    score = 60 * acc + 40 * Math.max(0, Math.min(1, (1.6 - avg) / 1)) - D.wrong * 3;
+    rows.push(['맞춘 신호', D.hits + ' / ' + tot, acc >= .9 ? 'good' : acc < .7 ? 'bad' : ''], ['평균 반응', avg ? avg.toFixed(2) + '초' : '-', avg && avg < .9 ? 'good' : avg > 1.3 ? 'bad' : ''], ['틀린 키', D.wrong + '회', D.wrong ? 'bad' : 'good'], ['놓친 신호', D.miss + '회', D.miss ? 'bad' : 'good']);
+    if (D.wrong) tips.push('틀린 키가 있었어요. 키 배치 탭에서 헷갈린 기술 자리를 한 번 더 보고 오세요.');
+    if (avg > 1.1) tips.push('반응이 1초를 넘어요. 손가락을 2·3·4·5와 R·W·A 위에 올려 둔 채로 시작해 보세요.');
+  } else if (TANKY(S.mode)) {
+    const up = st.tankTime ? st.sb / st.tankTime : 0, upName = S.mode === 'tank' ? A.sb.name + ' 유지율' : '뼈 보호막 유지율';
     score -= 25 * Math.max(0, 1 - up / .65);
-    score -= (st.busters - st.bustOk) * 10 + Math.min(10, st.cap * .4);
-    rows.push(['방패 올리기 유지율', Math.round(up * 100) + '%', up >= .65 ? 'good' : up < .45 ? 'bad' : '']);
+    score -= (st.busters - st.bustOk) * 10 + Math.min(10, st.cap * .4) + (st.pulls - st.pullOk) * 8;
+    rows.push([upName, Math.round(up * 100) + '%', up >= .65 ? 'good' : up < .45 ? 'bad' : '']);
     rows.push([S.boss === 'vel' ? '공허 분쇄 대비' : '낙인 강타 대비', st.bustOk + ' / ' + st.busters, st.busters - st.bustOk ? 'bad' : 'good']);
+    if (st.pulls) rows.push(['어그로 되찾기', st.pullOk + ' / ' + st.pulls, st.pulls - st.pullOk ? 'bad' : 'good']);
     if (S.boss === 'vel') {
-      const missed = st.bolts - st.kicks;
+      const handled = st.kicks + st.reflects, missed = st.bolts - handled;
       score -= missed * 8 + st.waste * 3 + Math.min(25, st.loose * 1.2);
-      rows.push(['암흑 화살 차단', st.kicks + ' / ' + st.bolts, missed ? 'bad' : 'good'], ['힐러가 쫄에 맞은 시간', st.loose.toFixed(1) + '초', st.loose > 6 ? 'bad' : 'good']);
-      if (missed) tips.push(`보라색 시전바가 뜨면 바로 ${K('kick')}. 쿨이 15초라 다음 화살 전에 돌아와요.`);
-      if (st.loose > 6) tips.push(`쫄이 나오면 ${K('tc')}부터, 그다음 ${K('rev')}. 남은 쫄은 ${K('taunt')}로 하나씩 끌어와요.`);
+      rows.push(['암흑 화살 차단' + (st.reflects ? '·반사' : ''), handled + ' / ' + st.bolts, missed ? 'bad' : 'good'], ['힐러가 쫄에 맞은 시간', st.loose.toFixed(1) + '초', st.loose > 6 ? 'bad' : 'good']);
+      if (missed) tips.push(`보라색 시전바가 뜨면 바로 ${K('kick')}. 쿨이 15초라 다음 화살 전에 돌아와요.` + (S.mode === 'tank' ? ` 차단이 쿨이면 ${K('reflect')}로 되돌려도 돼요.` : ''));
+      if (st.loose > 6) tips.push(`쫄이 나오면 ${K(R().aoe)}부터. 남은 쫄은 ${K('taunt')}` + (S.mode === 'blood' ? `나 ${K('grip')}로 끌어와요.` : '로 하나씩 끌어와요.'));
     } else {
       const missSwap = st.otBig, dodgeMiss = st.breaths - st.dodged, waveMiss = st.waves - st.waveOk;
       score -= missSwap * 12 + st.early * 6 + dodgeMiss * 8 + waveMiss * 6;
       rows.push(['탱 교대 성공', st.swapOk + ' / ' + (st.swapOk + missSwap + st.early), missSwap || st.early ? 'bad' : 'good'], ['공허 숨결 피함', st.dodged + ' / ' + st.breaths, dodgeMiss ? 'bad' : 'good'], ['공허 파동 대비', st.waveOk + ' / ' + st.waves, waveMiss ? 'bad' : 'good']);
       if (missSwap) tips.push(`동료의 낙인이 2가 되면 바로 ${K('taunt')}. 3이 되면 동료가 큰 피해를 받아요.`);
-      if (st.early) tips.push('내 낙인이 다 빠진 뒤(내 낙인 0, 동료 낙인 2)에 도발하세요. 너무 빨리 가져오면 내 낙인이 3까지 쌓여요.');
+      if (st.early) tips.push('내 낙인이 다 빠진 뒤(내 낙인 0, 동료 낙인 2)에 도발하세요.');
       if (dodgeMiss) tips.push(`공허 숨결 시전바가 뜨면 이동 키(${MOVE.join('·')}) 중 하나로 옆으로 비켜요.`);
-      if (waveMiss) tips.push(`공허 파동은 마법이라 방패 올리기로 못 막아요. 시전 중에 ${K('ip')}를 미리 써요.`);
+      if (waveMiss) tips.push(`공허 파동은 마법이에요. 시전 중에 ${K(R().magic)}를 미리 써요.`);
     }
-    if (st.busters - st.bustOk) tips.push(`탱커 버스터 시전바가 다 차기 전에 ${K('sb')}가 켜져 있는지 보세요. 충전이 없으면 ${K('wall')}나 ${K('ip')}로 대신해요.`);
-    if (up < .5) tips.push('방패 올리기는 꺼지기 전에 미리 겹쳐 써도 돼요(최대 12초). 분노 30을 항상 남겨 두는 습관이 핵심이에요.');
-    if (st.cap > 8) rows.push(['분노 100 넘친 시간', st.cap.toFixed(1) + '초', 'bad']), tips.push(`분노가 넘쳤어요. 남는 분노는 ${K('ip')}로.`);
+    if (st.pulls - st.pullOk) tips.push(`딜러가 어그로를 끌면 4초 안에 ${K('taunt')}로 되찾아요.`);
+    if (st.busters - st.bustOk) tips.push(S.mode === 'tank' ? `탱커 버스터 시전바가 다 차기 전에 ${K('sb')}가 켜져 있는지 보세요. 충전이 없으면 ${K('wall')}나 ${K('ip')}로 대신해요.` : `탱커 버스터 전에 뼈 보호막을 남겨 두고 ${K('drw')}·${K('vamp')}·${K('ibf')} 중 하나를 켜요.`);
+    if (up < .5) tips.push(S.mode === 'tank' ? '방패 올리기는 꺼지기 전에 미리 겹쳐 써도 돼요(최대 12초). 분노 30을 항상 남겨 두세요.' : `뼈 보호막이 4 아래로 내려가면 ${K('marrow')}로 다시 쌓아요.`);
+    if (S.mode === 'blood' && st.dsAll && st.dsGood / st.dsAll < .6) tips.push(`${K('ds')}는 크게 맞은 직후나 룬 마력이 넘치기 직전에 써야 회복량이 커요.`);
+    if (st.cap > 8) rows.push([MODES[S.mode].res + ' 100 넘친 시간', st.cap.toFixed(1) + '초', 'bad']), tips.push(S.mode === 'tank' ? `분노가 넘쳤어요. 남는 분노는 ${K('ip')}로.` : `룬 마력이 넘쳤어요. ${K('ds')}로 써 주세요.`);
   } else {
     const dps = S.dmg / Math.max(1, st.fight), target = 6, enr = st.fight ? st.enr / st.fight : 0;
-    score = 40 * Math.min(1, dps / target) + 20 * Math.min(1, enr / .6) + 40;
-    score -= Math.min(15, st.cap * .5);
+    score = 40 * Math.min(1, dps / target) + 20 * Math.min(1, enr / .6) + 40 - Math.min(15, st.cap * .5);
     rows.push(['초당 피해', dps.toFixed(1) + ' / 목표 ' + target, dps >= target ? 'good' : dps < target * .75 ? 'bad' : ''], ['격노 유지율', Math.round(enr * 100) + '%', enr >= .6 ? 'good' : enr < .4 ? 'bad' : '']);
     if (S.boss === 'vel') {
       const missed = st.bolts - st.kicks; score -= missed * 6 + st.waste * 2 + Math.min(10, st.cleaveWaste * 1.5);
@@ -2158,13 +2295,17 @@ function end(win, reason){
   const grade = score >= 90 ? 'S' : score >= 80 ? 'A' : score >= 65 ? 'B' : score >= 50 ? 'C' : 'D';
   const bk = S.mode + '-' + S.boss + '-' + diffKey, best = store().best, prev = best[bk], isBest = prev == null || score > prev;
   if (isBest) { best[bk] = score; persist(); }
-  callout(win ? '보스 처치!' : '전멸', win ? 'go' : 'bad');
+  callout(S.boss === 'drill' ? '훈련 끝!' : win ? '보스 처치!' : '전멸', win ? 'go' : 'bad');
   $('grade').textContent = grade;
-  $('endTitle').textContent = win ? '보스 처치' : '전멸 · ' + reason;
+  $('endTitle').textContent = S.boss === 'drill' ? '반응 훈련 끝' : win ? '보스 처치' : '전멸 · ' + reason;
   $('endSub').textContent = BOSS[S.boss].name + ' · ' + DIFF[diffKey].name + ' · ' + fmt(S.t) + ' · 점수 ' + score + (isBest ? ' (최고 기록)' : ' (최고 ' + prev + ')');
   $('stats').innerHTML = rows.map(r => `<div class="tr-stat"><span>${r[0]}</span><b class="${r[2]}">${r[1]}</b></div>`).join('');
   if (!tips.length) tips.push(diffKey === 'hard' ? '깔끔해요. 이 키 그대로 게임에서도 손에 익혀 보세요.' : '깔끔해요. 한 단계 높은 난이도에 도전해 보세요.');
   $('tips').innerHTML = tips.slice(0, 2).map(t => `<li>${t}</li>`).join('');
+  // 전투 다시 보기
+  const len = Math.max(1, S.t), ev = S.events, bad = ev.filter(e => e.kind === 'bad');
+  $('tl').innerHTML = `<div class="tr-tl-bar">${ev.map(e => `<i class="${e.kind}" style="left:${(e.t / len * 100).toFixed(2)}%" title="${fmt(e.t)} ${e.text}"></i>`).join('')}</div><div class="tr-tl-axis"><span>0:00</span><span>${fmt(len / 2)}</span><span>${fmt(len)}</span></div>`;
+  $('misses').innerHTML = bad.length ? bad.slice(0, 8).map(e => `<li><span class="tr-mono">${fmt(e.t)}</span><span>${e.text}</span></li>`).join('') + (bad.length > 8 ? `<li class="more"><span></span><span>외 ${bad.length - 8}개</span></li>` : '') : '<li class="clean"><span></span><span>놓친 게 없어요.</span></li>';
   setTimeout(() => { $('endOv').hidden = false; $('againBtn').focus({preventScroll:true}); }, 900);
 }
 
@@ -2191,25 +2332,34 @@ function refreshKeys(){ ABIL.forEach(a => btns[a.id] && (btns[a.id].key.textCont
 function pressFx(id){ const e = btns[id] && btns[id].el; if (!e) return; e.classList.add('pressed'); setTimeout(() => e.classList.remove('pressed'), 90); }
 function denyBtn(id){ const e = btns[id] && btns[id].el; if (!e) return; e.classList.add('deny'); setTimeout(() => e.classList.remove('deny'), 250); }
 function rulesFor(){
-  const K = id => `<b>${A[id].name}</b>(${keyText(A[id].key)})`;
-  const mv = `이동 키(${MOVE.join('·')})`;
-  if (mode === 'tank' && bossKey === 'vel') return [
+  const K = id => A[id] ? `<b>${A[id].name}</b>(${keyText(A[id].key)})` : '';
+  const mv = `이동 키(${MOVE.join('·')})`, r = ROLE[mode];
+  if (bossKey === 'drill') return [
+    ['main', '45초 동안 신호가 하나씩 떠요. 신호에 맞는 기술 키를 최대한 빨리 눌러요.'],
+    ['a1', '시전바가 다 차기 전에 눌러야 해요. 늦으면 놓침이에요.'],
+    ['a3', '틀린 키를 누르면 감점이에요. 정확하게 누르는 게 먼저예요.'],
+    ['a2', '쿨이나 자원은 신경 쓰지 않아요. 키 위치만 손에 익혀요.']];
+  if (TANKY(mode) && bossKey === 'vel') return mode === 'tank' ? [
     ['main', `${K('sb')}를 최대한 켜 두세요. 보스 평타 피해가 절반이 돼요.`],
-    ['a1', `보라색 <b>암흑 화살</b> 시전바가 뜨면 ${K('kick')}로 차단해요.`],
-    ['a3', `빨간 <b>공허 분쇄</b>(탱커 버스터)는 방패 올리기, 방패의 벽, 고통 감내 중 하나로 대비해요.`],
-    ['a2', `쫄은 힐러에게 달려가요. ${K('tc')}·${K('rev')}로 광역 어그로, 남은 쫄은 ${K('taunt')}.`]];
-  if (mode === 'tank') return [
-    ['a3', `<b>낙인 강타</b>를 맞을 때마다 낙인이 1씩 쌓여요. 2가 되면 동료 탱커가 보스를 가져가요.`],
+    ['a1', `보라색 <b>암흑 화살</b>은 ${K('kick')}로 차단해요. 차단이 쿨이면 ${K('reflect')}로 되돌려요.`],
+    ['a3', `<b>공허 분쇄</b>(탱커 버스터)는 방패 올리기, ${K('wall')}, 고통 감내 중 하나로 대비해요.`],
+    ['a2', `쫄은 힐러에게 달려가요. ${K('tc')}·${K('rev')}로 광역 어그로, 남은 쫄은 ${K('taunt')}. 딜러가 보스 어그로를 끌어가도 ${K('taunt')}.`]] : [
+    ['main', `${K('marrow')}로 뼈 보호막을 쌓고 ${K('ds')}로 맞은 만큼 회복해요.`],
+    ['a1', `보라색 <b>암흑 화살</b>은 ${K('kick')}로 차단해요.`],
+    ['a3', `<b>공허 분쇄</b>(탱커 버스터)는 뼈 보호막을 남긴 채 ${K('drw')}·${K('vamp')}·${K('ibf')} 중 하나로 대비해요.`],
+    ['a2', `쫄은 ${K('dnd')}·${K('boil')}로 잡고, 힐러에게 가는 쫄은 ${K('grip')}·${K('taunt')}로 끌어와요.`]];
+  if (TANKY(mode)) return [
+    ['a3', `<b>낙인 강타</b>를 맞을 때마다 낙인이 1씩 쌓여요. 2가 되면 동료 탱커가 보스를 가져가요. ${K(r.buster)}로 대비해요.`],
     ['main', `동료 낙인이 2가 되고 내 낙인이 빠지면 ${K('taunt')}로 다시 가져와요. 이게 탱 교대예요.`],
-    ['a1', `<b>공허 숨결</b>(전방) 시전바가 뜨면 ${mv}로 옆으로 비켜요. 보스를 잡고 있을 때만 나를 노려요.`],
-    ['a2', `<b>공허 파동</b>은 마법이라 방패 올리기로 못 막아요. ${K('ip')}나 ${K('wall')}로 대비해요.`]];
+    ['a1', `<b>공허 숨결</b>(전방)은 ${mv}로 옆으로 비켜요. 보스를 잡고 있을 때만 나를 노려요.`],
+    ['a2', `<b>공허 파동</b>은 마법이에요. ${K(r.magic)}로 대비해요. 딜러가 어그로를 끌면 ${K('taunt')}.`]];
   if (bossKey === 'vel') return [
     ['main', `${K('bt')} → ${K('rb')}를 쉬지 않고, 분노 80이 모이면 ${K('ramp')}로 격노를 켜요.`],
     ['a1', `보라색 <b>암흑 화살</b>은 딜러도 ${K('kick')}로 끊어요.`],
     ['a2', `쫄이 나오면 ${K('aoe')} 먼저. 다음 공격 2번이 쫄까지 때려요. 14초 넘게 살아 있으면 폭발해요.`],
     ['a3', `급살이 뜨거나 보스가 20% 이하면 ${K('exe')}.`]];
   return [
-    ['a3', `<b>발밑 장판</b> 시전바가 뜨면 ${mv}로 바로 비켜요. 딜보다 먼저예요.`],
+    ['a3', `<b>발밑 장판</b>은 ${mv}로 바로 비켜요. 딜보다 먼저예요.`],
     ['a1', `<b>공허 파동</b> 시전 중에 ${K('def')}를 켜 두세요.`],
     ['main', `<b>약점 노출</b>(8초, 피해 1.5배) 때 ${K('burst')}·${K('reck')}를 몰아 써요.`],
     ['a2', `평소엔 ${K('bt')} → ${K('rb')}, 분노 80이면 ${K('ramp')}.`]];
@@ -2218,8 +2368,8 @@ let rebinding = null;
 function buildSetup(){
   const t = store(), custom = t.binds[mode];
   document.querySelectorAll('[data-trmode]').forEach(b => b.setAttribute('aria-pressed', b.dataset.trmode === mode));
-  $('title').textContent = mode === 'tank' ? '탱커 연습' : '딜러 연습';
-  $('sub').textContent = MODES[mode].who + ' · ' + BOSS[bossKey].name + ' · 키 배치 탭의 ' + MODES[mode].who + ' 단축키 그대로';
+  $('title').textContent = MODES[mode].role + ' 연습 · ' + MODES[mode].who;
+  $('sub').textContent = BOSS[bossKey].name + ' · 키 배치 탭의 ' + MODES[mode].who + ' 단축키 그대로';
   $('bossSeg').innerHTML = MODES[mode].bosses.map(k => `<button type="button" data-boss="${k}" aria-pressed="${k === bossKey}">${BOSS[k].name}<small>${BOSS[k].tag}</small></button>`).join('');
   $('bossSeg').querySelectorAll('button').forEach(x => x.addEventListener('click', () => { bossKey = x.dataset.boss; t.boss = bossKey; persist(); reset(); }));
   $('diffSeg').innerHTML = Object.entries(DIFF).map(([k, d]) => `<button type="button" data-d="${k}" aria-pressed="${k === diffKey}">${d.name}<small>${d.note}</small></button>`).join('');
@@ -2231,6 +2381,7 @@ function buildSetup(){
   $('bestLine').textContent = (bl.length ? '최고 기록 · ' + bl.join(' · ') + ' · ' : '') + '특성을 바꾸면 여기 키도 같이 바뀌어요.';
   $('diffChip').textContent = DIFF[diffKey].name;
   $('meName').innerHTML = '나<small>' + MODES[mode].who + '</small>';
+  $('resLbl').textContent = MODES[mode].res;
   refreshKeys();
 }
 function reset(){ buildAbil(); newGame(); buildBar(); buildSetup(); plates.forEach(p => p.remove()); plates.clear(); draw(); }
@@ -2279,18 +2430,22 @@ addEventListener('keydown', e => {
   const k = evKey(e); if (!k) return;
   if (MOVE.includes(k)) { e.preventDefault(); move(); return; }
   const a = ABIL.find(x => x.key === k);
-  if (a) { e.preventDefault(); if (!e.repeat) pressFx(a.id); tryUse(a.id); }
+  if (a) { e.preventDefault(); if (!e.repeat && S.boss !== 'drill') pressFx(a.id); tryUse(a.id); }
 });
 const plates = new Map();
 const setW = (el, pct) => { el.style.width = Math.max(0, Math.min(100, pct)) + '%'; };
 function plate(id, html){ let el = plates.get(id); if (!el) { el = document.createElement('div'); el.className = 'tr-plate'; el.innerHTML = html; $('adds').appendChild(el); plates.set(id, el); } return el; }
 function draw(){
-  const b = S.b;
+  const b = S.b, drill = S.boss === 'drill';
   $('timer').textContent = fmt(S.t);
   $('bossName').textContent = BOSS[S.boss].name;
-  setW($('bossHp').firstElementChild, b.hp); $('bossPct').textContent = Math.max(0, Math.ceil(b.hp)) + '%';
+  setW($('bossHp').firstElementChild, b.hp); $('bossPct').textContent = drill ? Math.max(0, Math.ceil(S.dr.len - S.t)) + '초' : Math.max(0, Math.ceil(b.hp)) + '%';
   const castEl = $('cast');
-  if (b.cast) {
+  if (drill && S.dr.cue) {
+    castEl.className = 'tr-cast ' + (S.dr.cue.id === 'move' ? 'move' : 'kick');
+    setW(castEl.firstElementChild, (1 - S.dr.left / S.dr.total) * 100);
+    $('castName').textContent = S.dr.cue.text; $('castTime').textContent = Math.max(0, S.dr.left).toFixed(1);
+  } else if (b.cast) {
     castEl.className = 'tr-cast ' + b.cast.kind;
     setW(castEl.firstElementChild, (1 - b.cast.left / b.cast.total) * 100);
     const tag = {kick:' · 차단 가능', danger:' · 탱커 버스터', move:' · 이동해서 피하기', raid:' · 광역 마법'}[b.cast.kind] || '';
@@ -2298,12 +2453,18 @@ function draw(){
     $('castTime').textContent = Math.max(0, b.cast.left).toFixed(1);
   } else {
     castEl.className = 'tr-cast idle'; setW(castEl.firstElementChild, 0);
-    $('castName').textContent = S.running ? '다음 시전 대기' : '시전 없음';
+    $('castName').textContent = S.running ? (drill ? '다음 신호 대기' : '다음 시전 대기') : '시전 없음';
     $('castTime').textContent = '';
   }
-  // 위쪽 칸: 쫄 / 동료 탱커 / 약점 노출
   const want = new Set();
-  if (S.mode === 'tank' && S.boss === 'orgol') {
+  if (S.pull) {
+    want.add('pull');
+    const el = plate('pull', `<div class="tr-row"><b>딜러 · 보스 어그로</b><span class="tr-tgt healer"></span></div><div class="tr-bar tr-hp"><i></i></div><div class="tr-threat"><span>${A.taunt.name}(${keyText(A.taunt.key)})로 되찾기</span></div>`);
+    el.classList.add('loose');
+    el.querySelector('.tr-tgt').textContent = S.pull.left.toFixed(1) + '초';
+    setW(el.querySelector('.tr-hp>i'), S.pull.left / 4 * 100);
+  }
+  if (TANKY(S.mode) && S.boss === 'orgol') {
     want.add('ot');
     const el = plate('ot', `<div class="tr-row"><b>동료 탱커</b><span class="tr-tgt"></span></div><div class="tr-bar tr-hp"><i></i></div><div class="tr-threat"><span class="tr-stk"></span></div>`);
     el.classList.add('ally'); el.classList.toggle('loose', S.ot.stk >= 2 && !S.tanking);
@@ -2328,46 +2489,58 @@ function draw(){
   }
   S.adds.forEach(a => {
     want.add('a' + a.id);
-    const el = plate('a' + a.id, `<div class="tr-row"><b>${a.name}</b><span class="tr-tgt"></span></div><div class="tr-bar tr-hp"><i></i></div>` + (S.mode === 'tank' ? `<div class="tr-threat"><span>내 위협</span><div class="tr-bar"><i></i></div></div>` : `<div class="tr-threat"><span class="tr-boom"></span></div>`));
-    const loose = !a.dead && S.mode === 'tank' && a.target === 'healer';
-    el.classList.toggle('loose', loose || (S.mode === 'dps' && !a.dead && a.age > 10)); el.classList.toggle('dead', a.dead);
+    const tky = TANKY(S.mode);
+    const el = plate('a' + a.id, `<div class="tr-row"><b>${a.name}</b><span class="tr-tgt"></span></div><div class="tr-bar tr-hp"><i></i></div>` + (tky ? `<div class="tr-threat"><span>내 위협</span><div class="tr-bar"><i></i></div></div>` : `<div class="tr-threat"><span class="tr-boom"></span></div>`));
+    const loose = !a.dead && tky && a.target === 'healer';
+    el.classList.toggle('loose', loose || (!tky && !a.dead && a.age > 10)); el.classList.toggle('dead', a.dead);
     const t = el.querySelector('.tr-tgt');
-    t.className = 'tr-tgt ' + (a.dead ? '' : S.mode === 'tank' ? a.target : '');
-    t.textContent = a.dead ? '처치' : S.mode === 'tank' ? (loose ? '→ 힐러!' : '→ 나') : '';
+    t.className = 'tr-tgt ' + (a.dead ? '' : tky ? a.target : '');
+    t.textContent = a.dead ? '처치' : tky ? (loose ? '→ 힐러!' : '→ 나') : '';
     setW(el.querySelector('.tr-hp>i'), a.hp);
-    if (S.mode === 'tank') setW(el.querySelector('.tr-threat .tr-bar>i'), a.thT / (a.thT + a.thH) * 100);
+    if (tky) setW(el.querySelector('.tr-threat .tr-bar>i'), a.thT / (a.thT + a.thH) * 100);
     else el.querySelector('.tr-boom').textContent = a.dead ? '' : a.boom ? '폭발함' : '폭발까지 ' + Math.max(0, Math.ceil(14 - a.age)) + '초';
   });
   plates.forEach((el, id) => { if (!want.has(id)) { el.remove(); plates.delete(id); } });
   const empty = $('addsEmpty');
   empty.hidden = plates.size > 0;
-  if (!plates.size) empty.textContent = S.waves.length ? (S.running ? '다음 쫄까지 ' + Math.ceil(S.waves[0] - S.t) + '초' : '쫄은 ' + S.waves.length + '번 몰려와요') : '남은 쫄 없음';
-  // 나
+  if (!plates.size) empty.textContent = drill ? (S.running ? '맞춘 신호 ' + S.dr.hits + ' · 놓침 ' + S.dr.miss + ' · 틀린 키 ' + S.dr.wrong : '신호에 맞는 키를 눌러요') : S.waves.length ? (S.running ? '다음 쫄까지 ' + Math.ceil(S.waves[0] - S.t) + '초' : '쫄은 ' + S.waves.length + '번 몰려와요') : S.boss === 'vel' ? '남은 쫄 없음' : '쫄 없음';
   const tHp = $('tankHp'); setW(tHp.firstElementChild, S.hp); tHp.classList.toggle('low', S.hp < 35);
   $('tankPct').textContent = Math.max(0, Math.ceil(S.hp)) + '%';
-  $('absorbBar').hidden = S.mode !== 'tank';
-  setW($('absorbBar').firstElementChild, S.absorb / 30 * 100);
+  $('absorbBar').hidden = S.mode === 'dps';
+  setW($('absorbBar').firstElementChild, S.absorb / (S.mode === 'blood' ? 40 : 30) * 100);
   setW($('rageBar').firstElementChild, S.rage); $('rageTxt').textContent = Math.floor(S.rage);
-  const live = S.running && S.countdown <= 0, buffs = [];
-  if (S.mode === 'tank') {
-    const tk = S.boss === 'vel' || S.tanking;
+  const live = S.running && S.countdown <= 0 && !drill, buffs = [];
+  if (S.mode === 'tank' && !drill) {
+    const tk = tankingNow();
     buffs.push([A.sb.name + ' ' + (S.sb > 0 ? S.sb.toFixed(1) + '초' : '꺼짐'), S.sb > 0 ? 'on' : (live && tk ? 'warn' : '')]);
     buffs.push(['보호막 ' + Math.round(S.absorb), S.absorb > 0 ? 'on' : '']);
-    buffs.push([A.wall.name + ' ' + (S.wall > 0 ? S.wall.toFixed(1) + '초' : '—'), S.wall > 0 ? 'on' : '']);
+    if (S.wall > 0) buffs.push([A.wall.name + ' ' + S.wall.toFixed(1) + '초', 'on']);
+    if (S.demo > 0) buffs.push([A.demo.name + ' ' + S.demo.toFixed(1) + '초', 'on']);
+    if (S.refl > 0) buffs.push([A.reflect.name + ' ' + S.refl.toFixed(1) + '초', 'on']);
+    if (S.avatar > 0) buffs.push([A.avatar.name + ' ' + S.avatar.toFixed(1) + '초', 'on']);
     buffs.push(['무료 ' + A.rev.name, S.revFree ? 'on' : '']);
-  } else {
+    if (S.sd) buffs.push(['급살', 'on']);
+  } else if (S.mode === 'blood' && !drill) {
+    buffs.push(['뼈 보호막 ' + Math.ceil(S.bone), S.bone >= 4 ? 'on' : (live && tankingNow() ? 'warn' : '')]);
+    buffs.push(['룬 ' + Math.floor(S.runes) + '/6', S.runes >= 1 ? '' : 'warn']);
+    if (S.drw > 0) buffs.push([A.drw.name + ' ' + S.drw.toFixed(1) + '초', 'on']);
+    if (S.vamp > 0) buffs.push([A.vamp.name + ' ' + S.vamp.toFixed(1) + '초', 'on']);
+    if (S.ibf > 0) buffs.push([A.ibf.name + ' ' + S.ibf.toFixed(1) + '초', 'on']);
+    if (S.amsT > 0) buffs.push([A.ams.name + ' ' + Math.round(S.absorb), 'on']);
+    buffs.push([A.dnd.name + (S.dndT > 0 ? ' ' + S.dndT.toFixed(1) + '초' : ''), S.dndT > 0 ? 'on' : (live && liveAdds().length ? 'warn' : '')]);
+  } else if (S.mode === 'dps' && !drill) {
     buffs.push(['격노 ' + (S.enrage > 0 ? S.enrage.toFixed(1) + '초' : '꺼짐'), S.enrage > 0 ? 'on' : (live ? 'warn' : '')]);
     buffs.push(['광역 ' + S.cleave + '회', S.cleave > 0 ? 'on' : (live && liveAdds().length ? 'warn' : '')]);
     buffs.push(['급살', S.sd ? 'on' : '']);
-    buffs.push([A.reck.name + (S.reck > 0 ? ' ' + S.reck.toFixed(1) + '초' : ''), S.reck > 0 ? 'on' : '']);
-    buffs.push([A.def.name + (S.defBuff > 0 ? ' ' + S.defBuff.toFixed(1) + '초' : ''), S.defBuff > 0 ? 'on' : '']);
+    if (S.reck > 0) buffs.push([A.reck.name + ' ' + S.reck.toFixed(1) + '초', 'on']);
+    if (S.defBuff > 0) buffs.push([A.def.name + ' ' + S.defBuff.toFixed(1) + '초', 'on']);
   }
   $('buffs').innerHTML = buffs.map(([t, c]) => `<span class="tr-buff ${c}">${t}</span>`).join('');
   const hHp = $('healHp'); setW(hHp.firstElementChild, S.healer); hHp.classList.toggle('low', S.healer < 35);
   $('healPct').textContent = Math.max(0, Math.ceil(S.healer)) + '%';
   const hs = $('healStatus');
   if (S.looseNow) { hs.textContent = '쫄 ' + S.looseNow + '마리에게 맞는 중! 치유량 감소'; hs.className = 'tr-hs bad'; }
-  else { hs.textContent = S.mode === 'tank' ? '탱커를 치유하는 중' : '공대를 치유하는 중'; hs.className = 'tr-hs'; }
+  else { hs.textContent = TANKY(S.mode) ? '탱커를 치유하는 중' : '공대를 치유하는 중'; hs.className = 'tr-hs'; }
   if (S.logDirty) {
     $('log').innerHTML = S.log.length ? S.log.map(l => `<li class="${l.kind}"><span class="tr-mono">${fmt(l.t)}</span><span>${l.text}</span></li>`).join('') : '<li><span>전투를 시작하면 여기에 기록돼요.</span></li>';
     S.logDirty = false;
@@ -2376,25 +2549,39 @@ function draw(){
   ABIL.forEach(a => {
     const B = btns[a.id]; if (!B) return;
     let rem = 0, tot = 1, isG = false;
-    if (a.id === 'sb' && S.mode === 'tank') { if (S.sbCharges < 1) { rem = S.sbRe; tot = 8; } }
-    else if (a.id === 'rb' && S.mode === 'dps') { if (S.charges.rb < 1) { rem = S.recharge.rb; tot = a.recharge; } }
-    else { rem = S.cds[a.id] || 0; tot = a.cd || 1; if (a.gcd && S.gcd > rem) { rem = S.gcd; tot = 1; isG = true; } }
+    if (!drill) {
+      if (a.id === 'sb' && S.mode === 'tank') { if (S.sbCharges < 1) { rem = S.sbRe; tot = 8; } }
+      else if (a.charges) { if (S.charges[a.id] < 1) { rem = S.recharge[a.id]; tot = a.recharge; } }
+      else { rem = S.cds[a.id] || 0; tot = a.cd || 1; if (a.gcd && S.gcd > rem) { rem = S.gcd; tot = 1; isG = true; } }
+    }
     B.sweep.style.setProperty('--p', rem > 0 ? rem / tot : 0);
     B.cdt.textContent = rem > 0 && !isG ? (rem >= 3 ? Math.ceil(rem) : rem.toFixed(1)) : '';
-    B.chg.textContent = a.id === 'sb' && S.mode === 'tank' ? S.sbCharges : a.id === 'rb' && S.mode === 'dps' ? S.charges.rb : '';
+    B.chg.textContent = drill ? '' : a.id === 'sb' && S.mode === 'tank' ? S.sbCharges : a.charges ? S.charges[a.id] : '';
     const cost = a.id === 'rev' && S.revFree ? 0 : a.cost;
-    B.el.classList.toggle('nomana', S.rage < cost || (a.id === 'exe' && S.mode === 'dps' && !(b.hp < 20 || S.sd)));
+    B.el.classList.toggle('nomana', !drill && (S.rage < cost || (a.runes && S.runes < a.runes) || (a.id === 'exe' && !(b.hp < 20 || S.sd))));
     let glow = false;
     if (live) {
+      const tk = TANKY(S.mode) && tankingNow();
       if (a.id === 'kick') glow = c && c.kind === 'kick' && S.cds.kick <= 0;
+      if (a.id === 'taunt') glow = S.cds.taunt <= 0 && (!!S.pull || S.looseNow > 0 || (S.boss === 'orgol' && !S.tanking && S.ot.stk >= 2 && S.stk === 0));
       if (S.mode === 'tank') {
-        const tk = S.boss === 'vel' || S.tanking;
         if (a.id === 'rev') glow = S.revFree;
+        if (a.id === 'exe') glow = (b.hp < 20 || S.sd) && S.rage >= (S.sd ? 0 : 20);
         if (a.id === 'sb') glow = tk && S.sbCharges > 0 && ((c && c.kind === 'danger' && S.sb < c.left + .1) || (S.sb <= 0 && S.rage >= 30));
         if (a.id === 'wall') glow = c && c.kind === 'danger' && tk && S.sbCharges < 1 && S.cds.wall <= 0;
         if (a.id === 'ip') glow = (c && c.kind === 'raid' && S.rage >= 35) || S.rage >= 90;
+        if (a.id === 'reflect') glow = c && c.kind === 'kick' && S.cds.kick > c.left && S.cds.reflect <= 0;
         if (a.id === 'tc') glow = S.looseNow > 0 && S.cds.tc <= 0;
-        if (a.id === 'taunt') glow = S.cds.taunt <= 0 && (S.looseNow > 0 || (S.boss === 'orgol' && !S.tanking && S.ot.stk >= 2 && S.stk === 0));
+      } else if (S.mode === 'blood') {
+        if (a.id === 'marrow') glow = S.bone < 4 && S.runes >= 2;
+        if (a.id === 'ds') glow = S.rage >= 40 && (S.rage >= 85 || S.hp < 55);
+        if (a.id === 'drw') glow = c && c.kind === 'danger' && tk && S.cds.drw <= 0;
+        if (a.id === 'vamp') glow = c && c.kind === 'danger' && tk && S.cds.drw > 0 && S.cds.vamp <= 0;
+        if (a.id === 'ams') glow = c && c.kind === 'raid' && S.cds.ams <= 0;
+        if (a.id === 'boil') glow = S.charges.boil >= 2 || (S.looseNow > 0 && S.charges.boil > 0);
+        if (a.id === 'dnd') glow = liveAdds().length > 0 && S.cds.dnd <= 0 && S.runes >= 1;
+        if (a.id === 'hs') glow = S.runes >= 4 && S.bone >= 4;
+        if (a.id === 'grip') glow = S.looseNow > 0 && S.cds.grip <= 0;
       } else {
         if (a.id === 'bt') glow = S.cds.bt <= 0;
         if (a.id === 'rb') glow = S.charges.rb >= 2;
@@ -2407,21 +2594,21 @@ function draw(){
     }
     B.el.classList.toggle('glow', !!glow);
   });
-  document.querySelectorAll('.tr-move .tr-kbd').forEach(x => x.classList.toggle('glow', !!(live && c && c.kind === 'move' && !S.moved)));
+  document.querySelectorAll('.tr-move .tr-kbd').forEach(x => x.classList.toggle('glow', !!(S.running && ((c && c.kind === 'move' && !S.moved) || (drill && S.dr.cue && S.dr.cue.id === 'move')))));
 }
 let last = performance.now();
 function frame(now){
   const dt = Math.min(.05, (now - last) / 1000); last = now;
   if (active()) {
     if (S.running && !S.paused && !S.over) {
-      if (S.countdown > 0) { const before = Math.ceil(S.countdown); S.countdown -= dt; const after = Math.ceil(S.countdown); if (after !== before) callout(after > 0 ? String(after) : '전투 시작!', after > 0 ? 'info' : 'go'); }
-      else (S.mode === 'tank' ? stepTank : stepDps)(dt);
+      if (S.countdown > 0) { const before = Math.ceil(S.countdown); S.countdown -= dt; const after = Math.ceil(S.countdown); if (after !== before) callout(after > 0 ? String(after) : '시작!', after > 0 ? 'info' : 'go'); }
+      else (S.boss === 'drill' ? stepDrill : TANKY(S.mode) ? stepTank : stepDps)(dt);
     }
     draw();
   } else if (S.running && !S.paused && !S.over) setPause(true);
   requestAnimationFrame(frame);
 }
-Object.defineProperty(window,'__trS',{get:()=>S,configurable:true});
+Object.defineProperty(window, '__trS', {get:() => S, configurable:true});
 window.trainerOpen = () => { const t = store(); mode = t.mode; bossKey = t.boss; diffKey = t.diff; if (!S || !S.running) reset(); else { buildAbil(); refreshKeys(); } };
 const t0 = store(); mode = t0.mode; bossKey = t0.boss; diffKey = t0.diff;
 reset();
