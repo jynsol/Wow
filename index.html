@@ -1777,6 +1777,8 @@ body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-m
 .tr-seg button{flex:1;min-width:84px;padding:8px;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;font-size:13px;color:var(--ink)}
 .tr-seg button[aria-pressed="true"]{border-color:var(--main);background:var(--main-soft);color:var(--on-main);font-weight:600}
 .tr-seg small{display:block;font-size:11px;color:var(--ink-3);font-weight:400}
+#tr-diffSeg button[aria-pressed="true"]{border-color:var(--a1);background:var(--a1-soft);color:var(--ink)}
+#tr-diffChip{background:var(--a1-soft);border-color:color-mix(in srgb,var(--a1) 55%,var(--surface));color:var(--ink)}
 .tr-binds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px}
 .tr-bind{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;min-width:0}
 .tr-bind span{min-width:0}
@@ -1877,7 +1879,7 @@ const TANK_ABIL = [
   {id:'tc',   notes:['tc'],     name:'천둥벼락',     def:'W', cd:6,  gcd:true,  cost:0,  hint:'광역 어그로. 분노 +5'},
   {id:'rev',  notes:['rev'],    name:'복수',         def:'A', cd:0,  gcd:true,  cost:20, hint:'분노 20 광역. 회피 뒤 무료'},
   {id:'exe',  notes:['exe'],    name:'마무리 일격',  def:'Q', cd:0,  gcd:true,  cost:20, hint:'보스 20% 이하 또는 급살 발동 때'},
-  {id:'demo', notes:['demo'],   name:'사기의 외침',  def:'T', cd:30, gcd:false, cost:0,  hint:'8초간 보스 공격력 감소'},
+  {id:'demo', notes:['demo'],   name:'사기의 외침',  def:'S+4', cd:30, gcd:false, cost:0,  hint:'8초간 보스 공격력 감소'},
   {id:'sb',   notes:['block'],  name:'방패 올리기',  def:'2', cd:0,  gcd:false, cost:30, hint:'분노 30. 6초간 물리 피해 절반'},
   {id:'ip',   notes:['ip'],     name:'고통 감내',    def:'3', cd:1,  gcd:false, cost:35, hint:'분노 35. 마법·물리 모두 막는 보호막'},
   {id:'wall', notes:['wall'],   name:'방패의 벽',    def:'4', cd:60, gcd:false, cost:0,  hint:'8초간 받는 피해 40% 감소'},
@@ -1906,8 +1908,8 @@ const DPS_ABIL = [
   {id:'ramp', notes:['ramp'], name:'광란',        def:'T', cd:0,   gcd:true,  cost:80, hint:'분노 80. 격노 켜기'},
   {id:'aoe',  notes:['ww','tc'], name:'소용돌이', def:'W', cd:0,   gcd:true,  cost:0,  hint:'쫄이 있으면 먼저. 다음 공격 2번이 광역'},
   {id:'exe',  notes:['exe'],  name:'마무리 일격', def:'Q', cd:6,   gcd:true,  cost:0,  hint:'보스 20% 이하 또는 급살 발동 때'},
-  {id:'burst',notes:['odyn','bstorm','avatar'], name:'오딘의 격노', def:'X', cd:30, gcd:true, cost:0, hint:'큰 광역 피해 + 격노'},
-  {id:'reck', notes:['reck'], name:'무모한 희생', def:'S+X', cd:60, gcd:false, cost:0, hint:'10초간 피해·분노 증가'},
+  {id:'burst',notes:['odyn','bstorm','avatar'], name:'오딘의 격노', def:'S+X', cd:30, gcd:true, cost:0, hint:'큰 광역 피해 + 격노'},
+  {id:'reck', notes:['reck'], name:'무모한 희생', def:'X', cd:60, gcd:false, cost:0, hint:'10초간 피해·분노 증가'},
   {id:'def',  notes:['regen','vr','victory','reflect','rally'], name:'예견된 승리', def:'2', cd:25, gcd:false, cost:0, hint:'생존기 · 체력이 빠지거나 광역 마법이 올 때'},
   {id:'kick', notes:['pummel'], name:'들이치기', def:'G', cd:15, gcd:false, cost:0, hint:'보라 시전바 차단'},
 ];
@@ -1952,7 +1954,9 @@ function buildAbil(){
   const src = mode === 'tank' ? TANK_ABIL : mode === 'blood' ? BLOOD_ABIL : DPS_ABIL;
   const list = src.map(a => {
     const hit = a.notes.map(n => byNote[n]).find(Boolean);
-    return Object.assign({}, a, {noteKey: hit ? hit.k : a.def, name: hit ? hit.ko.replace(/ \(.*\)$/, '') : a.name});
+    // 아직 안 배운 기술은 노트에서 정해 둔 자리(pref)를 그대로 써요.
+    const plan = a.notes.map(n => SPECS[MODES[mode].spec].find(x => x.id === n && x.pref)).find(Boolean);
+    return Object.assign({}, a, {noteKey: hit ? hit.k : plan ? plan.pref : a.def, name: hit ? hit.ko.replace(/ \(.*\)$/, '') : a.name});
   });
   const custom = store().binds[mode];
   list.forEach(a => { a.key = custom[a.id] || a.noteKey; });
@@ -2479,34 +2483,34 @@ function rulesFor(){
   const mv = `이동 키(${MOVE.join('·')})`, r = ROLE[mode];
   if (bossKey === 'drill') return [
     ['main', '45초 동안 신호가 하나씩 떠요. 신호에 맞는 기술 키를 최대한 빨리 눌러요.'],
-    ['a1', '시전바가 다 차기 전에 눌러야 해요. 늦으면 놓침이에요.'],
-    ['a3', '틀린 키를 누르면 감점이에요. 정확하게 누르는 게 먼저예요.'],
-    ['a2', '쿨이나 자원은 신경 쓰지 않아요. 키 위치만 손에 익혀요.']];
+    ['main', '시전바가 다 차기 전에 눌러야 해요. 늦으면 놓침이에요.'],
+    ['main', '틀린 키를 누르면 감점이에요. 정확하게 누르는 게 먼저예요.'],
+    ['main', '쿨이나 자원은 신경 쓰지 않아요. 키 위치만 손에 익혀요.']];
   if (TANKY(mode) && bossKey === 'vel') return mode === 'tank' ? [
-    ['main', `${K('sb')}를 최대한 켜 두세요. 보스 평타 피해가 절반이 돼요.`],
-    ['a1', `보라색 <b>암흑 화살</b>은 ${K('kick')}로 차단해요. 차단이 쿨이면 ${K('reflect')}로 되돌려요.`],
-    ['a3', `<b>공허 분쇄</b>(탱커 버스터)는 방패 올리기, ${K('wall')}, 고통 감내 중 하나로 대비해요.`],
-    ['a2', `쫄은 힐러에게 달려가요. ${K('tc')}·${K('rev')}로 광역 어그로, 남은 쫄은 ${K('taunt')}. 딜러가 보스 어그로를 끌어가도 ${K('taunt')}.`],
-    ['main', `분노는 ${K('slam')}·${K('tc')}·${K('demo')}로 모으고 ${K('sb')}·${K('ip')}·${K('rev')}에 써요. ${K('exe')}는 보스 20% 이하에서만.`]] : [
-    ['main', `${K('marrow')}로 뼈 보호막을 쌓고 ${K('ds')}로 맞은 만큼 회복해요.`],
-    ['a1', `보라색 <b>암흑 화살</b>은 ${K('kick')}로 차단해요.`],
-    ['a3', `<b>공허 분쇄</b>(탱커 버스터)는 뼈 보호막을 남긴 채 ${K('drw')}·${K('vamp')}·${K('ibf')} 중 하나로 대비해요.`],
-    ['a2', `쫄은 ${K('dnd')}·${K('boil')}로 잡고, 힐러에게 가는 쫄은 ${K('grip')}·${K('taunt')}로 끌어와요.`]];
+    ['c-def', `${K('sb')}를 최대한 켜 두세요. 보스 평타 피해가 절반이 돼요.`],
+    ['c-cc', `보라색 <b>암흑 화살</b>은 ${K('kick')}로 차단해요. 차단이 쿨이면 ${K('reflect')}로 되돌려요.`],
+    ['c-def', `<b>공허 분쇄</b>(탱커 버스터)는 방패 올리기, ${K('wall')}, 고통 감내 중 하나로 대비해요.`],
+    ['c-cc', `쫄은 힐러에게 달려가요. ${K('tc')}·${K('rev')}로 광역 어그로, 남은 쫄은 ${K('taunt')}. 딜러가 보스 어그로를 끌어가도 ${K('taunt')}.`],
+    ['res', `분노는 ${K('slam')}·${K('tc')}·${K('demo')}로 모으고 ${K('sb')}·${K('ip')}·${K('rev')}에 써요. ${K('exe')}는 보스 20% 이하에서만.`]] : [
+    ['c-def', `${K('marrow')}로 뼈 보호막을 쌓고 ${K('ds')}로 맞은 만큼 회복해요.`],
+    ['c-cc', `보라색 <b>암흑 화살</b>은 ${K('kick')}로 차단해요.`],
+    ['c-def', `<b>공허 분쇄</b>(탱커 버스터)는 뼈 보호막을 남긴 채 ${K('drw')}·${K('vamp')}·${K('ibf')} 중 하나로 대비해요.`],
+    ['c-cc', `쫄은 ${K('dnd')}·${K('boil')}로 잡고, 힐러에게 가는 쫄은 ${K('grip')}·${K('taunt')}로 끌어와요.`]];
   if (TANKY(mode)) return [
-    ['a3', `<b>낙인 강타</b>를 맞을 때마다 낙인이 1씩 쌓여요. 2가 되면 동료 탱커가 보스를 가져가요. ${K(r.buster)}로 대비해요.`],
-    ['main', `동료 낙인이 2가 되고 내 낙인이 빠지면 ${K('taunt')}로 다시 가져와요. 이게 탱 교대예요.`],
-    ['a1', `<b>공허 숨결</b>(전방)은 ${mv}로 옆으로 비켜요. 보스를 잡고 있을 때만 나를 노려요.`],
-    ['a2', `<b>공허 파동</b>은 마법이에요. ${K(r.magic)}로 대비해요. 딜러가 어그로를 끌면 ${K('taunt')}.`]];
+    ['c-def', `<b>낙인 강타</b>를 맞을 때마다 낙인이 1씩 쌓여요. 2가 되면 동료 탱커가 보스를 가져가요. ${K(r.buster)}로 대비해요.`],
+    ['c-cc', `동료 낙인이 2가 되고 내 낙인이 빠지면 ${K('taunt')}로 다시 가져와요. 이게 탱 교대예요.`],
+    ['c-move', `<b>공허 숨결</b>(전방)은 ${mv}로 옆으로 비켜요. 보스를 잡고 있을 때만 나를 노려요.`],
+    ['c-def', `<b>공허 파동</b>은 마법이에요. ${K(r.magic)}로 대비해요. 딜러가 어그로를 끌면 ${K('taunt')}.`]];
   if (bossKey === 'vel') return [
-    ['main', `${K('bt')} → ${K('rb')}를 쉬지 않고, 분노 80이 모이면 ${K('ramp')}로 격노를 켜요.`],
-    ['a1', `보라색 <b>암흑 화살</b>은 딜러도 ${K('kick')}로 끊어요.`],
-    ['a2', `쫄이 나오면 ${K('aoe')} 먼저. 다음 공격 2번이 쫄까지 때려요. 14초 넘게 살아 있으면 폭발해요.`],
-    ['a3', `급살이 뜨거나 보스가 20% 이하면 ${K('exe')}.`]];
+    ['res', `${K('bt')} → ${K('rb')}를 쉬지 않고, 분노 80이 모이면 ${K('ramp')}로 격노를 켜요.`],
+    ['c-cc', `보라색 <b>암흑 화살</b>은 딜러도 ${K('kick')}로 끊어요.`],
+    ['c-core', `쫄이 나오면 ${K('aoe')} 먼저. 다음 공격 2번이 쫄까지 때려요. 14초 넘게 살아 있으면 폭발해요.`],
+    ['c-core', `급살이 뜨거나 보스가 20% 이하면 ${K('exe')}.`]];
   return [
-    ['a3', `<b>발밑 장판</b>은 ${mv}로 바로 비켜요. 딜보다 먼저예요.`],
-    ['a1', `<b>공허 파동</b> 시전 중에 ${K('def')}를 켜 두세요.`],
-    ['main', `<b>약점 노출</b>(8초, 피해 1.5배) 때 ${K('burst')}·${K('reck')}를 몰아 써요.`],
-    ['a2', `평소엔 ${K('bt')} → ${K('rb')}, 분노 80이면 ${K('ramp')}.`]];
+    ['c-move', `<b>발밑 장판</b>은 ${mv}로 바로 비켜요. 딜보다 먼저예요.`],
+    ['c-def', `<b>공허 파동</b> 시전 중에 ${K('def')}를 켜 두세요.`],
+    ['c-cd', `<b>약점 노출</b>(8초, 피해 1.5배) 때 ${K('burst')}·${K('reck')}를 몰아 써요.`],
+    ['res', `평소엔 ${K('bt')} → ${K('rb')}, 분노 80이면 ${K('ramp')}.`]];
 }
 let rebinding = null;
 function buildSetup(){
@@ -2518,7 +2522,7 @@ function buildSetup(){
   $('bossSeg').querySelectorAll('button').forEach(x => x.addEventListener('click', () => { bossKey = x.dataset.boss; t.boss = bossKey; persist(); reset(); }));
   $('diffSeg').innerHTML = Object.entries(DIFF).map(([k, d]) => `<button type="button" data-d="${k}" aria-pressed="${k === diffKey}">${d.name}<small>${d.note}</small></button>`).join('');
   $('diffSeg').querySelectorAll('button').forEach(x => x.addEventListener('click', () => { diffKey = x.dataset.d; t.diff = diffKey; persist(); reset(); }));
-  $('rules').innerHTML = rulesFor().map(([c, h]) => `<li><span class="tr-dot" style="background:var(--main)"></span><span>${h}</span></li>`).join('');
+  $('rules').innerHTML = rulesFor().map(([c, h]) => `<li><span class="tr-dot" style="background:${c === 'res' ? 'var(--cg)' : c.startsWith('c-') ? 'var(--' + c + ')' : 'var(--main)'}"></span><span>${h}</span></li>`).join('');
   $('binds').innerHTML = ABIL.map(a => `<div class="tr-bind"><span>${a.name}<small>${a.hint}</small></span><button class="tr-kbd${rebinding === a.id ? ' wait' : ''}${custom[a.id] ? ' custom' : ''}" type="button" data-id="${a.id}">${rebinding === a.id ? '입력…' : keyText(a.key)}</button></div>`).join('') + `<div class="tr-bind"><span>이동<small>회피 패턴에서 옆으로 비키기</small></span><span class="tr-kbd static">${MOVE.join(' ')}</span></div>`;
   $('binds').querySelectorAll('button.tr-kbd').forEach(x => x.addEventListener('click', () => { rebinding = x.dataset.id; buildSetup(); }));
   const bl = Object.entries(DIFF).filter(([k]) => t.best[mode + '-' + bossKey + '-' + k] != null).map(([k, d]) => d.name + ' ' + t.best[mode + '-' + bossKey + '-' + k] + '점');
