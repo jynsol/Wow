@@ -99,7 +99,7 @@ body{--f-body:"WoW Note KR","Noto Sans KR",system-ui,sans-serif;--f-display:"WoW
 :root{
   --bg:#fafafc; --surface:#ffffff; --surface-2:#f4f4f9; --line:#e7e7f0; --line-2:#d7d8e6;
   --ink:#2b2a35; --ink-2:#5a5a6d; --ink-3:#8b8ba0;
-  --cap:#ffffff; --cap-edge:#d6d7e6; --void:#f0f0f6; --warn:#d9534f; --ok:#2f9e8a;
+  --cap:#ffffff; --cap-edge:#d6d7e6; --void:#f0f0f6; --warn:#c94f7c;
   --main:#f6cf55; --main-soft:#fdf5d8; --main-line:#efd88c; --on-main:#3a2e0a;
   --pt:#5aa9e6; --pt-soft:#e9f3fc; --pt-line:#bcdaf2; --pt-ink:#2a6ea3; --on-pt:#ffffff;
   --c-core:#ee7f55; --c-cd:#9877e6; --c-def:#34aa98; --c-move:#4f9ee0; --c-cc:#e46aa2; --c-misc:#a2a6ae; --c-item:#84b84a;
@@ -111,27 +111,27 @@ body{--f-body:"WoW Note KR","Noto Sans KR",system-ui,sans-serif;--f-display:"WoW
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#18171b; --surface:#211f25; --surface-2:#2a272f; --line:#36323c; --line-2:#443f4b;
   --ink:#f3f0f5; --ink-2:#c9c3cd; --ink-3:#9a94a0;
-  --cap:#2b2830; --cap-edge:#121115; --void:#1d1b20; --warn:#ff8a85; --ok:#5fd0bd;
+  --cap:#2b2830; --cap-edge:#121115; --void:#1d1b20; --warn:#ff8fb4;
   --c-core:#ff9c78; --c-cd:#b9a2ff; --c-def:#5ccfbd; --c-move:#7fb9f2; --c-cc:#ff8fc2; --c-misc:#b2b6bd; --c-item:#a8d877;
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#18171b; --surface:#211f25; --surface-2:#2a272f; --line:#36323c; --line-2:#443f4b;
   --ink:#f3f0f5; --ink-2:#c9c3cd; --ink-3:#9a94a0;
-  --cap:#2b2830; --cap-edge:#121115; --void:#1d1b20; --warn:#ff8a85; --ok:#5fd0bd;
+  --cap:#2b2830; --cap-edge:#121115; --void:#1d1b20; --warn:#ff8fb4;
   --c-core:#ff9c78; --c-cd:#b9a2ff; --c-def:#5ccfbd; --c-move:#7fb9f2; --c-cc:#ff8fc2; --c-misc:#b2b6bd; --c-item:#a8d877;
   color-scheme:dark}
 
 /* 캐릭터 색 */
 body[data-spec="prot"]{--bg:#fffcf3;--main:#f6cf55;--main-soft:#fdf5d8;--main-line:#efd88c;--on-main:#3a2e0a;--pt:#5aa9e6;--pt-soft:#e9f3fc;--pt-line:#bcdaf2;--pt-ink:#2a6ea3;--on-pt:#fff}
-body[data-spec="fury"]{--bg:#f9fcf4;--main:#a8db6c;--main-soft:#eef8e1;--main-line:#cbe7a7;--on-main:#20330a;--pt:#ff9268;--pt-soft:#fff0e9;--pt-line:#fbcab6;--pt-ink:#b8502a;--on-pt:#fff}
-body[data-spec="blood"]{--bg:#fff8fa;--main:#ff9cb9;--main-soft:#ffecf2;--main-line:#f8c5d5;--on-main:#45111f;--pt:#a183f0;--pt-soft:#f1ecff;--pt-line:#d5c8fb;--pt-ink:#6845cf;--on-pt:#fff}
+body[data-spec="fury"]{--bg:#f9fcf4;--main:#a8db6c;--main-soft:#eef8e1;--main-line:#cbe7a7;--on-main:#20330a;--pt:#f6cf55;--pt-soft:#fdf5d8;--pt-line:#efd88c;--pt-ink:#8a6a0c;--on-pt:#3a2e0a}
+body[data-spec="blood"]{--bg:#fff8fa;--main:#ff9cb9;--main-soft:#ffecf2;--main-line:#f8c5d5;--on-main:#45111f;--pt:#f6cf55;--pt-soft:#fdf5d8;--pt-line:#efd88c;--pt-ink:#8a6a0c;--on-pt:#3a2e0a}
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]) body[data-spec="prot"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#3a331d;--main-line:#5a4e27;--pt-soft:#1d2b39;--pt-line:#2b4560;--pt-ink:#9fd0f6}
-  :root:not([data-theme="light"]) body[data-spec="fury"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#28351c;--main-line:#3f5428;--pt-soft:#3a2620;--pt-line:#5d3a2e;--pt-ink:#ffb497}
-  :root:not([data-theme="light"]) body[data-spec="blood"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#3d2430;--main-line:#5d3446;--pt-soft:#2b2445;--pt-line:#43386a;--pt-ink:#c8b5ff}}
+  :root:not([data-theme="light"]) body[data-spec="fury"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#28351c;--main-line:#3f5428;--pt-soft:#3a3320;--pt-line:#5a4e28;--pt-ink:#f3d77a}
+  :root:not([data-theme="light"]) body[data-spec="blood"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#3d2430;--main-line:#5d3446;--pt-soft:#3a3320;--pt-line:#5a4e28;--pt-ink:#f3d77a}}
 :root[data-theme="dark"] body[data-spec="prot"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#3a331d;--main-line:#5a4e27;--pt-soft:#1d2b39;--pt-line:#2b4560;--pt-ink:#9fd0f6}
-:root[data-theme="dark"] body[data-spec="fury"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#28351c;--main-line:#3f5428;--pt-soft:#3a2620;--pt-line:#5d3a2e;--pt-ink:#ffb497}
-:root[data-theme="dark"] body[data-spec="blood"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#3d2430;--main-line:#5d3446;--pt-soft:#2b2445;--pt-line:#43386a;--pt-ink:#c8b5ff}
+:root[data-theme="dark"] body[data-spec="fury"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#28351c;--main-line:#3f5428;--pt-soft:#3a3320;--pt-line:#5a4e28;--pt-ink:#f3d77a}
+:root[data-theme="dark"] body[data-spec="blood"]{--bg:#18171b;--surface-2:#2a272f;--line:#36323c;--line-2:#443f4b;--cap-edge:#121115;--void:#1d1b20;--main-soft:#3d2430;--main-line:#5d3446;--pt-soft:#3a3320;--pt-line:#5a4e28;--pt-ink:#f3d77a}
 
 /* 기본 */
 html,body{scrollbar-width:none}
@@ -1609,10 +1609,6 @@ load();render();
 :root{--cy:#f6cf55;--cg:#a8db6c;--cp:#ff9cb9;--cs:#5aa9e6;--a1:var(--cs);--a2:var(--cg);--a3:var(--cp)}
 body[data-spec="fury"]{--a1:var(--cy);--a2:var(--cs);--a3:var(--cp)}
 body[data-spec="blood"]{--a1:var(--cy);--a2:var(--cs);--a3:var(--cg)}
-/* 포인트 1 = 기존 --pt 계열 (분노·혈기의 포인트도 노랑으로 통일) */
-body[data-spec="fury"],body[data-spec="blood"]{--pt:#f6cf55;--pt-soft:#fdf5d8;--pt-line:#efd88c;--pt-ink:#8a6a0c;--on-pt:#3a2e0a}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body[data-spec="fury"],:root:not([data-theme="light"]) body[data-spec="blood"]{--pt-soft:#3a3320;--pt-line:#5a4e28;--pt-ink:#f3d77a}}
-:root[data-theme="dark"] body[data-spec="fury"],:root[data-theme="dark"] body[data-spec="blood"]{--pt-soft:#3a3320;--pt-line:#5a4e28;--pt-ink:#f3d77a}
 :root{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-mix(in srgb,var(--a2) 16%,var(--surface));--a3-soft:color-mix(in srgb,var(--a3) 16%,var(--surface))}
 body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-mix(in srgb,var(--a2) 16%,var(--surface));--a3-soft:color-mix(in srgb,var(--a3) 16%,var(--surface));
  --a1-ink:color-mix(in srgb,var(--a1) 48%,var(--ink));--a2-ink:color-mix(in srgb,var(--a2) 48%,var(--ink));--a3-ink:color-mix(in srgb,var(--a3) 48%,var(--ink))}
@@ -1731,13 +1727,13 @@ body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-m
 .tr-uname{font-weight:600;font-size:14px}
 .tr-uname small{color:var(--ink-3);font-weight:400;margin-left:4px;font-size:12px}
 .tr-hpbar{height:20px;margin:0}
-#tr-tankHp>i{background:var(--main)}
-#tr-healHp>i{background:var(--a1)}
+#tr-tankHp>i{background:var(--cg)}
+#tr-healHp>i{background:var(--cg)}
 .tr-hpbar.low>i{background:var(--a3)!important}
 .tr-thin{height:6px;margin:0}
-#tr-absorbBar>i{background:var(--a1)}
+#tr-absorbBar>i{background:var(--cs)}
 #tr-rageBar{height:10px;margin:0}
-#tr-rageBar>i{background:var(--a3)}
+#tr-rageBar>i{background:var(--cy)}
 .tr-buffs{display:flex;flex-wrap:wrap;gap:6px}
 .tr-buff{font-size:12px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--ink-3);background:var(--surface)}
 .tr-buff.on{border-color:var(--main-line);background:var(--main-soft);color:var(--on-main)}
@@ -1777,6 +1773,8 @@ body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-m
 .tr-seg button{flex:1;min-width:84px;padding:8px;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;font-size:13px;color:var(--ink)}
 .tr-seg button[aria-pressed="true"]{border-color:var(--main);background:var(--main-soft);color:var(--on-main);font-weight:600}
 .tr-seg small{display:block;font-size:11px;color:var(--ink-3);font-weight:400}
+/* 연습 게임 색은 직업과 상관없이 고정: 체력·좋음 = 연두, 적·위험 = 핑크, 자원(분노·룬 마력) = 노랑, 보호막 = 하늘 */
+#v-practice{--a2:var(--cg);--a3:var(--cp);--a2-soft:color-mix(in srgb,var(--cg) 16%,var(--surface));--a3-soft:color-mix(in srgb,var(--cp) 16%,var(--surface));--a2-ink:color-mix(in srgb,var(--cg) 48%,var(--ink));--a3-ink:color-mix(in srgb,var(--cp) 55%,var(--ink))}
 /* 난이도: 한 색을 진하기로만 나눠요 (쉬움 아주 옅게 · 보통 옅게 · 어려움 진하게). 평소 핑크, 혈기는 직업색이 핑크라 연두 */
 #v-practice{--dcol:var(--cp)}body[data-spec="blood"] #v-practice{--dcol:var(--cg)}
 #tr-diffSeg [data-d="easy"],#tr-diffChip[data-d="easy"]{--dk:9%;--dl:35%}
