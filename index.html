@@ -544,10 +544,10 @@ section[id]{scroll-margin-top:72px}
     <div class="sec-head"><h2 data-ico="bunny">내 설정</h2></div>
     <div class="chips-set">
       <div data-tone="main"><span class="cl">캐릭터</span><span>우사기 · 방어 전사 (메인)</span></div>
-      <div data-tone="move"><span class="cl">이동</span><span><span class="kk">E</span><span class="kk">S</span><span class="kk">D</span><span class="kk">F</span></span></div>
-      <div data-tone="cc"><span class="cl">차단</span><span><span class="kk">G</span></span></div>
+      <div data-tone="pt"><span class="cl">이동</span><span><span class="kk">E</span><span class="kk">S</span><span class="kk">D</span><span class="kk">F</span></span></div>
+      <div data-tone="pt"><span class="cl">차단</span><span><span class="kk">G</span></span></div>
       <div data-tone="pt"><span class="cl">대상 · 탈것</span><span><span class="kk">Caps</span> · <span class="kk">Tab</span></span></div>
-      <div data-tone="cd"><span class="cl">애드온</span><span>EllesmereUI · HandyNotes</span></div>
+      <div><span class="cl">애드온</span><span>EllesmereUI · HandyNotes</span></div>
     </div>
   </section>
 
@@ -1585,26 +1585,13 @@ load();render();
 @media (max-width:820px){.bars-slots{grid-template-columns:repeat(6,minmax(0,1fr))}}
 @media (max-width:420px){.bars-slots{grid-template-columns:repeat(4,minmax(0,1fr))}}
 
-/* 홈 색 위계: 할 일은 가는 곳 색, 내 설정은 항목 색 */
+/* 홈 색 위계: 직업 메인색(노랑)과 포인트색(하늘)만 사용 */
 #now .lvbox input{background:var(--main-soft);border-color:var(--main-line)}
-.todo li{position:relative;overflow:hidden}
-.todo li::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tone,var(--line-2))}
-.todo li.done::before{opacity:.35}
-.todo li[data-to="route"],.go[data-go="route"]{--tone:var(--c-def)}
-.todo li[data-to="keys"],.go[data-go="keys"]{--tone:var(--c-item)}
-.todo li[data-to="rotation"],.go[data-go="rotation"]{--tone:var(--c-core)}
-.todo li[data-to="guide"],.go[data-go="guide"]{--tone:var(--pt)}
-.todo li[data-to="practice"],.go[data-go="practice"]{--tone:var(--c-cd)}
-.todo .go[data-go]{background:color-mix(in srgb,var(--tone) 14%,var(--surface));color:color-mix(in srgb,var(--tone) 70%,var(--ink));border-color:transparent}
-.todo li.done .go[data-go]{background:var(--surface-2);color:var(--ink-3)}
-.chips-set>div[data-tone]{background:color-mix(in srgb,var(--tone) 9%,var(--surface));border-color:color-mix(in srgb,var(--tone) 28%,var(--surface))}
-.chips-set>div[data-tone] .cl{color:color-mix(in srgb,var(--tone) 72%,var(--ink))}
-.chips-set>div[data-tone="main"]{--tone:var(--main)}
-.chips-set>div[data-tone="move"]{--tone:var(--c-move)}
-.chips-set>div[data-tone="cc"]{--tone:var(--c-cc)}
-.chips-set>div[data-tone="pt"]{--tone:var(--pt)}
-.chips-set>div[data-tone="cd"]{--tone:var(--c-cd)}
-#memo .memo{background:color-mix(in srgb,var(--pt) 5%,var(--surface));border-color:color-mix(in srgb,var(--pt) 22%,var(--line))}
+.chips-set>div[data-tone="main"]{background:var(--main-soft);border-color:var(--main-line)}
+.chips-set>div[data-tone="main"] .cl{color:var(--on-main)}
+.chips-set>div[data-tone="pt"]{background:var(--pt-soft);border-color:var(--pt-line)}
+.chips-set>div[data-tone="pt"] .cl{color:var(--pt-ink)}
+#memo .memo{background:color-mix(in srgb,var(--pt-soft) 45%,var(--surface));border-color:var(--pt-line)}
 #memo .memo:focus{border-color:var(--pt)}
 /* 탱킹 연습 */
 .tr-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:14px}
