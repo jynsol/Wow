@@ -466,7 +466,7 @@ section[id]{scroll-margin-top:72px}
       <h2 data-ico="keyboard"><span id="kb-title">키 배치</span></h2>
       <p class="sub">키캡 위 줄은 그냥 누르기, 점선 아래 ⇧ 줄은 Shift와 같이 누르기예요.</p>
       <div class="legend">
-        <span class="dot-c cat-core">공격</span><span class="dot-c cat-cd">강화 기술</span><span class="dot-c cat-def">생존기</span><span class="dot-c cat-move">이동기</span><span class="dot-c cat-cc">차단·군중제어</span><span class="dot-c cat-item">소모품</span>
+        <span class="dot-c cat-core">공격</span><span class="dot-c cat-cd">쿨기</span><span class="dot-c cat-def">생존기</span><span class="dot-c cat-move">이동기</span><span class="dot-c cat-cc">차단·군중제어</span><span class="dot-c cat-item">소모품</span>
         <span><i class="sw mv"></i>이동 E·S·D·F</span><span><i class="sw fx"></i>고정 키</span>
       </div>
     </div>
@@ -494,7 +494,7 @@ section[id]{scroll-margin-top:72px}
   </div>
 
   <section class="card" id="build">
-    <div class="sec-head"><h2 data-ico="star">최고 레벨 빌드 <span class="h-note">레벨 90부터</span></h2>
+    <div class="sec-head"><h2 data-ico="star">만렙 빌드 <span class="h-note">레벨 90부터</span></h2>
     <p class="sub" id="build-sub">레벨 90이 되면 영웅 특성을 둘 중 하나 골라요. 빌드를 고르면 위 스킬 체크와 키 배치가 그 빌드에 맞게 바뀌어요.</p></div>
     <div class="build" id="meta"></div>
   </section>
@@ -552,7 +552,7 @@ section[id]{scroll-margin-top:72px}
     <div>
       <section class="card">
         <div class="sec-head"><h2 data-ico="bolt">빠른 루트</h2>
-        <p class="sub">빨리 최고 레벨을 찍고 싶을 때.</p></div>
+        <p class="sub">빨리 만렙을 찍고 싶을 때.</p></div>
         <ul class="plain">
           <li><b>10–70은 던전 위주.</b> 탱커는 대기가 거의 없어서 던전을 계속 도는 게 빨라요. 기다리는 동안 크로미 시간 퀘스트를 해요.</li>
           <li><b>70–80은 내부 전쟁 빠른 스토리</b>를 따라가면서 던전을 섞어요.</li>
@@ -591,7 +591,7 @@ section[id]{scroll-margin-top:72px}
           <li><b>10–70: 크로미 시간에서 불타는 성전부터.</b> 이야기 순서대로 보고 싶다면 불타는 성전이 시작점이에요. 한밤의 무대인 태양샘 이야기도 여기서 시작해요. 레벨이 남으면 리치 왕의 분노로 이어가세요.</li>
           <li><b>70–80: 내부 전쟁 빠른 스토리는 꼭.</b> 한밤 바로 앞 이야기라 건너뛰면 한밤이 이해하기 어려워요.</li>
           <li><b>80–90: 한밤 캠페인을 순서대로.</b> 지역마다 사이드 퀘스트에도 이야기가 있어요.</li>
-          <li><b>최고 레벨 이후: 놓친 시대 돌아보기.</b> 레벨이 높아지면 옛 지역 퀘스트와 던전을 혼자서도 쉽게 할 수 있어요. 리치 왕의 분노나 군단처럼 유명한 이야기를 천천히 따라가 보세요.</li>
+          <li><b>만렙 이후: 놓친 시대 돌아보기.</b> 레벨이 높아지면 옛 지역 퀘스트와 던전을 혼자서도 쉽게 할 수 있어요. 리치 왕의 분노나 군단처럼 유명한 이야기를 천천히 따라가 보세요.</li>
           <li><b>부캐로 다른 시대.</b> 혈기 죽기는 크로미 시간에서 다른 시대를 골라 레벨업하면 이야기를 새로 볼 수 있어요.</li>
         </ol>
         <p class="note-line"><b>대격변부터가 아니에요.</b> 지금 옛 세계(칼림도어·동부 왕국) 퀘스트는 대격변 때 다시 만든 것이라, 시간상으로는 리치 왕의 분노 <b>다음</b> 이야기예요. 그래서 순서대로 보려면 불타는 성전 → 리치 왕의 분노 → 대격변 순이에요.</p>
@@ -759,7 +759,7 @@ const FALL={
   misc:['S+T','S+Q','S+V','S+C','S+Z','S+R','S+W',...SH,...BASE],
   item:['1','S+1',...SH]
 };
-const GN={core:'핵심 로테이션',cd:'강화 기술',def:'생존기',move:'이동기',cc:'차단 · 군중제어',misc:'기타',item:'소모품'};
+const GN={core:'핵심 로테이션',cd:'쿨기',def:'생존기',move:'이동기',cc:'차단 · 군중제어',misc:'기타',item:'소모품'};
 const A=(id,ko,en,g,pref,on,note)=>({id,ko,en,g,pref,on,note});
 const COMMON_TAIL=[
   A('charge','돌진','Charge','move','C',1),
@@ -914,7 +914,7 @@ const META={
     links:[['Icy Veins','https://www.icy-veins.com/wow/protection-warrior-pve-tank-spec-builds-talents'],['Method','https://www.method.gg/guides/protection-warrior/talents'],['Archon','https://www.archon.gg/wow/builds/protection/warrior/raid/overview/heroic/crown']]},
   fury:{heroes:[
       {n:'학살자',en:'Slayer',pick:'레이드 추천',d:'마무리 일격과 칼날폭풍으로 한 대상을 세게 때리는 스타일.'},
-      {n:'산왕',en:'Mountain Thane',pick:'일반 몹이 많을 때',d:'소용돌이 대신 천둥벼락을 쓰는 광역 스타일. 쐐기에선 둘이 비슷해요.'}],
+      {n:'산왕',en:'Mountain Thane',pick:'쫄이 많을 때',d:'소용돌이 대신 천둥벼락을 쓰는 광역 스타일. 쐐기에선 둘이 비슷해요.'}],
     builds:[
       {name:'학살자 체크',sub:'마무리 일격 · 칼날폭풍',on:['bt','rb','ramp','exe','reck','bstorm'],off:['avatar']},
       {name:'산왕 체크',sub:'소용돌이 대신 천둥벼락',on:['bt','rb','ramp','exe','reck','tc'],off:['ww']}],
@@ -959,10 +959,10 @@ const LV={
     orderNote:{exe:'적 체력 20% 이하',rev:'남는 분노를 쓸 때',block:'물리 피해 셀 때',ip:'분노로 피해 흡수',vr:'처치 후 회복'},
     tips:['몹을 크게 모아서 한 번에 잡아도 잘 안 죽어요.','퀘스트 사이사이 던전을 신청하세요. 탱커는 대기가 짧고 경험치도 많아요.','장비는 아이템 레벨 높은 걸로. 고르기 애매하면 가속이 붙은 쪽.','전쟁 모드를 켜면 PvP 특성 Morale Killer · Dragon Charge · Sword and Board가 레벨업에 좋아요.'],
     link:['Icy Veins 방어 전사 레벨업 가이드','https://icy-veins.com/wow/protection-warrior-leveling-guide']},
-  fury:{talent:'퀘스트용으로 잠깐 쓸 거면 특성창 추천(스타터) 빌드로 충분해요. 최고 레벨 빌드는 위 메타 버튼을 참고하세요.',
+  fury:{talent:'퀘스트용으로 잠깐 쓸 거면 특성창 추천(스타터) 빌드로 충분해요. 만렙 빌드는 위 메타 버튼을 참고하세요.',
     order:['charge','reck','ramp','exe','bt','rb','ww','vr'],
     orderNote:{ramp:'격노가 꺼져 있으면 먼저',exe:'적 체력 낮을 때',ww:'몹 여럿이면 먼저 한 번',vr:'처치 후 회복'},
-    tips:['격노의 재생력은 체력이 반쯤일 때 눌러요.','강화 기술은 아끼지 말고 쓸 수 있을 때마다 쓰세요. 금방 다시 돌아와요.','몹 여럿이면 소용돌이 → 광란 순서로 광역을 돌려요.'],
+    tips:['격노의 재생력은 체력이 반쯤일 때 눌러요.','쿨기는 아끼지 말고 쓸 수 있을 때마다 쓰세요. 금방 다시 돌아와요.','몹 여럿이면 소용돌이 → 광란 순서로 광역을 돌려요.'],
     link:['Icy Veins 분노 전사 특성','https://www.icy-veins.com/wow/fury-warrior-pve-dps-spec-builds-talents']},
   blood:{talent:'가이드의 레벨 80 특성 문자열을 불러와 레벨마다 순서대로 찍으면 돼요. 귀찮으면 특성창 추천(스타터) 빌드.',
     order:['dnd','ds','boil','reaper','marrow','drw','hs_strike'],
@@ -1031,7 +1031,7 @@ const ROT={
   basics:[
    ['격노 유지가 핵심','광란을 쓰면 격노가 켜지고, 격노 중엔 피해가 세져요. 격노가 꺼져 있으면 광란부터.'],
    ['분노 모으고 쓰기','피의 갈증·분노의 강타로 분노를 모으고, 광란으로 써요.'],
-   ['강화 기술은 아끼지 않기','무모한 희생은 금방 다시 돌아와요. 쓸 수 있을 때마다 쓰세요.'],
+   ['쿨기는 아끼지 않기','무모한 희생은 금방 다시 돌아와요. 쓸 수 있을 때마다 쓰세요.'],
    ['광역은 소용돌이 먼저','소용돌이를 한 번 쓰면 다음 공격들이 여러 몹을 같이 때려요.']],
   blocks:[
    {t:'시작할 때',type:'ol',items:[['charge',''],['bt',''],['reck','투신 찍었으면 같이'],['odyn',''],['ramp',''],['bstorm','찍었다면']]},
@@ -1145,7 +1145,7 @@ const TODO=[
  [['s1a','<b>내부 전쟁 빠른 스토리</b> 시작하기 (건너뛰지 않기)','route'],['s1b','<b>DBM 또는 BigWigs</b> 설치하기','guide'],['s1c','레벨업 <b>특성 점검</b>하기 (특성창 추천 빌드)','route'],['s1d','<b>위급할 때</b> 기술을 하나씩 돌려 쓰는 연습','rotation']],
  [['s2a','레벨 78이 되면 <b>한밤 도입 퀘스트</b> 시작','route'],['s2b','내부 전쟁 스토리 마무리하기','route'],['s2c','새로 생긴 스킬 <b>키 지정</b>','keys']],
  [['s3a','<b>영원노래 숲</b>부터 한밤 캠페인 따라가기','route'],['s3b','<b>레벨업 던전</b> 섞어서 돌기','route'],['s3c','구렁은 <b>첫 완료 퀘스트</b>만 챙기기','route'],['s3d','HandyNotes에 <b>한밤 데이터 플러그인</b> 설치','guide']],
- [['s4a','<b>영웅 특성</b> 고르기 (방어 전사는 산왕 추천)','keys'],['s4b','<b>최고 레벨 빌드</b> 적용하고 키 다시 확인','keys'],['s4c','쐐기 대비 <b>징표 단축키</b> 지정','keys']]
+ [['s4a','<b>영웅 특성</b> 고르기 (방어 전사는 산왕 추천)','keys'],['s4b','<b>만렙 빌드</b> 적용하고 키 다시 확인','keys'],['s4c','쐐기 대비 <b>징표 단축키</b> 지정','keys']]
 ];
 const TAB_NAME={route:'진행 흐름',keys:'키 배치',rotation:'딜사이클',growth:'특성·빌드',guide:'초보 자료'};
 let done={};try{done=JSON.parse(localStorage.getItem('wk-done')||'{}')}catch(e){}
@@ -1159,7 +1159,7 @@ function renderTodo(st){const items=TODO[st],ol=document.getElementById('todo');
 const STAGES=['크로미 시간 (10–70)','내부 전쟁 빠른 스토리 (70–80)','한밤 도입 (78+)','한밤 캠페인 (80–90)'];
 function stageOf(l){return l<70?0:l<78?1:l<80?2:3}
 function applyLevel(){const inp=document.getElementById('lvl-input');let l=parseInt(inp.value,10);if(!(l>=1))l=1;if(l>90)l=90;
-  const st=stageOf(l);document.getElementById('stage-name').textContent=l>=90?'최고 레벨':STAGES[st]+' 단계';
+  const st=stageOf(l);document.getElementById('stage-name').textContent=l>=90?'만렙':STAGES[st]+' 단계';
   document.querySelectorAll('.timeline li').forEach((li,i)=>li.classList.toggle('now',i===st&&l<90));
   renderTodo(l>=90?4:st);}
 (()=>{const inp=document.getElementById('lvl-input');try{const v=localStorage.getItem('wk-lvl');if(v)inp.value=v}catch(e){}
