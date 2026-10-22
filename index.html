@@ -1777,14 +1777,15 @@ body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-m
 .tr-seg button{flex:1;min-width:84px;padding:8px;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;font-size:13px;color:var(--ink)}
 .tr-seg button[aria-pressed="true"]{border-color:var(--main);background:var(--main-soft);color:var(--on-main);font-weight:600}
 .tr-seg small{display:block;font-size:11px;color:var(--ink-3);font-weight:400}
-/* 난이도: 같은 핑크를 진하기로만 나눠요 (쉬움 아주 옅게 · 보통 옅게 · 어려움 핑크) */
+/* 난이도: 한 색을 진하기로만 나눠요 (쉬움 아주 옅게 · 보통 옅게 · 어려움 진하게). 평소 핑크, 혈기는 직업색이 핑크라 연두 */
+#v-practice{--dcol:var(--cp)}body[data-spec="blood"] #v-practice{--dcol:var(--cg)}
 #tr-diffSeg [data-d="easy"],#tr-diffChip[data-d="easy"]{--dk:9%;--dl:35%}
 #tr-diffSeg [data-d="normal"],#tr-diffChip[data-d="normal"]{--dk:24%;--dl:60%}
 #tr-diffSeg [data-d="hard"],#tr-diffChip[data-d="hard"]{--dk:52%;--dl:100%}
-#tr-diffSeg button{border-color:color-mix(in srgb,var(--cp) var(--dl),var(--line));background:color-mix(in srgb,var(--cp) var(--dk),var(--surface));color:var(--ink)}
-#tr-diffSeg button[aria-pressed="true"]{border-color:color-mix(in srgb,var(--cp) 70%,var(--ink));box-shadow:0 0 0 2px color-mix(in srgb,var(--cp) 45%,transparent);font-weight:600}
+#tr-diffSeg button{border-color:color-mix(in srgb,var(--dcol) var(--dl),var(--line));background:color-mix(in srgb,var(--dcol) var(--dk),var(--surface));color:var(--ink)}
+#tr-diffSeg button[aria-pressed="true"]{border-color:color-mix(in srgb,var(--dcol) 70%,var(--ink));box-shadow:0 0 0 2px color-mix(in srgb,var(--dcol) 45%,transparent);font-weight:600}
 #tr-diffSeg button small{color:color-mix(in srgb,var(--ink) 60%,transparent)}
-#tr-diffChip{background:color-mix(in srgb,var(--cp) var(--dk),var(--surface));border-color:color-mix(in srgb,var(--cp) var(--dl),var(--surface));color:var(--ink)}
+#tr-diffChip{background:color-mix(in srgb,var(--dcol) var(--dk),var(--surface));border-color:color-mix(in srgb,var(--dcol) var(--dl),var(--surface));color:var(--ink)}
 /* 반응 훈련은 보스전이 아니라서 하늘색으로 따로 구분해요 */
 #tr-bossSeg [data-boss="drill"]{border-color:color-mix(in srgb,var(--cs) 45%,var(--line));background:color-mix(in srgb,var(--cs) 7%,var(--surface))}
 #tr-bossSeg [data-boss="drill"][aria-pressed="true"]{border-color:var(--cs);background:color-mix(in srgb,var(--cs) 22%,var(--surface));color:var(--ink)}
