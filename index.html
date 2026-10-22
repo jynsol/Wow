@@ -705,7 +705,7 @@ section[id]{scroll-margin-top:72px}
   </div>
 
   <div class="view" id="v-route" hidden>
-    <nav class="subtabs rt-tabs" aria-label="진행 흐름 메뉴"><button type="button" id="rt-level" data-rt="level" aria-pressed="true">레벨업 흐름</button><button type="button" id="rt-story" data-rt="story" aria-pressed="false">스토리 흐름</button></nav>
+    <nav class="subtabs rt-tabs" aria-label="진행 흐름 메뉴"><button type="button" id="rt-level" data-rt="level" aria-pressed="true">레벨업 흐름</button><button type="button" id="rt-story" data-rt="story" aria-pressed="false">스토리 흐름</button><button type="button" id="rt-lore" data-rt="lore" aria-pressed="false">스토리</button></nav>
     <div class="rt-panel" id="rt-panel-level">
     <section class="card">
       <div class="sec-head"><h2 data-ico="flag">레벨업 흐름</h2>
@@ -784,6 +784,27 @@ section[id]{scroll-margin-top:72px}
         <p class="note-line"><b>대격변부터가 아니에요.</b> 지금 옛 세계(칼림도어·동부 왕국) 퀘스트는 대격변 때 다시 만든 것이라, 시간상으로는 리치 왕의 분노 <b>다음</b> 이야기예요. 그래서 순서대로 보려면 불타는 성전 → 리치 왕의 분노 → 대격변 순이에요.</p>
         <p class="note-line">원래 2004년 모습의 옛 세계는 별도 게임인 <b>WoW 클래식</b> 서버에서 볼 수 있어요. 지금 게임(한밤)의 옛 세계는 대격변 이후 모습이에요.</p>
       </section>
+    </div>
+    <div class="rt-panel" id="rt-panel-lore" hidden>
+      <section class="card lore">
+        <div class="sec-head"><h2>와우 이야기 요약</h2>
+        <p class="sub">태초부터 한밤까지 큰 줄기를 시간 순서로 정리했어요. 결말까지 다 나오니 스포일러 주의예요.</p></div>
+        <div class="lore-act"><h3>1막 · 세계의 시작</h3><p class="lore-sub">불과 공허가 왜 아제로스를 노리는지</p><ol class="eras"><li class="era"><div class="era-y">태초</div><div class="era-b"><div class="era-h"><b>티탄과 고대 신</b></div><div class="era-z">우주 전체</div><p>우주의 질서를 세우는 거인 <b>티탄</b>들이 아제로스를 발견해요. 이 행성 안에는 새로운 티탄의 영혼, 곧 <b>세계영혼</b>이 자라고 있었어요. 공허의 존재인 <b>고대 신</b>들이 표면에 달라붙어 이 영혼을 타락시키려 했고, 티탄은 고대 신들을 땅속 깊이 가둬요.</p></div></li><li class="era"><div class="era-y">태초</div><div class="era-b"><div class="era-h"><b>사르게라스와 불타는 군단</b></div><p>티탄 중 가장 강했던 <b>사르게라스</b>는 공허가 세계영혼들을 노린다는 걸 알고, 차라리 우주를 불태워 없애겠다며 악마 군대 <b>불타는 군단</b>을 만들어요. 그 뒤 거의 모든 이야기는 "불(군단)과 공허(고대 신)가 아제로스를 노린다"는 구조예요.</p></div></li><li class="era"><div class="era-y">1만 년 전</div><div class="era-b"><div class="era-h"><b>고대의 전쟁</b></div><div class="era-z">칼림도어</div><p><b>나이트 엘프</b>는 <b>영원의 샘</b>의 마력으로 번성했는데, 여왕 <b>아즈샤라</b>가 그 힘으로 군단을 불러들여요. 말퓨리온·티란데·일리단이 맞서 싸웠고, 샘이 폭발하면서 하나였던 대륙이 갈라져요. 일리단은 샘물을 몰래 챙겨 하이잘 산에 새 샘을 만들어요.</p></div></li><li class="era key"><div class="era-y">7천 년 전</div><div class="era-b"><div class="era-h"><b>태양샘</b></div><div class="era-z">쿠엘탈라스</div><p>마법을 포기하지 못한 엘프 일부가 바다를 건너 동쪽에 <b>쿠엘탈라스</b>를 세우고 <b>하이 엘프</b>가 돼요. 일리단이 챙긴 샘물로 <b>태양샘</b>을 만들었는데, 이게 한밤의 무대예요.</p></div></li></ol></div>
+        <div class="lore-act"><h3>2막 · 호드와 얼라이언스</h3><p class="lore-sub">오크의 침공부터 3차 대전쟁까지</p><ol class="eras"><li class="era"><div class="era-y">오리지널 전</div><div class="era-b"><div class="era-h"><b>1·2차 대전쟁</b></div><div class="era-z">드레노어 → 동부 왕국</div><p>다른 세계 <b>드레노어</b>의 오크들이 군단의 피를 마시고 타락해요. 흑마법사 <b>굴단</b>이 <b>어둠의 문</b>을 열어 쳐들어오고 스톰윈드가 무너져요. 인간·엘프·드워프가 <b>얼라이언스</b>를 만들어 오크를 막아내고, 남은 오크는 수용소에 갇혀요.</p></div></li><li class="era"><div class="era-y">오리지널 전</div><div class="era-b"><div class="era-h"><b>스랄과 새 호드</b></div><div class="era-z">칼림도어</div><p>젊은 오크 <b>스랄</b>이 갇힌 오크들을 풀어 주고, 군단의 저주에서 벗어난 새 <b>호드</b>를 세워요. 칼림도어로 건너가 타우렌·트롤과 함께 오그리마를 세워요.</p></div></li><li class="era key"><div class="era-y">오리지널 전</div><div class="era-b"><div class="era-h"><b>3차 대전쟁</b></div><div class="era-z">로데론 · 쿠엘탈라스 · 하이잘</div><p><b>리치 왕</b>이 퍼뜨린 역병으로 언데드 군대 <b>스컬지</b>가 생겨요. 로데론의 왕자 <b>아서스</b>는 백성을 지키려다 저주받은 검 서리한을 쥐고 타락해, 아버지를 죽이고 쿠엘탈라스를 짓밟아 태양샘을 더럽혀요. 순찰대 장군 <b>실바나스</b>도 이때 죽어 밴시가 돼요. 마지막에 호드·얼라이언스·나이트 엘프가 손잡고 하이잘 산에서 악마 아키몬드를 막아요.</p></div></li><li class="era"><div class="era-y">2004</div><div class="era-b"><div class="era-h"><b>그 뒤의 세계</b></div><div class="era-z">오리지널</div><p>아서스는 리치 왕과 하나가 되어 노스렌드의 얼음왕관에 앉아요. 실바나스는 자유를 찾은 언데드 <b>포세이큰</b>을 이끌고 호드에 들어가요. 살아남은 하이 엘프는 <b>블러드 엘프</b>로 이름을 바꿔요.</p></div></li></ol></div>
+        <div class="lore-act"><h3>3막 · 확장팩의 시대</h3><p class="lore-sub">불타는 성전부터 어둠땅까지</p><ol class="eras"><li class="era key"><div class="era-y">2007</div><div class="era-b"><div class="era-h"><b>불타는 성전</b></div><div class="era-z">아웃랜드</div><p>부서진 드레노어인 아웃랜드에서 일리단과 군단 세력을 정리해요. 마지막에 더럽혀졌던 <b>태양샘</b>이 빛과 마력이 함께 깃든 샘으로 되살아나요.</p></div></li><li class="era"><div class="era-y">2008</div><div class="era-b"><div class="era-h"><b>리치 왕의 분노</b></div><div class="era-z">노스렌드</div><p>얼음왕관 성채에서 아서스와 최후의 결전. 아서스가 쓰러지고, 누군가는 스컬지를 붙잡아 둬야 해서 <b>볼바르</b>가 새 리치 왕이 돼요.</p></div></li><li class="era"><div class="era-y">2010</div><div class="era-b"><div class="era-h"><b>대격변</b></div><div class="era-z">옛 세계 전체</div><p>타락한 검은용 <b>데스윙</b>이 땅속에서 튀어나와 세계가 갈라져요. 스랄은 세계를 치유하러 떠나고 <b>가로쉬</b>가 호드의 대족장이 돼요.</p></div></li><li class="era"><div class="era-y">2012</div><div class="era-b"><div class="era-h"><b>판다리아의 안개</b></div><div class="era-z">판다리아</div><p>안개 속에 숨겨져 있던 판다렌의 대륙. 힘에 취한 가로쉬가 폭주하자, 호드와 얼라이언스가 함께 오그리마로 쳐들어가 그를 끌어내려요.</p></div></li><li class="era"><div class="era-y">2014</div><div class="era-b"><div class="era-h"><b>드레노어의 전쟁군주</b></div><div class="era-z">과거의 드레노어</div><p>가로쉬가 과거의 드레노어로 도망쳐 <b>철호드</b>를 일으켜요. 그 끝에 굴단이 군단의 힘을 받아 아제로스로 넘어가요.</p></div></li><li class="era key"><div class="era-y">2016</div><div class="era-b"><div class="era-h"><b>군단</b></div><div class="era-z">부서진 섬 · 아르거스</div><p>불타는 군단의 총공세. 얼라이언스의 왕 <b>바리안</b>이 전사하고 아들 <b>안두인</b>이 왕이 돼요. 일리단이 돌아오고, 군단의 고향 아르거스까지 쳐들어가 사르게라스를 가두지만, 사르게라스는 마지막에 거대한 칼을 아제로스에 꽂아요.</p></div></li><li class="era"><div class="era-y">2018</div><div class="era-b"><div class="era-h"><b>격전의 아제로스</b></div><div class="era-z">쿨 티라스 · 잔달라</div><p>칼에 찔린 상처에서 나온 <b>아제라이트</b>를 두고 호드와 얼라이언스가 다시 전쟁을 해요. 대족장 실바나스가 나이트 엘프의 <b>텔드랏실</b>을 불태우고, 끝내 호드를 버리고 사라져요. 고대 신 느조스도 이때 쓰러져요.</p></div></li><li class="era"><div class="era-y">2020</div><div class="era-b"><div class="era-h"><b>어둠땅</b></div><div class="era-z">죽음 너머의 세계</div><p>실바나스가 리치 왕의 투구를 부수자 죽음 너머 세계 <b>어둠땅</b>으로 가는 길이 열려요. 모든 건 감옥 나락에 갇혀 있던 <b>간수</b>의 계획이었어요. 간수는 결국 쓰러지고, 실바나스는 속죄의 길을 걸어요.</p></div></li></ol></div>
+        <div class="lore-act"><h3>4막 · 세계영혼 사가</h3><p class="lore-sub">지금 이어지는 이야기</p><ol class="eras"><li class="era"><div class="era-y">2022</div><div class="era-b"><div class="era-h"><b>용군단</b></div><div class="era-z">용의 섬</div><p>용들이 고향 용의 섬으로 돌아오는 이야기. 갇혀 있던 원시용들을 막고, 위상(용들의 수호자)들이 다시 힘을 되찾아요. 큰 사가가 시작되기 전 쉬어 가는 장이에요.</p></div></li><li class="era key"><div class="era-y">2024</div><div class="era-b"><div class="era-h"><b>내부 전쟁 · 1부</b></div><div class="era-z">카즈 알가르</div><p>아제로스 깊은 땅속으로 내려가요. 공허의 예언자 <b>잘라타스</b>가 네루비안을 이용해 아제로스의 영혼을 노려요. 마지막엔 <b>모든 것을 집어삼키는 자 디멘시우스</b>를 막으려고 잘라타스와 손잡는 위험한 선택까지 해요.</p></div></li><li class="era key"><div class="era-y">2026</div><div class="era-b"><div class="era-h"><b>한밤 · 2부</b></div><div class="era-z">쿠엘탈라스</div><p>디멘시우스와 싸우느라 지친 틈을 노려, 잘라타스가 공허를 몰고 <b>태양샘</b>을 차지하려 해요. 쿠엘탈라스로 돌아가 흩어진 엘프 부족, 아마니 트롤, 하라니르를 모아 빛과 함께 공허에 맞서요. 실버문은 이번엔 얼라이언스에게도 손님으로 열려 있어요. 지금 내가 하는 이야기예요.</p></div></li><li class="era"><div class="era-y">예정</div><div class="era-b"><div class="era-h"><b>마지막 티탄 · 3부</b></div><p>사가의 마지막 이야기. 아제로스 안에서 자라는 세계영혼의 운명이 드러날 예정이에요.</p></div></li></ol></div>
+      </section>
+      <section class="card">
+        <div class="sec-head"><h2>꼭 알아둘 인물</h2>
+        <p class="sub">한밤 이야기를 따라가다 보면 계속 나오는 이름들이에요.</p></div>
+        <div class="lore-people"><div class="lp"><b>스랄</b><p>새 호드를 세운 오크. 호드가 흔들릴 때마다 돌아오는 정신적 지주.</p></div><div class="lp"><b>제이나 프라우드무어</b><p>쿨 티라스 출신 대마법사. 아서스의 옛 연인이자 얼라이언스의 핵심.</p></div><div class="lp"><b>안두인 린</b><p>바리안의 아들, 스톰윈드의 왕. 빛을 다루는 사제.</p></div><div class="lp"><b>실바나스 윈드러너</b><p>하이 엘프 순찰대 장군 → 밴시 → 포세이큰의 여왕 → 호드 대족장. 와우에서 가장 논쟁적인 인물.</p></div><div class="lp"><b>일리단 스톰레이지</b><p>고대의 전쟁부터 군단까지, 모두에게 배신자 소리를 들으며 군단과 싸운 악마사냥꾼.</p></div><div class="lp"><b>아서스 메네실</b><p>로데론의 왕자에서 리치 왕이 된 비극의 주인공.</p></div><div class="lp"><b>알레리아 윈드러너</b><p>실바나스의 언니. 공허의 힘을 다루는 레인저로, 한밤에서도 중요해요.</p></div><div class="lp"><b>잘라타스</b><p>고대 신을 섬기던 공허의 칼에서 깨어난 존재. 내부 전쟁과 한밤의 최종 악역.</p></div></div>
+      </section>
+      <section class="card">
+        <div class="sec-head"><h2>우주의 여섯 힘</h2>
+        <p class="sub">와우 이야기는 이 힘들이 서로 부딪치는 구조예요. 한밤은 빛과 공허의 싸움이에요.</p></div>
+        <div class="lore-forces"><div class="lp"><b>빛</b><p>희망과 생명의 힘. 나루, 성기사, 사제.</p></div><div class="lp"><b>공허</b><p>모든 걸 집어삼키는 그림자. 고대 신, 잘라타스.</p></div><div class="lp"><b>질서</b><p>세계의 법칙. 티탄.</p></div><div class="lp"><b>혼돈</b><p>불과 파괴. 불타는 군단의 지옥 마법.</p></div><div class="lp"><b>생명</b><p>자연과 성장. 드루이드, 에메랄드의 꿈.</p></div><div class="lp"><b>죽음</b><p>끝과 망자. 어둠땅, 죽음의 기사.</p></div></div>
+      </section>
+      <ul class="foot foot-list"><li>출처: Warcraft Wiki, Blizzard 한밤 소개. 한밤 이후 패치 이야기는 진행 중이라 넣지 않았어요.</li></ul>
     </div>
   </div>
 
@@ -1377,7 +1398,7 @@ function applyLevel(){const inp=document.getElementById('lvl-input');let l=parse
 (()=>{const inp=document.getElementById('lvl-input');try{const v=localStorage.getItem('wk-lvl');if(v)inp.value=v}catch(e){}
   inp.addEventListener('input',()=>{applyLevel();render();try{localStorage.setItem('wk-lvl',inp.value)}catch(e){};markDirty()});applyLevel();})();
 document.querySelectorAll('.go[data-go]').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.go);try{history.replaceState(null,'','#'+b.dataset.go)}catch(e){};window.scrollTo({top:0})}));
-document.querySelectorAll('[data-rt]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-rt]').forEach(x=>x.setAttribute('aria-pressed',x===b));['level','story'].forEach(k=>document.getElementById('rt-panel-'+k).hidden=k!==b.dataset.rt)}));
+document.querySelectorAll('[data-rt]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-rt]').forEach(x=>x.setAttribute('aria-pressed',x===b));['level','story','lore'].forEach(k=>document.getElementById('rt-panel-'+k).hidden=k!==b.dataset.rt)}));
 document.getElementById('sync-lv').addEventListener('click',syncToLevel);
 look='cute';applyLook();
 /* 기기 간 동기화: 내 개인 저장 공간(data/users/<id>/wownote) */
@@ -1632,6 +1653,17 @@ body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-m
 .zones>.zone:nth-child(3) .lvl{color:var(--a2-ink)}
 .zones>.zone:nth-child(5) .lvl{color:var(--a3-ink)}
 .zones>.zone:nth-child(3).multi>div+div{border-top-color:color-mix(in srgb,var(--a2) 35%,var(--surface))}
+
+/* 스토리 요약 */
+.lore-act+.lore-act{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.lore-act h3{margin:0;font-size:16px;font-weight:700}
+.lore-sub{margin:2px 0 12px;font-size:12.5px;color:var(--ink-3)}
+.lore .era-y{font-size:13px;line-height:1.5}
+.lore-people,.lore-forces{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.lore-forces{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:600px){.lore-forces{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.lp{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px}
+.lp b{font-size:14px}.lp p{margin:4px 0 0;font-size:13px;color:var(--ink-2);line-height:1.5}
 /* 스토리 흐름 */
 .era.key .era-y{color:var(--a2-ink)}
 .howk{background:var(--a1-soft);color:var(--a1-ink)}
