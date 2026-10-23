@@ -903,12 +903,13 @@ body[data-spec="blood"] #v-practice{--dcol:var(--cg)}
 #save-now{font:inherit;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;min-height:24px}
 #save-now:hover{background:var(--surface-2)}
 @media (max-width:560px){.savebar{display:flex;margin:6px 0 0}}
+#bk-out,#bk-in-l{font:inherit;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;min-height:24px;display:inline-flex;align-items:center;margin-left:4px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="toprow"><div class="eyebrow">WoW 한밤 · 패치 12.1.5 · 시즌 2 <span class="savebar"><span id="save-status" data-s="busy">계정에 연결하는 중…</span><button type="button" id="save-now">지금 저장</button></span></div>
+    <div class="toprow"><div class="eyebrow">WoW 한밤 · 패치 12.1.5 · 시즌 2 <span class="savebar"><span id="save-status" data-s="busy">계정에 연결하는 중…</span><button type="button" id="save-now">지금 저장</button><span id="backup-box" hidden><button type="button" id="bk-out">백업 받기</button><label id="bk-in-l">백업 불러오기<input id="bk-in" type="file" accept="application/json,.json" hidden></label></span></span></div>
       <nav class="tabs" aria-label="페이지"><button type="button" id="tab-home" data-view="home">홈</button><button type="button" id="tab-class" data-view="class">직업</button><button type="button" id="tab-route" data-view="route">진행 흐름</button><button type="button" id="tab-story" data-view="story">스토리</button><button type="button" id="tab-guide" data-view="guide">초보 자료</button><button type="button" id="tab-practice" data-view="practice">연습 게임</button></nav></div>
     <div class="titlebox"><h1 id="headline"><span class="bun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 10C8.3 6.5 7.6 3.2 9 2.6s2.4 3 2.6 6.6"/><path d="M14.5 10c1.2-3.5 1.9-6.8.5-7.4s-2.4 3-2.6 6.6"/><ellipse cx="12" cy="15.2" rx="6.2" ry="5.6"/><path d="M9.8 14.4h.01M14.2 14.4h.01M11.3 16.8c.4.4 1 .4 1.4 0"/></svg></span><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.6A4.4 4.4 0 0 1 12 7.1a4.4 4.4 0 0 1 7.5 2.8c0 6-7.5 10.6-7.5 10.6z"/></svg>와우 <em>노트</em></h1>
     <p class="lede">메인 방어 전사, 가끔 분노 전사, 부캐 혈기 죽기. 키 배치, 딜사이클, 레벨업, 초보 자료를 한곳에 모아둔 정리본이에요.</p></div>
@@ -1712,8 +1713,10 @@ function syncShow(){
   const el=document.getElementById('save-status'); if(!el)return;
   const t=lastSaved?new Date(lastSaved).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}):'';
   const M={saving:['저장하는 중…','busy'],saved:['계정에 저장됨'+(t?' · '+t:''),'ok'],dirty:['바뀐 내용 저장 대기','busy'],
-    error:['저장 실패 · 다시 누르면 재시도해요','bad'],local:['이 화면에서는 계정 저장을 쓸 수 없어서, 이 기기에만 저장돼요','warn'],wait:['계정에 연결하는 중…','busy']};
+    error:['저장 실패 · 다시 누르면 재시도해요','bad'],local:[window.claude?'Claude 앱 밖에서 열려 있어 이 기기에만 저장돼요':'Claude 밖(GitHub 등)에서 열려 있어 이 기기에만 저장돼요','warn'],wait:['계정에 연결하는 중…','busy']};
   const [txt,cls]=M[syncState]||M.local; el.textContent=txt; el.dataset.s=cls;
+  const bk=document.getElementById('backup-box'); if(bk) bk.hidden=!(syncState==='local');
+  const sn=document.getElementById('save-now'); if(sn) sn.hidden=(syncState==='local');
   const nt=document.getElementById('sync-note'); if(nt)nt.textContent=syncState==='local'||syncState==='wait'?'이 기기에 자동 저장돼요.':'PC와 폰 어디서 열어도 같은 내용이 보여요.';
 }
 function markDirty(){
@@ -1740,6 +1743,16 @@ function applyRemote(d){if(!d||d.v!==1)return;
   try{localStorage.setItem('wk-state',JSON.stringify(state));localStorage.setItem('wk-spec2',JSON.stringify(spec));localStorage.setItem('wk-done',JSON.stringify(done));localStorage.setItem('wk-lvl',inp.value);localStorage.setItem('wk-memo',m.value);localStorage.setItem(LTS,String(localTs))}catch(e){}
   render();applyLevel();}
 syncState='wait'; syncShow();
+document.getElementById('bk-out')?.addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(snapshotLocal())],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='wow-note-backup.json'; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);
+});
+document.getElementById('bk-in')?.addEventListener('change',async e=>{
+  const f=e.target.files&&e.target.files[0]; if(!f)return;
+  try{const d=JSON.parse(await f.text()); if(!d||d.v!==1)throw 0; applyRemote(d); localTs=Date.now(); try{localStorage.setItem(LTS,String(localTs))}catch(_){} if(syncRef)pushSync(); const st=document.getElementById('save-status'); st.textContent='백업을 불러왔어요'; setTimeout(syncShow,2500);}catch(_){const st=document.getElementById('save-status'); st.textContent='와우 노트 백업 파일이 아니에요'; setTimeout(syncShow,2500);}
+  e.target.value='';
+});
+
 document.getElementById('save-now')?.addEventListener('click',async()=>{ if(!syncRef){syncShow();return} localTs=Date.now(); await pushSync() });
 (async()=>{try{
   const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user){syncState='local';syncShow();return}
