@@ -902,14 +902,21 @@ body[data-spec="blood"] #v-practice{--dcol:var(--cg)}
 #save-status[data-s="bad"],#save-status[data-s="warn"]{background:color-mix(in srgb,var(--a3) 20%,var(--surface));color:color-mix(in srgb,var(--a3) 55%,var(--ink))}
 #save-now{font:inherit;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;min-height:24px}
 #save-now:hover{background:var(--surface-2)}
-@media (max-width:560px){.savebar{display:flex;margin:6px 0 0}}
+@media (max-width:560px){.savebar{display:flex;flex-wrap:wrap;margin:6px 0 0;gap:5px}}
+.savebar button,.savebar label,#save-status{white-space:nowrap}
 #bk-out,#bk-in-l{font:inherit;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;min-height:24px;display:inline-flex;align-items:center;margin-left:4px}
+.gh-panel{margin:10px 0 4px;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--line);font-size:13.5px;line-height:1.6;max-width:640px}
+.gh-panel p{margin:6px 0;color:var(--ink-2)}.gh-panel ol{margin:6px 0 8px 18px;padding:0;color:var(--ink-2)}
+.gh-row{display:flex;gap:6px;flex-wrap:wrap}.gh-row input{flex:1;min-width:180px;font:inherit;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink)}
+.gh-row button,#gh-open{font:inherit;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:99px;border:1px solid var(--line);background:var(--main-soft);color:var(--ink);cursor:pointer}
+#gh-open{font-size:11.5px;padding:2px 10px;min-height:24px;margin-left:4px}
+.gh-msg{font-size:12.5px;color:var(--ink-3)!important}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="toprow"><div class="eyebrow">WoW 한밤 · 패치 12.1.5 · 시즌 2 <span class="savebar"><span id="save-status" data-s="busy">계정에 연결하는 중…</span><button type="button" id="save-now">지금 저장</button><span id="backup-box" hidden><button type="button" id="bk-out">백업 받기</button><label id="bk-in-l">백업 불러오기<input id="bk-in" type="file" accept="application/json,.json" hidden></label></span></span></div>
+    <div class="toprow"><div class="eyebrow">WoW 한밤 · 패치 12.1.5 · 시즌 2 <span class="savebar"><span id="save-status" data-s="busy">계정에 연결하는 중…</span><button type="button" id="save-now">지금 저장</button><button type="button" id="gh-open" hidden>GitHub로 동기화</button><span id="backup-box" hidden><button type="button" id="bk-out">백업 받기</button><label id="bk-in-l">백업 불러오기<input id="bk-in" type="file" accept="application/json,.json" hidden></label></span></span></div>
       <nav class="tabs" aria-label="페이지"><button type="button" id="tab-home" data-view="home">홈</button><button type="button" id="tab-class" data-view="class">직업</button><button type="button" id="tab-route" data-view="route">진행 흐름</button><button type="button" id="tab-story" data-view="story">스토리</button><button type="button" id="tab-guide" data-view="guide">초보 자료</button><button type="button" id="tab-practice" data-view="practice">연습 게임</button></nav></div>
     <div class="titlebox"><h1 id="headline"><span class="bun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 10C8.3 6.5 7.6 3.2 9 2.6s2.4 3 2.6 6.6"/><path d="M14.5 10c1.2-3.5 1.9-6.8.5-7.4s-2.4 3-2.6 6.6"/><ellipse cx="12" cy="15.2" rx="6.2" ry="5.6"/><path d="M9.8 14.4h.01M14.2 14.4h.01M11.3 16.8c.4.4 1 .4 1.4 0"/></svg></span><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.6A4.4 4.4 0 0 1 12 7.1a4.4 4.4 0 0 1 7.5 2.8c0 6-7.5 10.6-7.5 10.6z"/></svg>와우 <em>노트</em></h1>
     <p class="lede">메인 방어 전사, 가끔 분노 전사, 부캐 혈기 죽기. 키 배치, 딜사이클, 레벨업, 초보 자료를 한곳에 모아둔 정리본이에요.</p></div>
@@ -920,6 +927,13 @@ body[data-spec="blood"] #v-practice{--dcol:var(--cg)}
       <button class="plate" id="spec-blood" type="button" data-spec="blood"><i class="dot"></i><span><b>혈기 죽기</b><small>부캐 탱커</small></span><span class="role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>탱커</span></button>
     </div></div>
     <nav class="subtabs" id="subtabs" aria-label="직업 메뉴"><button type="button" id="sub-keys" data-view="keys">키 배치</button><button type="button" id="sub-rotation" data-view="rotation">딜사이클</button></nav>
+      <div id="gh-panel" class="gh-panel" hidden>
+      <b>GitHub로 기기 간 동기화</b>
+      <p>이 페이지가 GitHub에서 열려 있을 때, 내 GitHub 계정의 비공개 Gist 하나에 저장해서 PC와 폰이 같은 내용을 보게 해요. 기기마다 처음 한 번만 연결하면 돼요.</p>
+      <ol><li><a href="https://github.com/settings/tokens/new?scopes=gist&amp;description=wow-note" target="_blank" rel="noopener">GitHub 토큰 만들기</a>를 열어 <b>gist</b>만 체크된 상태로 만들기 (만료는 원하는 대로)</li><li>만든 토큰(ghp_로 시작)을 아래에 붙여 넣고 연결</li></ol>
+      <div class="gh-row"><input id="gh-tok" type="password" autocomplete="off" placeholder="ghp_…" aria-label="GitHub 토큰"><button type="button" id="gh-go">연결</button><button type="button" id="gh-off" hidden>연결 끊기</button></div>
+      <p class="gh-msg" id="gh-msg">토큰은 이 기기의 브라우저에만 저장되고, GitHub 말고 다른 곳으로는 보내지 않아요.</p>
+    </div>
   </header>
 
   <div class="view" id="v-home">
@@ -1706,23 +1720,25 @@ document.getElementById('sync-lv').addEventListener('click',syncToLevel);
 look='cute';applyLook();
 /* 기기 간 동기화: 내 개인 저장 공간(data/users/<id>/wownote) */
 let syncRef=null,syncBusy=false,syncAgain=false,syncTimer=null,syncState='local',lastSaved=0;
+let syncKind='';
 const LTS='wk-ts';
 let localTs=0;try{localTs=+localStorage.getItem(LTS)||0}catch(e){}
 function snapshotLocal(){return {v:1,ts:localTs,state,spec,done,lvl:String(document.getElementById('lvl-input').value||''),memo:document.getElementById('memo-text').value||''}}
 function syncShow(){
   const el=document.getElementById('save-status'); if(!el)return;
   const t=lastSaved?new Date(lastSaved).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}):'';
-  const M={saving:['저장하는 중…','busy'],saved:['계정에 저장됨'+(t?' · '+t:''),'ok'],dirty:['바뀐 내용 저장 대기','busy'],
-    error:['저장 실패 · 다시 누르면 재시도해요','bad'],local:[window.claude?'Claude 앱 밖에서 열려 있어 이 기기에만 저장돼요':'Claude 밖(GitHub 등)에서 열려 있어 이 기기에만 저장돼요','warn'],wait:['계정에 연결하는 중…','busy']};
+  const M={saving:['저장하는 중…','busy'],saved:[(syncKind==='gh'?'GitHub에 저장됨':'계정에 저장됨')+(t?' · '+t:''),'ok'],dirty:['바뀐 내용 저장 대기','busy'],
+    error:['저장 실패 · 다시 누르면 재시도해요','bad'],local:['이 기기에만 저장됨','warn'],wait:['저장소에 연결하는 중…','busy']};
   const [txt,cls]=M[syncState]||M.local; el.textContent=txt; el.dataset.s=cls;
   const bk=document.getElementById('backup-box'); if(bk) bk.hidden=!(syncState==='local');
   const sn=document.getElementById('save-now'); if(sn) sn.hidden=(syncState==='local');
+  const go=document.getElementById('gh-open'); if(go){ go.hidden=(syncKind==='claude'); go.textContent=syncKind==='gh'?'GitHub 연결':'GitHub로 동기화'; }
   const nt=document.getElementById('sync-note'); if(nt)nt.textContent=syncState==='local'||syncState==='wait'?'이 기기에 자동 저장돼요.':'PC와 폰 어디서 열어도 같은 내용이 보여요.';
 }
 function markDirty(){
   localTs=Date.now(); try{localStorage.setItem(LTS,String(localTs))}catch(e){}
   if(!syncRef){syncShow();return}
-  syncState='dirty'; syncShow(); clearTimeout(syncTimer); syncTimer=setTimeout(pushSync,300);
+  syncState='dirty'; syncShow(); clearTimeout(syncTimer); syncTimer=setTimeout(pushSync,syncKind==='gh'?1200:300);
 }
 async function pushSync(){
   if(!syncRef)return false; if(syncBusy){syncAgain=true;return false}
@@ -1731,7 +1747,7 @@ async function pushSync(){
   syncBusy=false; if(ok){lastSaved=Date.now(); syncState='saved'} else syncState='error'; syncShow();
   if(syncAgain){syncAgain=false; return pushSync()} return ok;
 }
-function flushSync(){ if(syncRef&&(syncState==='dirty'||syncState==='error')){clearTimeout(syncTimer); pushSync()} }
+function flushSync(){ if(syncRef&&(syncState==='dirty'||syncState==='error')){clearTimeout(syncTimer); if(syncKind==='gh'&&syncRef.flush){syncRef.flush(snapshotLocal());syncState='saved'} else pushSync()} }
 addEventListener('pagehide',flushSync); document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSync()});
 function applyRemote(d){if(!d||d.v!==1)return;
   if(d.state&&typeof d.state==='object'){['fury','prot','blood'].forEach(k=>{state[k]=Object.assign(defaults(k),d.state[k]||{})})}
@@ -1743,6 +1759,56 @@ function applyRemote(d){if(!d||d.v!==1)return;
   try{localStorage.setItem('wk-state',JSON.stringify(state));localStorage.setItem('wk-spec2',JSON.stringify(spec));localStorage.setItem('wk-done',JSON.stringify(done));localStorage.setItem('wk-lvl',inp.value);localStorage.setItem('wk-memo',m.value);localStorage.setItem(LTS,String(localTs))}catch(e){}
   render();applyLevel();}
 syncState='wait'; syncShow();
+/* GitHub Gist 저장소: GitHub 페이지에서 열었을 때 기기 간 동기화 */
+const GH={tok:()=>{try{return localStorage.getItem('wk-gh-tok')||''}catch(e){return ''}},gid:()=>{try{return localStorage.getItem('wk-gh-gist')||''}catch(e){return ''}}};
+async function ghApi(path,opt={}){
+  const r=await fetch('https://api.github.com'+path,Object.assign({},opt,{headers:Object.assign({'Authorization':'Bearer '+GH.tok(),'Accept':'application/vnd.github+json'},opt.body?{'Content-Type':'application/json'}:{})}));
+  if(!r.ok){const e=new Error('gh '+r.status);e.status=r.status;throw e}
+  return r.status===204?null:r.json();
+}
+async function ghFindOrCreate(){
+  let id=GH.gid();
+  if(id){try{await ghApi('/gists/'+id);return id}catch(e){if(e.status===401)throw e}}
+  id='';
+  for(let page=1;page<=5&&!id;page++){const L=await ghApi('/gists?per_page=100&page='+page);const g=L.find(x=>x.files&&x.files['wow-note.json']);if(g)id=g.id;if(L.length<100)break}
+  if(!id){const g=await ghApi('/gists',{method:'POST',body:JSON.stringify({description:'와우 노트 동기화 (자동 생성)',public:false,files:{'wow-note.json':{content:'{}'}}})});id=g.id}
+  try{localStorage.setItem('wk-gh-gist',id)}catch(e){}
+  return id;
+}
+function gistRef(id){return{
+  get:async()=>{const g=await ghApi('/gists/'+id);const f=g.files['wow-note.json'];let txt=f?f.content:'{}';if(f&&f.truncated)txt=await (await fetch(f.raw_url)).text();let d=null;try{d=JSON.parse(txt)}catch(e){}return{exists:!!(d&&d.v===1),data:()=>d}},
+  set:async d=>{await ghApi('/gists/'+id,{method:'PATCH',body:JSON.stringify({files:{'wow-note.json':{content:JSON.stringify(d)}}})})},
+  flush:d=>{try{fetch('https://api.github.com/gists/'+id,{method:'PATCH',keepalive:true,headers:{'Authorization':'Bearer '+GH.tok(),'Accept':'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify({files:{'wow-note.json':{content:JSON.stringify(d)}}})})}catch(e){}}
+}}
+let ghPoll=null;
+async function ghPull(){
+  if(syncKind!=='gh'||!syncRef||syncBusy||syncState==='dirty'||document.hidden)return;
+  try{const sn=await syncRef.get();const d=sn.exists?sn.data():null;if(d&&(+d.ts||0)>localTs){applyRemote(d);lastSaved=+d.ts;syncState='saved';syncShow()}}catch(e){}
+}
+async function ghConnect(){
+  const msg=document.getElementById('gh-msg');
+  if(!GH.tok()){syncState='local';syncShow();return false}
+  syncState='wait';syncShow(); if(msg)msg.textContent='GitHub에 연결하는 중…';
+  try{
+    const id=await ghFindOrCreate(); const ref=gistRef(id);
+    const sn=await ref.get(); syncRef=ref; syncKind='gh';
+    const rd=sn.exists?sn.data():null;
+    if(rd&&(+rd.ts||0)>=localTs){applyRemote(rd);lastSaved=+rd.ts||Date.now();syncState='saved';syncShow()} else await pushSync();
+    clearInterval(ghPoll); ghPoll=setInterval(ghPull,45000);
+    if(msg)msg.textContent='연결됐어요. 이제 바꾸는 내용이 GitHub Gist에 자동 저장되고, 다른 기기에서도 같은 토큰으로 연결하면 같은 내용이 보여요.';
+    const off=document.getElementById('gh-off'); if(off)off.hidden=false;
+    return true;
+  }catch(e){
+    syncRef=null; syncKind=''; syncState='local'; syncShow();
+    if(msg)msg.textContent=e.status===401?'토큰이 맞지 않아요. 다시 확인해 주세요.':e.status===403||e.status===404?'토큰에 gist 권한이 없어요. gist를 체크해서 다시 만들어 주세요.':'GitHub에 연결하지 못했어요. 인터넷 연결을 확인해 주세요.';
+    return false;
+  }
+}
+addEventListener('focus',ghPull); document.addEventListener('visibilitychange',()=>{if(!document.hidden)ghPull()});
+document.getElementById('gh-open')?.addEventListener('click',()=>{const p=document.getElementById('gh-panel');p.hidden=!p.hidden;const off=document.getElementById('gh-off');if(off)off.hidden=!GH.tok()});
+document.getElementById('gh-go')?.addEventListener('click',async()=>{const v=document.getElementById('gh-tok').value.trim();if(!v)return;try{localStorage.setItem('wk-gh-tok',v)}catch(e){}document.getElementById('gh-tok').value='';if(await ghConnect())setTimeout(()=>{document.getElementById('gh-panel').hidden=true},1800)});
+document.getElementById('gh-off')?.addEventListener('click',()=>{try{localStorage.removeItem('wk-gh-tok')}catch(e){}clearInterval(ghPoll);syncRef=null;syncKind='';syncState='local';syncShow();document.getElementById('gh-off').hidden=true;document.getElementById('gh-msg').textContent='연결을 끊었어요. GitHub의 Gist는 그대로 남아 있어요.'});
+
 document.getElementById('bk-out')?.addEventListener('click',()=>{
   const blob=new Blob([JSON.stringify(snapshotLocal())],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='wow-note-backup.json'; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);
@@ -1755,17 +1821,17 @@ document.getElementById('bk-in')?.addEventListener('change',async e=>{
 
 document.getElementById('save-now')?.addEventListener('click',async()=>{ if(!syncRef){syncShow();return} localTs=Date.now(); await pushSync() });
 (async()=>{try{
-  const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user){syncState='local';syncShow();return}
-  const uid=await user.id();if(!uid){syncState='local';syncShow();return}
+  const [db,user]=window.claude?await Promise.all([claude.use('db'),claude.use('user')]):[null,null];if(!db||!user){await ghConnect();return}
+  const uid=await user.id();if(!uid){await ghConnect();return}
   const ref=db.doc('data/users/'+uid+'/wownote');
-  const snap=await ref.get();syncRef=ref;
+  const snap=await ref.get();syncRef=ref;syncKind='claude';
   const rd=snap.exists?snap.data():null;
   // 더 최근에 바뀐 쪽을 쓴다: 이 기기에서 오프라인으로 고친 내용이 더 새로우면 계정에 올린다
   if(rd&&(+rd.ts||0)>=localTs){applyRemote(rd);lastSaved=+rd.ts||Date.now();syncState='saved';syncShow()}
   else await pushSync();
   ref.onSnapshot(sn=>{ if(!sn.exists||sn.metadata.hasPendingWrites||syncBusy||syncState==='dirty')return;
     const d=sn.data(); if((+d.ts||0)>localTs){applyRemote(d);lastSaved=+d.ts;syncState='saved';syncShow()} },()=>{});
-}catch(e){syncState=syncRef?'error':'local';syncShow()}})();
+}catch(e){if(syncRef){syncState='error';syncShow()}else await ghConnect()}})();
 
 showView(['keys','rotation','practice','growth','route','guide'].includes(location.hash.slice(1))?location.hash.slice(1):'home');
 (()=>{const m=document.getElementById('memo-text');try{m.value=localStorage.getItem('wk-memo')||''}catch(e){}
