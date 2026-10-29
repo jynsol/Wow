@@ -369,6 +369,8 @@ ul.rot-list .rn{grid-column:2}
 .timeline li.now .lvl{background:var(--main);color:var(--on-main)}
 .timeline b{font-size:14px}
 .timeline p{margin:2px 0 0;font-size:13px;color:var(--ink-2);line-height:1.55}
+.timeline p.tl-warn{margin-top:8px;padding:7px 10px;border-radius:8px;background:var(--surface-2);color:var(--ink-2)}
+.timeline p.tl-warn b{font-size:13px;color:var(--ink);margin-right:4px}
 .zones{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.6fr) auto minmax(0,1fr);gap:10px;align-items:center}
 .zone{background:var(--surface-2);border-radius:var(--r-lg);padding:12px 14px;display:grid;gap:3px;align-content:center;min-width:0}
 .zone.multi{gap:10px}
@@ -1252,9 +1254,9 @@ html{scroll-padding-top:calc(var(--navh) + 8px)}
       <p class="sub">레벨 구간마다 어디서 무엇을 하는지예요. 홈에 적은 레벨 기준으로 지금 단계가 표시돼요.</p></div>
       <ol class="timeline">
         <li><span class="lvl">10–70</span><div><b>크로미 시간</b><p>대도시의 크로미에게 말을 걸어 어느 확장팩에서 레벨업할지 골라요. 기본은 용군단이에요. 탱커라면 퀘스트를 하면서 던전을 계속 신청해 두세요.</p></div></li>
-        <li><span class="lvl">70–80</span><div><b>내부 전쟁 · 빠른 스토리</b><p>한밤 바로 앞 이야기를 빠르게 따라잡는 퀘스트가 있어요. 약 2시간 분량이라 건너뛰지 않는 걸 추천해요.</p></div></li>
-        <li><span class="lvl">78+</span><div><b>한밤 도입 퀘스트 시작</b><p>레벨 78부터 한밤 이야기를 시작할 수 있어요.</p></div></li>
-        <li><span class="lvl">80–90</span><div><b>한밤 캠페인</b><p>17장으로 된 캠페인을 따라가면 거의 90에 가까워져요. 나머지는 전역 퀘스트로 채워요.</p></div></li>
+        <li><span class="lvl">70–80</span><div><b>내부 전쟁 요약 이야기</b><p>레벨 70이 되면 요약 퀘스트가 자동으로 떠요. 스톰윈드·오그리마·발드라켄·도르노갈에 있는 역사서(Tome of History)를 누르면 시작되고, 도른 섬부터 카레쉬까지 내부 전쟁 이야기를 몇 시간 만에 따라잡으며 80까지 올라가요. 한밤 바로 앞 이야기라 건너뛰지 않는 걸 추천해요.</p><p class="tl-warn"><b>본캐는 못 해요.</b> 레벨 70~80 캐릭터만 받을 수 있어서, 이미 80을 넘긴 캐릭터에는 뜨지 않아요. 요약으로 보려면 부캐(새로 70이 된 캐릭터)로 해야 해요.</p></div></li>
+        <li><span class="lvl">80</span><div><b>한밤 시작</b><p>80이 되면 여군주 리아드린이 부르는 “한밤” 퀘스트가 떠요. 스톰윈드는 대성당 광장, 오그리마는 힘의 골짜기에 있는 리아드린의 형상에게 말을 걸면 쿠엘다나스로 이동해 1시간쯤 걸리는 도입 이야기가 시작돼요.</p></div></li>
+        <li><span class="lvl">80–90</span><div><b>한밤 대장정</b><p>17장으로 된 대장정을 따라가면 거의 90에 가까워져요. 모자란 경험치는 지역 퀘스트와 던전으로 채워요.</p></div></li>
       </ol>
       <p class="note-line"><b>특성은</b> 특성창의 추천(스타터) 빌드를 켜두면 레벨마다 알아서 찍혀요. 더 신경 쓰고 싶으면 Icy Veins 레벨업 가이드의 레벨 슬라이더를 참고하세요.</p>
     </section>
@@ -1273,7 +1275,7 @@ html{scroll-padding-top:calc(var(--navh) + 8px)}
         <div class="zone-arrow" aria-hidden="true">→</div>
         <div class="zone"><span class="lvl">88–90</span><b>공허폭풍</b><span class="en">Voidstorm</span></div>
       </div>
-      <p class="note-line">한글 지역 이름은 실제 게임 표기와 다를 수 있어서 영어 이름을 함께 적었어요.</p>
+      <p class="note-line">영어 이름은 해외 가이드를 찾아볼 때 쓰세요.</p>
     </section>
 
     <div>
@@ -1282,14 +1284,27 @@ html{scroll-padding-top:calc(var(--navh) + 8px)}
         <p class="sub">빨리 만렙을 찍고 싶을 때.</p></div>
         <ul class="plain">
           <li><b>10–70은 던전 위주.</b> 탱커는 대기가 거의 없어서 던전을 계속 도는 게 빨라요. 기다리는 동안 크로미 시간 퀘스트를 해요.</li>
-          <li><b>70–80은 내부 전쟁 빠른 스토리</b>를 따라가면서 던전을 섞어요.</li>
-          <li><b>80–90은 캠페인 + 사이드 퀘스트 + 던전.</b> 레벨업 던전은 바람달리기 첨탑(Windrunner Spire), 날로라크의 굴(Den of Nalorakk) 등 다섯 곳이에요.</li>
-          <li><b>구렁은 첫 완료 퀘스트만.</b> 처음 깰 때 주는 퀘스트 보상 경험치가 좋아요. 반복은 효율이 낮아요.</li>
+          <li><b>70–80은 내부 전쟁 요약 이야기</b>를 따라가면서 던전을 섞어요.</li>
+          <li><b>80–90은 대장정 + 지역 퀘스트 + 던전.</b> 레벨업 던전은 윈드러너 첨탑, 죽음의 골목, 날로라크의 소굴, 마이사라 동굴, 눈부신 골짜기 다섯 곳이에요.</li>
+          <li><b>구렁은 첫 완료 퀘스트만.</b> 처음 깰 때 주는 퀘스트 보상 경험치가 좋아요. 반복은 효율이 낮아요. 이 퀘스트 경험치는 레벨이 오를수록 커져서, 완료만 해 두고 88 무렵 한꺼번에 내면 더 많이 받아요.</li>
+          <li><b>전쟁 모드</b>를 켜면 퀘스트 경험치를 더 받아요. 대신 상대 진영 플레이어와 야외에서 싸울 수 있어요.</li>
           <li><b>탈것 비행</b>은 한밤 시작부터 제한 없이 쓸 수 있어요.</li>
         </ul>
       </section>
     </div>
-    <ul class="foot foot-list"><li>출처: Icy Veins 한밤 레벨업 가이드(2026년 5월 갱신), Warcraft Wiki</li><li>레벨 구간은 패치에 따라 바뀔 수 있어요.</li></ul>
+      <section class="card">
+        <div class="sec-head"><h2 data-ico="compass">레벨업하다 막히면</h2>
+        <p class="sub">레벨업 중에 자주 헷갈리는 것들이에요.</p></div>
+        <ul class="plain">
+          <li><b>요약 퀘스트 도중 한밤 퀘스트가 떴어요.</b> 요약을 먼저 끝내는 걸 추천해요. 요약 이야기가 한밤 첫 장면으로 그대로 이어지거든요. 한밤 퀘스트는 버려도 스톰윈드나 오그리마로 돌아가면 다시 뜨고, 모험 안내서(Shift+J)의 추천 콘텐츠에서도 받을 수 있어서 놓칠 걱정은 없어요.</li>
+          <li><b>요약 퀘스트가 안 보여요.</b> 레벨이 70~80인지 먼저 확인하세요. 대도시의 역사서를 직접 눌러도 시작돼요. 80을 넘긴 캐릭터는 받을 수 없어요.</li>
+          <li><b>한밤 퀘스트가 안 보여요.</b> 80이 되어야 떠요. 스톰윈드나 오그리마로 가거나 모험 안내서의 추천 콘텐츠를 보세요.</li>
+          <li><b>던전이 신청 목록에 없어요.</b> 한밤 던전 중 몇 곳은 레벨이나 퀘스트 조건을 채워야 신청할 수 있어요. 90이 되면 퀘스트와 상관없이 모두 열려요.</li>
+          <li><b>대장정이 구렁에서 막혀요.</b> 대장정 중간에 구렁 한 곳(어둠의 은거처)을 깨야 하는 단계가 있어요. 구렁은 혼자서도 갈 수 있어요.</li>
+          <li><b>부캐는 더 편해요.</b> 첫 캐릭터로 대장정을 끝내면, 그다음 캐릭터부터는 실버문에서 바로 시작해 지역을 원하는 순서로 고를 수 있어요.</li>
+        </ul>
+      </section>
+    <ul class="foot foot-list"><li>출처: Icy Veins 한밤 레벨업 가이드, Warcraft Wiki(내부 전쟁 요약·“한밤” 퀘스트), 블리자드 복귀 유저 안내</li><li>레벨 구간은 패치에 따라 바뀔 수 있어요.</li></ul>
     </div>
     <div class="rt-panel" id="rt-panel-tips" hidden>
     <nav class="seg role-tabs" aria-label="역할"><button type="button" data-role-btn="tank" id="role-tank">탱커</button><button type="button" data-role-btn="dps" id="role-dps">딜러</button><button type="button" data-role-btn="heal" id="role-heal">힐러</button></nav>
@@ -1450,7 +1465,7 @@ html{scroll-padding-top:calc(var(--navh) + 8px)}
         <li class="era"><div class="era-y">2018</div><div class="era-b"><div class="era-h"><b>격전의 아제로스</b></div><div class="era-z">쿨 티라스 · 잔달라</div><p>호드와 얼라이언스의 전쟁, 그리고 실바나스의 이탈. 고대 신 느조스.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간</div></div></li>
         <li class="era"><div class="era-y">2020</div><div class="era-b"><div class="era-h"><b>어둠땅</b></div><div class="era-z">사후 세계</div><p>죽음 너머의 세계, 간수와 실바나스의 이야기.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간</div></div></li>
         <li class="era"><div class="era-y">2022</div><div class="era-b"><div class="era-h"><b>용군단</b></div><div class="era-z">용의 섬</div><p>위상(용들의 수호자)들이 고향으로 돌아오는 이야기. 크로미 시간 기본값이라 처음 레벨업하면 보통 여기서 해요.</p><div class="era-how"><span class="howk">보는 법</span>크로미 시간 (기본)</div></div></li>
-        <li class="era key"><div class="era-y">2024</div><div class="era-b"><div class="era-h"><b>내부 전쟁</b><span class="must"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>한밤 전에 추천</span></div><div class="era-z">카즈 알가르 (새 대륙과 그 아래 지하 세계)</div><p>세계영혼 사가 1부. 공허의 존재 잘라타스가 본격적으로 움직여요. <b>한밤 바로 앞 이야기</b>예요.</p><div class="era-how"><span class="howk">보는 법</span>70–80 빠른 스토리</div></div></li>
+        <li class="era key"><div class="era-y">2024</div><div class="era-b"><div class="era-h"><b>내부 전쟁</b><span class="must"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>한밤 전에 추천</span></div><div class="era-z">카즈 알가르 (새 대륙과 그 아래 지하 세계)</div><p>세계영혼 사가 1부. 공허의 존재 잘라타스가 본격적으로 움직여요. <b>한밤 바로 앞 이야기</b>예요.</p><div class="era-how"><span class="howk">보는 법</span>70–80 요약 이야기 (부캐)</div></div></li>
         <li class="era key"><div class="era-y">2026</div><div class="era-b"><div class="era-h"><b>한밤</b><span class="must"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>한밤 전에 추천</span></div><div class="era-z">쿠엘탈라스</div><p>세계영혼 사가 2부. 블러드 엘프의 고향과 태양샘을 공허로부터 지키는 이야기.</p><div class="era-how"><span class="howk">보는 법</span>80–90 캠페인</div></div></li>
         </ol>
       </section>
@@ -1460,7 +1475,7 @@ html{scroll-padding-top:calc(var(--navh) + 8px)}
         <p class="sub">레벨업하면서 자연스럽게 보는 방법이에요.</p></div>
         <ol class="steps">
           <li><b>10–70: 크로미 시간에서 불타는 성전부터.</b> 이야기 순서대로 보고 싶다면 불타는 성전이 시작점이에요. 한밤의 무대인 태양샘 이야기도 여기서 시작해요. 레벨이 남으면 리치 왕의 분노로 이어가세요.</li>
-          <li><b>70–80: 내부 전쟁 빠른 스토리는 꼭.</b> 한밤 바로 앞 이야기라 건너뛰면 한밤이 이해하기 어려워요.</li>
+          <li><b>70–80: 내부 전쟁 요약 이야기는 꼭.</b> 한밤 바로 앞 이야기라 건너뛰면 한밤이 이해하기 어려워요. 70~80 캐릭터만 받을 수 있어서, 이미 80을 넘긴 본캐는 부캐로 보거나 스토리 탭에서 읽어 주세요.</li>
           <li><b>80–90: 한밤 캠페인을 순서대로.</b> 지역마다 사이드 퀘스트에도 이야기가 있어요.</li>
           <li><b>만렙 이후: 놓친 시대 돌아보기.</b> 레벨이 높아지면 옛 지역 퀘스트와 던전을 혼자서도 쉽게 할 수 있어요. 리치 왕의 분노나 군단처럼 유명한 이야기를 천천히 따라가 보세요.</li>
           <li><b>부캐로 다른 시대.</b> 혈기 죽기는 크로미 시간에서 다른 시대를 골라 레벨업하면 이야기를 새로 볼 수 있어요.</li>
@@ -1811,8 +1826,8 @@ document.querySelectorAll('.qk').forEach(b=>b.addEventListener('click',()=>{show
 
 const TODO=[
  [['s0a','탱커 역할로 <b>던전 신청</b>하고, 기다리는 동안 크로미 시간 퀘스트','route'],['s0b','새로 배운 스킬을 <b>체크하고 게임에 키 지정</b>','keys'],['s0c','선택한 직업의 <b>핵심 원리</b>와 자원 쓰는 기준 읽기','rotation'],['s0d','<b>추종자 던전</b>에서 탱커 연습해 보기','guide'],['s0e','<b>꼭 해둘 설정</b> 4가지 하기 (이름표·카메라 등)','guide']],
- [['s1a','<b>내부 전쟁 빠른 스토리</b> 시작하기 (건너뛰지 않기)','route'],['s1b','<b>DBM 또는 BigWigs</b> 설치하기','guide'],['s1c','레벨업 <b>특성 점검</b>하기 (특성창 추천 빌드)','route'],['s1d','<b>위급할 때</b> 기술을 하나씩 돌려 쓰는 연습','rotation']],
- [['s2a','레벨 78이 되면 <b>한밤 도입 퀘스트</b> 시작','route'],['s2b','내부 전쟁 스토리 마무리하기','route'],['s2c','새로 생긴 스킬 <b>키 지정</b>','keys']],
+ [['s1a','<b>내부 전쟁 요약 이야기</b> 시작하기 (건너뛰지 않기)','route'],['s1b','<b>DBM 또는 BigWigs</b> 설치하기','guide'],['s1c','레벨업 <b>특성 점검</b>하기 (특성창 추천 빌드)','route'],['s1d','<b>위급할 때</b> 기술을 하나씩 돌려 쓰는 연습','rotation']],
+ [['s2a','80이 되면 <b>리아드린의 “한밤” 퀘스트</b>로 쿠엘다나스 가기','route'],['s2b','내부 전쟁 요약이 남았다면 먼저 마무리하기','route'],['s2c','새로 생긴 스킬 <b>키 지정</b>','keys']],
  [['s3a','<b>영원노래 숲</b>부터 한밤 캠페인 따라가기','route'],['s3b','<b>레벨업 던전</b> 섞어서 돌기','route'],['s3c','구렁은 <b>첫 완료 퀘스트</b>만 챙기기','route'],['s3d','HandyNotes에 <b>한밤 데이터 플러그인</b> 설치','guide']],
  [['s4a','<b>영웅 특성</b> 고르기','keys'],['s4b','<b>만렙 빌드</b> 적용하고 키 다시 확인','keys'],['s4c','쐐기 대비 <b>징표 단축키</b> 지정','keys']]
 ];
@@ -1825,8 +1840,8 @@ function renderTodo(st){const items=TODO[st],ol=document.getElementById('todo');
   ol.querySelectorAll('input').forEach(i=>i.addEventListener('change',()=>{done[i.dataset.id]=i.checked;try{localStorage.setItem('wk-done',JSON.stringify(done))}catch(e){};markDirty();renderTodo(st)}));
   ol.querySelectorAll('.go').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.go);try{history.replaceState(null,'','#'+view)}catch(e){};window.scrollTo({top:0})}));
 }
-const STAGES=['크로미 시간 (10–70)','내부 전쟁 빠른 스토리 (70–80)','한밤 도입 (78+)','한밤 캠페인 (80–90)'];
-function stageOf(l){return l<70?0:l<78?1:l<80?2:3}
+const STAGES=['크로미 시간 (10–70)','내부 전쟁 요약 이야기 (70–80)','한밤 시작 (80)','한밤 대장정 (80–90)'];
+function stageOf(l){return l<70?0:l<80?1:l<81?2:3}
 function applyLevel(){const inp=document.getElementById('lvl-input');let l=parseInt(inp.value,10);if(!(l>=1))l=1;if(l>90)l=90;
   const st=stageOf(l);document.getElementById('stage-name').textContent=l>=90?'만렙':STAGES[st]+' 단계';
   document.querySelectorAll('.timeline li').forEach((li,i)=>li.classList.toggle('now',i===st&&l<90));
