@@ -928,7 +928,7 @@ body[data-spec="blood"] #v-practice{--dcol:var(--cg)}
 @media(pointer:coarse){.st-reader select{font-size:16px;transform:scale(.8125);transform-origin:left center;width:123%;margin-right:-18.75%}}
 
 
-.navigation{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.character-select{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-3)}.character-select select{font:inherit;font-weight:700;color:var(--ink);border:1px solid var(--main-line);border-radius:10px;background:var(--main-soft);padding:9px 26px 9px 10px;max-width:190px;min-height:40px}.character-select select:focus-visible{outline:2px solid var(--main);outline-offset:3px}@media(max-width:640px){.navigation{width:100%;gap:8px}.navigation .tabs{width:100%}.character-select select{font-size:16px}}
+.navigation{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.character-select{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-3)}.character-select select{font:inherit;font-weight:700;color:var(--ink);border:1px solid var(--main-line);border-radius:10px;background:var(--main-soft);padding:9px 26px 9px 10px;max-width:190px;min-height:40px}.character-select select:focus,.character-select select:focus-visible{outline:none;border-color:var(--main)}@media(max-width:640px){.navigation{width:100%;gap:8px}.navigation .tabs{width:100%}.character-select select{font-size:16px}}
 
 /* Shared layout: identical header geometry on every page. */
 .toprow{display:flex;flex-direction:column;align-items:stretch;gap:12px}
@@ -1013,6 +1013,20 @@ body[data-spec="blood"] #v-practice{--dcol:var(--cg)}
   .lore-names{display:none}
 }
 @media (max-width:600px){.lore-body{padding:18px 16px 20px}}
+
+/* ── 전체 위계 정리: 제목 크기·굵기를 한 체계로 ── */
+h1{font-weight:700;letter-spacing:-.01em}
+.wrap .view h2,.wrap .view .tr-title{font-family:var(--f-body);font-size:19px;font-weight:700;line-height:1.35;letter-spacing:-.01em;margin:0}
+.wrap .view h3{font-size:15px;font-weight:650;line-height:1.45}
+.sec-head{gap:5px}
+.sec-head .sub,.sec-head>p{font-size:13.5px;color:var(--ink-2);line-height:1.6}
+.st-era-t h3{font-size:24px;font-weight:700;letter-spacing:-.01em}
+/* 홈: 넓은 화면에서는 할 일 | 내 설정·메모 두 단 */
+@media (min-width:1100px){
+  #v-home{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);align-items:start}
+  #v-home>#now{grid-row:span 2}
+  #v-home>#memo textarea{min-height:220px}
+}
 </style>
 </head>
 <body>
