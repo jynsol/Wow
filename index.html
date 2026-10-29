@@ -998,11 +998,14 @@ body[data-spec="blood"] #v-practice{--dcol:var(--cg)}
 .sn-list button span{display:block;font-size:10.5px;color:var(--ink-3)}
 .sn-list button b{display:block;font-size:13.5px;margin:0 0 2px}
 .sn-list button p{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink-2)}
+.sd-restart{display:block;width:100%;margin:12px 0 0;padding:8px;border:1px solid var(--line);border-radius:10px;background:none;font:inherit;font-size:12px;color:var(--ink-3);cursor:pointer}
+.sd-restart:hover{color:var(--ink);background:var(--surface-2)}
 .sn-empty{margin:4px 8px;font-size:12.5px;color:var(--ink-3)}
 @media (min-width:1000px){
   .st-layout{grid-template-columns:200px minmax(0,1fr);gap:24px;align-items:start}
   .st-side{display:block;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);max-height:calc(100vh - 32px);overflow:auto;padding:16px 10px 16px 12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl)}
   .st-era-head .st-toc{display:none}
+  .st-reader{display:none}
 }
 @media (min-width:1240px){
   .st-layout{grid-template-columns:200px minmax(0,1fr) 250px}
@@ -3170,7 +3173,8 @@ const GL={"살게라스":["p","판테온의 전사였으나 공허를 막겠다�
  function side(){
   const secs=[...$('st-era').querySelectorAll('.st-ch')],s=$('st-side');
   const head=cur===PE?'<span>먼저 읽기</span><b>세계관</b>':`<span>${E[cur].y}</span><b>${E[cur].n}</b>`;
-  s.innerHTML=`<div class="sd-head">${head}</div><ol class="sd-toc">${secs.map((a,i)=>{const c=cur===PE?null:E[cur].c[i];return `<li><a href="#st-c${i}" data-jump="${i}"><i>${i+1}</i><span>${a.querySelector('h4')?.textContent||''}</span>${c?kd(c):''}</a></li>`}).join('')}</ol>${cur===PE?'':LEG}`;
+  s.innerHTML=`<div class="sd-head">${head}</div><ol class="sd-toc">${secs.map((a,i)=>{const c=cur===PE?null:E[cur].c[i];return `<li><a href="#st-c${i}" data-jump="${i}"><i>${i+1}</i><span>${a.querySelector('h4')?.textContent||''}</span>${c?kd(c):''}</a></li>`}).join('')}</ol>${cur===PE?'':LEG}<button type="button" class="sd-restart">이 시대 처음부터 읽기</button>`;
+  s.querySelector('.sd-restart').onclick=()=>$('st-restart').click();
   s.querySelectorAll('[data-jump]').forEach(a=>a.onclick=ev=>{ev.preventDefault();jumpTo(a.dataset.jump)});
   shown=-1;names2();
  }
