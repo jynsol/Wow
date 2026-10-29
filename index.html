@@ -410,7 +410,7 @@ ul.rot-list .rn{grid-column:2}
 .ut .from{font-size:12px;color:var(--ink-3);white-space:nowrap}
 .copy{text-align:center;font-size:12px;color:var(--ink-3);padding-top:8px}
 body[data-spec="prot"] [data-only]:not([data-only~="prot"]), body[data-spec="vengeance"] [data-only]:not([data-only~="vengeance"]), body[data-spec="blood"] [data-only]:not([data-only~="blood"]){display:none!important}
-body[data-role="tank"] [data-for]:not([data-for~="tank"]), body[data-role="dps"] [data-for]:not([data-for~="dps"]){display:none!important}
+body[data-role="tank"] [data-for]:not([data-for~="tank"]), body[data-role="dps"] [data-for]:not([data-for~="dps"]), body[data-role="heal"] [data-for]:not([data-for~="heal"]), body:not([data-role]) [data-for]:not([data-for~="tank"]){display:none!important}
 section[id]{scroll-margin-top:72px}
 @media (max-width:840px){
   .cols, .guide-2, .lv, .terms{grid-template-columns:minmax(0,1fr)}
