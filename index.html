@@ -1710,6 +1710,41 @@ html,body{overflow-x:clip}
 #v-story .lore-body,#v-story .st-era-t{max-width:none!important;margin-inline:0!important;padding-left:0!important;padding-right:0!important}
 #v-story .st-ch .lore-body{padding-top:28px!important;padding-bottom:32px!important}
 #v-story .st-era-head .st-era-t{padding-top:18px!important;padding-bottom:24px!important}
+
+/* ===== u18: 라인은 목록 구분에만, 묶음은 면으로 ===== */
+/* 카드: 테두리 대신 아주 옅은 그림자 */
+.view .card:not(#hero),#v-home .card:not(#hero){box-shadow:0 1px 3px rgba(40,36,70,.07),0 10px 30px -12px rgba(40,36,70,.18)!important;border:0!important}
+#hero{box-shadow:none!important;border:0!important}
+#hero .lvbox input{box-shadow:none!important;border:0!important}
+/* 입력·선택칸은 면 */
+.navigation .character-select select{box-shadow:none!important;border:0!important;background-color:var(--surface-2)!important}
+#memo textarea{border:0!important}
+/* 보조 버튼: 테두리 없는 회색 면 */
+.btn:not(.pri),.sd-restart,.st-arr,.savepop button,.savepop label,#tr-resetBinds,.tt-toolbar .btn{border:0!important;box-shadow:none!important;background:var(--surface-2)!important;color:var(--ink-2)!important}
+.btn:not(.pri):hover,.sd-restart:hover,.st-arr:hover,.savepop button:hover,.savepop label:hover{background:color-mix(in srgb,var(--ink) 8%,var(--surface))!important;color:var(--ink)!important}
+.savepop{border:0!important;box-shadow:0 12px 32px -12px rgba(40,36,70,.28)!important}
+/* 작은 표시들: 테두리 빼고 면만 */
+.lore-when,.lore-meta>span,.lb,.ins,.res,.st-eras .d,.num,.tbox{border-color:transparent!important}
+.lore-meta>span:not(.lore-when):not(.lb){background:var(--surface-2)!important}
+.lore-when{background:var(--main-soft)!important}
+.basic .num,.steps .num,span.num{background:#fff!important}
+.st-eras .d{background:var(--line-2)!important}
+.st-eras button[aria-pressed="true"] .d{background:var(--main)!important}
+.todo .tbox{border:1.5px solid var(--line-2)!important}
+/* 안내 상자: 점선 테두리 없이 면 */
+.lore-game,.lp,.lore-dict,.tl-warn,.note-line,.tr-rules,.decide{border:0!important;box-shadow:none!important}
+.decide{background:color-mix(in srgb,var(--main-soft) 55%,#fff)!important}
+.decide .d-col,.decide>div>div{border:0!important}
+/* 특성 트리 칸: 테두리 대신 면 */
+.tt-tree-panel{border:0!important;background:var(--surface-2)!important}
+.tt-tree-heading{border-bottom:0!important}
+/* 스토리: 목차 옆 세로줄 빼고 여백으로 */
+#v-story.view .st-side:not(#hero){border-right:0!important}
+#v-story .sd-head{border-bottom:0!important}
+
+.tr-ovcard>div:has(>.tr-rules){border:0!important}
+/* 선택된 흰 알약은 테두리 없이 그림자만 */
+.seg button[aria-pressed="true"],.tt-presets button[aria-pressed="true"],.tr-seg button[aria-pressed="true"],.tt-hero button[aria-pressed="true"],#tt-items .btn[aria-pressed="true"],.subtabs button[aria-pressed="true"]{box-shadow:0 1px 3px rgba(40,36,70,.14)!important}
 </style>
 </head>
 <body>
