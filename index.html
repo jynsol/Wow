@@ -3920,6 +3920,7 @@ const storyReader = (() => {
  }
  function request(){if(!pending){pending=true;requestAnimationFrame(update);}}
  function restore(){
+  if(window.__stKeep){window.__stKeep=false;++serial;restoring=false;update();return}
   if(!visible())return;
   const token=++serial;restoring=true;
   Promise.resolve(document.fonts?.ready).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
@@ -3968,7 +3969,7 @@ const GL={"살게라스":["p","판테온의 전사였으나 공허를 막겠다�
  const qt=c=>c.q?`<p class="lore-quote">“${c.q[0]}”<span>${c.q[1]} · <i lang="en">${c.q[2]}</i></span></p>`:'';
  function eras(){
   $('st-eras').innerHTML=`<li><button type="button" data-era="${PE}" aria-pressed="${cur===PE}"><span class="y">먼저 읽기</span><span class="d"></span><b>세계관</b><span class="n">사전 지식</span></button></li>`+E.map((e,i)=>`<li><button type="button" data-era="${i}" aria-pressed="${cur===i}"><span class="y">${e.y}</span><span class="d"></span><b>${e.n}</b><span class="n">${e.c.length}장</span></button></li>`).join('');
-  $('st-eras').querySelectorAll('[data-era]').forEach(b=>b.onclick=()=>go(+b.dataset.era,true));
+  $('st-eras').querySelectorAll('[data-era]').forEach(b=>b.onclick=()=>{window.__stKeep=true;go(+b.dataset.era,false)});
  }
  const KIND={p:'인물',w:'장소',r:'종족 · 세력',t:'그 밖'};
  const names=g=>{if(!g||!g.length)return'';const by={};g.forEach(n=>{const k=GL[n][0];(by[k]=by[k]||[]).push(n)});
