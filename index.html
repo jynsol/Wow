@@ -1574,7 +1574,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
 #hero{background:radial-gradient(120% 140% at 0% 0%,color-mix(in srgb,#fff 38%,var(--main)) 0%,var(--main) 55%,color-mix(in srgb,var(--main) 82%,var(--a3)) 100%)!important;border-radius:28px!important;padding:32px 36px 28px!important;box-shadow:0 18px 40px -24px color-mix(in srgb,var(--main) 80%,#000)!important;color:var(--on-main)}
 #hero .page-head .ph-t{font-size:40px!important;letter-spacing:-.03em;color:var(--on-main)!important;line-height:1.1}
 #hero .now-top .pick-label{color:color-mix(in srgb,var(--on-main) 70%,transparent)!important}
-#hero .lvbox input{background:#fff!important;color:var(--on-main)!important;border-radius:999px!important;box-shadow:none!important;width:92px!important}
+#hero .lvbox input{background:var(--surface)!important;color:var(--ink)!important;border-radius:999px!important;box-shadow:none!important;width:92px!important}
 #hero .lv-track{margin-top:28px!important}
 #hero .lv-track li::before{background:color-mix(in srgb,var(--on-main) 16%,transparent)!important}
 #hero .lv-track li.done::after{background:color-mix(in srgb,var(--on-main) 45%,transparent)!important}
@@ -1600,14 +1600,16 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
 }
 
 /* ===== u16: 흰 배경 · 옅은 포인트색 · 위에 붙은 고정 메뉴 · 스토리 두 칸 ===== */
-:root:not([data-theme="dark"]){--bg:#ffffff}
-@media (prefers-color-scheme:light){:root{--bg:#ffffff}}
-body{background:#fff}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body{background:var(--bg)}}
+:root{--page:#fff}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#fff}}
+:root[data-theme="light"]{--bg:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:var(--bg)}}
+:root[data-theme="dark"]{--page:var(--bg)}
+body{background:var(--page)}
 body::before{display:none!important}
 .view .card:not(#hero),#v-home .card:not(#hero),.st-side{box-shadow:0 0 0 1px var(--line),0 1px 2px rgba(40,36,70,.04)!important}
 /* 홈 히어로: 옅은 테마색 */
-#hero{background:linear-gradient(135deg,var(--main-soft) 0%,color-mix(in srgb,var(--main-soft) 60%,#fff) 100%)!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--main-line) 70%,transparent)!important;color:var(--ink)}
+#hero{background:linear-gradient(135deg,var(--main-soft) 0%,color-mix(in srgb,var(--main-soft) 60%,var(--surface)) 100%)!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--main-line) 70%,transparent)!important;color:var(--ink)}
 #hero .page-head .ph-t{color:var(--ink)!important}
 #hero .now-top .pick-label{color:var(--ink-3)!important}
 #hero .lvbox input{color:var(--ink)!important;box-shadow:0 0 0 1px var(--main-line)!important}
@@ -1620,12 +1622,12 @@ body::before{display:none!important}
 /* 메뉴: 화면 위에 붙은 고정 막대 */
 @media (min-width:761px){
   .navigation,.navigation.stuck{position:sticky!important;top:0!important;margin:0 0 18px!important;padding:10px 0!important;border-radius:0!important;
-    background:#fff!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
-    box-shadow:0 0 0 100vmax #fff!important;clip-path:inset(0 -100vmax)!important}
+    background:var(--page)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+    box-shadow:none!important;clip-path:inset(0 -100vmax)!important}
   .navigation::after{content:'';position:absolute;left:-100vmax;right:-100vmax;bottom:0;height:1px;background:var(--line)}
   .sb-brand{padding-left:0!important}
 }
-@media (max-width:760px){.navigation .tabs{background:#fff!important;-webkit-backdrop-filter:none;backdrop-filter:none}}
+@media (max-width:760px){.navigation .tabs{background:var(--page)!important;-webkit-backdrop-filter:none;backdrop-filter:none}}
 /* 스토리: 목차 + 본문 두 칸 (용어는 본문 밑줄 단어를 누르면 뜨는 풍선으로) */
 #v-story .st-names,.st-names-toggle{display:none!important}
 @media (min-width:1101px){#v-story .st-layout{grid-template-columns:200px minmax(0,1fr)!important}}
@@ -1635,7 +1637,7 @@ body::before{display:none!important}
 .sb-brand{display:none!important}
 @media (min-width:761px){.navigation .tabs{margin:0!important}.navigation .character-select{margin-left:auto!important;min-width:0!important}}
 
-@media (max-width:760px){.navigation,.navigation.stuck{background:#fff!important;box-shadow:none!important;clip-path:none!important}.navigation .character-select select{max-width:240px!important}}
+@media (max-width:760px){.navigation,.navigation.stuck{background:var(--page)!important;box-shadow:none!important;clip-path:none!important}.navigation .character-select select{max-width:240px!important}}
 
 /* 주요 버튼은 메뉴 선택과 같은 진한 알약 */
 .btn.pri,#tr-startBtn,#st-next{background:var(--ink)!important;color:var(--surface)!important;border-color:var(--ink)!important}
@@ -1645,7 +1647,7 @@ body::before{display:none!important}
 html,body{overflow-x:clip}
 @media (min-width:761px){
   .navigation,.navigation.stuck{clip-path:none!important;box-shadow:none!important;isolation:isolate}
-  .navigation::before{content:'';position:absolute;top:0;bottom:0;left:-100vmax;right:-100vmax;background:#fff;z-index:-1}
+  .navigation::before{content:'';position:absolute;top:0;bottom:0;left:-100vmax;right:-100vmax;background:var(--page);z-index:-1}
   .navigation>.eyebrow{order:2;margin-left:auto!important;display:flex!important;align-items:center;gap:10px;position:static!important;padding:0!important;border:0!important;width:auto!important;font-size:12px;color:var(--ink-3);white-space:nowrap}
   .navigation>.character-select{order:3;margin-left:0!important}
 }
@@ -1682,7 +1684,7 @@ html,body{overflow-x:clip}
 
 #v-story .st-ch>.st-inl figcaption{max-width:760px;margin-inline:auto!important;padding:12px 30px 0!important;box-sizing:border-box}
 @media (max-width:760px){#v-story .st-ch>.st-inl figcaption{padding:12px 17px 0!important}}
-.st-reader{background:#fff!important}
+.st-reader{background:var(--page)!important}
 
 /* 스토리: 카드 상자 걷어내고 한 장의 글처럼 */
 #v-story.view .card:not(#hero),#v-story.view .st-side:not(#hero){background:none!important;box-shadow:none!important;border:0!important;border-radius:0!important}
@@ -1701,7 +1703,7 @@ html,body{overflow-x:clip}
 #v-story .st-ch>.st-inl svg{border-radius:16px!important}
 #v-story .st-ch>.st-inl figcaption{max-width:none!important;padding:10px 0 0!important}
 #v-story .st-ov>.card{padding:28px 0 0!important;border-top:1px solid var(--line)!important}
-.st-reader{background:#fff!important}
+.st-reader{background:var(--page)!important}
 .st-eras button[aria-pressed="true"] b{color:var(--ink)!important;font-weight:800!important;background:none!important}
 
 /* 스토리 본문: 가운데로 띄우지 않고 목차 옆에서 바로 시작, 읽기 좋은 폭 */
@@ -1727,13 +1729,13 @@ html,body{overflow-x:clip}
 .lore-when,.lore-meta>span,.lb,.ins,.res,.st-eras .d,.num,.tbox{border-color:transparent!important}
 .lore-meta>span:not(.lore-when):not(.lb){background:var(--surface-2)!important}
 .lore-when{background:var(--main-soft)!important}
-.basic .num,.steps .num,span.num{background:#fff!important}
+.basic .num,.steps .num,span.num{background:var(--surface)!important}
 .st-eras .d{background:var(--line-2)!important}
 .st-eras button[aria-pressed="true"] .d{background:var(--main)!important}
 .todo .tbox{border:1.5px solid var(--line-2)!important}
 /* 안내 상자: 점선 테두리 없이 면 */
 .lore-game,.lp,.lore-dict,.tl-warn,.note-line,.tr-rules,.decide{border:0!important;box-shadow:none!important}
-.decide{background:color-mix(in srgb,var(--main-soft) 55%,#fff)!important}
+.decide{background:color-mix(in srgb,var(--main-soft) 55%,var(--surface))!important}
 .decide .d-col,.decide>div>div{border:0!important}
 /* 특성 트리 칸: 테두리 대신 면 */
 .tt-tree-panel{border:0!important;background:var(--surface-2)!important}
