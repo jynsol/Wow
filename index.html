@@ -1810,6 +1810,13 @@ html,body{overflow-x:clip}
 /* 3) 버튼: 모서리 10px (알약 아님) */
 .btn,.btn.pri,#tr-startBtn,#tr-resetBinds,.sd-restart,#st-prev,#st-next,.tt-toolbar .btn,.go.btn{border-radius:10px!important}
 .savepop button,.savepop label{border-radius:8px!important}
+
+/* 스토리 가로선 줄이기: 읽기 막대 밑줄·시대 머리 다음 첫 구분선 제거, 장 사이만 남김 */
+.st-reader{border-bottom:0!important;padding-bottom:4px!important}
+#v-story.view .st-era-head+.card.st-ch:not(#hero),#v-story.view .st-era-head~.st-ch:first-of-type{border-top:0!important;margin-top:0!important}
+#v-story.view .st-era-head+.card.st-ch .lore-body{padding-top:8px!important}
+#v-story .st-era-head .st-era-t{padding-bottom:20px!important}
+@media (max-width:1100px){#v-story .st-reader{margin-bottom:12px!important}}
 </style>
 </head>
 <body>
