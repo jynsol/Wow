@@ -1824,6 +1824,23 @@ button:disabled,.btn:disabled{opacity:.4;cursor:not-allowed}
   .navigation .tabs button[aria-pressed="true"] .ti{background:var(--ink)!important;color:var(--page)!important}
 }
 .tr-kbd,button.tr-kbd,.tr-kbd.static,.todo .go,.sd-restart,.savepop button,.savepop label,#tt-items .btn{border-radius:8px!important}
+
+/* 스토리 위쪽 간격: 머리 → 읽기 막대 12 · 막대 → 그림 16 · 그림 → 장 꼬리표 16 */
+#v-story .st-main{row-gap:0!important}
+#v-story #st-era{row-gap:0!important}
+#v-story .st-era-t:not(:has(> :not([style*="display:none"]):not(span:first-child):not(h3):not(.st-toc):not(.era-game):not(.k-legend))){padding:0!important}
+#v-story .st-era-head .st-era-t{padding-top:0!important;padding-bottom:0!important}
+#v-story #st-era>.st-era-head+.st-ch .lore-body,#v-story #st-era>.st-ch:first-child .lore-body{padding-top:16px!important}
+#v-story #st-era>.st-ch{margin-top:0!important}
+#v-story #st-era>.st-ch+.st-ch .lore-body{padding-top:32px!important}
+#v-story #st-era>.st-ov{margin-top:0!important}
+@media (max-width:1100px){
+  #v-story .st-bar{margin-bottom:12px!important}
+  #v-story #st-reader{margin:0 0 16px!important}
+  #v-story #st-era>.st-ch+.st-ch .lore-body{padding-top:24px!important}
+}
+#v-story>.st-bar{margin-bottom:4px!important}
+@media (max-width:1100px){#v-story>.st-bar{margin-bottom:0!important}#v-story .st-layout{row-gap:0!important}}
 </style>
 </head>
 <body>
