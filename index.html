@@ -1956,6 +1956,12 @@ button:disabled,.btn:disabled{opacity:.4;cursor:not-allowed}
 .gh-row button{height:36px;border:0!important;border-radius:8px!important;padding:0 16px!important;font:inherit;font-weight:600;background:var(--ink)!important;color:var(--page)!important;cursor:pointer}
 .gh-row button#gh-off{background:var(--surface-2)!important;color:var(--ink-2)!important}
 .gh-panel{margin:0 0 16px!important}
+
+/* 사용법 설명 숨김 */
+.meta-off{display:none!important}
+.page-head:has(.ph-d.meta-off):not(:has(.ph-t:not(:empty):not([style*="none"]))){display:none!important}
+#v-keys>.page-head,#v-talents>.page-head,#v-route>.page-head,#v-practice>.page-head{display:none!important}
+#v-rotation>.page-head .ph-t{display:none!important}
 </style>
 </head>
 <body>
@@ -4501,6 +4507,13 @@ document.addEventListener('wow:view-after',later);run();setTimeout(run,300);
  make(document.getElementById('st-section'),'dd-plain');
  const sm=document.querySelector('.savemenu');if(sm)sm.addEventListener('toggle',()=>{if(sm.open)all.forEach(c=>c())});
 })();
+</script>
+<script>
+/* 사용법을 말로 설명하는 문장은 숨김 (써 보면 아는 것) — 게임 정보·출처는 그대로 */
+(()=>{const META=['자유롭게 적어두세요','키캡 위 줄은 그냥 누르기','키에 둘지 골라요','가이드(Method·Icy Veins)의 우선순위를 쉽게','특성에 따라 없는 스킬은 건너뛰면','키는 내 키 배치 기준이에요','선택한 특성이 추천 단축키에','레벨 구간마다 어디서 무엇을 하는지','영어 이름은 해외 가이드를','빨리 만렙을 찍고 싶을 때','레벨업 중에 자주 헷갈리는','레벨 구간은 패치에 따라','역할을 바꾸면 그 역할에 맞는','이것만 알아도 던전이','한 번만 해두면 계속 편해요','출시 순서가 곧 이야기 순서','레벨업하면서 자연스럽게 보는','괄호 속 영어는','내 키 배치 그대로 연습','파티 채팅에서 다른 분들이','딜러로 돌 때도','힐러가 보는 화면을'];
+ const run=()=>document.querySelectorAll('.ph-d,.sub,.tt-intro,.note-line,.foot li,.foot-list li,p').forEach(e=>{if(e.classList.contains('meta-off'))return;const t=e.textContent.trim();if(t&&META.some(m=>t.includes(m)))e.classList.add('meta-off')});
+ let r=0;const later=()=>{if(!r)r=requestAnimationFrame(()=>{r=0;run()})};
+ new MutationObserver(later).observe(document.body,{childList:true,subtree:true,characterData:true});run();})();
 </script>
 </body>
 </html>
