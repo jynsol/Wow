@@ -1883,6 +1883,79 @@ button:disabled,.btn:disabled{opacity:.4;cursor:not-allowed}
 .savemenu .savepop [hidden]{display:none!important}
 .savemenu .savepop button,.savemenu .savepop label{flex-direction:row!important;align-items:center!important}
 @media (max-width:760px){.tt-toolbar .tt-presets{flex-wrap:wrap!important;gap:6px!important}.tt-toolbar .tt-presets button{flex:0 0 auto!important;padding:0 12px!important;font-size:13px!important}}
+
+/* ===== 연습 전투 화면: 사이트 규칙으로 ===== */
+/* 카드 안 묶음은 회색 타일 한 단계 (테두리 없음) */
+#v-practice .tr-panel{background:var(--surface-2)!important;border:0!important;border-radius:var(--r-tile)!important;box-shadow:none!important;padding:16px!important}
+#v-practice .tr-adds-empty{border:0!important;background:var(--surface-2)!important;border-radius:var(--r-tile)!important;color:var(--ink-3)!important;font-size:13px!important}
+#v-practice .tr-move{border:0!important;background:var(--surface-2)!important;border-radius:var(--r-tile)!important}
+/* 막대: 가는 둥근 막대, 바탕은 회색 홈 */
+#v-practice .tr-bar{background:color-mix(in srgb,var(--ink) 8%,transparent)!important;border:0!important;height:8px!important;border-radius:999px!important;overflow:hidden;box-shadow:none!important}
+#v-practice .tr-bar.tr-hpbar{height:10px!important}
+#v-practice .tr-bar.tr-thin{height:4px!important}
+#v-practice .tr-bar>i{border-radius:999px!important;height:100%!important}
+#v-practice #tr-bossHp>i{background:var(--p-pink)!important}
+#v-practice .tr-hpbar>i{background:var(--p-lime)!important}
+#v-practice #tr-rageBar>i{background:var(--p-yellow)!important}
+/* 시전 막대: 회색 홈 + 글자 */
+#v-practice .tr-cast{background:var(--surface)!important;border:0!important;border-radius:8px!important;height:32px!important}
+#v-practice .tr-cast em{font-style:normal;font-size:13px;color:var(--ink-2)}
+/* 상태 표시·난이도: 꼬리표(회색 칩 + 점), 경고는 분홍 점 */
+#v-practice .tr-buffs>*,#v-practice .tr-chip{border:0!important;border-radius:var(--r-tag)!important;background:var(--surface)!important;color:var(--ink-2)!important;font-size:12px!important;font-weight:600;padding:3px 8px!important;box-shadow:none!important}
+#v-practice .tr-chip{background:var(--surface-2)!important}
+#v-practice .tr-buffs>[class*="off"],#v-practice .tr-buffs>.warn,#v-practice .tr-buffs>.bad{color:var(--ink)!important}
+/* 글자 위계 */
+#v-practice .tr-boss{font-size:15px!important;font-weight:700!important;color:var(--ink)!important}
+#v-practice .tr-mono{font-size:13px!important;font-variant-numeric:tabular-nums;color:var(--ink-2)!important}
+#v-practice .tr-timer{font-size:15px!important;font-weight:700;color:var(--ink)!important}
+#v-practice .tr-unit .tr-row b,#v-practice .tr-unit .tr-row strong{font-size:14px!important;color:var(--ink)!important}
+#v-practice .tr-log h3{font-size:11.5px!important;font-weight:650!important;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)!important;margin:0 0 10px!important}
+#v-practice .tr-castkey span{font-size:12px!important;color:var(--ink-3)!important}
+#v-practice .tr-callout{font-size:28px!important;font-weight:700!important;color:var(--ink)!important}
+/* 단축바: 키캡과 같은 모양(흰 면 + 테두리 + 아래 2px) */
+#v-practice .tr-ab{border:1px solid var(--line-2)!important;box-shadow:0 2px 0 var(--line-2)!important;border-radius:10px!important;background:var(--surface)!important}
+#v-practice .tr-ab .k{font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace!important;color:var(--ink-3)!important}
+#v-practice .tr-ab .nm{font-size:13px!important;color:var(--ink)!important}
+#v-practice .tr-ab.nomana .nm{color:var(--ink-3)!important}
+
+/* ===== 특성 트리: 다른 페이지 톤으로 ===== */
+#v-talents .tt-tree-panel{background:var(--surface-2)!important;border:0!important;border-radius:var(--r-tile)!important;box-shadow:none!important}
+#v-talents .tt-canvas,#v-talents .tt-tree-panel>*{background-image:none!important}
+#v-talents .tt-canvas::before,#v-talents .tt-canvas::after,#v-talents .tt-tree-panel::before,#v-talents .tt-tree-panel::after{display:none!important}
+#v-talents .tt-tree-heading{padding:14px 16px 4px!important}
+#v-talents .tt-tree-heading h3,#v-talents .tt-tree-heading b,#v-talents .tt-tree-heading strong{font-size:15px!important;font-weight:700!important;color:var(--ink)!important}
+#v-talents .tt-tree-heading span,#v-talents .tt-points{font-size:12px!important;color:var(--ink-3)!important}
+#v-talents .tt-name{font-size:11px!important;color:var(--ink-2)!important;line-height:1.3}
+#v-talents .tt-node.selected .tt-name{color:var(--ink)!important;font-weight:600}
+#v-talents .tt-node:not(.selected) .tt-icon{opacity:.55;filter:grayscale(1)}
+#v-talents .tt-node:not(.selected):hover .tt-icon{opacity:.9;filter:none}
+#v-talents .tt-bound{background:var(--ink)!important;color:var(--page)!important;border:0!important;font:600 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace!important;padding:0 4px!important}
+#v-talents .tt-rank{background:var(--surface)!important;color:var(--ink-2)!important;border:0!important;box-shadow:0 0 0 1px var(--line-2)!important;font-size:10px!important}
+#v-talents .tt-row3{align-items:start!important}
+#v-talents .tt-hero-col .tt-tree-panel{flex:0 0 auto!important}
+
+/* ===== 상태 화면 한 벌 ===== */
+/* 알림(토스트): 화면 아래 가운데 진한 알약 — 내용이 있을 때만 */
+#toast{position:fixed!important;left:50%;bottom:28px;transform:translateX(-50%);z-index:120;margin:0!important;padding:10px 16px!important;border-radius:999px!important;background:var(--ink)!important;color:var(--page)!important;font-size:13px!important;font-weight:600;box-shadow:var(--sh-pop)!important;pointer-events:none;white-space:nowrap}
+#toast[hidden]:not(:empty){display:block!important}
+#toast:empty{display:none!important}
+@media (max-width:760px){#toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+/* 비어 있을 때: 작은 회색 글씨 한 줄 */
+.sn-empty,#tr-log:empty::before,.tr-log li:only-child,.tr-adds-empty,.empty-note{font-size:13px!important;color:var(--ink-3)!important}
+#memo textarea::placeholder,input::placeholder{color:var(--ink-3)!important;opacity:1}
+/* 오류: 분홍 점 + 글자 (빨간 상자 없음) */
+.tr-err:not(:empty),.gh-msg.err,.gh-msg[data-s="bad"]{display:flex!important;align-items:center;gap:6px;color:var(--ink)!important;font-size:13px!important}
+.tr-err:not(:empty)::before,.gh-msg.err::before,.gh-msg[data-s="bad"]::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--p-pink);flex:none}
+/* 불러오는 중: 저장 상태 점이 깜빡임 */
+#save-status[data-s="busy"]::before{animation:dotpulse 1s ease-in-out infinite}
+@keyframes dotpulse{50%{opacity:.25}}
+/* GitHub 연결 판: 카드 규칙 */
+.gh-panel{background:var(--surface)!important;border:0!important;border-radius:var(--r-card)!important;box-shadow:var(--sh-card)!important;padding:20px!important;font-size:14px!important}
+.gh-panel>b{font-size:15px}
+.gh-row input{border:0!important;background:var(--surface-2)!important;border-radius:8px!important;height:36px;padding:0 12px!important}
+.gh-row button{height:36px;border:0!important;border-radius:8px!important;padding:0 16px!important;font:inherit;font-weight:600;background:var(--ink)!important;color:var(--page)!important;cursor:pointer}
+.gh-row button#gh-off{background:var(--surface-2)!important;color:var(--ink-2)!important}
+.gh-panel{margin:0 0 16px!important}
 </style>
 </head>
 <body>
@@ -4297,7 +4370,7 @@ const D={
 '이전 시대':'Previous','다음 시대':'Next','처음부터':'Restart',
 '보스':'Boss','난이도':'Difficulty','규칙':'Rules','쉬움':'Easy','보통':'Normal','어려움':'Hard','반응 훈련':'Reaction Drill',
 '전투 시작 (Enter)':'Start (Enter)','노트 단축키로 되돌리기':'Reset to Note Keys','단축키 확인 · 눌러서 바꾸기':'Keybinds · Click to Change',
-'이 기기에만 저장됨':'Saved on this device','저장하는 중…':'Saving…','GitHub에 저장됨':'Saved to GitHub','저장 실패 · 다시 누르면 재시도해요':'Save failed · tap to retry','저장소에 연결하는 중…':'Connecting…',
+'이 기기에만 저장됨':'Saved on this device','저장하는 중…':'Saving…','GitHub에 저장됨':'Saved to GitHub','저장 실패 · 다시 누르면 재시도해요':'Save failed · tap to retry','저장소에 연결하는 중…':'Connecting…','일시정지':'Pause','계속':'Resume',
 'GitHub로 동기화':'Sync with GitHub','지금 저장':'Save Now','백업 받기':'Download Backup','백업 불러오기':'Restore Backup'
 };
 const R=[
@@ -4315,7 +4388,7 @@ const R=[
  [/^WoW 한밤 · 패치 ([\d.]+) · 시즌 (\d+)$/,(m,a,b)=>'WoW Midnight · Patch '+a+' · Season '+b],
 ];
 const one=t=>{const k=t.trim();if(!k||!/[가-힣]/.test(k))return null;if(D[k])return D[k];if(SPEC[k])return SPEC[k];if(ROLE[k])return ROLE[k];for(const [re,f] of R){const m=k.match(re);if(m){const r=f(...m);if(r)return r}}return null};
-const SEL='#v-practice .tr-card *,.navigation button,.navigation option,.subtabs button,.seg button,.page-head .ph-t,.card h2,.card h3,.sec-head h2,.pick-label,.chips-set .cl,.todo .go,th,.tt-presets button,.tt-toolbar button,.tt-panel-h,.tt-tree-panel>header,summary,.tr-seg button,.tr-label,.tr-rules-h,.tr-card button,#st-side .sd-head,.sd-restart,.st-names-toggle,.st-pager button,#st-restart,.st-eras .y,.st-eras .n,.eyebrow,.savepop button,.savepop label,#save-status,.sheet h2,#tt-items .btn,.tl-h,.tr-ovcard button,.tr-ovcard h2,.tr-ovcard label';
+const SEL='#v-practice .tr-card button:not(.tr-ab):not(.tr-kbd),#v-practice .tr-card h4,#v-practice .tr-card summary,#v-practice .tr-card label,.navigation button,.navigation option,.subtabs button,.seg button,.page-head .ph-t,.card h2,.card h3,.sec-head h2,.pick-label,.chips-set .cl,.todo .go,th,.tt-presets button,.tt-toolbar button,.tt-panel-h,.tt-tree-panel>header,summary,.tr-seg button,.tr-label,.tr-rules-h,.tr-card button,#st-side .sd-head,.sd-restart,.st-names-toggle,.st-pager button,#st-restart,.st-eras .y,.st-eras .n,.eyebrow,.savepop button,.savepop label,#save-status,.sheet h2,#tt-items .btn,.tl-h,.tr-ovcard button,.tr-ovcard h2,.tr-ovcard label';
 const hero=()=>{const h=document.querySelector('#hero .ph-t');if(!h)return;const sp=document.getElementById('character-select');const en=sp?SPEC[(sp.selectedOptions[0]||{}).dataset?.ko||'']:null;const t=h.textContent.trim();const m=t.match(/· (.+)$/);const k=m?m[1]:t;if(SPEC[k]&&h.textContent!==SPEC[k])h.textContent=SPEC[k]};
 let busy=false;
 const run=()=>{busy=true;try{document.querySelectorAll(SEL).forEach(el=>{if(el.closest('#st-era,#st-names .sn-list,.tt-canvas'))return;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const r=one(n.nodeValue);if(r!==null){const lead=n.nodeValue.match(/^\s*/)[0],tail=n.nodeValue.match(/\s*$/)[0];n.nodeValue=lead+r+tail}}});hero();
