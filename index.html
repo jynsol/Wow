@@ -1298,15 +1298,25 @@ header.top #headline,header.top .lede,.sb-brand{display:none!important}
 .tab-row{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap}
 .tab-row .role-tabs[hidden]{display:none!important}
 
-/* ---------- 거르기: 회색 칸 속 흰 칸 ---------- */
-.seg,.tt-presets,.tr-seg,.tt-hero{display:inline-flex!important;gap:2px!important;padding:3px!important;background:var(--surface-2)!important;border:0!important;border-radius:var(--r-ctl)!important;box-shadow:none!important;margin:0!important;width:auto!important}
-.seg button,.tt-presets button,.tr-seg button,.tt-hero button{flex:1 1 auto;min-width:0!important;padding:6px 14px!important;border:0!important;border-radius:8px!important;background:none!important;color:var(--ink-2)!important;font-size:13px!important;font-weight:500!important;line-height:1.35!important;box-shadow:none!important;white-space:nowrap}
-.seg button:hover,.tt-presets button:hover,.tr-seg button:hover,.tt-hero button:hover{color:var(--ink)!important}
-.seg button[aria-pressed="true"],.tt-presets button[aria-pressed="true"],.tr-seg button[aria-pressed="true"],.tt-hero button[aria-pressed="true"]{background:var(--surface)!important;color:var(--ink)!important;font-weight:650!important;box-shadow:var(--sh-raise)!important}
-.tr-seg{display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);width:100%!important}
+/* ---------- 고르기: 따로 떨어진 알약 (알약 속 알약 없음) ----------
+   선택 = 위 메뉴와 같은 진한 알약 / 나머지 = 옅은 회색 알약
+   높이 32 · 좌우 14 · 사이 8 · 글자 13 */
+.seg,.tt-presets,.tr-seg,.tt-hero{display:flex!important;flex-wrap:nowrap;gap:8px!important;padding:0!important;margin:0!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;width:auto!important;max-width:100%;overflow-x:auto;scrollbar-width:none;align-items:center}
+.seg::-webkit-scrollbar,.tt-presets::-webkit-scrollbar,.tr-seg::-webkit-scrollbar,.tt-hero::-webkit-scrollbar{display:none}
+.seg button,.tt-presets button,.tr-seg button,.tt-hero button{flex:0 0 auto!important;width:auto!important;min-width:0!important;height:32px;min-height:32px!important;padding:0 14px!important;display:inline-flex!important;align-items:center;justify-content:center;
+  border:0!important;border-radius:999px!important;background:var(--surface-2)!important;color:var(--ink-2)!important;font-size:13px!important;font-weight:500!important;line-height:1!important;box-shadow:none!important;white-space:nowrap!important}
+.seg button:hover,.tt-presets button:hover,.tr-seg button:hover,.tt-hero button:hover{color:var(--ink)!important;background:color-mix(in srgb,var(--ink) 9%,var(--surface))!important}
+.seg button[aria-pressed="true"],.tt-presets button[aria-pressed="true"],.tr-seg button[aria-pressed="true"],.tt-hero button[aria-pressed="true"]{background:var(--ink)!important;color:var(--page)!important;font-weight:600!important;box-shadow:none!important}
 .tr-seg button small{display:none!important}
-.tr-seg-note{margin:6px 2px 16px!important;font-size:12px!important;color:var(--ink-3);min-height:16px}
-@media (max-width:760px){.tr-seg button{white-space:normal;word-break:keep-all;padding:7px 4px!important}}
+.tr-seg{display:flex!important;width:auto!important}
+.seg,.tt-presets,.tr-seg,.tt-hero{flex-wrap:wrap!important;overflow:visible!important}
+.tr-btns{display:flex!important;gap:8px!important;flex-wrap:wrap}
+.tr-btns .btn{height:40px;padding:0 18px!important;min-width:0}
+.tr-btns #tr-startBtn{flex:1 1 160px}
+.tr-btns #tr-resetBinds{flex:0 0 auto;background:none!important;color:var(--ink-3)!important;font-weight:500!important;font-size:13px!important;padding:0 8px!important}
+.tr-btns #tr-resetBinds:hover{color:var(--ink)!important}
+.tr-seg-note{margin:8px 2px 20px!important;font-size:12px!important;color:var(--ink-3);min-height:16px}
+.tt-hero{justify-content:flex-start!important;padding:12px 16px 0!important}
 
 /* ---------- 카드 ---------- */
 .view .card,.card.lv1,.card.lv2,.card.lv3{background:var(--surface)!important;border:0!important;border-radius:var(--r-card)!important;box-shadow:var(--sh-card)!important;padding:24px!important}
@@ -1413,12 +1423,13 @@ details.faq>p{margin:0 0 12px;font-size:14px;color:var(--ink-2)}
 #tt-items .btn::before{content:'';width:16px;height:16px;border-radius:5px;box-sizing:border-box;border:1.5px solid var(--line-2);background:var(--surface);flex:none}
 #tt-items .btn[aria-pressed="true"]{color:var(--ink)!important;font-weight:600!important}
 #tt-items .btn[aria-pressed="true"]::before{border-color:var(--main);background:var(--main) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233a2e0a' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/12px no-repeat}
-.tt-toolbar{display:flex!important;flex-wrap:wrap!important;align-items:center;gap:10px!important}
-.tt-toolbar .tt-presets{flex:0 1 auto!important;overflow-x:auto;scrollbar-width:none;max-width:100%}
-.tt-toolbar #tt-clear{margin-left:auto}
+.tt-toolbar{display:flex!important;flex-wrap:wrap!important;align-items:center;gap:10px 16px!important}
+.tt-toolbar .tt-presets{flex:0 1 auto!important}
+.tt-toolbar #tt-clear{margin-left:auto;height:32px;padding:0 4px!important;background:none!important;color:var(--ink-3)!important;font-size:13px!important;font-weight:500!important;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-2)}
+.tt-toolbar #tt-clear:hover{color:var(--ink)!important;background:none!important}
+@media (max-width:760px){.tt-toolbar .tt-presets{flex-basis:100%!important}}
 .tt-tree-panel{background:var(--surface-2)!important}
 .tt-tree-heading{border-bottom:0!important}
-@media (max-width:760px){.tt-toolbar .tt-presets{flex-basis:100%!important;display:flex!important}.tt-toolbar .tt-presets button{padding:6px 4px!important;font-size:12px!important}}
 
 /* ---------- 연습 ---------- */
 .tr-card:has(#tr-startOv:not([hidden])) .tr-head{display:none}
