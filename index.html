@@ -1939,6 +1939,76 @@ html,body{overflow-x:clip}
 
 .era-b p,.era-b p b,.tr-rules li,.tr-rules li span,.tr-rules li b{font-size:14px!important}
 .lv-track li.on span,.st-reader-row button,#st-restart,.tt-version{font-size:12px!important}
+
+/* ===== u25: 연습 선택은 작은 한 줄 + 설명 한 줄 ===== */
+.tr-seg{grid-auto-flow:column!important;grid-auto-columns:minmax(0,1fr)!important;padding:3px!important;gap:2px!important;border-radius:12px!important}
+.tr-seg button{padding:8px 6px!important;min-height:0!important;font-size:14px!important;line-height:1.3!important;border-radius:9px!important}
+.tr-seg button small{display:none!important}
+.tr-seg-note{margin:6px 2px 0;font-size:12px;color:var(--ink-3);min-height:16px}
+@media (max-width:760px){.tr-seg{grid-auto-flow:column!important}.tr-seg button{font-size:13px!important;padding:8px 4px!important;word-break:keep-all}}
+
+.tr-seg-note{margin-bottom:14px!important}
+
+/* ===== u26: 폰에서 깨지는 곳 정리 ===== */
+/* 특성 프리셋: 한 줄 전체, 초기화 버튼은 아래 글자 버튼 */
+.tt-toolbar{display:flex!important;flex-wrap:wrap!important;align-items:center;gap:10px!important}
+.tt-toolbar .tt-presets{flex:1 1 auto!important;display:flex!important;overflow-x:auto!important;scrollbar-width:none;max-width:100%!important;min-width:0}
+.tt-toolbar .tt-presets::-webkit-scrollbar{display:none}
+.tt-toolbar .tt-presets button{flex:1 0 auto!important;min-width:0!important;width:auto!important;padding:7px 14px!important;font-size:13px!important;white-space:nowrap}
+@media (max-width:760px){
+  .tt-toolbar .tt-presets{flex-basis:100%!important}
+  .tt-toolbar .tt-presets button{padding:7px 10px!important}
+  .tt-toolbar #tt-clear{margin-left:auto}
+}
+/* 소모품: 켜짐/꺼짐이 보이는 체크 토글 */
+#tt-items{display:flex!important;flex-wrap:wrap;gap:8px!important;padding:0!important;background:none!important}
+#tt-items .btn{display:inline-flex!important;align-items:center;gap:8px;padding:8px 12px!important;border-radius:10px!important;background:var(--surface-2)!important;color:var(--ink-3)!important;font-weight:500!important;box-shadow:none!important;font-size:13px!important}
+#tt-items .btn::before{content:'';width:16px;height:16px;border-radius:5px;box-sizing:border-box;border:1.5px solid var(--line-2);background:var(--surface);flex:none}
+#tt-items .btn[aria-pressed="true"]{background:var(--surface-2)!important;color:var(--ink)!important;font-weight:600!important;box-shadow:none!important}
+#tt-items .btn[aria-pressed="true"]::before{border-color:var(--main);background:var(--main) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233a2e0a' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/12px no-repeat}
+/* 표: 폰에서는 한 줄씩 카드처럼 */
+@media (max-width:760px){
+  table.ut thead{display:none}
+  table.ut,table.ut tbody,table.ut tr,table.ut td{display:block;width:auto!important}
+  table.ut tr{display:grid!important;grid-template-columns:auto 1fr;column-gap:10px;row-gap:4px;padding:12px 0;border-top:1px solid var(--line)}
+  table.ut tr:first-child{border-top:0}
+  table.ut td{padding:0!important;border:0!important;text-align:left!important}
+  table.ut td:nth-child(1){grid-row:1;grid-column:1;align-self:center}
+  table.ut td:nth-child(2){grid-row:1;grid-column:2;font-weight:700;align-self:center}
+  table.ut td:nth-child(3){grid-column:1/-1;font-size:12px!important;color:var(--ink-3)}
+  table.ut td:nth-child(4){grid-column:1/-1;font-size:13px!important;color:var(--ink-2)}
+  .tblwrap{overflow:visible!important}
+}
+
+@media (max-width:760px){.tt-toolbar .tt-presets button{flex:1 1 auto!important;padding:7px 6px!important;font-size:12px!important}}
+
+/* ===== u27: 화살표 줄이기 ===== */
+/* 시대 이전/다음 버튼 제거 (본문 끝 이전·다음 시대 버튼과 겹침) */
+.st-bar-r button{display:none!important}
+/* 폰: 위에 붙는 장 선택 막대 대신 시대 소개 아래 장 목록 */
+@media (max-width:1100px){
+  #v-story #st-reader{display:none!important}
+  #v-story .st-era-head .st-toc{display:flex!important;flex-direction:column;gap:0;margin:0 0 14px!important;padding:0!important;list-style:none;counter-reset:c}
+  #v-story .st-era-head .st-toc li{counter-increment:c}
+  #v-story .st-era-head .st-toc a{display:flex!important;align-items:center;gap:10px;padding:9px 0!important;color:var(--ink-2)!important;text-decoration:none;font-size:14px!important;background:none!important;border:0!important;border-radius:0!important}
+  #v-story .st-era-head .st-toc a::before{content:counter(c);width:18px;font-size:12px;color:var(--ink-3);flex:none}
+  #v-story .st-era-head .st-toc a[aria-current="location"]{color:var(--ink)!important;font-weight:700}
+  #v-story .st-era-head .st-toc .toc-k{margin-left:auto}
+}
+
+@media (max-width:1100px){
+  #v-story .st-era-head .st-toc li::before,#v-story .st-era-head .st-toc li::after,#v-story .st-era-head .st-toc a::after{content:none!important;display:none!important}
+  #v-story .st-era-head .st-toc li{padding:0!important;margin:0!important;border:0!important;background:none!important}
+  #v-story .st-era-head .st-toc a{padding:7px 0!important}
+}
+
+/* ===== u28: 상자 속 상자 줄이기 — 카드 안 묶음은 한 단계만 ===== */
+.decide{background:none!important;padding:0!important;margin-top:24px!important}
+.decide>*:first-child{margin-bottom:12px!important}
+.rot-card,.rot-tips-box{background:none!important;padding:0!important;border:0!important;box-shadow:none!important}
+.rot-grid{gap:28px 40px!important;margin-top:28px!important}
+.rot-card h3,.rot-tips-box h3{font-size:15px!important;font-weight:700!important;margin:0 0 10px!important}
+@media (max-width:760px){.rot-grid{gap:24px!important;margin-top:24px!important}}
 </style>
 </head>
 <body>
@@ -4421,6 +4491,13 @@ document.addEventListener('wow:view-after',later);run();setTimeout(run,300);
  document.addEventListener('click',e=>{if(!bar.contains(e.target))open(false)});
  document.addEventListener('keydown',e=>{if(e.key==='Escape')open(false)});
  new MutationObserver(()=>requestAnimationFrame(sync)).observe(L,{childList:true,subtree:true,attributes:true,attributeFilter:['aria-pressed']});sync();setTimeout(sync,300);})();
+</script>
+<script>
+/* u25: 고른 보스·난이도 설명을 아래 한 줄로 */
+(()=>{const segs=['tr-bossSeg','tr-diffSeg'].map(id=>document.getElementById(id)).filter(Boolean);
+ segs.forEach(sg=>{let n=sg.nextElementSibling;if(!n||!n.classList.contains('tr-seg-note')){n=document.createElement('p');n.className='tr-seg-note';sg.after(n)}
+  const upd=()=>{const b=sg.querySelector('[aria-pressed="true"]');const sm=b&&b.querySelector('small');n.textContent=sm?sm.textContent:''};
+  new MutationObserver(()=>requestAnimationFrame(upd)).observe(sg,{subtree:true,childList:true,attributes:true,attributeFilter:['aria-pressed']});upd()});})();
 </script>
 </body>
 </html>
