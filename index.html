@@ -1796,6 +1796,20 @@ html,body{overflow-x:clip}
 @media (max-width:760px){.navigation>.eyebrow{order:1!important;margin-left:0!important}.navigation>.character-select{order:2!important;margin-left:auto!important}}
 
 @media (max-width:760px){.savemenu .savepop{left:0!important;right:auto!important}}
+
+/* ===== u20: 모양 위계 — 알약은 메뉴·거르기·상태 칩에만 ===== */
+/* 1) 페이지 하위 탭: 글자 + 밑줄 */
+.subtabs:not([hidden]){background:none!important;padding:0!important;gap:24px!important;border-radius:0!important;box-shadow:none!important}
+.subtabs button{background:none!important;border-radius:0!important;padding:8px 0 10px!important;color:var(--ink-3)!important;font-weight:500!important;font-size:15px!important;box-shadow:none!important;position:relative}
+.subtabs button:hover{color:var(--ink)!important;background:none!important}
+.subtabs button[aria-pressed="true"]{background:none!important;color:var(--ink)!important;font-weight:700!important;box-shadow:inset 0 -2px 0 var(--ink)!important}
+@media (max-width:760px){.subtabs:not([hidden]){gap:20px!important}.subtabs button{font-size:14px!important}}
+/* 2) 꼬리표: 모서리 6px 작은 네모 */
+.todo .go,.lore-meta>span,.lore-when,.lb,.ins,.res,.howk,.must,.lvtag,.tt-bound{border-radius:6px!important}
+.chips-set>div[data-hue]{border-radius:8px!important}
+/* 3) 버튼: 모서리 10px (알약 아님) */
+.btn,.btn.pri,#tr-startBtn,#tr-resetBinds,.sd-restart,#st-prev,#st-next,.tt-toolbar .btn,.go.btn{border-radius:10px!important}
+.savepop button,.savepop label{border-radius:8px!important}
 </style>
 </head>
 <body>
@@ -4217,9 +4231,11 @@ const D={
 const R=[
  [/^(.+) 단축키 가이드$/,(m,a)=>SPEC[a]?SPEC[a]+' Keybinds':null],
  [/^(.+) 딜사이클$/,(m,a)=>SPEC[a]?SPEC[a]+' Rotation':null],
- [/^(탱커|딜러|힐러) 연습 · (.+)$/,(m,a,b)=>'Practice · '+(SPEC[b]||b)],
- [/^초보 팁 · (탱커|딜러|힐러)$/,(m,a)=>'Tips · '+ROLE[a]],
- [/^초보 팁 · (Tank|DPS|Healer)$/,(m,a)=>'Tips · '+a],
+ [/^(탱커|딜러|힐러) 연습 · (.+)$/,()=>'Practice'],
+ [/^Practice · .+$/,()=>'Practice'],
+ [/^초보 팁 · (탱커|딜러|힐러)$/,()=>'Tips'],
+ [/^초보 팁 · (Tank|DPS|Healer)$/,()=>'Tips'],
+ [/^Tips · (Tank|DPS|Healer)$/,()=>'Tips'],
  [/^(탱커|딜러|힐러) · (.+)$/,(m,a,b)=>SPEC[b]?ROLE[a]+' · '+SPEC[b]:null],
  [/^(탱커|딜러|힐러) (기본기|매너)$/,(m,a,b)=>ROLE[a]+(b==='기본기'?' Basics':' Etiquette')],
  [/^(\d) · .+ 공통$/,(m,a)=>a+' · Class'],[/^(\d) · .+ 전문화$/,(m,a)=>a+' · Spec'],[/^(\d) · 영웅 특성$/,(m,a)=>a+' · Hero'],
@@ -4230,6 +4246,7 @@ const SEL='#v-practice .tr-card *,.navigation button,.navigation option,.subtabs
 const hero=()=>{const h=document.querySelector('#hero .ph-t');if(!h)return;const sp=document.getElementById('character-select');const en=sp?SPEC[(sp.selectedOptions[0]||{}).dataset?.ko||'']:null;const t=h.textContent.trim();const m=t.match(/· (.+)$/);const k=m?m[1]:t;if(SPEC[k]&&h.textContent!==SPEC[k])h.textContent=SPEC[k]};
 let busy=false;
 const run=()=>{busy=true;try{document.querySelectorAll(SEL).forEach(el=>{if(el.closest('#st-era,#st-names .sn-list,.tt-canvas'))return;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const r=one(n.nodeValue);if(r!==null){const lead=n.nodeValue.match(/^\s*/)[0],tail=n.nodeValue.match(/\s*$/)[0];n.nodeValue=lead+r+tail}}});hero();
+  {const t=document.querySelector('#v-talents .page-head .ph-t'),sp=document.getElementById('character-select');if(t&&sp&&sp.selectedOptions[0]){const en=one(sp.selectedOptions[0].textContent)||sp.selectedOptions[0].textContent.trim();const want=en+' Talents';if(/^(Talents|특성 트리|특성)$/.test(t.textContent.trim())||(/ Talents$/.test(t.textContent.trim())&&t.textContent!==want))t.textContent=want}}
   const st=document.getElementById('save-status');}finally{busy=false}};
 let raf=0;const later=()=>{if(busy||raf)return;raf=requestAnimationFrame(()=>{raf=0;run()})};
 new MutationObserver(later).observe(document.body,{childList:true,subtree:true,characterData:true});
