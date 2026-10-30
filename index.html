@@ -1962,6 +1962,9 @@ button:disabled,.btn:disabled{opacity:.4;cursor:not-allowed}
 .page-head:has(.ph-d.meta-off):not(:has(.ph-t:not(:empty):not([style*="none"]))){display:none!important}
 #v-keys>.page-head,#v-talents>.page-head,#v-route>.page-head,#v-practice>.page-head{display:none!important}
 #v-rotation>.page-head .ph-t{display:none!important}
+
+footer.copy{display:block!important;text-align:center;font-size:12px;color:var(--ink-3);padding:32px 0 24px;margin:0!important}
+@media (max-width:760px){footer.copy{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}}
 </style>
 </head>
 <body>
@@ -2427,6 +2430,7 @@ button:disabled,.btn:disabled{opacity:.4;cursor:not-allowed}
   
 </div>
 
+<footer class="copy">© 진솔</footer>
 <script>
 const BASE=['X','2','3','4','W','R','5','A','Q','T','Z','C','V'];
 const SH=['S+X','S+2','S+3','S+4','S+5','S+W','S+R','S+A','S+Q','S+T','S+Z','S+C','S+V','S+G'];
