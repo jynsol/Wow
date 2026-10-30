@@ -1059,16 +1059,81 @@ html{scroll-padding-top:calc(var(--navh) + 8px)}
 body:is([data-spec="prot"],[data-spec="vengeance"],[data-spec="blood"]) .sheet{max-height:none!important;overflow:visible}
 @media (max-width:840px){.sheet{max-height:none!important;overflow:visible}}
 .st-side,.st-names{top:calc(var(--navh) + 12px)!important;max-height:calc(100vh - var(--navh) - 24px)!important}
+
+/* ===== 2026-10 UI 개편 ===== */
+.tabs .ti{display:none}
+.ti{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* 저장 메뉴 */
+.savemenu{position:relative;margin-left:auto}
+.savemenu>summary{list-style:none;display:inline-flex;align-items:center;gap:4px;cursor:pointer;border-radius:999px;user-select:none}
+.savemenu>summary::-webkit-details-marker{display:none}
+.savemenu>summary .ti{width:14px;height:14px;color:var(--ink-3);transition:transform .15s}
+.savemenu[open]>summary .ti{transform:rotate(180deg)}
+.savepop{position:absolute;right:0;top:calc(100% + 6px);z-index:60;display:flex;flex-direction:column;align-items:stretch;gap:6px;min-width:190px;padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px -12px rgba(40,36,70,.3)}
+.savepop>*,.savepop #backup-box{display:flex;flex-direction:column;gap:6px}
+.savepop #backup-box[hidden],.savepop [hidden]{display:none!important}
+.savepop button,.savepop label{font:inherit;font-size:12px;font-weight:500;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer;white-space:nowrap}
+.savepop button:hover,.savepop label:hover{background:var(--surface-2)}
+/* 내 직업 > 특성 트리 */
+#v-talents #skills{margin:0}
+/* 글 위주 화면은 읽기 좋은 폭으로 */
+#v-route li,#v-route .timeline p,#v-route .sub{max-width:760px}
+#v-home{grid-template-rows:auto 1fr}
+.st-head{position:relative}
+.st-names-toggle{position:absolute;top:20px;right:22px}
+#st-overview{margin:0}
+#st-overview>summary{list-style:none;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:600;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+#st-overview>summary::-webkit-details-marker{display:none}
+#st-overview>summary::after{content:'';width:7px;height:7px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+#st-overview[open]>summary::after{transform:rotate(225deg) translateY(-1px)}
+#st-overview[open]>summary{margin-bottom:14px;background:var(--main-soft);border-color:var(--main-line);color:var(--ink)}
+#st-overview .rt-panel{max-width:920px}
+/* 스토리 용어 밑줄은 조용하게 */
+#v-story .gl{text-decoration-color:var(--line-2)}
+#v-story .gl:hover,#v-story .gl:focus-visible{text-decoration-color:var(--main)}
+.st-names-toggle{font:inherit;font-size:12px;color:var(--ink-3);background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.st-names-toggle:hover{color:var(--ink);background:var(--surface-2)}
+@media (min-width:1101px){
+  body.st-nonames .st-layout{grid-template-columns:200px minmax(0,1fr)!important}
+  body.st-nonames .st-names{display:none!important}
+}
+@media (max-width:1100px){.st-names-toggle{display:none}}
+/* 연습 시작 화면 */
+.tr-bindbox>summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--ink-2);padding:6px 0}
+.tr-bindbox[open]>summary{margin-bottom:8px}
+#tr-startOv .tr-btns{margin-top:2px}
+/* 홈: 이어서 하기 */
+.cont{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:18px}
+.cont-h{font-size:13px;font-weight:700;color:var(--ink-2);margin:22px 0 0}
+.cont a,.cont button{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:4px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer}
+.cont a:hover,.cont button:hover{background:var(--surface-2)}
+.cont a:focus-visible,.cont button:focus-visible{outline:3px solid var(--main);outline-offset:2px}
+.cont small{font-size:11px;color:var(--ink-3);font-weight:500}
+.cont b{font-size:14px;color:var(--ink)}
+.cont span{font-size:12px;color:var(--ink-2)}
+/* 폰: 아래 고정 탭바 */
+@media (max-width:760px){
+  .navigation .tabs{position:fixed!important;left:0;right:0;bottom:0;top:auto;z-index:80;display:grid!important;grid-template-columns:repeat(5,1fr);gap:0;width:auto!important;margin:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));border:0;border-top:1px solid var(--line);border-radius:0!important;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 -6px 18px -14px rgba(40,36,70,.35);overflow:visible}
+  .navigation .tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:52px!important;padding:4px 0!important;font-size:11px!important;border-radius:12px!important;background:none!important;color:var(--ink-3)!important;font-weight:500!important}
+  .navigation .tabs button .ti{display:block;width:22px;height:22px}
+  .navigation .tabs button[aria-pressed="true"]{color:var(--ink)!important;font-weight:700!important}
+  .navigation .tabs button[aria-pressed="true"] .ti{background:var(--main);border-radius:10px;padding:3px 10px;width:42px;height:28px;box-sizing:border-box;color:var(--on-main,var(--ink))}
+  .navigation .character-select{flex:1}
+  .navigation .character-select select{width:100%}
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  .copy{margin-bottom:8px}
+  .savepop{right:0}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="toprow"><div class="eyebrow">WoW 한밤 · 패치 12.1.5 · 시즌 2 <span class="savebar"><span id="save-status" data-s="busy">계정에 연결하는 중…</span><button type="button" id="save-now">지금 저장</button><button type="button" id="gh-open" hidden>GitHub로 동기화</button><span id="backup-box" hidden><button type="button" id="bk-out">백업 받기</button><label id="bk-in-l">백업 불러오기<input id="bk-in" type="file" accept="application/json,.json" hidden></label></span></span></div>
-      <div class="navigation"><label class="character-select"><span>직업</span><select id="character-select" aria-label="직업 선택"><option value="prot">방어 전사</option><option value="vengeance">복수 악마사냥꾼</option><option value="blood">혈기 죽기</option></select></label><nav class="tabs" aria-label="페이지"><button type="button" id="tab-home" data-view="home">홈</button><button type="button" id="tab-class" data-view="class">특성</button><button type="button" id="tab-route" data-view="route">가이드</button><button type="button" id="tab-story" data-view="story">스토리</button><button type="button" id="tab-practice" data-view="practice">연습 게임</button></nav></div></div>
+    <div class="toprow"><div class="eyebrow">WoW 한밤 · 패치 12.1.5 · 시즌 2 <details class="savemenu"><summary><span id="save-status" data-s="busy">계정에 연결하는 중…</span><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><div class="savepop"><button type="button" id="save-now">지금 저장</button><button type="button" id="gh-open" hidden>GitHub로 동기화</button><span id="backup-box" hidden><button type="button" id="bk-out">백업 받기</button><label id="bk-in-l">백업 불러오기<input id="bk-in" type="file" accept="application/json,.json" hidden></label></span></div></details></div>
+      <div class="navigation"><label class="character-select"><span>직업</span><select id="character-select" aria-label="직업 선택"><option value="prot">방어 전사</option><option value="vengeance">복수 악마사냥꾼</option><option value="blood">혈기 죽기</option></select></label><nav class="tabs" aria-label="페이지"><button type="button" id="tab-home" data-view="home"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>홈</span></button><button type="button" id="tab-class" data-view="class"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg><span>내 직업</span></button><button type="button" id="tab-route" data-view="route"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg><span>레벨업</span></button><button type="button" id="tab-story" data-view="story"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg><span>스토리</span></button><button type="button" id="tab-practice" data-view="practice"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".6"/></svg><span>연습</span></button></nav></div></div>
     <div class="titlebox"><h1 id="headline"><span class="bun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 10C8.3 6.5 7.6 3.2 9 2.6s2.4 3 2.6 6.6"/><path d="M14.5 10c1.2-3.5 1.9-6.8.5-7.4s-2.4 3-2.6 6.6"/><ellipse cx="12" cy="15.2" rx="6.2" ry="5.6"/><path d="M9.8 14.4h.01M14.2 14.4h.01M11.3 16.8c.4.4 1 .4 1.4 0"/></svg></span><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.6A4.4 4.4 0 0 1 12 7.1a4.4 4.4 0 0 1 7.5 2.8c0 6-7.5 10.6-7.5 10.6z"/></svg>와우 <em>노트</em></h1>
     <p class="lede">방어 전사, 복수 악마사냥꾼, 혈기 죽기. 키 배치, 딜사이클, 레벨업, 초보 자료를 한곳에 모아둔 정리본이에요.</p></div>
-    <nav class="subtabs" id="subtabs" aria-label="특성 메뉴"><button type="button" id="sub-keys" data-view="keys">키 배치</button><button type="button" id="sub-rotation" data-view="rotation">딜사이클</button></nav>
+    <nav class="subtabs" id="subtabs" aria-label="특성 메뉴"><button type="button" id="sub-keys" data-view="keys">키 배치</button><button type="button" id="sub-rotation" data-view="rotation">딜사이클</button><button type="button" id="sub-talents" data-view="talents">특성 트리</button></nav>
       <div id="gh-panel" class="gh-panel" hidden>
       <b>GitHub로 기기 간 동기화</b>
       <p>이 페이지가 GitHub에서 열려 있을 때, 내 GitHub 계정의 비공개 Gist 하나에 저장해서 PC와 폰이 같은 내용을 보게 해요. 기기마다 처음 한 번만 연결하면 돼요.</p>
@@ -1122,15 +1187,7 @@ body:is([data-spec="prot"],[data-spec="vengeance"],[data-spec="blood"]) .sheet{m
   </section>
 
   <div class="cols">
-    <section class="card" id="skills">
-      <div class="sec-head"><h2 data-ico="check">내가 찍은 스킬</h2>
-      <p class="sub">체크하면 키보드에서 그 자리가 반짝여요.</p></div>
-      <div class="lvhelp">
-        <div><b>"레벨"</b> 표시는 그 레벨이 되면 자동으로 배우는 기본 스킬, <b>"특성"</b> 표시는 특성 포인트(레벨 10부터)로 직접 찍어야 생기는 스킬이에요. 특성 스킬은 찍은 것만 직접 체크하세요.</div>
-        <button type="button" class="go" id="sync-lv">내 레벨에 맞게 기본 스킬 체크</button>
-      </div>
-      <div id="abilities"></div>
-    </section>
+    
     <aside class="card sheet">
       <div class="sec-head"><h2 data-ico="list">치트시트</h2>
       <p class="sub">게임에서 ESC → 옵션 → 단축키로 이 순서대로 지정하세요.</p></div>
@@ -1161,6 +1218,17 @@ body:is([data-spec="prot"],[data-spec="vengeance"],[data-spec="blood"]) .sheet{m
       <div class="sec-head"><h2 data-ico="bolt"><span id="rot-title">딜사이클</span></h2>
       <p class="sub" id="rot-sub"></p></div>
       <div class="rot" id="rot"></div>
+    </section>
+  </div>
+  <div class="view" id="v-talents" hidden>
+    <section class="card" id="skills">
+      <div class="sec-head"><h2 data-ico="check">내가 찍은 스킬</h2>
+      <p class="sub">체크하면 키보드에서 그 자리가 반짝여요.</p></div>
+      <div class="lvhelp">
+        <div><b>"레벨"</b> 표시는 그 레벨이 되면 자동으로 배우는 기본 스킬, <b>"특성"</b> 표시는 특성 포인트(레벨 10부터)로 직접 찍어야 생기는 스킬이에요. 특성 스킬은 찍은 것만 직접 체크하세요.</div>
+        <button type="button" class="go" id="sync-lv">내 레벨에 맞게 기본 스킬 체크</button>
+      </div>
+      <div id="abilities"></div>
     </section>
   </div>
 
@@ -1215,14 +1283,14 @@ body:is([data-spec="prot"],[data-spec="vengeance"],[data-spec="blood"]) .sheet{m
         <div class="tr-ov" id="tr-startOv">
           <div class="tr-ovcard">
             <div><h4>보스</h4><div class="tr-seg" id="tr-bossSeg"></div></div>
-            <div><h4>규칙</h4><ul class="tr-rules" id="tr-rules"></ul></div>
             <div><h4>난이도</h4><div class="tr-seg" id="tr-diffSeg"></div></div>
-            <div><h4>단축키 · 눌러서 바꾸기</h4><div class="tr-binds" id="tr-binds"></div></div>
             <div class="tr-btns">
               <button class="btn pri" id="tr-startBtn" type="button">전투 시작 (Enter)</button>
               <button class="btn" id="tr-resetBinds" type="button">노트 단축키로 되돌리기</button>
             </div>
             <div class="tr-best" id="tr-bestLine"></div>
+            <div><h4>규칙</h4><ul class="tr-rules" id="tr-rules"></ul></div>
+            <details class="tr-bindbox"><summary>단축키 확인 · 눌러서 바꾸기</summary><div class="tr-binds" id="tr-binds"></div></details>
           </div>
         </div>
         <div class="tr-ov" id="tr-pauseOv" hidden>
@@ -1249,7 +1317,7 @@ body:is([data-spec="prot"],[data-spec="vengeance"],[data-spec="blood"]) .sheet{m
   </div>
 
   <div class="view" id="v-route" hidden>
-    <nav class="subtabs rt-tabs" aria-label="가이드 메뉴"><button type="button" id="rt-level" data-rt="level" aria-pressed="true">레벨업 흐름</button><button type="button" id="rt-tips" data-rt="tips" aria-pressed="false">초보 팁</button><button type="button" id="rt-story" data-rt="story" aria-pressed="false">확장팩 한눈에</button></nav>
+    <nav class="subtabs rt-tabs" aria-label="가이드 메뉴"><button type="button" id="rt-level" data-rt="level" aria-pressed="true">레벨업 흐름</button><button type="button" id="rt-tips" data-rt="tips" aria-pressed="false">초보 팁</button></nav>
     <div class="rt-panel" id="rt-panel-level">
     <section class="card">
       <div class="sec-head"><h2 data-ico="flag">레벨업 흐름</h2>
@@ -1453,7 +1521,15 @@ body:is([data-spec="prot"],[data-spec="vengeance"],[data-spec="blood"]) .sheet{m
       </section>
     </div>
     </div>
-    <div class="rt-panel" id="rt-panel-story" hidden>
+    
+  </div>
+
+  <div class="view" id="v-story" hidden>
+    <section class="card st-head">
+      <div class="sec-head"><h2>와우 이야기</h2></div>
+      <div class="st-tl"><button type="button" class="st-arr prev" id="st-l" aria-label="앞 시대 보기">‹</button><ol class="st-eras" id="st-eras" aria-label="시대"></ol><button type="button" class="st-arr next" id="st-r" aria-label="뒤 시대 보기">›</button></div>
+    </section>
+    <details class="st-overview" id="st-overview"><summary>확장팩 한눈에 · 게임에서 다시 보는 법</summary><div class="rt-panel" id="rt-panel-story">
       <section class="card">
         <div class="sec-head"><h2>와우 이야기 한눈에</h2>
         <p class="sub">출시 순서가 곧 이야기 순서예요. 큰 줄기만 적어서 결말 스포일러는 피했어요.</p></div>
@@ -1486,14 +1562,7 @@ body:is([data-spec="prot"],[data-spec="vengeance"],[data-spec="blood"]) .sheet{m
         <p class="note-line"><b>대격변부터가 아니에요.</b> 지금 옛 세계(칼림도어·동부 왕국) 퀘스트는 대격변 때 다시 만든 것이라, 시간상으로는 리치 왕의 분노 <b>다음</b> 이야기예요. 그래서 순서대로 보려면 불타는 성전 → 리치 왕의 분노 → 대격변 순이에요.</p>
         <p class="note-line">원래 2004년 모습의 옛 세계는 별도 게임인 <b>WoW 클래식</b> 서버에서 볼 수 있어요. 지금 게임(한밤)의 옛 세계는 대격변 이후 모습이에요.</p>
       </section>
-    </div>
-  </div>
-
-  <div class="view" id="v-story" hidden>
-    <section class="card st-head">
-      <div class="sec-head"><h2>와우 이야기</h2></div>
-      <div class="st-tl"><button type="button" class="st-arr prev" id="st-l" aria-label="앞 시대 보기">‹</button><ol class="st-eras" id="st-eras" aria-label="시대"></ol><button type="button" class="st-arr next" id="st-r" aria-label="뒤 시대 보기">›</button></div>
-    </section>
+    </div></details>
     <div class="st-layout">
     <nav class="st-side" id="st-side" aria-label="이 시대의 장"></nav>
     <div class="st-main">
@@ -1732,8 +1801,8 @@ function renderRot(where){const d=ROT[spec],byId=Object.fromEntries(SPECS[spec].
    <ul class="foot foot-list"><li>가이드(Method·Icy Veins)의 우선순위를 쉽게 줄인 거예요.</li><li>특성에 따라 없는 스킬은 건너뛰면 돼요.</li><li>키는 내 키 배치 기준이에요.</li></ul>`;
 }
 let view='home',lastClass='keys';
-function setRt(k){document.querySelectorAll('[data-rt]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.rt===k));['level','tips','story'].forEach(x=>document.getElementById('rt-panel-'+x).hidden=x!==k);if(k==='tips'&&!roleChosen)setRole('tank')}
-function showView(v){document.dispatchEvent(new Event('wow:view-before'));if(v==='guide'){v='route';setRt('tips')}if(v==='class')v=lastClass;if(v==='growth')v='keys';const isClass=['keys','rotation'].includes(v);if(isClass)lastClass=v;view=v;document.body.dataset.view=v;requestAnimationFrame(fitKb);document.getElementById('subtabs').hidden=!isClass;document.querySelectorAll('#subtabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===v));['home','keys','rotation','practice','route','story'].forEach(x=>{document.getElementById('v-'+x).hidden=x!==v});if(v==='practice'&&window.trainerOpen)trainerOpen();
+function setRt(k){document.querySelectorAll('[data-rt]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.rt===k));['level','tips'].forEach(x=>document.getElementById('rt-panel-'+x).hidden=x!==k);if(k==='tips'&&!roleChosen)setRole('tank')}
+function showView(v){document.dispatchEvent(new Event('wow:view-before'));if(v==='guide'){v='route';setRt('tips')}if(v==='class')v=lastClass;if(v==='growth')v='talents';const isClass=['keys','rotation','talents'].includes(v);if(isClass)lastClass=v;view=v;document.body.dataset.view=v;requestAnimationFrame(fitKb);document.getElementById('subtabs').hidden=!isClass;document.querySelectorAll('#subtabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===v));['home','keys','rotation','talents','practice','route','story'].forEach(x=>{document.getElementById('v-'+x).hidden=x!==v});if(v==='practice'&&window.trainerOpen)trainerOpen();
   document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===v||(isClass&&b.dataset.view==='class')));document.dispatchEvent(new Event('wow:view-after'));}
 document.querySelectorAll('.tabs button,#subtabs button').forEach(b=>b.addEventListener('click',()=>{showView(b.dataset.view);try{history.replaceState(null,'','#'+view)}catch(e){};window.scrollTo({top:0})}));
 
@@ -1832,9 +1901,9 @@ const TODO=[
  [['s1a','<b>내부 전쟁 요약 이야기</b> 시작하기 (건너뛰지 않기)','route'],['s1b','<b>DBM 또는 BigWigs</b> 설치하기','guide'],['s1c','레벨업 <b>특성 점검</b>하기 (특성창 추천 빌드)','route'],['s1d','<b>위급할 때</b> 기술을 하나씩 돌려 쓰는 연습','rotation']],
  [['s2a','80이 되면 <b>리아드린의 “한밤” 퀘스트</b>로 쿠엘다나스 가기','route'],['s2b','내부 전쟁 요약이 남았다면 먼저 마무리하기','route'],['s2c','새로 생긴 스킬 <b>키 지정</b>','keys']],
  [['s3a','<b>영원노래 숲</b>부터 한밤 캠페인 따라가기','route'],['s3b','<b>레벨업 던전</b> 섞어서 돌기','route'],['s3c','구렁은 <b>첫 완료 퀘스트</b>만 챙기기','route'],['s3d','HandyNotes에 <b>한밤 데이터 플러그인</b> 설치','guide']],
- [['s4a','<b>영웅 특성</b> 고르기','keys'],['s4b','<b>만렙 빌드</b> 적용하고 키 다시 확인','keys'],['s4c','쐐기 대비 <b>징표 단축키</b> 지정','keys']]
+ [['s4a','<b>영웅 특성</b> 고르기','talents'],['s4b','<b>만렙 빌드</b> 적용하고 키 다시 확인','talents'],['s4c','쐐기 대비 <b>징표 단축키</b> 지정','keys']]
 ];
-const TAB_NAME={route:'가이드',keys:'키 배치',rotation:'딜사이클',growth:'특성·빌드',guide:'초보 팁'};
+const TAB_NAME={route:'레벨업',keys:'키 배치',rotation:'딜사이클',talents:'특성 트리',growth:'특성 트리',guide:'초보 팁'};
 let done={};try{done=JSON.parse(localStorage.getItem('wk-done')||'{}')}catch(e){}
 function renderTodo(st){const items=TODO[st],ol=document.getElementById('todo');
   const n=items.filter(([id])=>done[id]).length;
@@ -1974,7 +2043,7 @@ document.getElementById('save-now')?.addEventListener('click',async()=>{ if(!syn
     const d=sn.data(); if((+d.ts||0)>localTs){applyRemote(d);lastSaved=+d.ts;syncState='saved';syncShow()} },()=>{});
 }catch(e){if(syncRef){syncState='error';syncShow()}else await ghConnect()}})();
 
-showView(['keys','rotation','practice','growth','route','guide','story'].includes(location.hash.slice(1))?location.hash.slice(1):'home');
+showView(['keys','rotation','talents','practice','growth','route','guide','story'].includes(location.hash.slice(1))?location.hash.slice(1):'home');
 (()=>{const m=document.getElementById('memo-text');try{m.value=localStorage.getItem('wk-memo')||''}catch(e){}
   let t;m.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(()=>{try{localStorage.setItem('wk-memo',m.value)}catch(e){};markDirty()},300)})})();
 const PROT_TREES=[{"id":65597,"name":"산왕","type":3,"checkpoints":[],"nodes":[{"cell":9,"defaultSpecs":[71,72,73],"node":94803,"requiredPoints":0,"requires":[],"requiresNodes":[],"spells":[{"icon":"ability_vehicle_electrocharge","name":"벼락","points":1,"spell":434969}],"type":2,"requiredLevel":71},{"cell":25,"defaultSpecs":[],"node":94816,"requiredPoints":0,"requires":[9],"requiresNodes":[94803],"spells":[{"icon":"spell_nature_thunderclap","name":"몰아치는 천둥","points":1,"spell":436707}],"type":2},{"cell":27,"defaultSpecs":[],"node":94800,"requiredPoints":0,"requires":[9],"requiresNodes":[94803],"spells":[{"icon":"warrior_talent_icon_thunderstruck","name":"지면 전류","points":1,"spell":436148}],"type":2},{"cell":29,"defaultSpecs":[],"node":94808,"requiredPoints":0,"requires":[9],"requiresNodes":[94803],"spells":[{"icon":"ability_warrior_titansgrip","name":"태산의 힘","points":1,"spell":437068}],"type":2},{"cell":31,"defaultSpecs":[],"node":109811,"requiredPoints":0,"requires":[9],"requiresNodes":[94803],"spells":[{"icon":"ability_racial_avatar","name":"용솟음치는 폭풍","points":1,"spell":275336}],"type":2},{"cell":44,"defaultSpecs":[],"node":94785,"requiredPoints":0,"requires":[25],"requiresNodes":[94816],"spells":[{"icon":"warrior_talent_icon_bloodandthunder","name":"우레 작렬","points":1,"spell":435607}],"type":2},{"cell":46,"defaultSpecs":[],"node":94817,"requiredPoints":0,"requires":[27],"requiresNodes":[94800],"spells":[{"icon":"warrior_talent_icon_stormbolt","name":"폭풍망치","points":1,"spell":436162},{"icon":"spell_winston_bubble","name":"폭풍 방패","points":1,"spell":438597}],"type":3},{"cell":50,"defaultSpecs":[],"node":109810,"requiredPoints":0,"requires":[31],"requiresNodes":[109811],"spells":[{"icon":"spell_shaman_thunderstorm","name":"전도력","points":1,"spell":1270723}],"type":2},{"cell":48,"defaultSpecs":[],"node":94798,"requiredPoints":0,"requires":[29],"requiresNodes":[94808],"spells":[{"icon":"ability_thunderking_overcharge","name":"굳건한 자세","points":1,"spell":438590},{"icon":"ability_warrior_devastate","name":"태산부동","points":1,"spell":434970}],"type":3},{"cell":65,"defaultSpecs":[],"node":94792,"requiredPoints":0,"requires":[46],"requiresNodes":[94817],"spells":[{"icon":"spell_nature_stormreach","name":"모여드는 구름","points":1,"spell":436201},{"icon":"inv_ability_mountainthanewarrior_thorimsmight","name":"토림의 힘","points":1,"spell":436152}],"type":3},{"cell":63,"defaultSpecs":[],"node":94797,"requiredPoints":0,"requires":[44],"requiresNodes":[94785],"spells":[{"icon":"spell_lightning_lightningbolt01","name":"번뜩이는 하늘","points":1,"spell":437079},{"icon":"ability_thunderking_thunderstruck","name":"일격 유도","points":1,"spell":456270}],"type":3},{"cell":67,"defaultSpecs":[],"node":94807,"requiredPoints":0,"requires":[48],"requiresNodes":[94798],"spells":[{"icon":"shaman_pvp_thundercharge","name":"폭발적인 힘","points":1,"spell":437118}],"type":2},{"cell":69,"defaultSpecs":[],"node":109809,"requiredPoints":0,"requires":[50],"requiresNodes":[109810],"spells":[{"icon":"spell_nature_purge","name":"전기 축적","points":1,"spell":1270724}],"type":2},{"cell":85,"defaultSpecs":[],"node":94805,"requiredPoints":0,"requires":[63,65,67,69],"requiresNodes":[94797,94792,94807,109809],"spells":[{"icon":"achievement_dungeon_blackrockcaverns_ascendantlordobsidius","name":"폭풍의 화신","points":1,"spell":437134}],"type":2}]},{"id":73,"name":"방어","type":2,"checkpoints":[{"row":5,"points":8},{"row":8,"points":20}],"nodes":[{"cell":9,"defaultSpecs":[],"node":90295,"requiredPoints":0,"requires":[],"requiresNodes":[],"spells":[{"icon":"ability_warrior_renewedvigor","name":"고통 감내","points":1,"spell":190456}],"type":1},{"cell":26,"defaultSpecs":[],"node":90305,"requiredPoints":0,"requires":[9],"requiresNodes":[90295],"spells":[{"icon":"ability_warrior_warcry","name":"사기의 외침","points":1,"spell":1160}],"type":1},{"cell":30,"defaultSpecs":[],"node":90298,"requiredPoints":0,"requires":[9],"requiresNodes":[90295],"spells":[{"icon":"ability_warrior_revenge","name":"복수","points":1,"spell":6572}],"type":1},{"cell":43,"defaultSpecs":[],"node":90304,"requiredPoints":0,"requires":[26],"requiresNodes":[90305],"spells":[{"icon":"ability_warrior_shieldguard","name":"충격 대비","points":1,"spell":386030}],"type":2},{"cell":46,"defaultSpecs":[],"node":90306,"requiredPoints":0,"requires":[26],"requiresNodes":[90305],"spells":[{"icon":"inv_chest_plate05","name":"방어구 전문화","points":1,"spell":1234769}],"type":2},{"cell":48,"defaultSpecs":[],"node":90299,"requiredPoints":0,"requires":[30],"requiresNodes":[90298],"spells":[{"icon":"ability_racial_foregedinflames","name":"불길을 지나","points":1,"spell":452494}],"type":2},{"cell":51,"defaultSpecs":[],"node":90297,"requiredPoints":0,"requires":[30],"requiresNodes":[90298],"spells":[{"icon":"inv_sword_11","name":"압도자","points":1,"spell":236279}],"type":2},{"cell":66,"defaultSpecs":[],"node":90303,"requiredPoints":0,"requires":[48,46],"requiresNodes":[90299,90306],"spells":[{"icon":"inv_shield_05","name":"전략가","points":1,"spell":384041}],"type":2},{"cell":64,"defaultSpecs":[],"node":107579,"requiredPoints":0,"requires":[43],"requiresNodes":[90304],"spells":[{"icon":"ability_bullrush","name":"훼방의 외침","points":1,"spell":386071}],"type":1},{"cell":68,"defaultSpecs":[],"node":90296,"requiredPoints":0,"requires":[51],"requiresNodes":[90297],"spells":[{"icon":"spell_hunter_focusingshot","name":"파멸적인 집중","points":1,"spell":1264330}],"type":2},{"cell":83,"defaultSpecs":[],"node":90301,"requiredPoints":8,"requires":[66],"requiresNodes":[90303],"spells":[{"icon":"ability_rogue_dismantle","name":"선동","points":1,"spell":394311}],"type":2},{"cell":81,"defaultSpecs":[],"node":90451,"requiredPoints":8,"requires":[43],"requiresNodes":[90304],"spells":[{"icon":"ability_warrior_renewedvigor","name":"잔혹한 활력","points":1,"spell":384036}],"type":2},{"cell":89,"defaultSpecs":[],"node":90309,"requiredPoints":8,"requires":[51],"requiresNodes":[90297],"spells":[{"icon":"ability_warrior_revenge","name":"차디찬 복수","points":1,"spell":202560}],"type":2},{"cell":85,"defaultSpecs":[],"node":90302,"requiredPoints":8,"requires":[66],"requiresNodes":[90303],"spells":[{"icon":"ability_warrior_shieldwall","name":"방패의 벽","points":1,"spell":871}],"type":1},{"cell":87,"defaultSpecs":[],"node":90300,"requiredPoints":8,"requires":[66],"requiresNodes":[90303],"spells":[{"icon":"ability_warrior_bloodsurge","name":"피의 쇄도","points":1,"spell":384361}],"type":2},{"cell":100,"defaultSpecs":[],"node":90308,"requiredPoints":8,"requires":[81],"requiresNodes":[90451],"spells":[{"icon":"ability_vehicle_electrocharge","name":"천둥군주","points":1,"spell":385840}],"type":2},{"cell":98,"defaultSpecs":[],"node":90450,"requiredPoints":8,"requires":[81],"requiresNodes":[90451],"spells":[{"icon":"inv_helm_armor_bloodelf_d_01","name":"주문파괴자","points":1,"spell":1235023},{"icon":"ability_warrior_shieldreflection","name":"쪼그리기","points":1,"spell":1235022}],"type":3},{"cell":102,"defaultSpecs":[],"node":90318,"requiredPoints":8,"requires":[85],"requiresNodes":[90302],"spells":[{"icon":"ability_warrior_stalwartprotector","name":"수호자의 아이기스","points":1,"spell":397103},{"icon":"ability_warrior_shieldguard","name":"철통 철벽 방패","points":1,"spell":384072}],"type":3},{"cell":104,"defaultSpecs":[],"node":107576,"requiredPoints":8,"requires":[85],"requiresNodes":[90302],"spells":[{"icon":"spell_holy_ashestoashes","name":"최후의 저항","points":1,"spell":1243659}],"type":2},{"cell":106,"defaultSpecs":[],"node":90264,"requiredPoints":8,"requires":[85],"requiresNodes":[90302],"spells":[{"icon":"inv_artifact_bloodoftheassassinated","name":"혈행성 전이","points":1,"spell":385704},{"icon":"ability_warrior_improveddisciplines","name":"급살","points":1,"spell":29725}],"type":3},{"cell":108,"defaultSpecs":[],"node":90448,"requiredPoints":8,"requires":[89],"requiresNodes":[90309],"spells":[{"icon":"ability_deathknight_sanguinfortitude","name":"응징","points":1,"spell":275334}],"type":2},{"cell":123,"defaultSpecs":[],"node":90311,"requiredPoints":8,"requires":[106,102],"requiresNodes":[90264,90318],"spells":[{"icon":"ability_defend","name":"인내하는 방어","points":2,"spell":386027}],"type":2},{"cell":117,"defaultSpecs":[],"node":90320,"requiredPoints":8,"requires":[100],"requiresNodes":[90308],"spells":[{"icon":"inv_titanium_shield_spike","name":"난공불락","points":1,"spell":385888}],"type":2},{"cell":119,"defaultSpecs":[],"node":90319,"requiredPoints":8,"requires":[100,102],"requiresNodes":[90308,90318],"spells":[{"icon":"ability_demonhunter_bloodlet","name":"격렬한 원동력","points":1,"spell":383103}],"type":2},{"cell":127,"defaultSpecs":[],"node":90449,"requiredPoints":8,"requires":[108,106],"requiresNodes":[90448,90264],"spells":[{"icon":"ability_warrior_defensivestance","name":"불굴의 태세","points":1,"spell":1235047}],"type":2},{"cell":129,"defaultSpecs":[],"node":90310,"requiredPoints":8,"requires":[108],"requiresNodes":[90448],"spells":[{"icon":"ability_backstab","name":"치명상","points":1,"spell":1261060}],"type":2},{"cell":142,"defaultSpecs":[],"node":90315,"requiredPoints":20,"requires":[123],"requiresNodes":[90311],"spells":[{"icon":"inv_shield_76","name":"방패 전문화","points":1,"spell":386011}],"type":2},{"cell":138,"defaultSpecs":[],"node":90312,"requiredPoints":20,"requires":[119],"requiresNodes":[90319],"spells":[{"icon":"inv_shield_32","name":"묵직한 반격","points":1,"spell":203177},{"icon":"ability_warrior_bloodfrenzy","name":"참전","points":1,"spell":202603}],"type":3},{"cell":140,"defaultSpecs":[],"node":107578,"requiredPoints":20,"requires":[123],"requiresNodes":[90311],"spells":[{"icon":"spell_nature_strength","name":"집중된 활력","points":1,"spell":384067}],"type":2},{"cell":144,"defaultSpecs":[],"node":107577,"requiredPoints":20,"requires":[123],"requiresNodes":[90311],"spells":[{"icon":"spell_nature_unyeildingstamina","name":"인내의 기민함","points":1,"spell":384063}],"type":2},{"cell":146,"defaultSpecs":[],"node":90433,"requiredPoints":20,"requires":[127],"requiresNodes":[90449],"spells":[{"icon":"warrior_talent_icon_avatar","name":"투신","points":1,"spell":107574}],"type":1},{"cell":159,"defaultSpecs":[],"node":90314,"requiredPoints":20,"requires":[142,138],"requiresNodes":[90315,90312],"spells":[{"icon":"ability_warrior_commandingshout","name":"우렁찬 음성","points":1,"spell":202743}],"type":2},{"cell":161,"defaultSpecs":[],"node":90434,"requiredPoints":20,"requires":[142],"requiresNodes":[90315],"spells":[{"icon":"ability_warrior_intensifyrage","name":"백절불굴","points":1,"spell":202095}],"type":2},{"cell":163,"defaultSpecs":[],"node":90265,"requiredPoints":20,"requires":[142,146],"requiresNodes":[90315,90433],"spells":[{"icon":"ability_warrior_furiousresolve","name":"격렬한 울분","points":1,"spell":386477}],"type":2},{"cell":155,"defaultSpecs":[],"node":107575,"requiredPoints":20,"requires":[138],"requiresNodes":[90312],"spells":[{"icon":"inv_axe_2h_orcwarrior_c_01","name":"대학살","points":1,"spell":281001}],"type":2},{"cell":167,"defaultSpecs":[],"node":90313,"requiredPoints":20,"requires":[146],"requiresNodes":[90433],"spells":[{"icon":"inv_1115_warrior_crushingblow","name":"잔인무도","points":1,"spell":1235088}],"type":2},{"cell":180,"defaultSpecs":[],"node":90435,"requiredPoints":20,"requires":[163,161,159],"requiresNodes":[90265,90434,90314],"spells":[{"icon":"ability_warrior_endlessrage","name":"역전의 용사","points":1,"spell":386394}],"type":2},{"cell":176,"defaultSpecs":[],"node":90317,"requiredPoints":20,"requires":[138],"requiresNodes":[90312],"spells":[{"icon":"ability_warrior_shieldcharge","name":"방패 돌격","points":1,"spell":385952}],"type":1},{"cell":184,"defaultSpecs":[],"node":90432,"requiredPoints":20,"requires":[146],"requiresNodes":[90433],"spells":[{"icon":"warrior_talent_icon_ravager","name":"소용돌이 칼날","points":1,"spell":1235113},{"icon":"warrior_talent_icon_ravager","name":"쇠날발톱","points":1,"spell":228920}],"type":3},{"cell":199,"defaultSpecs":[],"node":110411,"requiredPoints":20,"requires":[],"requiresNodes":[],"spells":[{"icon":"inv12_apextalent_warrior_phalanx","name":"결사단원","points":1,"spell":1269311},{"icon":"inv12_apextalent_warrior_phalanx","name":"결사단원","points":2,"spell":1269312},{"icon":"inv12_apextalent_warrior_phalanx","name":"결사단원","points":1,"spell":1269313}],"type":5,"requiredLevel":90}]},{"id":1,"name":"전사","type":1,"checkpoints":[{"row":5,"points":8},{"row":8,"points":23}],"nodes":[{"cell":5,"defaultSpecs":[73],"node":90261,"requiredPoints":0,"requires":[],"requiresNodes":[],"spells":[{"icon":"ability_warrior_offensivestance","name":"전투 태세","points":1,"spell":386164}],"type":1},{"cell":13,"defaultSpecs":[73],"node":90330,"requiredPoints":0,"requires":[],"requiresNodes":[],"spells":[{"icon":"ability_warrior_defensivestance","name":"방어 태세","points":1,"spell":386208}],"type":1},{"cell":22,"defaultSpecs":[],"node":90344,"requiredPoints":0,"requires":[5],"requiresNodes":[90261,90325,90327],"spells":[{"icon":"ability_hunter_posthaste","name":"빠른 발걸음","points":1,"spell":382260}],"type":2},{"cell":26,"defaultSpecs":[],"node":90328,"requiredPoints":0,"requires":[5],"requiresNodes":[90327,90261,90325],"spells":[{"icon":"ability_hunter_rapidkilling","name":"전쟁 기계","points":1,"spell":262231}],"type":2},{"cell":30,"defaultSpecs":[],"node":90343,"requiredPoints":0,"requires":[13],"requiresNodes":[90330,92538,92537],"spells":[{"icon":"spell_nature_thunderclap","name":"천둥벼락","points":1,"spell":6343}],"type":1},{"cell":34,"defaultSpecs":[],"node":90371,"requiredPoints":0,"requires":[13],"requiresNodes":[90330,92538,92537],"spells":[{"icon":"inv_artifact_bloodoftheassassinated","name":"흡혈의 일격","points":1,"spell":382258}],"type":2},{"cell":43,"defaultSpecs":[],"node":90326,"requiredPoints":0,"requires":[22,26],"requiresNodes":[90344,90328],"spells":[{"icon":"spell_impending_victory","name":"예견된 승리","points":1,"spell":202168}],"type":1},{"cell":47,"defaultSpecs":[],"node":90346,"requiredPoints":0,"requires":[26,30],"requiresNodes":[90328,90343],"spells":[{"icon":"ability_heroicleap","name":"영웅의 도약","points":1,"spell":6544}],"type":1},{"cell":49,"defaultSpecs":[],"node":95959,"requiredPoints":0,"requires":[30],"requiresNodes":[90343],"spells":[{"icon":"ability_thunderking_overcharge","name":"짜릿한 천둥","points":1,"spell":203201}],"type":2},{"cell":51,"defaultSpecs":[],"node":90337,"requiredPoints":0,"requires":[34,30],"requiresNodes":[90371,90343],"spells":[{"icon":"warrior_talent_icon_stormbolt","name":"폭풍망치","points":1,"spell":107570}],"type":1},{"cell":60,"defaultSpecs":[],"node":110653,"requiredPoints":0,"requires":[43,22],"requiresNodes":[90326,90344],"spells":[{"icon":"warrior_talent_icon_bloodandthunder","name":"피와 번개","points":1,"spell":384277}],"type":2},{"cell":62,"defaultSpecs":[],"node":90332,"requiredPoints":0,"requires":[43],"requiresNodes":[90326],"spells":[{"icon":"ability_hunter_harass","name":"재기의 바람","points":1,"spell":29838}],"type":2},{"cell":64,"defaultSpecs":[],"node":90352,"requiredPoints":0,"requires":[43,47,26],"requiresNodes":[90326,90346,90328],"spells":[{"icon":"warrior_talent_icon_furyintheblood","name":"거품 무는 광전사","points":1,"spell":392792}],"type":2},{"cell":66,"defaultSpecs":[],"node":90355,"requiredPoints":0,"requires":[47],"requiresNodes":[90346],"spells":[{"icon":"ability_heroicleap","name":"뛰어난 도약","points":1,"spell":202163}],"type":2},{"cell":68,"defaultSpecs":[],"node":90353,"requiredPoints":0,"requires":[47,51],"requiresNodes":[90346,90337],"spells":[{"icon":"spell_holy_painsupression","name":"고통과 결실","points":1,"spell":382549}],"type":2},{"cell":72,"defaultSpecs":[],"node":90329,"requiredPoints":0,"requires":[51,34],"requiresNodes":[90337,90371],"spells":[{"icon":"ability_warrior_victoryrush","name":"가로막기","points":1,"spell":3411}],"type":1},{"cell":81,"defaultSpecs":[],"node":90375,"requiredPoints":8,"requires":[60,64],"requiresNodes":[109391,90352,110653,110654],"spells":[{"icon":"ability_warrior_shockwave","name":"충격파","points":1,"spell":46968}],"type":1},{"cell":83,"defaultSpecs":[],"node":90378,"requiredPoints":8,"requires":[64],"requiresNodes":[90352],"spells":[{"icon":"racial_orc_berserkerstrength","name":"압도적인 격노","points":1,"spell":382767}],"type":2},{"cell":85,"defaultSpecs":[],"node":90331,"requiredPoints":8,"requires":[68,64],"requiresNodes":[90353,90352],"spells":[{"icon":"ability_warrior_rallyingcry","name":"재집결의 함성","points":1,"spell":97462}],"type":1},{"cell":87,"defaultSpecs":[],"node":110119,"requiredPoints":8,"requires":[68],"requiresNodes":[90353],"spells":[{"icon":"inv_misc_bandage_08","name":"긴급치료","points":1,"spell":1271926}],"type":2},{"cell":89,"defaultSpecs":[],"node":90385,"requiredPoints":8,"requires":[68,72],"requiresNodes":[90353,108674,108676,90329],"spells":[{"icon":"ability_warrior_shieldreflection","name":"주문 반사","points":1,"spell":23920}],"type":1},{"cell":98,"defaultSpecs":[],"node":90351,"requiredPoints":8,"requires":[81,60],"requiresNodes":[90375,109391,110653,110654],"spells":[{"icon":"warrior_talent_icon_mastercleaver","name":"격파의 투척","points":1,"spell":384110},{"icon":"ability_warrior_shatteringthrow","name":"분쇄의 투척","points":1,"spell":64382}],"type":3},{"cell":100,"defaultSpecs":[],"node":90374,"requiredPoints":8,"requires":[81],"requiresNodes":[90375],"spells":[{"icon":"spell_shaman_earthquake","name":"대지 뒤흔들기","points":1,"spell":275339}],"type":2},{"cell":102,"defaultSpecs":[],"node":90348,"requiredPoints":8,"requires":[85,81],"requiresNodes":[90331,90375],"spells":[{"icon":"spell_nature_ancestralguardian","name":"광전사의 외침","points":1,"spell":384100},{"icon":"ability_warrior_endlessrage","name":"용맹","points":1,"spell":1271925}],"type":3},{"cell":106,"defaultSpecs":[],"node":108705,"requiredPoints":8,"requires":[85,89],"requiresNodes":[90331,90385],"spells":[{"icon":"ability_golemthunderclap","name":"위협의 외침","points":1,"spell":5246},{"icon":"spell_shadow_deathscream","name":"날카로운 고함","points":1,"spell":12323}],"type":3},{"cell":110,"defaultSpecs":[],"node":95956,"requiredPoints":8,"requires":[89,72],"requiresNodes":[90385,108674,108676,90329],"spells":[{"icon":"spell_holy_borrowedtime","name":"단련된 반사신경","points":1,"spell":391271}],"type":2},{"cell":119,"defaultSpecs":[],"node":90366,"requiredPoints":8,"requires":[102,98],"requiresNodes":[90348,90351],"spells":[{"icon":"inv_shoulder_22","name":"완전 무장","points":2,"spell":384124}],"type":2},{"cell":127,"defaultSpecs":[],"node":90368,"requiredPoints":8,"requires":[110,106],"requiresNodes":[95956,108705],"spells":[{"icon":"inv_chest_plate04","name":"강화된 판금","points":2,"spell":382939}],"type":2},{"cell":123,"defaultSpecs":[],"node":90382,"requiredPoints":8,"requires":[102,106],"requiresNodes":[90348,108705],"spells":[{"icon":"inv_misc_horn_04","name":"연속 돌진","points":1,"spell":103827}],"type":2},{"cell":136,"defaultSpecs":[],"node":90347,"requiredPoints":23,"requires":[119],"requiresNodes":[90366],"spells":[{"icon":"ability_garrosh_whirling_corruption","name":"야만적인 훈련","points":1,"spell":383082}],"type":2},{"cell":140,"defaultSpecs":[],"node":110118,"requiredPoints":23,"requires":[119,123],"requiresNodes":[90366,90382],"spells":[{"icon":"8026700","name":"투창병","points":1,"spell":1271948}],"type":2},{"cell":144,"defaultSpecs":[],"node":108685,"requiredPoints":23,"requires":[123,127],"requiresNodes":[90382,90368],"spells":[{"icon":"warrior_disruptingshout","name":"공명하는 목소리","points":1,"spell":1243660}],"type":2},{"cell":148,"defaultSpecs":[],"node":108686,"requiredPoints":23,"requires":[127],"requiresNodes":[90368],"spells":[{"icon":"spell_shadow_unholystrength","name":"분쇄의 무력","points":1,"spell":382764}],"type":2},{"cell":157,"defaultSpecs":[],"node":90381,"requiredPoints":23,"requires":[136,140],"requiresNodes":[90347,110118],"spells":[{"icon":"ability_criticalstrike","name":"잔혹한 일격","points":2,"spell":392777}],"type":2},{"cell":161,"defaultSpecs":[],"node":90324,"requiredPoints":23,"requires":[144,140],"requiresNodes":[108685,110118],"spells":[{"icon":"inv_sword_20","name":"한손 무기류 전문화","points":2,"spell":382895}],"type":2},{"cell":165,"defaultSpecs":[],"node":90360,"requiredPoints":23,"requires":[148,144],"requiresNodes":[108686,108685],"spells":[{"icon":"ability_rogue_sprint","name":"야생의 강타","points":2,"spell":382946}],"type":2},{"cell":174,"defaultSpecs":[],"node":108543,"requiredPoints":23,"requires":[157],"requiresNodes":[90381],"spells":[{"icon":"warrior_talent_icon_angermanagement","name":"분노 제어","points":1,"spell":152278}],"type":2},{"cell":178,"defaultSpecs":[],"node":90380,"requiredPoints":23,"requires":[161,157],"requiresNodes":[90373,90322,90381,90324],"spells":[{"icon":"inv_ability_warrior_championsspear","name":"용사의 창","points":1,"spell":376079}],"type":1},{"cell":182,"defaultSpecs":[],"node":108542,"requiredPoints":23,"requires":[161,165],"requiresNodes":[90373,90322,90324,90360],"spells":[{"icon":"crest_warrior","name":"태세 특화","points":1,"spell":1280961}],"type":2},{"cell":186,"defaultSpecs":[],"node":108544,"requiredPoints":23,"requires":[165],"requiresNodes":[90360],"spells":[{"icon":"ability_warrior_commandingshout","name":"전장의 사령관","points":1,"spell":424742}],"type":2}]},{"id":65598,"name":"거신","type":3,"checkpoints":[],"nodes":[{"cell":9,"defaultSpecs":[71,72,73],"node":94818,"requiredPoints":0,"requires":[],"requiresNodes":[],"spells":[{"icon":"inv_ability_colossuswarrior_demolish","name":"쇄파","points":1,"spell":436358}],"type":1,"requiredLevel":71},{"cell":25,"defaultSpecs":[],"node":94812,"requiredPoints":0,"requires":[9],"requiresNodes":[94818],"spells":[{"icon":"ability_warrior_stalwartprotector","name":"무예의 고수","points":1,"spell":429638}],"type":2},{"cell":27,"defaultSpecs":[],"node":94819,"requiredPoints":0,"requires":[9],"requiresNodes":[94818],"spells":[{"icon":"ability_warrior_strengthofarms","name":"거인의 힘","points":1,"spell":429634}],"type":2},{"cell":29,"defaultSpecs":[],"node":94789,"requiredPoints":0,"requires":[9],"requiresNodes":[94818],"spells":[{"icon":"ability_deathknight_brittlebones","name":"해골전율자","points":1,"spell":429639},{"icon":"spell_shaman_earthquake","name":"대지전율자","points":1,"spell":440992}],"type":3},{"cell":31,"defaultSpecs":[],"node":109814,"requiredPoints":0,"requires":[9],"requiresNodes":[94818],"spells":[{"icon":"inv_10_blacksmithing_craftedbar_bloodyalloy","name":"학살","points":1,"spell":1270704}],"type":2},{"cell":44,"defaultSpecs":[],"node":94799,"requiredPoints":0,"requires":[25],"requiresNodes":[94812],"spells":[{"icon":"ability_warrior_incite","name":"일기당천","points":1,"spell":429637},{"icon":"ability_butcher_gushingwounds","name":"동맥 출혈","points":1,"spell":440995}],"type":3},{"cell":46,"defaultSpecs":[],"node":94811,"requiredPoints":0,"requires":[27],"requiresNodes":[94819],"spells":[{"icon":"ability_warrior_weaponmastery","name":"전투의 해일","points":1,"spell":429641}],"type":2},{"cell":48,"defaultSpecs":[],"node":94815,"requiredPoints":0,"requires":[29],"requiresNodes":[94789],"spells":[{"icon":"ability_warrior_renewedvigor","name":"익숙한 고통","points":1,"spell":429644},{"icon":"ability_hunter_harass","name":"역전의 용사의 활력","points":1,"spell":440993}],"type":3},{"cell":50,"defaultSpecs":[],"node":109813,"requiredPoints":0,"requires":[31],"requiresNodes":[109814],"spells":[{"icon":"ability_warrior_deepcuts","name":"뼈 가르기","points":1,"spell":1270709}],"type":2},{"cell":63,"defaultSpecs":[],"node":94796,"requiredPoints":0,"requires":[44],"requiresNodes":[94799],"spells":[{"icon":"spell_warrior_sharpenblade","name":"숙련된 공격","points":1,"spell":429647}],"type":2},{"cell":65,"defaultSpecs":[],"node":94794,"requiredPoints":0,"requires":[46],"requiresNodes":[94811],"spells":[{"icon":"spell_hunter_focusingshot","name":"정밀한 힘","points":1,"spell":431548}],"type":2},{"cell":67,"defaultSpecs":[],"node":94806,"requiredPoints":0,"requires":[48],"requiresNodes":[94815],"spells":[{"icon":"ability_warrior_intensifyrage","name":"근육과 상흔의 산","points":1,"spell":429642}],"type":2},{"cell":69,"defaultSpecs":[],"node":109812,"requiredPoints":0,"requires":[50],"requiresNodes":[109813],"spells":[{"icon":"inv_1115_warrior_fasterreflexes","name":"빠르게 찾아오는 결말","points":1,"spell":1270710}],"type":2},{"cell":85,"defaultSpecs":[],"node":94793,"requiredPoints":0,"requires":[65,63,67,69],"requiresNodes":[94794,94796,94806,109812],"spells":[{"icon":"ability_warrior_titansgrip","name":"거신의 지배","points":1,"spell":429636}],"type":2}]}];
@@ -3301,6 +3370,44 @@ const GL={"살게라스":["p","판테온의 전사였으나 공허를 막겠다�
  const measure=()=>{nav.classList.remove('stuck');document.documentElement.style.setProperty('--navh',nav.offsetHeight+'px');base=nav.getBoundingClientRect().top+scrollY;tick()};
  const tick=()=>nav.classList.toggle('stuck',scrollY>base+1);
  addEventListener('scroll',tick,{passive:true});addEventListener('resize',measure);document.fonts?.ready.then(measure);measure();})();
+</script>
+
+<script>
+/* 2026-10 UI 개편: 홈 이어서 하기 · 스토리 용어 패널 접기 */
+(()=>{
+  const $=id=>document.getElementById(id);
+  const go=v=>{const b=document.querySelector(`.tabs [data-view="${v}"]`);if(b)b.click()};
+  // 스토리 용어 패널 접기
+  const NK='wow-story-names-off';
+  const head=document.querySelector('#v-story .st-head .sec-head');
+  if(head){
+    const t=document.createElement('button');t.type='button';t.className='st-names-toggle';
+    const set=off=>{document.body.classList.toggle('st-nonames',off);t.textContent=off?'용어 패널 보기':'용어 패널 접기';t.setAttribute('aria-pressed',String(!off))};
+    let off=false;try{off=localStorage.getItem(NK)==='1'}catch(e){}
+    set(off);
+    t.addEventListener('click',()=>{off=!off;set(off);try{localStorage.setItem(NK,off?'1':'0')}catch(e){}});
+    head.appendChild(t);
+  }
+  // 홈: 이어서 하기
+  const now=$('now');if(!now||typeof STORY==='undefined')return;
+  const h=document.createElement('h3');h.className='cont-h';h.textContent='이어서 하기';
+  const box=document.createElement('div');box.className='cont';box.id='cont';
+  now.append(h,box);
+  function render(){
+    let era=null;try{const r=localStorage.getItem('wow-story-era');if(r!==null)era=+r}catch(e){}
+    const E=STORY.eras;const e=Number.isInteger(era)&&era>=0&&era<E.length?E[era]:null;
+    const story=e?`<small>스토리</small><b>${e.n}</b><span>${e.y} · 이어서 읽기</span>`:`<small>스토리</small><b>세계관부터 읽기</b><span>와우 이야기를 처음부터</span>`;
+    const bb=document.querySelector('#tr-bossSeg [aria-pressed="true"]');const boss=bb&&bb.firstChild?(bb.firstChild.textContent||'').trim():'';
+    box.innerHTML=`<button type="button" data-go="story">${story}</button>`+
+      `<button type="button" data-go="practice"><small>연습</small><b>${boss||'탱커 연습'}</b><span>단축키 손에 익히기</span></button>`+
+      `<button type="button" data-go="talents"><small>내 직업</small><b>특성 트리</b><span>추천 특성 · 내 특성 확인</span></button>`;
+  }
+  box.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b)return;const v=b.dataset.go;if(v==='talents'){go('class');const s=$('sub-talents');if(s)s.click()}else go(v)});
+  render();document.addEventListener('wow:view-after',()=>{if(document.body.dataset.view==='home')render()});
+  // 저장 메뉴: 바깥을 누르면 닫기
+  const sm=document.querySelector('.savemenu');
+  if(sm)document.addEventListener('click',e=>{if(sm.open&&!sm.contains(e.target))sm.open=false});
+})();
 </script>
 </body>
 </html>
