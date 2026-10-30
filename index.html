@@ -1745,6 +1745,41 @@ html,body{overflow-x:clip}
 .tr-ovcard>div:has(>.tr-rules){border:0!important}
 /* 선택된 흰 알약은 테두리 없이 그림자만 */
 .seg button[aria-pressed="true"],.tt-presets button[aria-pressed="true"],.tr-seg button[aria-pressed="true"],.tt-hero button[aria-pressed="true"],#tt-items .btn[aria-pressed="true"],.subtabs button[aria-pressed="true"]{box-shadow:0 1px 3px rgba(40,36,70,.14)!important}
+
+/* ===== u19: 직업 선택은 저장 상태 칩과 같은 모양 ===== */
+.navigation .character-select select#character-select{-webkit-appearance:none;appearance:none;font:inherit;font-size:11.5px!important;font-weight:600!important;line-height:1.5;color:var(--ink-2)!important;
+  background:var(--surface-2) url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%238b8ba0%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22/%3E%3C/svg%3E") no-repeat right 8px center/11px!important;border:0!important;box-shadow:none!important;border-radius:999px!important;
+  padding:2px 24px 2px 10px!important;min-height:0!important;height:auto!important;width:auto!important;min-width:0!important;max-width:none!important;cursor:pointer}
+.navigation .character-select select#character-select:hover{color:var(--ink)!important}
+.navigation .character-select{flex:0 0 auto!important;min-width:0!important}
+#save-status{line-height:1.5}
+.savemenu>summary{gap:2px}
+
+/* ===== u19: 스토리 위계·간격 정리 ===== */
+/* 시대 제목이 가장 크게 */
+#v-story .st-era-t>span{display:block;font-size:12px;color:var(--ink-3);margin:0 0 2px}
+#v-story .st-era-t h3{font-size:30px!important;font-weight:800!important;letter-spacing:-.02em;line-height:1.2;margin:0 0 16px!important}
+#v-story .st-ch h4{font-size:21px!important}
+@media (max-width:760px){#v-story .st-era-t h3{font-size:24px!important;margin-bottom:14px!important}#v-story .st-ch h4{font-size:18px!important}}
+/* 그림·본문 간격 한 가지로: 그림 → 10 → 설명 → 20 → 본문, 장 위쪽은 32 */
+#v-story .st-era-head .st-era-t{padding-top:20px!important;padding-bottom:32px!important}
+#v-story .st-ch .lore-body{padding-top:32px!important;padding-bottom:36px!important}
+#v-story .st-ch>.st-inl{margin:32px 0 0!important}
+#v-story .st-ch>.st-inl figcaption{padding:10px 0 0!important;font-size:12.5px;line-height:1.5}
+#v-story .st-ch>.st-inl+.lore-body{padding-top:20px!important}
+#v-story .lore-meta{margin-bottom:10px!important}
+/* 좁은 화면: 시대 머리의 장 목록은 위 읽기 막대와 겹치므로 숨김 */
+@media (max-width:1100px){#v-story .st-era-head .st-toc{display:none!important}}
+/* 읽기 진행도는 차분하게: 막대 하나만, 얇게 */
+.st-reader #st-progress{display:none!important}
+.st-reader{box-shadow:none!important;border:0!important;border-bottom:1px solid var(--line)!important;padding:6px 0 8px!important}
+.st-reader .st-segments{height:2px!important;gap:3px!important;margin-top:6px}
+.st-reader .st-segments>*{height:2px!important;border-radius:999px}
+.st-reader select{font-size:12.5px!important}
+.st-reader output{font-size:11.5px!important;color:var(--ink-3)!important}
+
+.era-game{border:0!important}
+#v-story .st-era-head .st-era-t{padding-bottom:24px!important}
 </style>
 </head>
 <body>
