@@ -1235,7 +1235,7 @@ header.top #headline,header.top .lede,.sb-brand{display:none!important}
 /* ---------- 위 메뉴 (한 줄, 위에 붙음) ---------- */
 .navigation,.navigation.stuck{position:sticky!important;top:0!important;z-index:40!important;display:flex!important;align-items:center!important;flex-wrap:nowrap!important;gap:10px!important;
   margin:0 0 24px!important;padding:12px 0!important;background:var(--page)!important;border:0!important;border-radius:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;isolation:isolate}
-.navigation::before{content:'';position:absolute;top:0;bottom:0;left:-100vmax;right:-100vmax;background:var(--page);box-shadow:0 1px 0 var(--line);z-index:-1}
+.navigation::before{content:'';position:absolute;top:0;bottom:0;left:calc(50% - 50vw);right:calc(50% - 50vw);background:var(--page);box-shadow:0 1px 0 var(--line);z-index:-1}
 .navigation>.eyebrow{display:contents!important}
 .navigation>.eyebrow .patch{order:0;font-size:12px;color:var(--ink-3);white-space:nowrap}
 .navigation>.eyebrow .savemenu{order:2;margin-left:auto}
@@ -1601,6 +1601,29 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 #rot li{align-items:center}
 #rot .dot-c::before{display:none!important}
 #rot li .dot-c{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--ink)!important}
+
+/* ---------- 키 배치: 키캡은 흰 면 한 가지, 분류는 점 색으로만 ---------- */
+#kb .cap,#mkb .cap{background:var(--surface)!important;border:1px solid var(--line-2)!important;box-shadow:0 2px 0 var(--line-2)!important;border-radius:10px!important}
+#kb .cap.move,#mkb .cap.move{background:var(--surface-2)!important}
+#kb .cap.fixed,#mkb .cap.fixed{border-color:var(--main)!important;box-shadow:0 2px 0 var(--main)!important}
+#kb .cap.off,#kb .cap.empty,#mkb .cap.off,#mkb .cap.empty{background:var(--surface-2)!important;border-style:dashed!important;box-shadow:none!important}
+#kb .cap .s,#mkb .cap .s{border-top-color:var(--line)!important}
+#meta li{background:var(--surface)!important;border:1px solid var(--line)!important;box-shadow:none!important;border-radius:8px!important}
+#meta li.empty{background:var(--surface-2)!important;border-style:dashed!important}
+#meta .bs-k{color:var(--ink)!important;font-weight:650}
+/* ---------- 레벨업: 넓은 화면은 두 칸으로, 글 폭 제한 대신 칸 폭 ---------- */
+#v-route li,#v-route .timeline p,#v-route .sub{max-width:none!important}
+@media (min-width:1100px){
+  #rt-panel-level{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
+  #rt-panel-level>*{grid-column:1/-1}
+  #rt-panel-level>div:not([class]),#rt-panel-level>.card.lv3{grid-column:auto}
+  #rt-panel-level{align-items:start}
+  #rt-panel-level .timeline{display:grid!important;grid-template-columns:1fr 1fr;column-gap:40px}
+  #rt-panel-level .timeline>li:nth-child(2){border-top:0!important;padding-top:0!important}
+}
+#rt-panel-level .note-line{background:none!important;padding:0!important;margin-top:12px!important;font-size:12px!important;color:var(--ink-3)!important}
+/* 특성 안내는 접힌 'How to Use' 안에 */
+.foot-list.in-help{margin:10px 0 0!important}
 </style>
 </head>
 <body>
@@ -2063,7 +2086,7 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   </div>
 
 
-  <footer class="copy">© 진솔 / 우사기</footer>
+  
 </div>
 
 <script>
@@ -4098,6 +4121,11 @@ document.addEventListener('wow:view-after',later);run();setTimeout(run,300);
   R.querySelectorAll('li .dot-c').forEach(d=>{if(d.querySelector('.sk-ico'))return;const nm=d.textContent.trim();const ic=map[nm];if(!ic)return;const im=new Image();im.className='sk-ico';im.alt='';im.loading='lazy';im.src=url(ic);im.onerror=()=>im.remove();d.prepend(im)})};
  const R=document.getElementById('rot');if(R)new MutationObserver(()=>requestAnimationFrame(put)).observe(R,{childList:true,subtree:true});
  document.addEventListener('wow:view-after',()=>requestAnimationFrame(put));put();setTimeout(put,500);})();
+</script>
+<script>
+/* 특성 페이지 아래 안내 목록을 'How to Use · Sources' 안으로 */
+(()=>{const mv=()=>{const f=document.querySelector('#v-talents>.foot-list'),d=document.querySelector('#v-talents .tt-footer details');if(f&&d){f.classList.add('in-help');d.appendChild(f)}};
+ document.addEventListener('wow:view-after',()=>requestAnimationFrame(mv));const R=document.getElementById('abilities');if(R)new MutationObserver(()=>requestAnimationFrame(mv)).observe(R,{childList:true});mv();setTimeout(mv,500);})();
 </script>
 </body>
 </html>
