@@ -1253,6 +1253,46 @@ body:is([data-spec="prot"],[data-spec="vengeance"],[data-spec="blood"]) .sheet{m
   .navigation .tabs>button[aria-pressed="true"]{box-shadow:none!important;background:var(--main-soft)!important}
   .navigation .tabs>button[aria-pressed="true"]::after{content:'';margin-left:auto;width:6px;height:6px;border-radius:50%;background:var(--main)}
 }
+
+/* 이어서 하기: 오른쪽 열 맨 위, 세로 목록 */
+#quick .cont-h{margin:0;font-size:19px;font-weight:750;letter-spacing:-.02em;color:var(--ink)}
+#quick .cont{grid-template-columns:1fr;gap:8px;margin-top:14px}
+#quick .cont a,#quick .cont button{flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:2px 10px;padding:12px 14px}
+#quick .cont span{flex-basis:100%}
+@media (min-width:1100px){
+  #v-home{grid-template-rows:auto auto auto 1fr!important}
+  #v-home>#now{grid-row:span 3!important}
+}
+
+/* ===== 위계: 0 페이지 머리 / 1 주인공 / 2 보조 / 3 참고 ===== */
+.page-head{grid-column:1/-1;padding:2px 2px 2px;min-width:0}
+.ph-t{margin:0;font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1.25;color:var(--ink)}
+.ph-d{margin:8px 0 0;font-size:14px;line-height:1.7;color:var(--ink-2);max-width:760px}
+.ph-d:empty{display:none}
+.mirrored{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
+.sec-head:has(>h2.mirrored){margin-bottom:0}
+.card.lv1{padding:30px 32px!important}
+.card.lv2 .sec-head h2,.card.lv2>h2{font-size:17px!important}
+.card.lv3{background:transparent!important;border:0!important;border-top:1px solid var(--line-2)!important;border-radius:0!important;padding:22px 2px 6px!important}
+.card.lv3 .sec-head{margin-bottom:12px}
+.card.lv3 .sec-head h2,.card.lv3>h2{font-size:15px!important;color:var(--ink-2)}
+.card.lv3 .sec-head .ico{display:none}
+/* 홈 머리: 틀 없이 배경 위 */
+#hero{background:transparent!important;border:0!important;padding:4px 2px 10px!important}
+#hero .page-head{padding:0 0 14px}
+@media (max-width:760px){
+  .ph-t{font-size:22px}
+  .ph-d{font-size:13px}
+  .card.lv1{padding:22px 18px!important}
+}
+
+.tr-card:has(#tr-startOv:not([hidden])) .tr-head{display:none}
+#skills.lv1{padding:0!important}
+#hero .pick-label{font-size:12px;color:var(--ink-3)}
+
+.sec-head:has(>h2.mirrored):not(:has(>:not(h2,.sub))){display:none!important}
+.titlebox{display:none!important}
+.sec-head.sec-collapsed{display:none!important}
 </style>
 </head>
 <body>
@@ -3531,7 +3571,7 @@ const GL={"살게라스":["p","판테온의 전사였으나 공허를 막겠다�
   const now=$('now');if(!now||typeof STORY==='undefined')return;
   const h=document.createElement('h3');h.className='cont-h';h.textContent='이어서 하기';
   const box=document.createElement('div');box.className='cont';box.id='cont';
-  (document.getElementById('hero')||now).append(h,box);
+  const qc=document.createElement('section');qc.className='card';qc.id='quick';h.className='cont-h';qc.append(h,box);const pl=document.getElementById('play');(pl&&pl.parentNode===now.parentNode)?now.parentNode.insertBefore(qc,pl):now.after(qc);
   function render(){
     let era=null;try{const r=localStorage.getItem('wow-story-era');if(r!==null)era=+r}catch(e){}
     const E=STORY.eras;const e=Number.isInteger(era)&&era>=0&&era<E.length?E[era]:null;
@@ -3578,6 +3618,43 @@ const GL={"살게라스":["p","판테온의 전사였으나 공허를 막겠다�
 (()=>{const inp=document.getElementById('lvl-input'),tr=document.getElementById('lv-track');if(!inp||!tr)return;
  const upd=()=>{const v=+inp.value||1;tr.querySelectorAll('li').forEach(li=>{const a=+li.dataset.a,b=+li.dataset.b;li.classList.toggle('on',v>=a&&v<=b);li.classList.toggle('done',v>b)})};
  inp.addEventListener('input',upd);inp.addEventListener('change',upd);document.addEventListener('wow:view-after',upd);upd();setTimeout(upd,400);})();
+</script>
+
+<script>
+/* 위계 적용: 페이지 머리 만들고 카드에 단계 붙이기 */
+(()=>{
+  const q=(sel,root=document)=>root.querySelector(sel),qa=(sel,root=document)=>[...root.querySelectorAll(sel)];
+  const cardsIn=root=>root?qa(':scope>.card, :scope>.cols>.card, :scope>.guide-2>.card, :scope>div:not([class])>.card',root).filter(c=>!c.closest('[hidden]')||c.closest('[hidden]')===root.closest('[hidden]')):[];
+  const setLv=(list,plan)=>list.forEach((c,i)=>{c.classList.remove('lv1','lv2','lv3');c.classList.add(plan[Math.min(i,plan.length-1)])});
+  const head=view=>{let h=q(':scope>.page-head',view);if(!h){h=document.createElement('header');h.className='page-head';h.innerHTML='<h1 class="ph-t"></h1><p class="ph-d"></p>';view.prepend(h)}return h};
+  const fill=(h,t,d)=>{h.querySelector('.ph-t').textContent=t||'';h.querySelector('.ph-d').textContent=d||''};
+  const mirror=(view,tSel,dSel,fallbackT)=>{const h=head(view),t=tSel&&q(tSel),d=dSel&&q(dSel);
+    const th=t&&(t.closest('h2')||t);[th,d].forEach(e=>e&&e.classList.add('mirrored'));const sh=t&&t.closest('.sec-head');if(sh)sh.classList.toggle('sec-collapsed',[...sh.children].every(c=>c.classList.contains('mirrored')||getComputedStyle(c).display==='none'));
+    fill(h,t?t.innerText.trim():fallbackT,d?d.innerText.trim():'')};
+  function run(){
+    // 홈
+    const hero=q('#hero');if(hero){let h=q(':scope>.page-head',hero);if(!h){h=document.createElement('header');h.className='page-head';h.innerHTML='<h1 class="ph-t"></h1><p class="ph-d"></p>';hero.prepend(h)}
+      const cc=q('#current-character');fill(h,cc?cc.textContent.replace(/\s*\(.*?\)\s*/g,'').trim():'와우 노트','')}
+    ['#now:lv1','#quick:lv2','#play:lv3','#memo:lv3'].forEach(x=>{const [sel,l]=x.split(':');const c=q(sel);if(c){c.classList.remove('lv1','lv2','lv3');c.classList.add(l)}});
+    // 키 배치
+    const vk=q('#v-keys');if(vk){mirror(vk,'#keys .sec-head h2','#keys .sec-head .sub','키 배치');
+      [['#keys','lv1'],['#v-keys .sheet','lv2'],['#build','lv3'],['#setup','lv3']].forEach(([s,l])=>{const c=q(s);if(c){c.classList.remove('lv1','lv2','lv3');c.classList.add(l)}})}
+    // 딜사이클
+    const vr=q('#v-rotation');if(vr){mirror(vr,'#rot-title','#rot-sub','딜사이클');setLv(cardsIn(vr),['lv1','lv2'])}
+    // 특성 트리
+    const vt=q('#v-talents');if(vt){const sk=q('#skills');if(sk&&q('.tt-title',sk)){mirror(vt,'#skills .tt-title','#skills .tt-intro','특성 트리');const h=q(':scope>.page-head .ph-t',vt);if(h&&h.textContent==='특성')h.textContent='특성 트리'}else fill(head(vt),'특성 트리','');if(sk){sk.classList.add('lv1')}}
+    // 연습
+    const vp=q('#v-practice');if(vp){mirror(vp,'#tr-title','#tr-sub','연습');const tc=q('.tr-card',vp);if(tc)tc.classList.add('lv1')}
+    // 레벨업
+    const vrt=q('#v-route');if(vrt){const lvP=q('#rt-panel-level'),tpP=q('#rt-panel-tips');
+      if(lvP&&!lvP.hidden){mirror(vrt,'#rt-panel-level>.card .sec-head h2','#rt-panel-level>.card .sec-head .sub','레벨업 흐름')}
+      else{const role=q('.role-tabs [aria-pressed="true"]');fill(head(vrt),'초보 팁'+(role?' · '+role.textContent.trim():''),'역할을 바꾸면 그 역할에 맞는 팁으로 바뀌어요.')}
+      if(lvP)setLv(cardsIn(lvP),['lv1','lv2','lv3']);if(tpP)setLv(cardsIn(tpP),['lv1','lv2','lv3'])}
+  }
+  let raf=0;const later=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(run)};
+  document.addEventListener('wow:view-after',later);document.addEventListener('click',later);document.addEventListener('change',later);
+  run();setTimeout(run,500);setTimeout(run,1500);
+})();
 </script>
 </body>
 </html>
