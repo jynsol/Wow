@@ -1589,6 +1589,84 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
 .tab-row{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
 .tab-row>*{margin:0!important}
 .tab-row .role-tabs[hidden]{display:none!important}
+
+/* u15: 이름 표기 없이 로고만 */
+.sb-brand{font-size:0!important;gap:0!important;min-width:0!important}
+@media (min-width:1100px){.sb-brand{width:150px}}
+
+/* u15b: 떠 있는 메뉴가 내용 위에 올 때는 불투명하게 */
+@media (min-width:761px){
+  .navigation.stuck{background:color-mix(in srgb,var(--surface) 96%,transparent)!important;-webkit-backdrop-filter:blur(20px) saturate(1.4);backdrop-filter:blur(20px) saturate(1.4);box-shadow:0 0 0 1px var(--line),0 12px 32px -14px rgba(40,36,70,.3)!important}
+}
+
+/* ===== u16: 흰 배경 · 옅은 포인트색 · 위에 붙은 고정 메뉴 · 스토리 두 칸 ===== */
+:root:not([data-theme="dark"]){--bg:#ffffff}
+@media (prefers-color-scheme:light){:root{--bg:#ffffff}}
+body{background:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body{background:var(--bg)}}
+body::before{display:none!important}
+.view .card:not(#hero),#v-home .card:not(#hero),.st-side{box-shadow:0 0 0 1px var(--line),0 1px 2px rgba(40,36,70,.04)!important}
+/* 홈 히어로: 옅은 테마색 */
+#hero{background:linear-gradient(135deg,var(--main-soft) 0%,color-mix(in srgb,var(--main-soft) 60%,#fff) 100%)!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--main-line) 70%,transparent)!important;color:var(--ink)}
+#hero .page-head .ph-t{color:var(--ink)!important}
+#hero .now-top .pick-label{color:var(--ink-3)!important}
+#hero .lvbox input{color:var(--ink)!important;box-shadow:0 0 0 1px var(--main-line)!important}
+#hero .lv-track li::before{background:color-mix(in srgb,var(--main-line) 70%,transparent)!important}
+#hero .lv-track li.done::after{background:var(--main-line)!important}
+#hero .lv-track li.on::after{background:var(--main)!important}
+#hero .lv-track li b,#hero .lv-track li span{color:var(--ink-3)!important}
+#hero .lv-track li.on b{color:var(--ink)!important}
+#hero .lv-track li.on b::before{background:var(--main)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--main) 25%,transparent)!important}
+/* 메뉴: 화면 위에 붙은 고정 막대 */
+@media (min-width:761px){
+  .navigation,.navigation.stuck{position:sticky!important;top:0!important;margin:0 0 18px!important;padding:10px 0!important;border-radius:0!important;
+    background:#fff!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+    box-shadow:0 0 0 100vmax #fff!important;clip-path:inset(0 -100vmax)!important}
+  .navigation::after{content:'';position:absolute;left:-100vmax;right:-100vmax;bottom:0;height:1px;background:var(--line)}
+  .sb-brand{padding-left:0!important}
+}
+@media (max-width:760px){.navigation .tabs{background:#fff!important;-webkit-backdrop-filter:none;backdrop-filter:none}}
+/* 스토리: 목차 + 본문 두 칸 (용어는 본문 밑줄 단어를 누르면 뜨는 풍선으로) */
+#v-story .st-names,.st-names-toggle{display:none!important}
+@media (min-width:1101px){#v-story .st-layout{grid-template-columns:200px minmax(0,1fr)!important}}
+
+@media (min-width:761px){.navigation .character-select select{max-width:230px!important;min-width:200px}}
+
+.sb-brand{display:none!important}
+@media (min-width:761px){.navigation .tabs{margin:0!important}.navigation .character-select{margin-left:auto!important;min-width:0!important}}
+
+@media (max-width:760px){.navigation,.navigation.stuck{background:#fff!important;box-shadow:none!important;clip-path:none!important}.navigation .character-select select{max-width:240px!important}}
+
+/* 주요 버튼은 메뉴 선택과 같은 진한 알약 */
+.btn.pri,#tr-startBtn,#st-next{background:var(--ink)!important;color:var(--surface)!important;border-color:var(--ink)!important}
+.btn.pri:hover,#tr-startBtn:hover,#st-next:hover{background:color-mix(in srgb,var(--ink) 88%,#fff)!important}
+
+/* u17: 한 줄 메뉴 — 패치 정보·저장 상태도 메뉴 줄 안으로, 가로 넘침 막기 */
+html,body{overflow-x:clip}
+@media (min-width:761px){
+  .navigation,.navigation.stuck{clip-path:none!important;box-shadow:none!important;isolation:isolate}
+  .navigation::before{content:'';position:absolute;top:0;bottom:0;left:-100vmax;right:-100vmax;background:#fff;z-index:-1}
+  .navigation>.eyebrow{order:2;margin-left:auto!important;display:flex!important;align-items:center;gap:10px;position:static!important;padding:0!important;border:0!important;width:auto!important;font-size:12px;color:var(--ink-3);white-space:nowrap}
+  .navigation>.character-select{order:3;margin-left:0!important}
+}
+@media (max-width:760px){
+  .navigation{display:flex!important;align-items:center;gap:8px}
+  .navigation>.eyebrow{order:2;margin-left:auto;display:flex!important;align-items:center;padding:0!important;border:0!important}
+  .navigation>.eyebrow .patch{display:none}
+}
+.toprow:not(:has(.eyebrow)) {margin:0}
+
+/* 메뉴는 가운데 고정 */
+@media (min-width:1100px){
+  .navigation .tabs{position:absolute!important;left:50%;top:50%;transform:translate(-50%,-50%)}
+  .navigation>.eyebrow{display:contents!important}
+  .navigation>.eyebrow .patch{order:0;font-size:12px;color:var(--ink-3)}
+  .navigation>.eyebrow .savemenu{order:2;margin-left:auto}
+  .navigation>.character-select{order:3}
+}
+@media (min-width:761px) and (max-width:1099px){.navigation>.eyebrow .patch{display:none}}
+
+@media (min-width:761px) and (max-width:1099px){.navigation .character-select select{min-width:0!important;max-width:170px!important}.navigation .tabs>button{padding:8px 12px!important}.navigation .tabs{flex:1 1 auto!important;min-width:0}}
 </style>
 </head>
 <body>
@@ -3977,6 +4055,57 @@ const GL={"살게라스":["p","판테온의 전사였으나 공허를 막겠다�
 (()=>{const fix=()=>['v-route','v-practice'].forEach(id=>{const v=document.getElementById(id);if(!v)return;const st=v.querySelector(':scope>.tab-row')||v.querySelector(':scope>.subtabs'),ph=v.querySelector(':scope>.page-head');if(st&&ph&&(st.compareDocumentPosition(ph)&Node.DOCUMENT_POSITION_PRECEDING))st.after(ph)});
  const later=()=>requestAnimationFrame(()=>requestAnimationFrame(fix));
  document.addEventListener('wow:view-after',later);document.addEventListener('click',later);fix();setTimeout(fix,300);})();
+</script>
+<script>
+/* u17: 패치 정보·저장 메뉴를 메뉴 줄로 옮기기 */
+(()=>{const eb=document.querySelector('.toprow>.eyebrow'),nav=document.querySelector('.navigation');if(!eb||!nav)return;
+ const t=[...eb.childNodes].find(n=>n.nodeType===3&&n.nodeValue.trim());if(t){const sp=document.createElement('span');sp.className='patch';sp.textContent=t.nodeValue.trim();t.replaceWith(sp)}
+ nav.appendChild(eb);})();
+</script>
+<script>
+/* u15: 화면 라벨은 영어로 (고유명사·스토리·설명 문장은 한국어 그대로) */
+(()=>{
+const SPEC={'방어 전사':'Protection Warrior','복수 악마사냥꾼':'Vengeance Demon Hunter','혈기 죽기':'Blood Death Knight'};
+const ROLE={'탱커':'Tank','딜러':'DPS','힐러':'Healer'};
+const D={
+'홈':'Home','내 직업':'Class','레벨업':'Leveling','스토리':'Story','연습':'Practice',
+'키 배치':'Keybinds','딜사이클':'Rotation','특성 트리':'Talents','레벨업 흐름':'Route','초보 팁':'Tips',
+'지금 레벨':'Level','다음에 할 일':'Next Up','내 설정':'My Setup','메모':'Notes',
+'이동':'Move','차단':'Interrupt','대상 · 탈것':'Target · Mount','애드온':'Addons',
+'게임에 옮기기 · 단축바 1·2·3':'Action Bars 1 · 2 · 3','소모품 키':'Consumables','치트시트':'Cheat Sheet','스킬 말고 필요한 키':'Utility Keys',
+'추천 키':'Key','기능':'Action','원래':'Default',
+'평소 우선순위 (위에서부터)':'Priority','위급할 때':'Defensives','상황마다 쓰는 기술':'Utility','무리를 끌어올 때':'Pulling','그밖에 알아두면 좋은 것':'Good to Know',
+'특성':'Talents','레이드':'Raid','쐐기':'Mythic+','솔플':'Solo','레벨링':'Leveling','내 특성':'My Build','내 특성 초기화':'Reset My Build','사용법 · 자료 기준':'How to Use · Sources',
+'한밤 지역 순서 (80–90)':'Zone Order (80–90)','빠른 루트':'Fast Track','레벨업하다 막히면':'Troubleshooting',
+'꼭 해둘 설정':'Essential Settings','던전 길 익히기':'Learning Dungeons','채팅 명령어':'Chat Commands','자주 보는 용어':'Common Terms','생활 팁':'Quality of Life',
+'와우 이야기':'Story','와우 이야기 한눈에':'At a Glance','스토리를 보고 싶다면':'Watching It In-Game','이 시대 처음부터 읽기':'Read from the Start','용어 패널 접기':'Hide Glossary','용어 패널 보기':'Show Glossary',
+'이전 시대':'Previous','다음 시대':'Next','처음부터':'Restart',
+'보스':'Boss','난이도':'Difficulty','규칙':'Rules','쉬움':'Easy','보통':'Normal','어려움':'Hard','반응 훈련':'Reaction Drill',
+'전투 시작 (Enter)':'Start (Enter)','노트 단축키로 되돌리기':'Reset to Note Keys','단축키 확인 · 눌러서 바꾸기':'Keybinds · Click to Change',
+'이 기기에만 저장됨':'Saved on this device','저장하는 중…':'Saving…','GitHub에 저장됨':'Saved to GitHub','저장 실패 · 다시 누르면 재시도해요':'Save failed · tap to retry','저장소에 연결하는 중…':'Connecting…',
+'GitHub로 동기화':'Sync with GitHub','백업 받기':'Download Backup','백업 불러오기':'Restore Backup'
+};
+const R=[
+ [/^(.+) 단축키 가이드$/,(m,a)=>SPEC[a]?SPEC[a]+' Keybinds':null],
+ [/^(.+) 딜사이클$/,(m,a)=>SPEC[a]?SPEC[a]+' Rotation':null],
+ [/^(탱커|딜러|힐러) 연습 · (.+)$/,(m,a,b)=>'Practice · '+(SPEC[b]||b)],
+ [/^초보 팁 · (탱커|딜러|힐러)$/,(m,a)=>'Tips · '+ROLE[a]],
+ [/^초보 팁 · (Tank|DPS|Healer)$/,(m,a)=>'Tips · '+a],
+ [/^(탱커|딜러|힐러) · (.+)$/,(m,a,b)=>SPEC[b]?ROLE[a]+' · '+SPEC[b]:null],
+ [/^(탱커|딜러|힐러) (기본기|매너)$/,(m,a,b)=>ROLE[a]+(b==='기본기'?' Basics':' Etiquette')],
+ [/^(\d) · .+ 공통$/,(m,a)=>a+' · Class'],[/^(\d) · .+ 전문화$/,(m,a)=>a+' · Spec'],[/^(\d) · 영웅 특성$/,(m,a)=>a+' · Hero'],
+ [/^WoW 한밤 · 패치 ([\d.]+) · 시즌 (\d+)$/,(m,a,b)=>'WoW Midnight · Patch '+a+' · Season '+b],
+];
+const one=t=>{const k=t.trim();if(!k||!/[가-힣]/.test(k))return null;if(D[k])return D[k];if(SPEC[k])return SPEC[k];if(ROLE[k])return ROLE[k];for(const [re,f] of R){const m=k.match(re);if(m){const r=f(...m);if(r)return r}}return null};
+const SEL='#v-practice .tr-card *,.navigation button,.navigation option,.subtabs button,.seg button,.page-head .ph-t,.card h2,.card h3,.sec-head h2,.pick-label,.chips-set .cl,.todo .go,th,.tt-presets button,.tt-toolbar button,.tt-panel-h,.tt-tree-panel>header,summary,.tr-seg button,.tr-label,.tr-rules-h,.tr-card button,#st-side .sd-head,.sd-restart,.st-names-toggle,.st-pager button,#st-restart,.st-eras .y,.st-eras .n,.eyebrow,.savepop button,.savepop label,#save-status,.sheet h2,#tt-items .btn,.tl-h,.tr-ovcard button,.tr-ovcard h2,.tr-ovcard label';
+const hero=()=>{const h=document.querySelector('#hero .ph-t');if(!h)return;const sp=document.getElementById('character-select');const en=sp?SPEC[(sp.selectedOptions[0]||{}).dataset?.ko||'']:null;const t=h.textContent.trim();const m=t.match(/· (.+)$/);const k=m?m[1]:t;if(SPEC[k]&&h.textContent!==SPEC[k])h.textContent=SPEC[k]};
+let busy=false;
+const run=()=>{busy=true;try{document.querySelectorAll(SEL).forEach(el=>{if(el.closest('#st-era,#st-names .sn-list,.tt-canvas'))return;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const r=one(n.nodeValue);if(r!==null){const lead=n.nodeValue.match(/^\s*/)[0],tail=n.nodeValue.match(/\s*$/)[0];n.nodeValue=lead+r+tail}}});hero();
+  const st=document.getElementById('save-status');}finally{busy=false}};
+let raf=0;const later=()=>{if(busy||raf)return;raf=requestAnimationFrame(()=>{raf=0;run()})};
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,characterData:true});
+document.addEventListener('wow:view-after',later);run();setTimeout(run,300);
+})();
 </script>
 </body>
 </html>
