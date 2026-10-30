@@ -1715,6 +1715,17 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .mcap .ms{border-top-color:color-mix(in srgb,var(--ink) 12%,transparent)!important}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #kb .cap.has-cat,:root:not([data-theme="light"]) #meta li.has-cat,:root:not([data-theme="light"]) .mcap:has(>.mb[class*="cat-"]){background:color-mix(in srgb,var(--c) 17%,var(--surface))!important;border-color:color-mix(in srgb,var(--c) 40%,var(--surface))!important;box-shadow:0 2px 0 color-mix(in srgb,var(--c) 40%,var(--surface))!important}}
 #mkb .mcap.fixed,#kb .cap.fixed.has-cat,#mkb .mcap.fixed:has(>.mb[class*="cat-"]){border-color:var(--ink)!important;box-shadow:0 2px 0 var(--ink)!important}
+
+/* 스토리 목차 현재 위치: 이어진 회색 레일 + 현재 장만 검정 (번호 없음) */
+.sd-toc{position:relative;padding-left:0!important}
+.sd-toc::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;border-radius:2px;background:var(--line)}
+.sd-toc li{position:relative}
+.sd-toc a::before{content:none!important}
+.sd-toc a{padding-left:16px!important;border-radius:0!important;background:none!important;grid-template-columns:minmax(0,1fr) auto!important}
+.sd-toc a>i{display:none!important}
+.sd-toc li:has(a[aria-current="location"])::after{content:'';position:absolute;left:0;top:6px;bottom:6px;width:2px;border-radius:2px;background:var(--ink)}
+.sd-toc a[aria-current="location"]{color:var(--ink)!important;font-weight:700;background:none!important}
+.sd-toc a:hover{color:var(--ink)!important}
 </style>
 </head>
 <body>
