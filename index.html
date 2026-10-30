@@ -1512,6 +1512,21 @@ details.faq>p{margin:0 0 12px;font-size:14px;color:var(--ink-2)}
 #v-story #st-era>.st-ch:first-child .lore-body{padding-top:8px!important}
 .tr-seg{box-sizing:border-box!important;max-width:100%}
 .tr-seg-note{margin-bottom:12px!important}
+
+/* ---------- 세로 리듬 (한 벌) ----------
+   메뉴 줄 위아래 12 · 메뉴 아래 첫 요소 24(폰 16) · 하위 탭 → 제목 16(폰 12)
+   제목 → 첫 카드 20(폰 16) · 카드 사이 16(폰 12) */
+.wrap{padding-top:0!important;row-gap:0!important}
+footer.copy{margin-top:40px!important}
+.navigation,.navigation.stuck{padding:12px 0!important;margin:0 0 24px!important}
+header.top{margin:0!important;padding:0!important}
+header.top>#subtabs:not([hidden]){margin:0 0 16px!important}
+.page-head{margin-bottom:4px!important}
+#hero .page-head{margin-bottom:0!important}
+@media (max-width:760px){
+  .navigation,.navigation.stuck{padding:12px 0!important;margin:0 0 16px!important}
+  header.top>#subtabs:not([hidden]){margin:0 0 12px!important}
+}
 </style>
 </head>
 <body>
