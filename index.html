@@ -1782,6 +1782,15 @@ html,body{overflow-x:clip}
 
 .era-game{border:0!important}
 #v-story .st-era-head .st-era-t{padding-bottom:24px!important}
+
+/* 저장 상태 칩도 화살표를 칩 안에 (직업 선택과 같은 모양) */
+.savemenu>summary{position:relative;gap:0!important}
+#save-status{padding-right:24px!important}
+.savemenu>summary .ti{position:absolute;right:8px;top:50%;width:11px!important;height:11px!important;margin:0!important;transform:translateY(-50%)!important;color:#8b8ba0!important;stroke-width:2.4;pointer-events:none}
+.savemenu[open]>summary .ti{transform:translateY(-50%) rotate(180deg)!important}
+
+.navigation>.eyebrow,.navigation>.eyebrow .savemenu,.navigation>.character-select{align-self:center!important;margin-top:0!important;margin-bottom:0!important}
+.navigation>.eyebrow .savemenu>summary{display:flex;align-items:center}
 </style>
 </head>
 <body>
