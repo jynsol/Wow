@@ -1802,6 +1802,14 @@ button:disabled,.btn:disabled{opacity:.4;cursor:not-allowed}
   #v-story .st-era-t .k-legend{display:none!important}
   #v-story .st-bar{margin-bottom:8px!important}
 }
+
+/* ===== 알약 한 벌: 큰 알약 32px(메뉴·고르기) / 작은 알약 24px(상태 칩) ===== */
+@media (min-width:761px){.navigation .tabs>button{min-height:32px!important;height:32px;padding:0 14px!important;font-size:14px!important}}
+.seg button,.tt-presets button,.tr-seg button,.tt-hero button{height:32px;min-height:32px!important;padding:0 14px!important;font-size:13px!important}
+.navigation .tabs>button[aria-pressed="true"],.seg button[aria-pressed="true"],.tt-presets button[aria-pressed="true"],.tr-seg button[aria-pressed="true"],.tt-hero button[aria-pressed="true"]{font-weight:600!important}
+#save-status,.navigation .character-select select#character-select{height:24px!important;line-height:24px!important;padding-top:0!important;padding-bottom:0!important;font-size:12px!important;font-weight:600!important}
+/* 레벨 구간 표시는 알약이 아니라 꼬리표 */
+.timeline .lvl{border-radius:var(--r-tag)!important;padding:2px 8px!important;font-size:12px!important}
 </style>
 </head>
 <body>
