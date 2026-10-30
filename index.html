@@ -1673,13 +1673,43 @@ html,body{overflow-x:clip}
 #v-story .st-era-head .st-fig{margin:0!important;border-radius:0!important}
 #v-story .st-era-head .st-fig .st-art{display:block;width:100%;border-radius:0!important}
 
-/* 시대 타임라인: 선택은 메뉴와 같은 진한 알약, 나머지는 한 톤 낮게 */
-.st-eras b{color:var(--ink-2)!important;font-weight:500!important}
-.st-eras button:hover b{color:var(--ink)!important}
-.st-eras button[aria-pressed="true"] b{background:var(--ink)!important;color:var(--surface)!important;font-weight:700!important}
-.st-eras button[aria-pressed="true"] .d{background:var(--ink)!important;border-color:var(--ink)!important;box-shadow:0 0 0 4px color-mix(in srgb,var(--ink) 12%,transparent)!important}
-.st-eras button[aria-pressed="true"] .y,.st-eras button[aria-pressed="true"] .n{color:var(--ink-2)!important}
-.st-eras button:hover .d{border-color:var(--ink-3)!important}
+
+/* 장 그림은 그 장 카드 맨 위에 붙이기 */
+#v-story .card.st-ch{padding:0!important;overflow:hidden}
+#v-story .st-ch>.st-inl{margin:0!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:none!important}
+#v-story .st-ch>.st-inl svg{display:block;width:100%;height:auto;border-radius:0!important}
+#v-story .st-ch>.st-inl figcaption{margin:0!important;padding:12px 30px 0!important;font-size:12.5px;color:var(--ink-3)}
+
+#v-story .st-ch>.st-inl figcaption{max-width:760px;margin-inline:auto!important;padding:12px 30px 0!important;box-sizing:border-box}
+@media (max-width:760px){#v-story .st-ch>.st-inl figcaption{padding:12px 17px 0!important}}
+.st-reader{background:#fff!important}
+
+/* 스토리: 카드 상자 걷어내고 한 장의 글처럼 */
+#v-story.view .card:not(#hero),#v-story.view .st-side:not(#hero){background:none!important;box-shadow:none!important;border:0!important;border-radius:0!important}
+#v-story.view .card.st-ch:not(#hero){border-top:1px solid var(--line)!important;padding:0!important}
+#v-story.view .st-ov>.card:not(#hero){border-top:1px solid var(--line)!important}
+#v-story.view .st-side:not(#hero){border-right:1px solid var(--line)!important}
+#v-story .card.st-head{padding:0 0 8px!important}
+#v-story .st-head .sec-head{padding:0!important}
+#v-story .st-side{padding:4px 18px 0 0!important;border-right:1px solid var(--line)!important}
+#v-story .card.st-era-head{padding:0!important}
+#v-story .st-era-head .st-fig,#v-story .st-era-head .st-art{border-radius:20px!important;overflow:hidden}
+#v-story .st-era-head .st-era-t{padding-left:0!important;padding-right:0!important}
+#v-story .card.st-ch{padding:0!important;border-top:1px solid var(--line)!important;margin-top:8px}
+#v-story .st-ch .lore-body{padding-left:0!important;padding-right:0!important}
+#v-story .st-ch>.st-inl{margin:28px 0 0!important}
+#v-story .st-ch>.st-inl svg{border-radius:16px!important}
+#v-story .st-ch>.st-inl figcaption{max-width:none!important;padding:10px 0 0!important}
+#v-story .st-ov>.card{padding:28px 0 0!important;border-top:1px solid var(--line)!important}
+.st-reader{background:#fff!important}
+.st-eras button[aria-pressed="true"] b{color:var(--ink)!important;font-weight:800!important;background:none!important}
+
+/* 스토리 본문: 가운데로 띄우지 않고 목차 옆에서 바로 시작, 읽기 좋은 폭 */
+#v-story .st-main{max-width:820px;min-width:0}
+@media (min-width:1101px){#v-story .st-main{padding-left:20px}}
+#v-story .lore-body,#v-story .st-era-t{max-width:none!important;margin-inline:0!important;padding-left:0!important;padding-right:0!important}
+#v-story .st-ch .lore-body{padding-top:28px!important;padding-bottom:32px!important}
+#v-story .st-era-head .st-era-t{padding-top:18px!important;padding-bottom:24px!important}
 </style>
 </head>
 <body>
@@ -4119,6 +4149,12 @@ let raf=0;const later=()=>{if(busy||raf)return;raf=requestAnimationFrame(()=>{ra
 new MutationObserver(later).observe(document.body,{childList:true,subtree:true,characterData:true});
 document.addEventListener('wow:view-after',later);run();setTimeout(run,300);
 })();
+</script>
+<script>
+/* 장 그림을 바로 뒤 장 카드 안으로 */
+(()=>{const era=document.getElementById('st-era');if(!era)return;
+ const merge=()=>{era.querySelectorAll(':scope>figure.st-inl').forEach(f=>{const n=f.nextElementSibling;if(n&&n.classList.contains('st-ch')){f.classList.remove('card');n.prepend(f)}})};
+ new MutationObserver(merge).observe(era,{childList:true});merge();})();
 </script>
 </body>
 </html>
