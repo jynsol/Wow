@@ -1553,6 +1553,54 @@ header.top>#subtabs:not([hidden]){margin:0 0 16px!important}
 .card.fold>.sec-head h2{font-size:16px!important}
 .card.fold>.sec-head::after{top:50%!important;transform:translateY(-50%)}
 .card.fold.open>.sec-head::after{top:0!important;transform:none}
+
+/* =====================================================================
+   레퍼런스에서 가져온 것
+   Linear  : 굵기 700 이하·자간 좁힘, 글 색 3단(ink/ink-2/ink-3)으로 위계, 작은 모서리
+   Vercel  : 카드 = 아주 옅은 테두리 링 + 얕은 그림자, 상태 칩 = 점 + 글자
+   Raycast : 또렷한 키캡(아래 2px 두께)
+   Stripe  : 문서 목차 = 왼쪽 2px 막대로 현재 위치
+   Maxroll : 스킬 줄 = 아이콘 + 키 + 이름, 목록 소제목은 작은 대문자 라벨
+   ===================================================================== */
+:root{--r-card:12px;--r-tile:10px;--r-ctl:8px;--r-tag:5px;
+  --sh-card:0 0 0 1px rgba(40,36,70,.07),0 1px 2px rgba(40,36,70,.05),0 4px 12px -6px rgba(40,36,70,.08)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--sh-card:0 0 0 1px rgba(255,255,255,.07)}}
+:root[data-theme="dark"]{--sh-card:0 0 0 1px rgba(255,255,255,.07)}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+/* 카드·타일 모서리 */
+.view .card,.card.lv1,.card.lv2,.card.lv3{border-radius:var(--r-card)!important}
+.basic,.term-grp,.lp,.zone,.lore-game,.note-line,.tl-warn,.tt-tree-panel,.dc,.decide-cols>div{border-radius:var(--r-tile)!important}
+#hero{border-radius:16px!important}
+/* 글자 위계 */
+.ph-t,#hero .page-head .ph-t,.st-pick b{font-weight:700!important;letter-spacing:-.025em!important}
+#hero .page-head .ph-t{font-size:34px!important}
+.view .card .sec-head h2,.view .card>h2,#now .now-h{font-weight:650!important;letter-spacing:-.015em!important}
+.view .card p,.view .card li{color:var(--ink-2)}
+.view .card b,.view .card strong{color:var(--ink)}
+/* 목록 소제목 · 입력 라벨: 작은 대문자 라벨 */
+.rot-card h3,.rot-tips-box h3,.tr-label,.tr-ovcard h4,#v-practice .tr-ovcard label>span:first-child{font-size:11.5px!important;font-weight:650!important;letter-spacing:.06em!important;text-transform:uppercase;color:var(--ink-3)!important;margin:0 0 10px!important}
+/* 상태 칩: 점 + 글자, 바탕은 직업 칩과 같은 회색 */
+#save-status{background:var(--surface-2)!important;color:var(--ink-2)!important;padding-left:22px!important;position:relative}
+#save-status::before{content:'';position:absolute;left:10px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--ink-3)}
+#save-status[data-s="ok"]::before{background:#3fb37f}
+#save-status[data-s="warn"]::before,#save-status[data-s="bad"]::before{background:#e8a33d}
+#save-status[data-s="busy"]::before{background:#5b8def}
+/* 키캡 */
+.kk,.view .kk{display:inline-flex!important;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px!important;box-sizing:border-box;
+  background:var(--surface)!important;color:var(--ink)!important;border:1px solid var(--line-2)!important;border-bottom-width:2px!important;border-radius:var(--r-tag)!important;
+  font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace!important;box-shadow:none!important;vertical-align:middle}
+.kk.nokey{color:var(--ink-3)!important;border-style:dashed!important;border-bottom-width:1px!important}
+/* 스토리 목차: 왼쪽 막대 */
+.sd-toc a{position:relative;border-radius:0!important;padding-left:12px!important;background:none!important}
+.sd-toc a::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:2px;border-radius:2px;background:var(--line)}
+.sd-toc a[aria-current="location"]{background:none!important;color:var(--ink)!important}
+.sd-toc a[aria-current="location"]::before{background:var(--main);width:3px}
+.sd-toc a:hover{background:none!important;color:var(--ink)!important}
+/* 딜사이클 스킬 줄: 아이콘 + 키 + 이름 */
+.sk-ico{width:22px;height:22px;border-radius:5px;flex:none;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.25);vertical-align:middle;margin-right:2px}
+#rot li{align-items:center}
+#rot .dot-c::before{display:none!important}
+#rot li .dot-c{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--ink)!important}
 </style>
 </head>
 <body>
@@ -4040,6 +4088,16 @@ document.addEventListener('wow:view-after',later);run();setTimeout(run,300);
  segs.forEach(sg=>{let n=sg.nextElementSibling;if(!n||!n.classList.contains('tr-seg-note')){n=document.createElement('p');n.className='tr-seg-note';sg.after(n)}
   const upd=()=>{const b=sg.querySelector('[aria-pressed="true"]');const sm=b&&b.querySelector('small');n.textContent=sm?sm.textContent:''};
   new MutationObserver(()=>requestAnimationFrame(upd)).observe(sg,{subtree:true,childList:true,attributes:true,attributeFilter:['aria-pressed']});upd()});})();
+</script>
+<script>
+/* 딜사이클 스킬 줄에 스킬 아이콘 (특성 데이터 + 기본 기술) */
+(()=>{const BASE={'방패 밀쳐내기':'inv_shield_05','천둥벼락':'spell_nature_thunderclap','복수':'ability_warrior_revenge','마무리 일격':'inv_sword_48','방패 올리기':'ability_defend','도발':'spell_nature_reincarnation','들이치기':'inv_gauntlets_04','돌진':'ability_warrior_charge','영웅의 도약':'ability_heroicleap','영웅의 투척':'inv_axe_66','방패의 벽':'ability_warrior_shieldwall','주문 반사':'ability_warrior_shieldreflection','사기의 외침':'ability_warrior_warcry','투신':'warrior_talent_icon_avatar'};
+ const url=ic=>(typeof PROT_ICONS!=='undefined'&&PROT_ICONS[ic])||('https://wow.zamimg.com/images/wow/icons/medium/'+ic+'.jpg');
+ let map=null;const build=()=>{map=Object.assign({},BASE);try{Object.values(ttTrees()).forEach(t=>(t.nodes||[]).forEach(n=>(n.spells||[]).forEach(sp=>{if(sp.name&&sp.icon&&!map[sp.name])map[sp.name]=sp.icon})))}catch(e){}};
+ const put=()=>{const R=document.getElementById('rot');if(!R)return;build();
+  R.querySelectorAll('li .dot-c').forEach(d=>{if(d.querySelector('.sk-ico'))return;const nm=d.textContent.trim();const ic=map[nm];if(!ic)return;const im=new Image();im.className='sk-ico';im.alt='';im.loading='lazy';im.src=url(ic);im.onerror=()=>im.remove();d.prepend(im)})};
+ const R=document.getElementById('rot');if(R)new MutationObserver(()=>requestAnimationFrame(put)).observe(R,{childList:true,subtree:true});
+ document.addEventListener('wow:view-after',()=>requestAnimationFrame(put));put();setTimeout(put,500);})();
 </script>
 </body>
 </html>
