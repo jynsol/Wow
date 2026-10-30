@@ -1741,6 +1741,44 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 /* 본문 줄바꿈: 어절 단위는 유지, 'pretty'는 끔
    (iOS Safari의 pretty는 줄 끝 들쭉날쭉을 줄이려고 줄을 일찍 끊어서 폰에서 오른쪽이 크게 비어 보임) */
 #v-story .lore-body p,#v-story .lore-body li,#v-story .lore-body dd,#v-story .lore-hook,.view .card p,.view .card li{text-wrap:wrap!important;word-break:keep-all;overflow-wrap:break-word}
+
+/* ===== 밀도 덜어내기 ===== */
+/* 접힌 참고 카드도 부제는 한 줄로 보여 무엇인지 알게 */
+#v-keys .card.fold:not(.open)>.sec-head .sub{display:block!important;margin-top:2px!important}
+/* 딜사이클: 설명만 되풀이하는 회색 꼬리표 숨김, 자원(채우기/쓰기)만 남김 */
+#rot .res:not(.res-g):not(.res-u){display:none!important}
+#rot li .rn{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin-top:2px}
+#rot li .rn>span:not(.res){font-size:13px;color:var(--ink-3)}
+
+/* ===== 상태 디자인 (한 벌) ===== */
+:root{--ink-3:#727289}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink-3:#a39dab}}
+:root[data-theme="dark"]{--ink-3:#a39dab}
+/* 포커스: 키보드로 이동할 때만 검정 링 */
+:where(button,a,select,input,textarea,summary,[role="button"],[tabindex]):focus-visible{outline:2px solid var(--acc,var(--ink))!important;outline-offset:2px!important;box-shadow:none}
+:where(button,a,select,summary,[role="button"]):focus:not(:focus-visible){outline:none}
+/* 눌렀을 때 살짝 들어감 */
+:where(button,.btn,[role="button"]):not(:disabled):active{transform:translateY(1px)}
+/* 마우스 올림: 글자 버튼·목록 행은 회색 면, 카드 제목 줄(접기)은 글자만 진하게 */
+.todo li{transition:background .12s}
+.todo li:hover{background:color-mix(in srgb,var(--surface-2) 60%,transparent)!important}
+details.faq>summary:hover,.card.fold>.sec-head:hover h2{color:var(--ink)!important}
+.card.fold>.sec-head:hover::after{color:var(--ink)!important}
+:where(button,.btn,a,summary,[role="button"],.navigation .tabs>button,.seg button,.tt-presets button,.tr-seg button){transition:background-color .12s,color .12s,box-shadow .12s}
+button:disabled,.btn:disabled{opacity:.4;cursor:not-allowed}
+/* 빈 칸 · 아직 없음 */
+.empty,.off,#meta li.empty{color:var(--ink-3)!important}
+
+/* ===== 어두운 모드 색 ===== */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]),:root:not([data-theme="light"]) body[data-spec]{--p-yellow:#F2BE64!important;--p-lime:#9CCF7E!important;--p-pink:#F49AB6!important;--p-sky:#86BDEB!important;--p-gray:#8D8B96!important}
+  :root:not([data-theme="light"]) body[data-spec="prot"]{--main:#F2BE64!important;--main-soft:#332a1f!important;--main-line:#5a4630!important}
+  :root:not([data-theme="light"]) body[data-spec="vengeance"]{--main:#9CCF7E!important;--main-soft:#23301f!important;--main-line:#3d5236!important}
+  :root:not([data-theme="light"]) body[data-spec="blood"]{--main:#F49AB6!important;--main-soft:#35232b!important;--main-line:#5c3a48!important}
+  :root:not([data-theme="light"]) #hero{background:linear-gradient(135deg,var(--main-soft),var(--surface))!important}
+  :root:not([data-theme="light"]) #kb .cap.has-cat,:root:not([data-theme="light"]) #meta li.has-cat,:root:not([data-theme="light"]) .mcap:has(>.mb[class*="cat-"]){background:color-mix(in srgb,var(--c) 13%,var(--surface))!important;border-color:color-mix(in srgb,var(--c) 32%,var(--surface))!important;box-shadow:0 2px 0 color-mix(in srgb,var(--c) 32%,var(--surface))!important}
+  :root:not([data-theme="light"]) .basic{background:color-mix(in srgb,var(--main) 10%,var(--surface))!important}
+}
 </style>
 </head>
 <body>
@@ -4243,6 +4281,15 @@ document.addEventListener('wow:view-after',later);run();setTimeout(run,300);
 /* 특성 페이지 아래 안내 목록을 'How to Use · Sources' 안으로 */
 (()=>{const mv=()=>{const f=document.querySelector('#v-talents>.foot-list'),d=document.querySelector('#v-talents .tt-footer details');if(f&&d){f.classList.add('in-help');d.appendChild(f)}};
  document.addEventListener('wow:view-after',()=>requestAnimationFrame(mv));const R=document.getElementById('abilities');if(R)new MutationObserver(()=>requestAnimationFrame(mv)).observe(R,{childList:true});mv();setTimeout(mv,500);})();
+</script>
+<script>
+/* 키 배치: 한 번 설정하면 되는 참고 카드(단축바 1·2·3, 스킬 말고 필요한 키)는 접어 두고, 소모품은 키보드 바로 아래로 */
+(()=>{const b=document.getElementById('build'),st=document.getElementById('setup'),cols=document.querySelector('#v-keys>.cols');
+ if(cols&&b&&cols.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_PRECEDING)b.before(cols);
+ [b,st].forEach(c=>{if(!c||c.classList.contains('fold'))return;const sh=c.querySelector(':scope>.sec-head');if(!sh)return;c.classList.add('fold');
+  sh.setAttribute('role','button');sh.tabIndex=0;sh.setAttribute('aria-expanded','false');
+  const t=()=>{const o=c.classList.toggle('open');sh.setAttribute('aria-expanded',o)};
+  sh.addEventListener('click',t);sh.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}})});})();
 </script>
 </body>
 </html>
