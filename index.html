@@ -1737,6 +1737,10 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 @media (max-width:760px){.st-bar{margin-bottom:16px!important}}
 @media (max-width:760px){.tt-presets{gap:5px!important;flex-wrap:nowrap!important}.tt-presets button{padding:0 9px!important;font-size:12px!important}}
 .decide-q .star,.decide .star{display:none!important}
+
+/* 본문 줄바꿈: 어절 단위는 유지, 'pretty'는 끔
+   (iOS Safari의 pretty는 줄 끝 들쭉날쭉을 줄이려고 줄을 일찍 끊어서 폰에서 오른쪽이 크게 비어 보임) */
+#v-story .lore-body p,#v-story .lore-body li,#v-story .lore-body dd,#v-story .lore-hook,.view .card p,.view .card li{text-wrap:wrap!important;word-break:keep-all;overflow-wrap:break-word}
 </style>
 </head>
 <body>
