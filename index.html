@@ -1835,6 +1835,29 @@ html,body{overflow-x:clip}
 
 @media (min-width:761px){.st-tl .st-eras{padding:0 40px!important}.st-tl .st-arr{background:var(--page)!important;z-index:2}}
 .st-eras button:focus:not(:focus-visible){outline:none}
+
+/* ===== u22: 스토리 상단 정리 — 선 대신 면, 겹치는 정보 한 번만 ===== */
+/* 페이지 제목 정렬·크기 통일 */
+.page-head{padding-left:0!important;padding-right:0!important}
+#v-story .st-head .sec-head h2{font-size:28px!important;font-weight:800!important;letter-spacing:-.02em}
+@media (max-width:760px){#v-story .st-head .sec-head h2{font-size:24px!important}}
+/* 시대 고르기: 밑줄 대신 옅은 면 */
+.st-eras button[aria-pressed="true"]::after{display:none!important}
+.st-eras button[aria-pressed="true"]{background:var(--main-soft)!important}
+.st-eras button{padding:8px 12px!important;border-radius:10px!important}
+@media (max-width:760px){.st-eras button{padding:6px 10px!important}}
+/* 읽기 막대: 구간 선 없이 장 선택 + 처음부터만 */
+.st-reader .st-segments,.st-reader #st-progress,.st-reader #st-percent{display:none!important}
+.st-reader{padding:4px 0!important}
+/* 같은 시대 이름이 세 번 나오지 않게: PC 목차 머리 숨김, 범례는 한 곳만 */
+@media (min-width:1101px){#v-story .st-side .sd-head{display:none!important}#v-story .st-era-head .st-era-t .k-legend,#v-story .st-era-head .era-legend,#v-story .st-era-t>.lore-key{display:none!important}}
+/* 목차: 안 읽은 장의 0%는 숨김 */
+.sd-toc a[data-progress="0%"]::after{content:none!important}
+
+/* 홈 Level 입력: 작은 네모 칸 */
+#hero .lvbox input,#hero .lvbox input#lvl-input{width:60px!important;height:36px!important;min-height:0!important;padding:0 4px!important;font-size:17px!important;font-weight:700!important;border-radius:10px!important}
+@media (max-width:760px){#hero .lvbox input,#hero .lvbox input#lvl-input{width:56px!important;height:34px!important;font-size:16px!important}}
+#hero .now-top>div{gap:8px!important}
 </style>
 </head>
 <body>
