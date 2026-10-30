@@ -1672,6 +1672,14 @@ html,body{overflow-x:clip}
 #v-story .card.st-era-head{padding:0!important;overflow:hidden}
 #v-story .st-era-head .st-fig{margin:0!important;border-radius:0!important}
 #v-story .st-era-head .st-fig .st-art{display:block;width:100%;border-radius:0!important}
+
+/* 시대 타임라인: 선택은 메뉴와 같은 진한 알약, 나머지는 한 톤 낮게 */
+.st-eras b{color:var(--ink-2)!important;font-weight:500!important}
+.st-eras button:hover b{color:var(--ink)!important}
+.st-eras button[aria-pressed="true"] b{background:var(--ink)!important;color:var(--surface)!important;font-weight:700!important}
+.st-eras button[aria-pressed="true"] .d{background:var(--ink)!important;border-color:var(--ink)!important;box-shadow:0 0 0 4px color-mix(in srgb,var(--ink) 12%,transparent)!important}
+.st-eras button[aria-pressed="true"] .y,.st-eras button[aria-pressed="true"] .n{color:var(--ink-2)!important}
+.st-eras button:hover .d{border-color:var(--ink-3)!important}
 </style>
 </head>
 <body>
