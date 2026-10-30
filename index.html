@@ -1810,6 +1810,20 @@ button:disabled,.btn:disabled{opacity:.4;cursor:not-allowed}
 #save-status,.navigation .character-select select#character-select{height:24px!important;line-height:24px!important;padding-top:0!important;padding-bottom:0!important;font-size:12px!important;font-weight:600!important}
 /* 레벨 구간 표시는 알약이 아니라 꼬리표 */
 .timeline .lvl{border-radius:var(--r-tag)!important;padding:2px 8px!important;font-size:12px!important}
+
+/* PC 메뉴: 누를 때 1px 눌림·포커스 링 때문에 메뉴 줄에 스크롤이 생기던 문제 */
+@media (min-width:761px){.navigation .tabs{overflow:visible!important}}
+.navigation .tabs>button:active,.seg button:active,.tt-presets button:active,.tr-seg button:active,.tt-hero button:active,.subtabs button:active{transform:none!important}
+.seg,.tt-presets,.tr-seg,.tt-hero,.subtabs:not([hidden]){overflow:visible!important}
+
+/* 모서리 한 벌: 알약(고르기·상태) = 완전 둥글게 / 버튼 = 8px / 꼬리표 = 5px */
+@media (max-width:760px){
+  .navigation .tabs button,.navigation .tabs button[aria-pressed="true"]{background:none!important;border-radius:0!important}
+  .navigation .tabs button .ti{border-radius:999px!important}
+  .navigation .tabs button[aria-pressed="true"]{color:var(--ink)!important;font-weight:700!important}
+  .navigation .tabs button[aria-pressed="true"] .ti{background:var(--ink)!important;color:var(--page)!important}
+}
+.tr-kbd,button.tr-kbd,.tr-kbd.static,.todo .go,.sd-restart,.savepop button,.savepop label,#tt-items .btn{border-radius:8px!important}
 </style>
 </head>
 <body>
