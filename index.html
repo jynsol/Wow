@@ -1655,47 +1655,43 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .tr-kbd,button.tr-kbd{color:var(--ink)!important}
 
 /* =====================================================================
-   보조 색 팔레트 (파스텔 한 톤) — 직업과 상관없이 고정
-   점·막대 = 기본 / 꼬리표 바탕 = soft / 꼬리표 글자 = ink
+   색은 네 가지만: 노랑 · 연두 · 분홍 · 하늘 (+ 회색, 검정)
+   - 직업 파스텔과 같은 색을 정보 구분에도 그대로 씀
+   - 색이 들어가는 모양은 '점' 하나: 꼬리표는 회색 칩 + 색 점
    ===================================================================== */
-:root{
-  --p-yellow:#F6CF55;--p-lime:#A8DB6C;--p-pink:#FF9CB9;--p-sky:#7CC0EE;--p-lav:#B9A3F0;--p-mint:#72D2BE;--p-coral:#FFA987;--p-gray:#B4B7C2;
-}
-:root{
-  --p-yellow-soft:color-mix(in srgb,var(--p-yellow) 22%,var(--surface));--p-lime-soft:color-mix(in srgb,var(--p-lime) 22%,var(--surface));--p-pink-soft:color-mix(in srgb,var(--p-pink) 20%,var(--surface));
-  --p-sky-soft:color-mix(in srgb,var(--p-sky) 20%,var(--surface));--p-lav-soft:color-mix(in srgb,var(--p-lav) 22%,var(--surface));--p-mint-soft:color-mix(in srgb,var(--p-mint) 20%,var(--surface));
-  --p-coral-soft:color-mix(in srgb,var(--p-coral) 22%,var(--surface));--p-gray-soft:var(--surface-2);
-  --p-yellow-ink:color-mix(in srgb,var(--p-yellow) 40%,var(--ink));--p-lime-ink:color-mix(in srgb,var(--p-lime) 40%,var(--ink));--p-pink-ink:color-mix(in srgb,var(--p-pink) 45%,var(--ink));
-  --p-sky-ink:color-mix(in srgb,var(--p-sky) 45%,var(--ink));--p-lav-ink:color-mix(in srgb,var(--p-lav) 45%,var(--ink));--p-mint-ink:color-mix(in srgb,var(--p-mint) 42%,var(--ink));
-  --p-coral-ink:color-mix(in srgb,var(--p-coral) 45%,var(--ink));--p-gray-ink:var(--ink-2);
-}
+:root{--p-yellow:#F6CF55;--p-lime:#A8DB6C;--p-pink:#FF9CB9;--p-sky:#7CC0EE;--p-gray:#B4B7C2}
 :root,body[data-spec]{
-  /* 스킬 분류 */
-  --c-core:var(--p-coral)!important;--c-cd:var(--p-lav)!important;--c-def:var(--p-mint)!important;--c-move:var(--p-sky)!important;--c-cc:var(--p-pink)!important;--c-item:var(--p-lime)!important;--c-misc:var(--p-gray)!important;
-  /* 장식 a1~a3: 직업 따라 바뀌지 않게 고정 */
+  --c-core:var(--p-yellow)!important;--c-cd:var(--p-yellow)!important;
+  --c-def:var(--p-lime)!important;--c-item:var(--p-lime)!important;
+  --c-cc:var(--p-pink)!important;--c-move:var(--p-sky)!important;--c-misc:var(--p-gray)!important;
   --a1:var(--p-sky)!important;--a2:var(--p-lime)!important;--a3:var(--p-pink)!important;
-  --a1-soft:var(--p-sky-soft)!important;--a2-soft:var(--p-lime-soft)!important;--a3-soft:var(--p-pink-soft)!important;
-  --a1-ink:var(--p-sky-ink)!important;--a2-ink:var(--p-lime-ink)!important;--a3-ink:var(--p-pink-ink)!important;
-  --pt:var(--p-sky)!important;--pt-soft:var(--p-sky-soft)!important;--pt-line:color-mix(in srgb,var(--p-sky) 45%,var(--surface))!important;--pt-ink:var(--p-sky-ink)!important;
+  --a1-soft:var(--surface-2)!important;--a2-soft:var(--surface-2)!important;--a3-soft:var(--surface-2)!important;
+  --a1-ink:var(--ink-2)!important;--a2-ink:var(--ink-2)!important;--a3-ink:var(--ink-2)!important;
+  --pt:var(--p-sky)!important;--pt-soft:var(--surface-2)!important;--pt-line:var(--line-2)!important;--pt-ink:var(--ink-2)!important;
 }
-/* 스토리 꼬리표·범례: 퀘스트 노랑 · 던전 하늘 · 공격대 라벤더 · 소설 연두 */
+/* 이야기 종류: 퀘스트 노랑 · 던전 하늘 · 공격대 분홍 · 소설 연두 */
 .lb-q,.kd-q{--hue:var(--p-yellow)!important}
 .lb-d,.kd-d,.ins-d{--hue:var(--p-sky)!important}
-.lb-r,.kd-r,.ins-r{--hue:var(--p-lav)!important}
+.lb-r,.kd-r,.ins-r{--hue:var(--p-pink)!important}
 .lb-n,.kd-n{--hue:var(--p-lime)!important}
-.lb,.ins{background:color-mix(in srgb,var(--hue) 22%,var(--surface))!important;color:color-mix(in srgb,var(--hue) 42%,var(--ink))!important}
+.res-g{--hue:var(--p-lime)}.res-u{--hue:var(--p-yellow)}
+/* 점: 어디서나 같은 크기·모양 */
+.toc-k i,.k-legend i,.dot-c::before,.tr-dot{width:8px!important;height:8px!important;border-radius:50%!important;box-shadow:none!important;border:0!important}
+.toc-k i,.k-legend i{background:var(--hue)!important}
+/* 꼬리표: 회색 칩 + 색 점 */
+.lb,.ins,.res,.lore-meta>span{display:inline-flex!important;align-items:center;gap:6px;background:var(--surface-2)!important;color:var(--ink-2)!important;border:0!important;border-radius:var(--r-tag)!important;font-weight:600}
+.lb::before,.ins::before,.res-g::before,.res-u::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--hue);flex:none}
 .lore-meta .lore-when{background:var(--surface-2)!important;color:var(--ink)!important}
-/* 자원 꼬리표: 채우기 연두 · 쓰기 노랑 · 그 밖 회색 */
-.res{border:0!important;border-radius:var(--r-tag)!important;background:var(--surface-2)!important;color:var(--ink-2)!important}
-.res-g{background:var(--p-lime-soft)!important;color:var(--p-lime-ink)!important}
-.res-u{background:var(--p-yellow-soft)!important;color:var(--p-yellow-ink)!important}
 /* 저장 상태 점 */
-#save-status[data-s="ok"]::before{background:var(--p-mint)!important}
-#save-status[data-s="warn"]::before,#save-status[data-s="bad"]::before{background:var(--p-coral)!important}
+#save-status[data-s="ok"]::before{background:var(--p-lime)!important}
+#save-status[data-s="warn"]::before,#save-status[data-s="bad"]::before{background:var(--p-pink)!important}
 #save-status[data-s="busy"]::before{background:var(--p-sky)!important}
-/* 용어 묶음 등 data-hue 타일 */
-.term-grp[data-hue]{background:color-mix(in srgb,var(--hue) 16%,var(--surface))!important}
-.term-grp[data-hue] h3,.term-grp[data-hue]>b{color:color-mix(in srgb,var(--hue) 45%,var(--ink))!important}
+/* 용어 묶음 타일: 회색 + 제목 앞 점 */
+.term-grp[data-hue]{background:var(--surface-2)!important}
+.term-grp[data-hue] h3,.term-grp[data-hue]>b{color:var(--ink)!important;display:flex;align-items:center;gap:6px}
+.term-grp[data-hue] h3::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--hue)}
+/* 연습 '물약/차단!' 같은 작은 배지 */
+#kb .cap::after,#mkb .cap::after{background:var(--ink)!important;color:var(--page)!important;box-shadow:none!important;border:0!important}
 </style>
 </head>
 <body>
@@ -1760,7 +1756,7 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
       <h2 data-ico="keyboard"><span id="kb-title">키 배치</span></h2>
       <p class="sub">키캡 위 줄은 그냥 누르기, 점선 아래 ⇧ 줄은 Shift와 같이 누르기예요.</p>
       <div class="legend">
-        <span class="dot-c cat-core">공격</span><span class="dot-c cat-cd">쿨기</span><span class="dot-c cat-def">생존기</span><span class="dot-c cat-move">이동기</span><span class="dot-c cat-cc">차단·도발·제어</span><span class="dot-c cat-item">소모품</span><span class="dot-c cat-misc">기타</span>
+        <span class="dot-c cat-core">공격·쿨기</span><span class="dot-c cat-def">생존기·소모품</span><span class="dot-c cat-cc">차단·도발·제어</span><span class="dot-c cat-move">이동기</span><span class="dot-c cat-misc">기타</span>
         <span><i class="sw mv"></i>이동 E·S·D·F</span><span><i class="sw fx"></i>고정 키</span>
       </div>
     </div>
