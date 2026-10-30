@@ -520,7 +520,7 @@ body{--a1-soft:color-mix(in srgb,var(--a1) 16%,var(--surface));--a2-soft:color-m
 [data-hue="a1"]{--hue:var(--a1)}
 [data-hue="a2"]{--hue:var(--a2)}
 [data-hue="a3"]{--hue:var(--a3)}
-#now .lvbox input{background:var(--main-soft);border-color:var(--main-line)}
+#hero .lvbox input,#now .lvbox input{background:var(--main-soft);border-color:var(--main-line)}
 .todo .go[data-hue]{background:color-mix(in srgb,var(--hue) 20%,var(--surface));color:color-mix(in srgb,var(--hue) 45%,var(--ink));border-color:transparent}
 .todo li.done .go[data-hue]{background:var(--surface-2);color:var(--ink-3)}
 .chips-set>div[data-hue]{background:color-mix(in srgb,var(--hue) 14%,var(--surface));border-color:color-mix(in srgb,var(--hue) 40%,var(--surface))}
@@ -1124,6 +1124,82 @@ body:is([data-spec="prot"],[data-spec="vengeance"],[data-spec="blood"]) .sheet{m
   .copy{margin-bottom:8px}
   .savepop{right:0}
 }
+
+/* ===== PC 왼쪽 사이드바 ===== */
+.sb-brand,.sb-sub{display:none}
+@media (min-width:1100px){
+  :root{--sbw:236px;--navh:0px}
+  body{padding-left:var(--sbw)}
+  .navigation{position:fixed!important;top:0;left:0;bottom:0;width:var(--sbw);box-sizing:border-box;display:flex!important;flex-direction:column;align-items:stretch!important;flex-wrap:nowrap;gap:18px!important;margin:0!important;padding:24px 14px 120px!important;background:var(--surface);border-right:1px solid var(--line);z-index:40;overflow-y:auto;box-shadow:none!important}
+  .navigation.stuck{box-shadow:none!important}
+  .sb-brand{display:flex;align-items:center;gap:8px;padding:0 8px;font-size:18px;font-weight:800;letter-spacing:-.02em;color:var(--ink);cursor:pointer;background:none;border:0;font-family:inherit}
+  .sb-brand svg{width:18px;height:18px;fill:var(--main);flex:none}
+  .navigation .character-select{display:flex;flex-direction:column;align-items:stretch;gap:6px;padding:0 4px}
+  .navigation .character-select>span{font-size:11px;color:var(--ink-3);padding-left:4px}
+  .navigation .character-select select{width:100%}
+  .navigation .tabs{display:flex!important;flex-direction:column;align-items:stretch;gap:2px;width:100%!important;padding:0!important;background:none!important;border:0!important;box-shadow:none!important;overflow:visible!important;border-radius:0!important}
+  .navigation .tabs>button{display:flex!important;align-items:center;justify-content:flex-start;gap:10px;flex:none!important;width:100%;min-height:42px!important;padding:9px 12px!important;border-radius:11px!important;font-size:14px!important;font-weight:500;color:var(--ink-2);background:none}
+  .navigation .tabs>button .ti{display:block;width:19px;height:19px;color:var(--ink-3)}
+  .navigation .tabs>button:hover{background:var(--surface-2);color:var(--ink)}
+  .navigation .tabs>button[aria-pressed="true"]{background:var(--main-soft)!important;color:var(--ink)!important;font-weight:700!important;box-shadow:inset 0 0 0 1px var(--main-line)}
+  .navigation .tabs>button[aria-pressed="true"] .ti{color:var(--ink)}
+  .navigation .tabs>button[aria-pressed="true"]+.sb-sub{display:flex}
+  .sb-sub{flex-direction:column;gap:1px;margin:4px 0 8px 22px;padding-left:12px;border-left:1px solid var(--line)}
+  .sb-sub button{font:inherit;font-size:13px;text-align:left;border:0;background:none;color:var(--ink-3);padding:7px 10px;border-radius:8px;cursor:pointer}
+  .sb-sub button:hover{color:var(--ink);background:var(--surface-2)}
+  .sb-sub button[aria-pressed="true"]{color:var(--ink);font-weight:700}
+  /* 본문 쪽 하위 탭은 사이드바로 옮겼으니 숨김 */
+  #subtabs,.rt-tabs,#v-practice>.subtabs{display:none!important}
+  /* 패치 정보와 저장 메뉴는 사이드바 아래 */
+  .toprow .eyebrow{position:fixed;left:0;bottom:0;width:var(--sbw);box-sizing:border-box;z-index:41;display:flex!important;flex-direction:column;align-items:flex-start!important;gap:8px;margin:0!important;padding:14px 22px 18px;border-top:1px solid var(--line);border-right:1px solid var(--line);background:var(--surface)}
+  .savemenu{margin-left:0}
+  .savepop{top:auto!important;bottom:calc(100% + 8px);left:0;right:auto!important}
+  .wrap{padding-top:28px!important}
+  body:not([data-view="home"]) .wrap{padding-top:24px!important}
+  .navigation .tabs .sb-sub button{display:block!important;width:auto;min-height:0!important;padding:7px 10px!important;font-size:13px!important;font-weight:500!important;border-radius:8px!important;background:none!important;color:var(--ink-3)!important;box-shadow:none!important;flex:none!important;text-align:left}
+  .navigation .tabs .sb-sub button:hover{background:var(--surface-2)!important;color:var(--ink)!important}
+  .navigation .tabs .sb-sub button[aria-pressed="true"]{color:var(--ink)!important;font-weight:700!important;background:var(--surface-2)!important}
+  .titlebox{display:none!important}
+}
+
+/* 홈 대시보드 */
+#hero .hero-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px 32px}
+.lv-track{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;flex:1 1 420px;max-width:640px}
+.lv-track li{display:flex;flex-direction:column;gap:2px;padding:10px 12px 9px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);position:relative}
+.lv-track li b{font-size:12.5px;font-weight:600;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lv-track li span{font-size:11px;color:var(--ink-3)}
+.lv-track li.done{background:var(--surface);border-style:dashed}
+.lv-track li.done b{color:var(--ink-3)}
+.lv-track li.on{background:var(--main-soft);border-color:var(--main-line)}
+.lv-track li.on b{color:var(--ink);font-weight:700}
+#hero .cont-h{margin-top:22px}
+@media (min-width:1100px){
+  #v-home{grid-template-rows:auto auto 1fr!important}
+  #v-home>#hero{grid-column:1/-1}
+  #v-home>#now{grid-row:span 2}
+}
+@media (max-width:600px){
+  .lv-track{grid-template-columns:repeat(2,minmax(0,1fr));flex-basis:100%}
+}
+
+@media (max-width:760px){
+  .lede{display:none}
+  .lv-track li{padding:7px 10px}
+  .cont{grid-template-columns:1fr;gap:6px;margin-top:10px}
+  .cont a,.cont button{flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:2px 8px;padding:11px 14px}
+  .cont b{font-size:13.5px}
+  .cont span{flex-basis:100%}
+  #hero .cont-h{margin-top:16px}
+}
+
+/* 연습: 시작 전엔 타이머 숨김, PC는 설정 | 규칙 2단 */
+.tr-card:has(#tr-startOv:not([hidden])) .tr-hud{visibility:hidden}
+@media (min-width:1100px){
+  #tr-startOv .tr-ovcard{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);column-gap:28px;row-gap:14px;align-items:start}
+  #tr-startOv .tr-ovcard>*{grid-column:1}
+  #tr-startOv .tr-ovcard>div:has(#tr-rules){grid-column:2;grid-row:1/span 4;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface-2)}
+  #tr-startOv .tr-ovcard>.tr-bindbox{grid-column:1/-1}
+}
 </style>
 </head>
 <body>
@@ -1144,11 +1220,21 @@ body:is([data-spec="prot"],[data-spec="vengeance"],[data-spec="blood"]) .sheet{m
   </header>
 
   <div class="view" id="v-home">
-  <section class="card" id="now">
-    <div class="now-top">
-      <div><div class="pick-label" id="level-label">방어 전사 · 지금 레벨</div>
-        <div class="lvbox"><input id="lvl-input" type="number" min="1" max="90" value="30" inputmode="numeric" aria-label="지금 레벨"><span id="stage-name" class="stage"></span></div></div>
+  <section class="card" id="hero">
+    <div class="hero-row">
+      <div class="now-top">
+        <div><div class="pick-label" id="level-label">방어 전사 · 지금 레벨</div>
+          <div class="lvbox"><input id="lvl-input" type="number" min="1" max="90" value="30" inputmode="numeric" aria-label="지금 레벨"><span id="stage-name" class="stage"></span></div></div>
+      </div>
+      <ol class="lv-track" id="lv-track" aria-label="레벨 구간">
+        <li data-a="1" data-b="69"><b>크로미 시간</b><span>10–70</span></li>
+        <li data-a="70" data-b="79"><b>내부 전쟁 요약</b><span>70–80</span></li>
+        <li data-a="80" data-b="80"><b>한밤 시작</b><span>80</span></li>
+        <li data-a="81" data-b="90"><b>한밤 대장정</b><span>80–90</span></li>
+      </ol>
     </div>
+  </section>
+  <section class="card" id="now">
     <h2 class="now-h">다음에 할 일</h2>
     <p class="sub todo-sub" id="todo-sub"></p>
     <ol class="todo" id="todo"></ol>
@@ -3367,7 +3453,7 @@ const GL={"살게라스":["p","판테온의 전사였으나 공허를 막겠다�
 
 /* 위쪽 메뉴: 높이를 CSS 변수로 알려 주고, 스크롤하면 그림자 */
 (function(){const nav=document.querySelector('.navigation');if(!nav)return;let base=0;
- const measure=()=>{nav.classList.remove('stuck');document.documentElement.style.setProperty('--navh',nav.offsetHeight+'px');base=nav.getBoundingClientRect().top+scrollY;tick()};
+ const measure=()=>{nav.classList.remove('stuck');document.documentElement.style.setProperty('--navh',(matchMedia('(min-width:1100px)').matches?0:nav.offsetHeight)+'px');base=nav.getBoundingClientRect().top+scrollY;tick()};
  const tick=()=>nav.classList.toggle('stuck',scrollY>base+1);
  addEventListener('scroll',tick,{passive:true});addEventListener('resize',measure);document.fonts?.ready.then(measure);measure();})();
 </script>
@@ -3392,7 +3478,7 @@ const GL={"살게라스":["p","판테온의 전사였으나 공허를 막겠다�
   const now=$('now');if(!now||typeof STORY==='undefined')return;
   const h=document.createElement('h3');h.className='cont-h';h.textContent='이어서 하기';
   const box=document.createElement('div');box.className='cont';box.id='cont';
-  now.append(h,box);
+  (document.getElementById('hero')||now).append(h,box);
   function render(){
     let era=null;try{const r=localStorage.getItem('wow-story-era');if(r!==null)era=+r}catch(e){}
     const E=STORY.eras;const e=Number.isInteger(era)&&era>=0&&era<E.length?E[era]:null;
@@ -3408,6 +3494,37 @@ const GL={"살게라스":["p","판테온의 전사였으나 공허를 막겠다�
   const sm=document.querySelector('.savemenu');
   if(sm)document.addEventListener('click',e=>{if(sm.open&&!sm.contains(e.target))sm.open=false});
 })();
+</script>
+
+<script>
+/* PC 사이드바: 로고 + 하위 메뉴 */
+(()=>{
+  const nav=document.querySelector('.navigation'),tabs=document.querySelector('.navigation .tabs');if(!nav||!tabs)return;
+  const brand=document.createElement('button');brand.type='button';brand.className='sb-brand';
+  brand.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.6A4.4 4.4 0 0 1 12 7.1a4.4 4.4 0 0 1 7.5 2.8c0 6-7.5 10.6-7.5 10.6z"/></svg>와우 노트';
+  brand.addEventListener('click',()=>document.getElementById('tab-home').click());
+  nav.prepend(brand);
+  const groups={class:'#subtabs button',route:'.rt-tabs button',practice:'#v-practice>.subtabs button'};
+  Object.entries(groups).forEach(([view,sel])=>{
+    const main=tabs.querySelector(`[data-view="${view}"]`),orig=[...document.querySelectorAll(sel)];if(!main||!orig.length)return;
+    const box=document.createElement('div');box.className='sb-sub';
+    orig.forEach(o=>{
+      const c=document.createElement('button');c.type='button';c.textContent=o.textContent.trim();
+      const sync=()=>c.setAttribute('aria-pressed',o.getAttribute('aria-pressed')==='true'?'true':'false');sync();
+      new MutationObserver(sync).observe(o,{attributes:true,attributeFilter:['aria-pressed']});
+      c.addEventListener('click',()=>{if(main.getAttribute('aria-pressed')!=='true')main.click();o.click()});
+      box.appendChild(c);
+    });
+    main.after(box);
+  });
+})();
+</script>
+
+<script>
+/* 홈: 레벨 구간 표시 */
+(()=>{const inp=document.getElementById('lvl-input'),tr=document.getElementById('lv-track');if(!inp||!tr)return;
+ const upd=()=>{const v=+inp.value||1;tr.querySelectorAll('li').forEach(li=>{const a=+li.dataset.a,b=+li.dataset.b;li.classList.toggle('on',v>=a&&v<=b);li.classList.toggle('done',v>b)})};
+ inp.addEventListener('input',upd);inp.addEventListener('change',upd);document.addEventListener('wow:view-after',upd);upd();setTimeout(upd,400);})();
 </script>
 </body>
 </html>
