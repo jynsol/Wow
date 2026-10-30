@@ -1841,6 +1841,47 @@ button:disabled,.btn:disabled{opacity:.4;cursor:not-allowed}
 }
 #v-story>.st-bar{margin-bottom:4px!important}
 @media (max-width:1100px){#v-story>.st-bar{margin-bottom:0!important}#v-story .st-layout{row-gap:0!important}}
+
+/* ===== 여는 메뉴(팝오버) 한 벌 =====
+   여는 칩: 회색 작은 알약 + 꺾쇠 / 펼친 판: 흰 면 · 모서리 12 · 그림자 · 안쪽 6 / 항목: 모서리 8 · 높이 36 · 14px
+   마우스 올림 = 회색 면 / 지금 고른 것 = 굵게 + 오른쪽 체크 */
+.dd-native{position:absolute!important;opacity:0!important;pointer-events:none!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.dd{position:relative;display:inline-flex}
+.dd-btn{display:inline-flex;align-items:center;gap:4px;border:0;font:inherit;cursor:pointer;color:var(--ink-2)}
+.dd-btn .ti{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;color:var(--ink-3);transition:transform .15s;flex:none}
+.dd.open .dd-btn .ti{transform:rotate(180deg)}
+.dd-chip .dd-btn{height:24px;padding:0 9px 0 11px;border-radius:999px;background:var(--surface-2);font-size:12px;font-weight:600;white-space:nowrap}
+.dd-chip .dd-btn:hover,.savemenu>summary:hover #save-status{color:var(--ink)!important;background:color-mix(in srgb,var(--ink) 8%,var(--surface))!important}
+.dd-plain{display:flex;flex:1;min-width:0}
+.dd-plain .dd-btn{flex:1;min-width:0;justify-content:space-between;background:none;padding:4px 0;font-size:13px;font-weight:600;color:var(--ink)}
+.dd-plain .dd-lab{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 펼친 판: 저장 메뉴 · 시대 목록 · 직업 · 장 */
+.pop,.savepop,.st-menu{position:absolute;top:calc(100% + 6px);z-index:90;min-width:200px;max-height:min(440px,70vh);overflow:auto;margin:0!important;padding:6px!important;list-style:none;
+  background:var(--surface)!important;border:0!important;border-radius:12px!important;box-shadow:var(--sh-pop)!important;display:flex;flex-direction:column;gap:2px}
+.pop[hidden],.st-menu[hidden]{display:none!important}
+.dd-chip .pop{right:0;left:auto}
+.dd-plain .pop{left:0;right:0}
+.savemenu .savepop{left:0;right:auto}
+@media (min-width:761px){.savemenu .savepop{left:auto;right:0}}
+.pop li{list-style:none;margin:0;padding:0}
+.pop button,.savepop button,.savepop label,.st-menu button{display:flex!important;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:36px;padding:0 12px!important;margin:0!important;
+  border:0!important;border-radius:8px!important;background:none!important;box-shadow:none!important;font:inherit;font-size:14px!important;font-weight:500!important;color:var(--ink-2)!important;text-align:left;cursor:pointer;white-space:nowrap}
+.pop button:hover,.savepop button:hover,.savepop label:hover,.st-menu button:hover{background:var(--surface-2)!important;color:var(--ink)!important}
+.pop button[aria-current="true"],.st-menu button[aria-current="true"]{background:none!important;color:var(--ink)!important;font-weight:700!important}
+.pop button[aria-current="true"]::after,.st-menu button[aria-current="true"]::after{content:'';width:14px;height:14px;flex:none;background:var(--ink);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.st-menu button span{margin-left:auto;font-size:12px!important;color:var(--ink-3)!important;font-weight:400!important}
+.st-menu button b{font-weight:inherit!important;font-size:14px!important}
+.savepop #backup-box{display:contents}
+.savepop #backup-box[hidden]{display:none}
+.savemenu[open]>summary .ti{transform:translateY(-50%) rotate(180deg)!important}
+.navigation>.dd{order:3;margin-left:0}
+.navigation>label.dd-host{position:absolute!important;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+@media (max-width:760px){.navigation>.dd{order:2;margin-left:auto}}
+.st-reader-row>.dd{flex:1;min-width:0}
+.savemenu .savepop button,.savemenu .savepop label,.savemenu .savepop #gh-open,.savemenu .savepop #bk-out,.savemenu .savepop #save-now,.savemenu .savepop .btn{display:flex!important;justify-content:flex-start!important;text-align:left!important;min-height:36px!important;height:auto!important;padding:0 12px!important;background:none!important;color:var(--ink-2)!important;font-size:14px!important;font-weight:500!important;border-radius:8px!important;width:100%;box-shadow:none!important}
+.savemenu .savepop button:hover,.savemenu .savepop label:hover{background:var(--surface-2)!important;color:var(--ink)!important}
+.savemenu .savepop [hidden]{display:none!important}
+.savemenu .savepop button,.savemenu .savepop label{flex-direction:row!important;align-items:center!important}
 </style>
 </head>
 <body>
@@ -3887,7 +3928,7 @@ const storyReader = (() => {
  const clamp=n=>Math.max(0,Math.min(1,Number.isFinite(n)?n:0));
  try {const v=JSON.parse(localStorage.getItem(KEY));if(v&&v.version===1&&v.positions&&!Array.isArray(v.positions)&&typeof v.positions==='object')memory=v.positions;}catch(_){}
  const visible=()=>!panel.hidden&&!!sections.length;
- const inset=()=>bar.offsetHeight+12+(parseFloat(getComputedStyle(bar).top)||0);
+ const inset=()=>{const nav=document.querySelector('.navigation');const nh=nav&&getComputedStyle(nav).position==='sticky'?nav.offsetHeight:0;return Math.max(nh+bar.offsetHeight+24,Math.round(innerHeight*0.3))};
  const absolute=el=>el.getBoundingClientRect().top+window.scrollY;
  const write=()=>{try{localStorage.setItem(KEY,JSON.stringify({version:1,positions:memory}));}catch(_){bar.title='저장 공간을 사용할 수 없어 이번 방문에서만 위치를 기억해요.';}};
  function snapshot(){
@@ -4256,7 +4297,7 @@ const D={
 '보스':'Boss','난이도':'Difficulty','규칙':'Rules','쉬움':'Easy','보통':'Normal','어려움':'Hard','반응 훈련':'Reaction Drill',
 '전투 시작 (Enter)':'Start (Enter)','노트 단축키로 되돌리기':'Reset to Note Keys','단축키 확인 · 눌러서 바꾸기':'Keybinds · Click to Change',
 '이 기기에만 저장됨':'Saved on this device','저장하는 중…':'Saving…','GitHub에 저장됨':'Saved to GitHub','저장 실패 · 다시 누르면 재시도해요':'Save failed · tap to retry','저장소에 연결하는 중…':'Connecting…',
-'GitHub로 동기화':'Sync with GitHub','백업 받기':'Download Backup','백업 불러오기':'Restore Backup'
+'GitHub로 동기화':'Sync with GitHub','지금 저장':'Save Now','백업 받기':'Download Backup','백업 불러오기':'Restore Backup'
 };
 const R=[
  [/^(.+) 단축키 가이드$/,(m,a)=>SPEC[a]?SPEC[a]+' Keybinds':null],
@@ -4358,6 +4399,34 @@ document.addEventListener('wow:view-after',later);run();setTimeout(run,300);
 (()=>{const pr=document.getElementById('st-progress'),rd=document.getElementById('st-reader');if(!pr||!rd)return;let q=0;
  const upd=()=>{q=0;rd.style.setProperty('--rp',Math.max(0,Math.min(100,+pr.value||0))+'%')};
  const req=()=>{if(!q)q=requestAnimationFrame(upd)};addEventListener('scroll',req,{passive:true});document.addEventListener('wow:view-after',req);upd();})();
+</script>
+<script>
+/* 여는 메뉴 한 벌: 직업 선택 · 장 선택도 저장 메뉴·시대 목록과 같은 팝오버로 */
+(()=>{
+ const CHEV='<svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+ const all=[];
+ function make(sel,cls){if(!sel||sel.dataset.dd)return;sel.dataset.dd='1';
+  const wrap=document.createElement('div');wrap.className='dd '+(cls||'');
+  const btn=document.createElement('button');btn.type='button';btn.className='dd-btn';btn.setAttribute('aria-haspopup','listbox');btn.setAttribute('aria-expanded','false');
+  const lab=document.createElement('span');lab.className='dd-lab';btn.append(lab);btn.insertAdjacentHTML('beforeend',CHEV);
+  const menu=document.createElement('ul');menu.className='pop dd-menu';menu.setAttribute('role','listbox');menu.hidden=true;
+  (sel.closest('label')||sel).after(wrap);wrap.append(btn,menu);if(sel.closest('label'))sel.closest('label').classList.add('dd-host');sel.classList.add('dd-native');
+  const sync=()=>{const o=sel.selectedOptions[0];lab.textContent=o?o.textContent.trim():'';
+   menu.innerHTML='';[...sel.options].forEach((op,i)=>{const li=document.createElement('li');const b=document.createElement('button');b.type='button';b.setAttribute('role','option');b.dataset.i=i;b.setAttribute('aria-current',String(i===sel.selectedIndex));b.textContent=op.textContent.trim();li.append(b);menu.append(li)})};
+  const open=v=>{if(v)all.forEach(x=>x!==close&&x());menu.hidden=!v;btn.setAttribute('aria-expanded',String(v));wrap.classList.toggle('open',v);if(v){const c=menu.querySelector('[aria-current="true"]');c&&c.scrollIntoView({block:'nearest'})}};
+  const close=()=>open(false);all.push(close);
+  btn.addEventListener('click',e=>{e.stopPropagation();const sm=document.querySelector('.savemenu');if(sm)sm.open=false;open(menu.hidden)});
+  menu.addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;e.stopPropagation();sel.selectedIndex=+b.dataset.i;sel.dispatchEvent(new Event('change',{bubbles:true}));close();sync()});
+  document.addEventListener('click',e=>{if(!wrap.contains(e.target))close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  new MutationObserver(()=>requestAnimationFrame(sync)).observe(sel,{subtree:true,childList:true,characterData:true,attributes:true});
+  sel.addEventListener('change',()=>requestAnimationFrame(sync));
+  sync();
+ }
+ make(document.getElementById('character-select'),'dd-chip');
+ make(document.getElementById('st-section'),'dd-plain');
+ const sm=document.querySelector('.savemenu');if(sm)sm.addEventListener('toggle',()=>{if(sm.open)all.forEach(c=>c())});
+})();
 </script>
 </body>
 </html>
