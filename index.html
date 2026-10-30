@@ -1858,6 +1858,87 @@ html,body{overflow-x:clip}
 #hero .lvbox input,#hero .lvbox input#lvl-input{width:60px!important;height:36px!important;min-height:0!important;padding:0 4px!important;font-size:17px!important;font-weight:700!important;border-radius:10px!important}
 @media (max-width:760px){#hero .lvbox input,#hero .lvbox input#lvl-input{width:56px!important;height:34px!important;font-size:16px!important}}
 #hero .now-top>div{gap:8px!important}
+
+/* ===== u23: 스토리 머리 = 시대 고르기 한 줄 ===== */
+#v-story>.st-head{display:none!important}
+.st-bar{display:flex;align-items:center;gap:12px;margin:0 0 20px;position:relative}
+.st-pick{display:flex;align-items:baseline;gap:10px;min-width:0;background:none;border:0;padding:4px 30px 4px 0;font:inherit;color:var(--ink);cursor:pointer;text-align:left;
+  background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%238b8ba0%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22/%3E%3C/svg%3E") no-repeat right 4px center/16px}
+.st-pick b{font-size:28px;font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-pick span{font-size:13px;color:var(--ink-3);white-space:nowrap}
+.st-pick:hover b{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;text-decoration-color:var(--line-2)}
+.st-bar-r{margin-left:auto;display:flex;align-items:center;gap:6px;flex:none}
+.st-cnt{font-size:12.5px;color:var(--ink-3);margin-right:6px;font-variant-numeric:tabular-nums}
+.st-bar-r button{width:36px;height:36px;border-radius:10px;border:0;background:var(--surface-2);color:var(--ink-2);font:inherit;font-size:17px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.st-bar-r button:hover:not(:disabled){color:var(--ink);background:color-mix(in srgb,var(--ink) 8%,var(--surface))}
+.st-bar-r button:disabled{opacity:.35;cursor:default}
+.st-menu{position:absolute;left:0;top:calc(100% + 8px);z-index:60;width:min(360px,calc(100vw - 32px));max-height:min(520px,70vh);overflow:auto;padding:6px;margin:0;list-style:none;
+  background:var(--surface);border-radius:14px;box-shadow:0 0 0 1px var(--line),0 18px 40px -16px rgba(40,36,70,.35)}
+.st-menu[hidden]{display:none}
+.st-menu button{display:flex;align-items:baseline;justify-content:space-between;gap:12px;width:100%;padding:10px 12px;border:0;border-radius:10px;background:none;font:inherit;color:var(--ink-2);cursor:pointer;text-align:left}
+.st-menu button:hover{background:var(--surface-2);color:var(--ink)}
+.st-menu button[aria-current="true"]{background:var(--main-soft);color:var(--ink);font-weight:700}
+.st-menu button b{font-size:14.5px;font-weight:inherit}
+.st-menu button span{font-size:12px;color:var(--ink-3);font-weight:400;white-space:nowrap}
+/* 그림 아래 시대 제목·연도는 머리와 겹치므로 숨김 */
+#v-story .st-era-head .st-era-t>span:first-child,#v-story .st-era-head .st-era-t>h3{display:none!important}
+#v-story .st-era-head .st-era-t{padding-top:16px!important;padding-bottom:8px!important}
+#v-story .era-game{margin:0!important}
+#v-story .st-era-t .k-legend{margin:12px 0 0!important}
+@media (max-width:760px){
+  .st-bar{margin-bottom:14px;gap:8px}
+  .st-pick{flex-direction:column;align-items:flex-start;gap:0;padding-right:26px;background-position:right 2px top 10px}
+  .st-pick b{font-size:22px}
+  .st-pick span{font-size:12px}
+  .st-cnt{display:none}
+  .st-bar-r button{width:34px;height:34px}
+}
+
+/* ===== u23: 크기·간격 한 벌로 ===== */
+/* 카드 제목 18 / 부제 13 / 카드 안 여백 24(폰 18) / 카드 사이 16(폰 12) / 머리 아래 20 */
+.view .card .sec-head h2,.view .card>h2,#now .now-h{font-size:18px!important;font-weight:750!important;letter-spacing:-.01em}
+.view .card .sec-head{margin-bottom:14px}
+.view .card .sec-head .sub{margin-top:4px!important}
+#v-home,#v-keys,#v-rotation,#v-talents,#v-route,#v-route .rt-panel,#v-practice{row-gap:16px!important}
+.view>*,.rt-panel>*{margin-top:0!important;margin-bottom:0!important}
+.guide-2,.cols{gap:16px!important}
+.page-head{margin:0 0 4px!important}
+.page-head .ph-t{font-size:28px!important;margin:0!important;line-height:1.2}
+.page-head .ph-d{font-size:14px!important;margin:6px 0 0!important;color:var(--ink-2)}
+.subtabs:not([hidden]),.tab-row{margin:0!important}
+#hero{padding:28px!important}
+#hero .lv-track{margin-top:22px!important}
+@media (max-width:760px){
+  #v-home,#v-keys,#v-rotation,#v-talents,#v-route,#v-route .rt-panel,#v-practice{row-gap:12px!important}
+  .guide-2,.cols{gap:12px!important}
+  .page-head{margin-bottom:4px!important}.page-head .ph-t{font-size:24px!important}.page-head .ph-d{font-size:13px!important}
+  #hero{padding:20px!important}#hero .lv-track{margin-top:18px!important}
+  .view .card .sec-head h2,.view .card>h2,#now .now-h{font-size:17px!important}
+}
+
+@media (max-width:760px){.st-bar{margin-bottom:6px!important}#v-story #st-reader{margin-bottom:6px!important}}
+
+.view .card.lv3 .sec-head h2,.view .card .sec-head h2,#v-practice .card h2,#v-practice .tr-card h2{font-size:18px!important}
+@media (max-width:760px){.view .card.lv3 .sec-head h2,.view .card .sec-head h2,#v-practice .card h2,#v-practice .tr-card h2{font-size:17px!important}}
+
+/* ===== u24: 글자 크기 한 벌 — 11 · 12 · 13 · 14 · 15 · 18 · 20 · 28 (홈 머리 36) ===== */
+.bs-n,.kk,.view .kk{font-size:11px!important}
+.savepop button,.savepop label,.view small,.chips-set .cl,.lv-track li span,.en,#save-status,.navigation .character-select select#character-select{font-size:12px!important}
+.rot-links,.rot-links a,.note-line,.st-cnt,td.why,.view td,.view figcaption,.lore-meta>span{font-size:13px!important}
+.ttext,.dc b,.view .plain li,.view .steps li,.faq p,details.faq>summary,.dot-c,.todo li,.basic p{font-size:14px!important}
+.basic b,.view .steps li b{font-size:14px!important}
+#v-story dt,#v-story .lore-hook,#v-story .lore-body p,#v-story .lore-body li{font-size:15px!important}
+#v-story .lore-body .lore-meta>span,#v-story .lore-game p{font-size:13px!important}
+#v-story .st-ch h4,#v-story .lore-body>h4{font-size:20px!important}
+#hero .page-head .ph-t{font-size:36px!important}
+@media (max-width:760px){
+  #hero .page-head .ph-t{font-size:26px!important}
+  #v-story .st-ch h4,#v-story .lore-body>h4{font-size:18px!important}
+  #v-story dt,#v-story .lore-hook,#v-story .lore-body p,#v-story .lore-body li{font-size:15px!important}
+}
+
+.era-b p,.era-b p b,.tr-rules li,.tr-rules li span,.tr-rules li b{font-size:14px!important}
+.lv-track li.on span,.st-reader-row button,#st-restart,.tt-version{font-size:12px!important}
 </style>
 </head>
 <body>
@@ -4285,7 +4366,8 @@ const R=[
  [/^초보 팁 · (탱커|딜러|힐러)$/,()=>'Tips'],
  [/^초보 팁 · (Tank|DPS|Healer)$/,()=>'Tips'],
  [/^Tips · (Tank|DPS|Healer)$/,()=>'Tips'],
- [/^(탱커|딜러|힐러) · (.+)$/,(m,a,b)=>SPEC[b]?ROLE[a]+' · '+SPEC[b]:null],
+ [/^(탱커|딜러|힐러) · (.+)$/,(m,a,b)=>SPEC[b]||null],
+ [/^(Tank|DPS|Healer) · (.+)$/,(m,a,b)=>b],
  [/^(탱커|딜러|힐러) (기본기|매너)$/,(m,a,b)=>ROLE[a]+(b==='기본기'?' Basics':' Etiquette')],
  [/^(\d) · .+ 공통$/,(m,a)=>a+' · Class'],[/^(\d) · .+ 전문화$/,(m,a)=>a+' · Spec'],[/^(\d) · 영웅 특성$/,(m,a)=>a+' · Hero'],
  [/^WoW 한밤 · 패치 ([\d.]+) · 시즌 (\d+)$/,(m,a,b)=>'WoW Midnight · Patch '+a+' · Season '+b],
@@ -4316,6 +4398,29 @@ document.addEventListener('wow:view-after',later);run();setTimeout(run,300);
    sel.style.setProperty('width',Math.ceil(m.getBoundingClientRect().width+parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight)+2)+'px','important')};
  sel.addEventListener('change',()=>requestAnimationFrame(fit));new MutationObserver(()=>requestAnimationFrame(fit)).observe(sel,{subtree:true,characterData:true,childList:true});
  window.addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);fit();setTimeout(fit,400);})();
+</script>
+<script>
+/* u23: 스토리 머리 — 시대 이름(눌러서 목록) · n/15 · 이전/다음 */
+(()=>{const V=document.getElementById('v-story'),L=document.getElementById('st-eras');if(!V||!L)return;
+ const bar=document.createElement('div');bar.className='st-bar';
+ bar.innerHTML='<button type="button" class="st-pick" aria-haspopup="listbox" aria-expanded="false"><b></b><span></span></button><ul class="st-menu" role="listbox" hidden></ul><div class="st-bar-r"><span class="st-cnt"></span><button type="button" class="st-pv" aria-label="이전 시대">‹</button><button type="button" class="st-nx" aria-label="다음 시대">›</button></div>';
+ const head=V.querySelector(':scope>.st-head');(head||V.firstChild)?V.insertBefore(bar,head||V.firstChild):V.prepend(bar);
+ const pick=bar.querySelector('.st-pick'),menu=bar.querySelector('.st-menu'),cnt=bar.querySelector('.st-cnt'),pv=bar.querySelector('.st-pv'),nx=bar.querySelector('.st-nx');
+ const btns=()=>[...L.querySelectorAll('button[data-era]')];
+ const info=b=>({n:(b.querySelector('b')||{}).textContent||'',y:(b.querySelector('.y')||{}).textContent||''});
+ const open=v=>{menu.hidden=!v;pick.setAttribute('aria-expanded',String(v));if(v){const c=menu.querySelector('[aria-current="true"]');c&&c.scrollIntoView({block:'nearest'})}};
+ const sync=()=>{const all=btns();const i=all.findIndex(b=>b.getAttribute('aria-pressed')==='true');if(i<0)return;const c=info(all[i]);
+  pick.querySelector('b').textContent=c.n;pick.querySelector('span').textContent=c.y;cnt.textContent=(i+1)+' / '+all.length;pv.disabled=i===0;nx.disabled=i===all.length-1;
+  menu.innerHTML=all.map((b,k)=>{const x=info(b);return '<li><button type="button" role="option" data-k="'+k+'" aria-current="'+(k===i)+'"><b></b><span></span></button></li>'}).join('');
+  menu.querySelectorAll('button').forEach((m,k)=>{const x=info(all[k]);m.querySelector('b').textContent=x.n;m.querySelector('span').textContent=x.y})};
+ const goK=k=>{const b=btns()[k];if(b)b.click();open(false)};
+ pick.addEventListener('click',e=>{e.stopPropagation();open(menu.hidden)});
+ menu.addEventListener('click',e=>{const m=e.target.closest('[data-k]');if(m){e.stopPropagation();goK(+m.dataset.k)}});
+ pv.addEventListener('click',()=>{const i=btns().findIndex(b=>b.getAttribute('aria-pressed')==='true');goK(i-1)});
+ nx.addEventListener('click',()=>{const i=btns().findIndex(b=>b.getAttribute('aria-pressed')==='true');goK(i+1)});
+ document.addEventListener('click',e=>{if(!bar.contains(e.target))open(false)});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')open(false)});
+ new MutationObserver(()=>requestAnimationFrame(sync)).observe(L,{childList:true,subtree:true,attributes:true,attributeFilter:['aria-pressed']});sync();setTimeout(sync,300);})();
 </script>
 </body>
 </html>
