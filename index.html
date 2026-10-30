@@ -1791,6 +1791,11 @@ html,body{overflow-x:clip}
 
 .navigation>.eyebrow,.navigation>.eyebrow .savemenu,.navigation>.character-select{align-self:center!important;margin-top:0!important;margin-bottom:0!important}
 .navigation>.eyebrow .savemenu>summary{display:flex;align-items:center}
+
+/* 폰도 PC와 같은 순서: 저장 상태 → 직업 선택 */
+@media (max-width:760px){.navigation>.eyebrow{order:1!important;margin-left:0!important}.navigation>.character-select{order:2!important;margin-left:auto!important}}
+
+@media (max-width:760px){.savemenu .savepop{left:0!important;right:auto!important}}
 </style>
 </head>
 <body>
@@ -4236,6 +4241,15 @@ document.addEventListener('wow:view-after',later);run();setTimeout(run,300);
 (()=>{const era=document.getElementById('st-era');if(!era)return;
  const merge=()=>{era.querySelectorAll(':scope>figure.st-inl').forEach(f=>{const n=f.nextElementSibling;if(n&&n.classList.contains('st-ch')){f.classList.remove('card');n.prepend(f)}})};
  new MutationObserver(merge).observe(era,{childList:true});merge();})();
+</script>
+<script>
+/* 직업 선택 칩 폭을 지금 고른 이름에 맞춰서 화살표 위치를 저장 칩과 같게 */
+(()=>{const sel=document.getElementById('character-select');if(!sel)return;
+ const m=document.createElement('span');m.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;left:-9999px;top:0';document.body.appendChild(m);
+ const fit=()=>{const cs=getComputedStyle(sel);m.style.font=cs.font;m.style.letterSpacing=cs.letterSpacing;const o=sel.selectedOptions[0];m.textContent=o?o.textContent:'';
+   sel.style.setProperty('width',Math.ceil(m.getBoundingClientRect().width+parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight)+2)+'px','important')};
+ sel.addEventListener('change',()=>requestAnimationFrame(fit));new MutationObserver(()=>requestAnimationFrame(fit)).observe(sel,{subtree:true,characterData:true,childList:true});
+ window.addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);fit();setTimeout(fit,400);})();
 </script>
 </body>
 </html>
